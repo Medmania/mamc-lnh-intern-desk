@@ -133,6 +133,892 @@
   <h1>MAMC CRMI Duty Lookup</h1>
   <p class="subtitle">Compulsory Rotatory Medical Internship (2026–2027)</p>
 
+    <div class="tabs" style="flex-wrap: wrap;">
+    <button class="tab-btn active" onclick="switchTab('person')">🔍 Search Person</button>
+    <button class="tab-btn" onclick="switchTab('department')">🏥 Search Department</button>
+    <button class="tab-btn" onclick="switchTab('schedule')">📅 Dept Schedule & Wards</button>
+    <button class="tab-btn" onclick="switchTab('lab')">🧪 Labs & Vacutainers</button>
+  </div>
+  <!-- TAB 4: LAB TESTS, VIALS & LOCATIONS -->
+  <div id="lab-tab" class="card hidden">
+    <div class="input-group">
+      <label for="labSearch">Search Test, Vial Color, Window, Room, or Day (e.g., CBC, Red, Window 2, Wednesday, Room 52):</label>
+      <input type="text" id="labSearch" placeholder="Type test name, vial color, location..." oninput="searchLabTests()">
+    </div>
+    <div id="labResults" class="results"></div>
+  </div>
+
+    <!-- TAB 3: DEPARTMENT SCHEDULE & WARDS -->
+  <div id="schedule-tab" class="card hidden">
+    <div class="input-group">
+      <label for="deptScheduleSelect">Select Department or Special Clinic:</label>
+      <select id="deptScheduleSelect" onchange="searchDeptSchedule()">
+        <option value="">-- Choose Category --</option>
+        <optgroup label="Main OPD Departments">
+          <option value="medicine">Medicine OPD</option>
+          <option value="surgery">Surgery OPD</option>
+          <option value="peds_med">Pediatric Medicine OPD</option>
+          <option value="peds_surg">Pediatric Surgery OPD</option>
+          <option value="ent">ENT OPD</option>
+          <option value="ortho">Orthopedics OPD</option>
+          <option value="gynae">Gynecology & ANC OPD</option>
+          <option value="derma">Dermatology & STD OPD</option>
+          <option value="burns">Burns & Plastic Surgery OPD</option>
+        </optgroup>
+        <optgroup label="Special Evening Clinics">
+          <option value="clinic_med">Medicine Special Clinics </option>
+          <option value="clinic_surg">Surgery Special Clinics </option>
+          <option value="clinic_peds">Pediatric Special Clinics </option>
+          <option value="clinic_ortho">Ortho Special Clinics </option>
+          <option value="clinic_gynae">Gynae Special Clinics </option>
+          <option value="clinic_other">Other Clinics (PAC, Pain, Rabies, Senior Citizen)</option>
+        </optgroup>
+      </select>
+    </div>
+    <div id="scheduleResults" class="results"></div>
+  </div>
+
+
+
+  <!-- SHARED DATE SELECTOR -->
+  <div class="card" style="margin-bottom: 16px; padding: 14px;">
+    <div id="date-card" class="date-row" style="margin-bottom: 0;">
+      <div style="flex: 1;">
+        <label for="dutyDate" style="margin-bottom: 4px;">📅 Select Date to Check Posting:</label>
+        <input type="date" id="dutyDate" min="2026-05-23" max="2027-05-22" onchange="onDateOrSelectionChange()">
+      </div>
+      <button onclick="setTodayDate()" style="padding: 10px 12px; border: none; background: var(--secondary); color: white; font-weight: 600; border-radius: 6px; cursor: pointer; margin-top: 18px;">Today</button>
+    </div>
+  </div>
+
+  <!-- TAB 1: SEARCH BY PERSON -->
+  <div id="person-tab" class="card">
+    <div class="input-group">
+     <label for="studentSearch">Search Name, Roll No, S.No, or Batch (e.g., 29, A7, Ankit Raj):</label>
+<input type="text" id="studentSearch" placeholder="Type name, roll, or serial number..." oninput="searchStudent()">
+
+    </div>
+    <div id="studentResults" class="results"></div>
+  </div>
+
+  <!-- TAB 2: SEARCH BY DEPARTMENT -->
+  <div id="department-tab" class="card hidden">
+    <div class="input-group">
+      <label for="deptSelect">Select Department:</label>
+      <select id="deptSelect" onchange="searchDepartment()">
+        <option value="">-- Choose Department --</option>
+        <option value="PSM">Community Medicine (PSM)</option>
+        <option value="Forensic">Forensic Medicine</option>
+        <option value="MED">General Medicine</option>
+        <option value="Surgery">General Surgery</option>
+        <option value="DVL">Dermatology (DVL)</option>
+        <option value="ObsGynae">Obstetrics & Gynaecology</option>
+        <option value="Psychy">Psychiatry</option>
+        <option value="Pediatrics">Pediatrics</option>
+        <option value="Caslty">Casualty / Emergency</option>
+        <option value="ENT">ENT</option>
+        <option value="Ophtha">Ophthalmology</option>
+        <option value="Ortho">Orthopedics</option>
+        <option value="Anaest">Anesthesia</option>
+        <option value="Pulm Med">Pulmonary Medicine (Elective)</option>
+        <option value="Radiology">Radiology (Elective)</option>
+      </select>
+    </div>
+    <div id="deptResults" class="results"></div>
+  </div>
+</div>
+
+<script>
+  // --- MASTER DATA (S.NO 1 TO 197) ---
+  const interns = [
+    { sno: 1, roll: "44562", name: "Aaryan Dangi", batch: "A1" },
+    { sno: 2, roll: "44563", name: "Aarzoo Chugh", batch: "A1" },
+    { sno: 3, roll: "44564", name: "Aayushi Solanki", batch: "A1" },
+    { sno: 4, roll: "44565", name: "Abhishek Kumar", batch: "A1" },
+    { sno: 5, roll: "44566", name: "Abhyudita Jha", batch: "A1" },
+    { sno: 6, roll: "44567", name: "Aditi Nayak", batch: "A2" },
+    { sno: 7, roll: "44568", name: "Aditya Agarwal", batch: "A2" },
+    { sno: 8, roll: "44569", name: "Aditya Garg", batch: "A2" },
+    { sno: 9, roll: "44570", name: "Aditya Pakhariya", batch: "A2" },
+    { sno: 10, roll: "44571", name: "Aditya Prasad", batch: "A2" },
+    { sno: 11, roll: "44572", name: "Aditya Sharma", batch: "A3" },
+    { sno: 12, roll: "44573", name: "Adnan Jamal", batch: "A3" },
+    { sno: 13, roll: "44574", name: "Adwait Mishra", batch: "A3" },
+    { sno: 14, roll: "44576", name: "Ajay", batch: "A3" },
+    { sno: 15, roll: "44577", name: "Akanksha Rani Gupta", batch: "A4" },
+    { sno: 16, roll: "44578", name: "Akshat Goel", batch: "A4" },
+    { sno: 17, roll: "44579", name: "Alingti Kichu", batch: "A4" },
+    { sno: 18, roll: "44580", name: "Amit Kumar", batch: "A4" },
+    { sno: 19, roll: "44581", name: "Amit Rajput", batch: "A5" },
+    { sno: 20, roll: "44582", name: "Amitesh Ganesan", batch: "A5" },
+    { sno: 21, roll: "44583", name: "Anand Jaiswal", batch: "A5" },
+    { sno: 22, roll: "44584", name: "Anand Prakash", batch: "A5" },
+    { sno: 23, roll: "44585", name: "Ananya Beriwal", batch: "A6" },
+    { sno: 24, roll: "44586", name: "Ananya Narula", batch: "A6" },
+    { sno: 25, roll: "44587", name: "Anju Kumari", batch: "A6" },
+    { sno: 26, roll: "44588", name: "Anju Meena", batch: "A6" },
+    { sno: 27, roll: "44589", name: "Ankit Kumar", batch: "A7" },
+    { sno: 28, roll: "44590", name: "Ankit Kumar", batch: "A7" },
+    { sno: 29, roll: "44591", name: "Ankit Raj", batch: "A7" },
+    { sno: 30, roll: "44592", name: "Ankit Yadav", batch: "A7" },
+    { sno: 31, roll: "44593", name: "Anmol Gupta", batch: "A8" },
+    { sno: 32, roll: "44594", name: "Anoushka Saini", batch: "A8" },
+    { sno: 33, roll: "44595", name: "Ansh Ingale", batch: "A8" },
+    { sno: 34, roll: "44596", name: "Anshika Goyal", batch: "A9" },
+    { sno: 35, roll: "44597", name: "Anshul", batch: "A9" },
+    { sno: 36, roll: "44598", name: "Ansuiya Ahlawat", batch: "A9" },
+    { sno: 37, roll: "44599", name: "Apoorv Kumar", batch: "A9" },
+    { sno: 38, roll: "44601", name: "Arjun Mahavari", batch: "A9" },
+    { sno: 39, roll: "44602", name: "Arkaprava Mondal", batch: "A10" },
+    { sno: 40, roll: "44603", name: "Arushi", batch: "A10" },
+    { sno: 41, roll: "44604", name: "Aryan Srivastava", batch: "A10" },
+    { sno: 42, roll: "44606", name: "Ashish Jain", batch: "A10" },
+    { sno: 43, roll: "44607", name: "Ashu Meena", batch: "A11" },
+    { sno: 44, roll: "44608", name: "Atharva Mahesh Wattamwar", batch: "A11" },
+    { sno: 45, roll: "44609", name: "Ayushi Pal", batch: "A11" },
+    { sno: 46, roll: "44611", name: "Bhagya Sri", batch: "A11" },
+    { sno: 47, roll: "44613", name: "Bhavya Goyal", batch: "A12" },
+    { sno: 48, roll: "44614", name: "Binu Yadav", batch: "A12" },
+    { sno: 49, roll: "44616", name: "Chandraj Gautam", batch: "A12" },
+    { sno: 50, roll: "44617", name: "Chirag Bansal", batch: "A12" },
+    { sno: 51, roll: "44618", name: "Chirag Goyal", batch: "B1" },
+    { sno: 52, roll: "44619", name: "Crishell Oricco D Shira", batch: "B1" },
+    { sno: 53, roll: "44620", name: "Dhiren Bhardwaj", batch: "B1" },
+    { sno: 54, roll: "44621", name: "Dhruv", batch: "B1" },
+    { sno: 55, roll: "44622", name: "Dhruv Bansal", batch: "B1" },
+    { sno: 56, roll: "44623", name: "Dishant Kundu", batch: "B2" },
+    { sno: 57, roll: "44624", name: "Divyansh Miglani", batch: "B2" },
+    { sno: 58, roll: "44625", name: "Divyansh Soni", batch: "B2" },
+    { sno: 59, roll: "44626", name: "Drishti Sehra", batch: "B2" },
+    { sno: 60, roll: "44627", name: "E Teisamanki Garod", batch: "B3" },
+    { sno: 61, roll: "44628", name: "Faiza Jabeen", batch: "B3" },
+    { sno: 62, roll: "44629", name: "Feona Flavia Ekka", batch: "B3" },
+    { sno: 63, roll: "44630", name: "Garima Singh", batch: "B3" },
+    { sno: 64, roll: "44631", name: "Geetika", batch: "B4" },
+    { sno: 65, roll: "44632", name: "Govind Yadav", batch: "B4" },
+    { sno: 66, roll: "44633", name: "Gunjan Sharma", batch: "B4" },
+    { sno: 67, roll: "44634", name: "Hardik Dhall", batch: "B4" },
+    { sno: 68, roll: "44635", name: "Hardik Jindal", batch: "B5" },
+    { sno: 69, roll: "44636", name: "Harsh Vardhan", batch: "B5" },
+    { sno: 70, roll: "44637", name: "Harshit Rastogi", batch: "B5" },
+    { sno: 71, roll: "44639", name: "Himanshu Sharma", batch: "B5" },
+    { sno: 72, roll: "44640", name: "Himanshu Tomar", batch: "B6" },
+    { sno: 73, roll: "44641", name: "Himanshu Yadav", batch: "B6" },
+    { sno: 74, roll: "44642", name: "Iram Afzal", batch: "B6" },
+    { sno: 75, roll: "44643", name: "Isha Aggarwal", batch: "B6" },
+    { sno: 76, roll: "44644", name: "Isha Jain", batch: "B7" },
+    { sno: 77, roll: "44645", name: "Ishank Jangra", batch: "B7" },
+    { sno: 78, roll: "44646", name: "Ishita Das", batch: "B7" },
+    { sno: 79, roll: "44647", name: "Ishita Kumari", batch: "B7" },
+    { sno: 80, roll: "44648", name: "Ishita Miglani", batch: "B8" },
+    { sno: 81, roll: "44649", name: "Jashith Goel", batch: "B8" },
+    { sno: 82, roll: "44651", name: "Jitender Kumar Meena", batch: "B8" },
+    { sno: 83, roll: "44654", name: "Kanika Bansal", batch: "B8" },
+    { sno: 84, roll: "44655", name: "Kanishk Rathor", batch: "B9" },
+    { sno: 85, roll: "44656", name: "Karan", batch: "B9" },
+    { sno: 86, roll: "44657", name: "Kartikey Joshi", batch: "B9" },
+    { sno: 87, roll: "44658", name: "Kashish Jaiswal", batch: "B9" },
+    { sno: 88, roll: "44659", name: "Keshav Aggarwal", batch: "B10" },
+    { sno: 89, roll: "44660", name: "Ketan Joshi", batch: "B10" },
+    { sno: 90, roll: "44661", name: "Khushboo", batch: "B10" },
+    { sno: 91, roll: "44662", name: "Khushi Sharma", batch: "B10" },
+    { sno: 92, roll: "44663", name: "Kirti", batch: "B11" },
+    { sno: 93, roll: "44664", name: "Kopal Jain", batch: "B11" },
+    { sno: 94, roll: "44665", name: "Krish Bansiwal", batch: "B11" },
+    { sno: 95, roll: "44667", name: "Kunal Sahani", batch: "B11" },
+    { sno: 96, roll: "44668", name: "Kundan Lal Koli", batch: "B12" },
+    { sno: 97, roll: "44669", name: "Lakshay Gauba", batch: "B12" },
+    { sno: 98, roll: "4471", name: "Lata", batch: "B12" },
+    { sno: 99, roll: "44672", name: "Lokesh Choudhary", batch: "B12" },
+    { sno: 100, roll: "44675", name: "Maimuna Fatima", batch: "C1" },
+    { sno: 101, roll: "44676", name: "Mal Rasika Dinesh", batch: "C1" },
+    { sno: 102, roll: "44678", name: "Mandava Sri Naga Venkata Hitesh", batch: "C1" },
+    { sno: 103, roll: "44679", name: "Manish Kumar", batch: "C1" },
+    { sno: 104, roll: "44682", name: "Md Shaquib", batch: "C1" },
+    { sno: 105, roll: "44683", name: "Md. Tahir Hussain", batch: "C2" },
+    { sno: 106, roll: "44684", name: "Megha Kumari", batch: "C2" },
+    { sno: 107, roll: "44685", name: "Mehul Paliwal", batch: "C2" },
+    { sno: 108, roll: "44686", name: "Mrinal Garg", batch: "C2" },
+    { sno: 109, roll: "44688", name: "Mohit Kumar", batch: "C3" },
+    { sno: 110, roll: "44689", name: "Mukesh Yadav", batch: "C3" },
+    { sno: 111, roll: "44691", name: "Naman Jagetiya", batch: "C3" },
+    { sno: 112, roll: "44692", name: "Nandini", batch: "C3" },
+    { sno: 113, roll: "44693", name: "Neeraj Kumar", batch: "C4" },
+    { sno: 114, roll: "44696", name: "Nikhil Kumar", batch: "C4" },
+    { sno: 115, roll: "44697", name: "Nikhil Singh", batch: "C4" },
+    { sno: 116, roll: "44698", name: "Nishtha Chandwani", batch: "C4" },
+    { sno: 117, roll: "44699", name: "Nitesh", batch: "C5" },
+    { sno: 118, roll: "44701", name: "Nitin Kushwaha", batch: "C5" },
+    { sno: 119, roll: "44702", name: "Nitin Yadav", batch: "C5" },
+    { sno: 120, roll: "44703", name: "Parshant", batch: "C5" },
+    { sno: 121, roll: "44704", name: "Parth Gupta", batch: "C6" },
+    { sno: 122, roll: "44705", name: "Pavitra Goyal", batch: "C6" },
+    { sno: 123, roll: "44707", name: "Pradeep Rajak", batch: "C6" },
+    { sno: 124, roll: "44708", name: "Pragati Bharti", batch: "C6" },
+    { sno: 125, roll: "44710", name: "Pranjali Srivastava", batch: "C7" },
+    { sno: 126, roll: "44711", name: "Prashant Pachaury", batch: "C7" },
+    { sno: 127, roll: "44712", name: "Pratyaksha Singh", batch: "C7" },
+    { sno: 128, roll: "44713", name: "Prem Kumar", batch: "C7" },
+    { sno: 129, roll: "44715", name: "Prerak Dularia", batch: "C8" },
+    { sno: 130, roll: "44717", name: "Priyank Agarwal", batch: "C8" },
+    { sno: 131, roll: "44718", name: "Priyanka", batch: "C8" },
+    { sno: 132, roll: "44719", name: "Priyansh Singh", batch: "C8" },
+    { sno: 133, roll: "44720", name: "Priyanshi", batch: "C9" },
+    { sno: 134, roll: "44721", name: "Priyanshu Jaseja", batch: "C9" },
+    { sno: 135, roll: "44722", name: "Priyanshu Ranjan", batch: "C9" },
+    { sno: 136, roll: "44723", name: "Puneet Jindal", batch: "C9" },
+    { sno: 137, roll: "44725", name: "Purwa", batch: "C10" },
+    { sno: 138, roll: "44726", name: "Raghav Alawadhi", batch: "C10" },
+    { sno: 139, roll: "44728", name: "Rahul Kumar", batch: "C10" },
+    { sno: 140, roll: "44729", name: "Rimsha Rehman", batch: "C10" },
+    { sno: 141, roll: "44730", name: "Rishab Garg", batch: "C11" },
+    { sno: 142, roll: "44731", name: "Rishabh Talwar", batch: "C11" },
+    { sno: 143, roll: "44732", name: "Ritiksha Singh", batch: "C11" },
+    { sno: 144, roll: "44733", name: "Ritu Chauhan", batch: "C11" },
+    { sno: 145, roll: "44734", name: "Ritvik Baweja", batch: "C12" },
+    { sno: 146, roll: "44735", name: "Riya Gulati", batch: "C12" },
+    { sno: 147, roll: "44736", name: "Rohan Ghuge", batch: "C12" },
+    { sno: 148, roll: "44738", name: "Roshan Singh Rajput", batch: "C12" },
+    { sno: 149, roll: "44742", name: "Sakshi Choudhary", batch: "D1" },
+    { sno: 150, roll: "44743", name: "Sakshi Singh", batch: "D1" },
+    { sno: 151, roll: "44744", name: "Sangam Yadav", batch: "D1" },
+    { sno: 152, roll: "44745", name: "Sanjna Tandon", batch: "D1" },
+    { sno: 153, roll: "44746", name: "Sanya Sheoran", batch: "D1" },
+    { sno: 154, roll: "44747", name: "Sarit Swaroop", batch: "D2" },
+    { sno: 155, roll: "44748", name: "Sarthak Bakhshi", batch: "D2" },
+    { sno: 156, roll: "44749", name: "Sarthak Joshi", batch: "D2" },
+    { sno: 157, roll: "44750", name: "Satyajit Mallick", batch: "D2" },
+    { sno: 158, roll: "44752", name: "Sawan Kumar", batch: "D3" },
+    { sno: 159, roll: "44754", name: "Shantanu Verma", batch: "D3" },
+    { sno: 160, roll: "44755", name: "Shaurya Agarwal", batch: "D3" },
+    { sno: 161, roll: "44757", name: "Shivam Prasad Mehta", batch: "D3" },
+    { sno: 162, roll: "44758", name: "Shivani", batch: "D4" },
+    { sno: 163, roll: "44759", name: "Shivani Saini", batch: "D4" },
+    { sno: 164, roll: "44760", name: "Shivika Dudani", batch: "D4" },
+    { sno: 165, roll: "44761", name: "Shreya Sabherwal", batch: "D4" },
+    { sno: 166, roll: "44762", name: "Shreya Singh", batch: "D5" },
+    { sno: 167, roll: "44763", name: "Shubham Solanki", batch: "D5" },
+    { sno: 168, roll: "44764", name: "Shubhesh Saxena", batch: "D5" },
+    { sno: 169, roll: "44765", name: "Siddhant Kumar", batch: "D5" },
+    { sno: 170, roll: "44766", name: "Siddharth Kumar", batch: "D6" },
+    { sno: 171, roll: "44768", name: "Simran Tatwal", batch: "D6" },
+    { sno: 172, roll: "44769", name: "Somyam Kumar", batch: "D6" },
+    { sno: 173, roll: "44770", name: "Soni Shlok Mahesh", batch: "D6" },
+    { sno: 174, roll: "44771", name: "Sourabh Yadav", batch: "D7" },
+    { sno: 175, roll: "44772", name: "Sourav Kumar", batch: "D7" },
+    { sno: 176, roll: "44773", name: "Sparsh Mittal", batch: "D7" },
+    { sno: 177, roll: "44774", name: "Srinjoy Mukherjee", batch: "D7" },
+    { sno: 178, roll: "44775", name: "Sween Khurana", batch: "D8" },
+    { sno: 179, roll: "44776", name: "Tanish Tewari", batch: "D8" },
+    { sno: 180, roll: "44781", name: "Tushar Kumar", batch: "D8" },
+    { sno: 181, roll: "44782", name: "Urvashi Negi", batch: "D8" },
+    { sno: 182, roll: "44783", name: "Utkarsh", batch: "D9" },
+    { sno: 183, roll: "44784", name: "Vaibhav Chaudhary", batch: "D9" },
+    { sno: 184, roll: "44785", name: "Vaibhav Dhiman", batch: "D9" },
+    { sno: 185, roll: "44786", name: "Vaibhav Gupta", batch: "D9" },
+    { sno: 186, roll: "44787", name: "Vaibhav Jain", batch: "D10" },
+    { sno: 187, roll: "44788", name: "Varun Sharma", batch: "D10" },
+    { sno: 188, roll: "44789", name: "Vidya Sagar", batch: "D10" },
+    { sno: 189, roll: "44790", name: "Vikrant Kumar Mishra", batch: "D10" },
+    { sno: 190, roll: "44791", name: "Vipul", batch: "D11" },
+    { sno: 191, roll: "44793", name: "Vivek", batch: "D11" },
+    { sno: 192, roll: "44794", name: "Yachika Rohilla", batch: "D11" },
+    { sno: 193, roll: "44795", name: "Yash", batch: "D11" },
+    { sno: 194, roll: "44796", name: "Yash Thakur", batch: "D12" },
+    { sno: 195, roll: "44797", name: "Yashika Sharma", batch: "D12" },
+    { sno: 196, roll: "44798", name: "Yashvi Jain", batch: "D12" },
+    { sno: 197, roll: "44799", name: "Yogesh Kumar", batch: "D12" }
+  ];
+
+  // 52 WEEK DATES DATABASE
+  const weeksData = [
+    { wk: 1, start: "2026-05-23", end: "2026-05-29", block: "Block 1" },
+    { wk: 2, start: "2026-05-30", end: "2026-06-05", block: "Block 1" },
+    { wk: 3, start: "2026-06-06", end: "2026-06-12", block: "Block 1" },
+    { wk: 4, start: "2026-06-13", end: "2026-06-19", block: "Block 1" },
+    { wk: 5, start: "2026-06-20", end: "2026-06-26", block: "Block 1" },
+    { wk: 6, start: "2026-06-27", end: "2026-07-03", block: "Block 1" },
+    { wk: 7, start: "2026-07-04", end: "2026-07-10", block: "Block 1" },
+    { wk: 8, start: "2026-07-11", end: "2026-07-17", block: "Block 1" },
+    { wk: 9, start: "2026-07-18", end: "2026-07-24", block: "Block 1" },
+    { wk: 10, start: "2026-07-25", end: "2026-07-31", block: "Block 1" },
+    { wk: 11, start: "2026-08-01", end: "2026-08-07", block: "Block 1" },
+    { wk: 12, start: "2026-08-08", end: "2026-08-14", block: "Block 1" },
+    { wk: 13, start: "2026-08-15", end: "2026-08-21", block: "Block 1" },
+    { wk: 14, start: "2026-08-22", end: "2026-08-28", block: "Block 2" },
+    { wk: 15, start: "2026-08-29", end: "2026-09-04", block: "Block 2" },
+    { wk: 16, start: "2026-09-05", end: "2026-09-11", block: "Block 2" },
+    { wk: 17, start: "2026-09-12", end: "2026-09-18", block: "Block 2" },
+    { wk: 18, start: "2026-09-19", end: "2026-09-25", block: "Block 2" },
+    { wk: 19, start: "2026-09-26", end: "2026-10-02", block: "Block 2" },
+    { wk: 20, start: "2026-10-03", end: "2026-10-09", block: "Block 2" },
+    { wk: 21, start: "2026-10-10", end: "2026-10-16", block: "Block 2" },
+    { wk: 22, start: "2026-10-17", end: "2026-10-23", block: "Block 2" },
+    { wk: 23, start: "2026-10-24", end: "2026-10-30", block: "Block 2" },
+    { wk: 24, start: "2026-10-31", end: "2026-11-06", block: "Block 2" },
+    { wk: 25, start: "2026-11-07", end: "2026-11-13", block: "Block 2" },
+    { wk: 26, start: "2026-11-14", end: "2026-11-20", block: "Block 2" },
+    { wk: 27, start: "2026-11-21", end: "2026-11-27", block: "Block 3" },
+    { wk: 28, start: "2026-11-28", end: "2026-12-04", block: "Block 3" },
+    { wk: 29, start: "2026-12-05", end: "2026-12-11", block: "Block 3" },
+    { wk: 30, start: "2026-12-12", end: "2026-12-18", block: "Block 3" },
+    { wk: 31, start: "2026-12-19", end: "2026-12-25", block: "Block 3" },
+    { wk: 32, start: "2026-12-26", end: "2027-01-01", block: "Block 3" },
+    { wk: 33, start: "2027-01-02", end: "2027-01-08", block: "Block 3" },
+    { wk: 34, start: "2027-01-09", end: "2027-01-15", block: "Block 3" },
+    { wk: 35, start: "2027-01-16", end: "2027-01-22", block: "Block 3" },
+    { wk: 36, start: "2027-01-23", end: "2027-01-29", block: "Block 3" },
+    { wk: 37, start: "2027-01-30", end: "2027-02-05", block: "Block 3" },
+    { wk: 38, start: "2027-02-06", end: "2027-02-12", block: "Block 3" },
+    { wk: 39, start: "2027-02-13", end: "2027-02-19", block: "Block 3" },
+    { wk: 40, start: "2027-02-20", end: "2027-02-26", block: "Block 4" },
+    { wk: 41, start: "2027-02-27", end: "2027-03-05", block: "Block 4" },
+    { wk: 42, start: "2027-03-06", end: "2027-03-12", block: "Block 4" },
+    { wk: 43, start: "2027-03-13", end: "2027-03-19", block: "Block 4" },
+    { wk: 44, start: "2027-03-20", end: "2027-03-26", block: "Block 4" },
+    { wk: 45, start: "2027-03-27", end: "2027-04-02", block: "Block 4" },
+    { wk: 46, start: "2027-04-03", end: "2027-04-09", block: "Block 4" },
+    { wk: 47, start: "2027-04-10", end: "2027-04-16", block: "Block 4" },
+    { wk: 48, start: "2027-04-17", end: "2027-04-23", block: "Block 4" },
+    { wk: 49, start: "2027-04-24", end: "2027-04-30", block: "Block 4" },
+    { wk: 50, start: "2027-05-01", end: "2027-05-07", block: "Block 4" },
+    { wk: 51, start: "2027-05-08", end: "2027-05-14", block: "Block 4" },
+    { wk: 52, start: "2027-05-15", end: "2027-05-22", block: "Block 4" }
+  ];
+
+  // SUBDIVISION WEEKLY SCHEDULE MAPPING FOR ALL 48 SUBDIVISIONS (A1-D12)
+  function getPostingForSubdivision(subdiv, weekNum) {
+    const group = subdiv.charAt(0);
+    const num = parseInt(subdiv.substring(1));
+    const relativeWk = ((weekNum - 1) % 13) + 1; // 1 to 13 within a block
+
+    // BLOCK 1 (Wks 1-13): A = PSM/FM, B = Med/Surg/DVL, C = ObsGyn/Electives, D = Short Subjects
+    // BLOCK 2 (Wks 14-26): A = Short, B = PSM/FM, C = Med/Surg/DVL, D = ObsGyn/Electives
+    // BLOCK 3 (Wks 27-39): A = ObsGyn/Electives, B = Short, C = PSM/FM, D = Med/Surg/DVL
+    // BLOCK 4 (Wks 40-52): A = Med/Surg/DVL, B = ObsGyn/Electives, C = Short, D = PSM/FM
+
+    let blockType = '';
+    if (weekNum <= 13) blockType = group === 'A' ? 'PSM_FM' : group === 'B' ? 'MED_SURG' : group === 'C' ? 'OBS_ELECT' : 'SHORT';
+    else if (weekNum <= 26) blockType = group === 'A' ? 'SHORT' : group === 'B' ? 'PSM_FM' : group === 'C' ? 'MED_SURG' : 'OBS_ELECT';
+    else if (weekNum <= 39) blockType = group === 'A' ? 'OBS_ELECT' : group === 'B' ? 'SHORT' : group === 'C' ? 'PSM_FM' : 'MED_SURG';
+    else blockType = group === 'A' ? 'MED_SURG' : group === 'B' ? 'OBS_ELECT' : group === 'C' ? 'SHORT' : 'PSM_FM';
+
+    // 1. PSM & Forensic Block Logic
+    if (blockType === 'PSM_FM') {
+      return num === relativeWk ? 'Forensic' : 'PSM';
+    }
+
+    // 2. Med, Surg, DVL Block Logic
+    if (blockType === 'MED_SURG') {
+      if (num <= 6) {
+        if (num === relativeWk) return 'DVL';
+        return relativeWk <= 7 ? 'MED' : 'Surgery';
+      } else {
+        if (num === relativeWk) return 'DVL';
+        return relativeWk <= 6 ? 'Surgery' : 'MED';
+      }
+    }
+
+    // 3. ObsGynae, Psychiatry, Electives Block Logic
+    if (blockType === 'OBS_ELECT') {
+      // Rotation order variations based on subgroup
+      if (num <= 5) {
+        if (relativeWk <= 7) return 'ObsGynae';
+        if (num === 1 || num === 2) return relativeWk <= 9 ? 'Radiology' : relativeWk <= 11 ? 'Pulm Med' : 'Psychy';
+        if (num === 3 || num === 4) return relativeWk <= 9 ? 'Psychy' : relativeWk <= 11 ? 'Radiology' : 'Pulm Med';
+        return relativeWk <= 9 ? 'Pulm Med' : relativeWk <= 11 ? 'Psychy' : 'Radiology';
+      } else if (num <= 7) {
+        if (num === 6) {
+          if (relativeWk === 3 || relativeWk === 8 || relativeWk === 9) return 'Pulm Med';
+          if (relativeWk === 4 || relativeWk === 10 || relativeWk === 11) return 'Psychy';
+          if (relativeWk === 1 || relativeWk === 2 || relativeWk === 12 || relativeWk === 13) return 'Radiology';
+          return 'ObsGynae';
+        } else {
+          if (relativeWk <= 2) return 'Radiology';
+          if (relativeWk <= 4) return 'Pulm Med';
+          if (relativeWk <= 6) return 'Psychy';
+          return 'ObsGynae';
+        }
+      } else {
+        if (relativeWk >= 7) return 'ObsGynae';
+        if (num === 8) return relativeWk <= 2 ? 'Radiology' : relativeWk <= 4 ? 'Pulm Med' : 'Psychy';
+        if (num === 9 || num === 10) return relativeWk <= 2 ? 'Psychy' : relativeWk <= 4 ? 'Radiology' : 'Pulm Med';
+        if (num === 11 || num === 12) return relativeWk <= 2 ? 'Pulm Med' : relativeWk <= 4 ? 'Psychy' : 'Radiology';
+      }
+    }
+
+    // 4. Short Subjects Block Logic
+    if (blockType === 'SHORT') {
+      const shortSequence = ['Pediatrics', 'Pediatrics', 'Pediatrics', 'Anaest', 'Anaest', 'Caslty', 'Caslty', 'ENT', 'ENT', 'Ophtha', 'Ophtha', 'Ortho', 'Ortho'];
+      let offset = 0;
+      if (num === 3 || num === 4) offset = 11;
+      else if (num === 5 || num === 6) offset = 9;
+      else if (num === 7 || num === 8) offset = 7;
+      else if (num === 9 || num === 10) offset = 5;
+      else if (num === 11 || num === 12) offset = 3;
+
+      const idx = (relativeWk - 1 + offset) % 13;
+      return shortSequence[idx];
+    }
+
+    return 'General Duty';
+  }
+  // --- LOK NAYAK HOSPITAL OPD & CLINIC SCHEDULE DATABASE ---
+  const deptSchedules = [
+    {
+      id: "medicine",
+      name: "Medicine Morning OPD (09:00 AM - 01:00 PM)",
+      units: [
+        { title: "Unit 1", days: "Mon / Thu", location: "OPD Block 3rd Floor (Rooms 310-315)", ward: "ward 31" },
+        { title: "Unit 2", days: "Tue / Fri", location: "OPD Block 3rd Floor (Rooms 310-315)", ward: "ward 29" },
+        { title: "Unit 3", days: "Wed / Sat", location: "OPD Block 2nd Floor (Rooms 316-325)", ward: "ward 32" },
+        { title: "Unit 4", days: "Mon / Thu", location: "OPD Block 2nd Floor (Rooms 316-325)", ward: "ward 28" },
+        { title: "Unit 5", days: "Tue / Fri", location: "OPD Block 2nd Floor (Rooms 316-325)", ward: "ward 30" },
+        { title: "Unit 6", days: "Wed / Sat", location: "OPD Block 3rd Floor (Rooms 310-315)", ward: "ward 27" },
+        { title: "Hepatology Clinic", days: "Mon to Sat", location: "New Medicine Block (Room 443)", ward: "" }
+      ]
+    },
+    {
+      id: "surgery",
+      name: "Surgery Morning OPD (09:00 AM - 01:00 PM)",
+      units: [
+        { title: "Surgery Unit 1", days: "Mon (New OPD, Em) / Thu (Follow-up) / Wed (OT A,B) / Fri (OT C,D) / Sat (Uro OT)", location: "OPD Block 4th Floor (Rooms 409, 410, 412, 414, 416, 417 - West Wing) | Ward 2A" },
+        { title: "Surgery Unit 2", days: "Wed (New OPD, Em) / Sat (Follow-up) / Fri (OT A,B) / Mon (OT C,D) / Tue (Uro OT)", location: "OPD Block 4th Floor (Rooms 431-435 - West Wing) | Ward 3A" },
+        { title: "Surgery Unit 3", days: "Fri (New OPD, Em) / Tue (Follow-up) / Mon (OT A,B) / Wed (OT C,D) / Thu (Uro OT)", location: "OPD Block 4th Floor (Rooms 409, 410, 412, 414, 416, 417 - West Wing) | Ward 4A" },
+        { title: "Surgery Unit 4", days: "Tue (New OPD, Em) / Fri (Follow-up) / Thu (OT A,B) / Sat (OT C,D) / Mon (Uro OT)", location: "OPD Block 4th Floor (Rooms 409, 410, 412, 414, 416, 417 - East Wing) | Ward 3B" },
+        { title: "Surgery Unit 5", days: "Thu (New OPD, Em) / Mon (Follow-up) / Sat (OT A,B) / Tue (OT C,D) / Wed (Uro OT)", location: "OPD Block 4th Floor (Rooms 409, 410, 412, 414, 416, 417 - East Wing) | Ward 4B" },
+        { title: "Surgery Unit 6", days: "Sat (New OPD, Em) / Wed (Follow-up) / Tue (OT A,B) / Thu (OT C,D) / Fri (Uro OT)", location: "OPD Block 4th Floor (Rooms 431-435 - East Wing) | Ward 2B" }
+      ]
+    },
+    {
+      id: "peds_med",
+      name: "Pediatric Medicine Morning OPD (07:30 AM - 11:30 AM)",
+      units: [
+        { title: "Unit 1", days: "Mon / Thu", location: "OPD Block 5th Floor (Rooms 515-519)", ward: "" },
+        { title: "Unit 2", days: "Mon / Thu", location: "OPD Block 5th Floor (Rooms 506, 511, 512, 513, 514)", ward: "" },
+        { title: "Unit 3", days: "Tue / Fri", location: "OPD Block 5th Floor (Rooms 506, 511, 512, 513, 514", ward: "" },
+        { title: "Unit 4", days: "Tue / Fri", location: "OPD Block 5th Floor (Rooms 515-519)", ward: "" },
+        { title: "Unit 5", days: "Wed / Sat", location: "OPD Block 5th Floor (Rooms 506, 511, 512, 513, 514)", ward: "" },
+        { title: "Unit 6", days: "Wed / Sat", location: "OPD Block 5th Floor (Rooms 515-519)", ward: "" }
+      ]
+    },
+    {
+      id: "ent",
+      name: "ENT Morning OPD (07:30 AM - 11:30 AM)",
+      units: [
+        { title: "Unit 1", days: "Mon / Thu", location: "OPD Block 6th Floor (Rooms 609-617)", ward: "" },
+        { title: "Unit 2", days: "Tue / Fri", location: "OPD Block 6th Floor (Rooms 609-617)", ward: "" },
+        { title: "Unit 3", days: "Wed / Sat", location: "OPD Block 6th Floor (Rooms 609-617)", ward: "" }
+      ]
+    },
+    {
+      id: "ortho",
+      name: "Orthopedics Morning OPD (07:30 AM - 11:30 AM)",
+      units: [
+        { title: "Unit 1", days: "Mon / Thu", location: "Ortho Block 1st Floor (Rooms 101-104, 111-113, 115)", ward: "" },
+        { title: "Unit 2", days: "Tue / Fri", location: "Ortho Block 1st Floor (Rooms 101-104, 111-113, 115)", ward: "" },
+        { title: "Unit 3", days: "Wed / Sat", location: "Ortho Block 1st Floor (Rooms 101-104, 111-113, 115)", ward: "" },
+        { title: "Fracture Clinic", days: "Mon to Sat (07:30 AM - 02:00 PM)", location: "Ortho Block 1st Floor (Room 105)", ward: "" }
+      ]
+    },
+    {
+      id: "gynae",
+      name: "Gynecology & Antenatal Morning OPD (07:30 AM - 11:30 AM)",
+      units: [
+{ title: "Gynecology Unit 1", days: "Mon (Gynae) / Thu (ANC) / Wed & Sat (OT) / Fri (PP OT) / Tue (Round)", location: "OPD Block (Room 209-214)" },
+{ title: "Gynecology Unit 2", days: "Tue (Gynae) / Fri (ANC) / Mon & Thu (OT) / Sat (PP OT) / Wed (Round)", location: "OPD Block (Room 209-214)" },
+{ title: "Gynecology Unit 3", days: "Wed (Gynae) / Sat (ANC) / Tue & Fri (OT) / Mon (PP OT) / Thu (Round)", location: "OPD Block (Room 209-214)" },
+{ title: "Gynecology Unit 4", days: "Thu (Gynae) / Mon (ANC) / Wed & Sat (OT) / Tue (PP OT) / Fri (Round)", location: "OPD Block (Room 209-214)" },
+{ title: "Gynecology Unit 5", days: "Fri (Gynae) / Tue (ANC) / Mon & Thu (OT) / Wed (PP OT) / Sat (Round)", location: "OPD Block (Room 209-214)" },
+{ title: "Gynecology Unit 6", days: "Sat (Gynae) / Wed (ANC) / Tue & Fri (OT) / Thu (PP OT) / Mon (Round)", location: "OPD Block (Room 209-214)" },
+        { title: "Antenatal Clinic (ANC)", days: "Mon to Sat", location: "OPD Block 2nd Floor (Rooms 230-235)" }
+      ]
+    },
+    {
+      id: "clinic_med",
+      name: "Medicine Evening Special Clinics (01:00 PM - 02:00 PM)",
+      units: [
+        { title: "Diabetes Clinic", days: "Monday", location: "OPD Block 3rd Floor (Rooms 316-325)", ward: "" },
+        { title: "Pulmonary Clinic", days: "Mon / Tue / Thu", location: "OPD Block 3rd Floor (310-313, 315)", ward: "" },
+        { title: "Endocrinology Clinic", days: "Wednesday", location: "OPD Block 3rd Floor (Rooms 316-325)", ward: "" },
+        { title: "Rheumatology Clinic", days: "Friday", location: "OPD Block 3rd Floor (Rooms 316-325)", ward: "" },
+        { title: "Nephrology Clinic", days: "Thursday", location: "OPD Block 3rd Floor (Rooms 310-315)", ward: "" },
+        { title: "Hematology Clinic", days: "Tuesday", location: "OPD Block 3rd Floor (Rooms 310-315)", ward: "" }
+      ]
+    },
+    {
+      id: "clinic_surg",
+      name: "Surgery Evening Special Clinics (01:00 PM - 02:00 PM)",
+      units: [
+        { title: "Male Infertility & Vascular", days: "1st & 3rd Thursday", location: "OPD Block 4th Floor (Room 417)", ward: "" },
+        { title: "Metabolic / Bariatric Clinic", days: "2nd & 4th Thursday", location: "OPD Block 4th Floor (Room 410)", ward: "" },
+        { title: "Breast Clinic", days: "2nd & 4th Friday", location: "OPD Block 4th Floor (Room 434)", ward: "" },
+        { title: "Proctology Clinic", days: "2nd & 4th Wednesday", location: "OPD Block 4th Floor (Room 410)", ward: "" },
+        { title: "Stoma & Wound Clinic", days: "2nd & 4th Monday", location: "OPD Block 4th Floor (Room 410)", ward: "" },
+        { title: "AWR Clinic", days: "1st & 3rd Wednesday", location: "OPD Block 4th Floor (Room 434)", ward: "" }
+      ]
+    }
+  ];
+  function searchDeptSchedule() {
+    const categoryId = document.getElementById('deptScheduleSelect').value;
+    const resDiv = document.getElementById('scheduleResults');
+    if (!categoryId) { resDiv.innerHTML = ''; return; }
+
+    const category = deptSchedules.find(c => c.id === categoryId);
+    if (!category) {
+      resDiv.innerHTML = '<p>Details for this category will be updated soon.</p>';
+      return;
+    }
+
+    let html = `<h3 style="color: var(--primary); margin-bottom: 12px;">${category.name}</h3>`;
+    
+    html += `
+      <table>
+        <thead>
+          <tr>
+            <th>Unit / Special Clinic</th>
+            <th>OPD Days</th>
+            <th>Location (Room No.)</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${category.units.map(u => `
+            <tr>
+              <td><b>${u.title}</b></td>
+              <td><span class="badge" style="background: #e0f2fe; color: #0369a1;">${u.days}</span></td>
+              <td>${u.location}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    `;
+
+    resDiv.innerHTML = html;
+  }
+  // --- LOK NAYAK HOSPITAL LAB TESTS & VIAL DIRECTORY DATABASE ---
+  const labDirectory = [
+    // WINDOW 1 - PATHOLOGY
+    { test: "CBC (Complete Blood Count), ESR, Peripheral Smear", tube: "EDTA (Purple)", window: "Window 1 (Pathology)", days: "Daily (Routine)", report: "Online / Dispatch Room 96", notes: "Low platelets -> MPC can be sent in Blue Citrate vial if specified." },
+    { test: "URM (Urine Routine Microscopy)", tube: "Speci-can (Urine)", window: "Window 1 (Pathology)", days: "Daily (Routine)", report: "Online / Counter", notes: "Collect clean catch urine in speci-can." },
+
+    // WINDOW 2 - BIOCHEMISTRY
+    { test: "LFT (Liver Function Test)", tube: "Red (Serum)", window: "Window 2 (Biochemistry)", days: "Daily (Routine)", report: "Online Portal / Window 2", notes: "Includes T. Bil, D. Bil, ALT, AST, ALKP, Total Protein, Albumin." },
+    { test: "KFT (Kidney Function Test), Urea, Creatinine, Uric Acid", tube: "Red (Serum)", window: "Window 2 (Biochemistry)", days: "Daily (Routine)", report: "Online Portal / Window 2", notes: "Includes Urea, Creatinine, Uric Acid, LDH." },
+    { test: "Serum Electrolytes (Sodium, Potassium, Chloride, Magnesium, Calcium)", tube: "Red (Serum)", window: "Window 2 (Biochemistry)", days: "Daily (Routine)", report: "Online Portal / Window 2", notes: "Check for hemolysis before sending." },
+    { test: "TFT (Thyroid Profile), LH, FSH, Prolactin, AMH, Testosterone, Estradiol", tube: "Red (Serum)", window: "Window 2 (Biochemistry)", days: "Not done on Saturday", report: "Online Portal / Window 2", notes: "Immuno assay section." },
+    { test: "Iron Profile (Ferritin, Iron, TIBC, Vitamin B12, Folic Acid)", tube: "Red (Serum)", window: "Window 2 (Biochemistry)", days: "Not done on Saturday", report: "Online Portal / Window 2", notes: "Fasting sample preferred." },
+    { test: "Special Immuno (Anti-TPO, DHEAS, Insulin, C-Peptide, Immunoglobulins, Cystatin C, C3, C4)", tube: "Red (Serum)", window: "Window 2 (Biochemistry)", days: "Wednesday Only", report: "Window 2", notes: "Special biochemistry run on Wednesdays only." },
+    { test: "Special Citrate (Protein C & S, Homocysteine, Anti Thrombin III)", tube: "Citrate (Blue)", window: "Window 2 (Biochemistry)", days: "Wednesday Only", report: "Window 2", notes: "Special coagulation/thrombophilia panel." },
+    { test: "Blood Sugar (Fasting / PP / Random)", tube: "Fluoride-Grey (Sugar)", window: "Window 2 (Biochemistry)", days: "Daily (Routine)", report: "Online Portal", notes: "Mention Fasting, PP, or Random explicitly on the requisition form." },
+    { test: "HbA1c", tube: "EDTA (Purple)", window: "Window 2 (Biochemistry)", days: "Daily (Routine)", report: "Online Portal", notes: "Minimum 3 ml blood required." },
+    { test: "Ammonia Levels", tube: "EDTA (Purple)", window: "Window 2 (Biochemistry)", days: "Daily (Routine)", report: "Window 2", notes: "MUST be transported in cold storage / ice pack." },
+    { test: "Coagulation Profile (PT-INR, APTT, D-Dimer, FDP)", tube: "Citrate (Blue)", window: "Window 2 (Biochemistry)", days: "Daily (Routine)", report: "Window 2", notes: "STRICT: Fill the vial EXACTLY up to the black mark (not less, not more)." },
+    { test: "ABG / VBG (Arterial / Venous Blood Gas)", tube: "Heparinized Syringe", window: "Window 2 (Biochemistry)", days: "Daily (Routine / Emergency)", report: "Hand-to-Hand", notes: "Send attendant immediately; report handed over on the spot." },
+    { test: "DIPSI (GDM Screening)", tube: "Fluoride-Grey (Sugar)", window: "Window 2 (Biochemistry)", days: "Daily (Routine)", report: "Online / Window 2", notes: "75g glucose dissolved in 1 glass water drunk over 20 mins. Test 2-hr capillary blood. If deranged (>140), send venous sample in grey vial." },
+
+    // WINDOW 3 - MICROBIOLOGY
+    { test: "NS1 Antigen, IgM Antibodies (Dengue)", tube: "Red (Serum)", window: "Window 3 (Microbiology)", days: "Daily (Routine)", report: "Room 277", notes: "Mandatory: Write patient address and phone number on form." },
+    { test: "Widal, Typhidot", tube: "Red (Serum)", window: "Window 3 (Microbiology)", days: "Daily (Routine)", report: "Room 126", notes: "Mandatory: Write patient address and phone number on form." },
+    { test: "PSMP (Peripheral Smear for Malarial Parasite)", tube: "EDTA (Purple)", window: "Window 3 (Microbiology)", days: "Daily (Routine)", report: "Room 128", notes: "Mandatory: Write patient address and phone number on form." },
+    { test: "Blood Culture & Sensitivity (BCS)", tube: "Blood Culture Bottle", window: "Window 3 (Microbiology)", days: "Daily (Routine)", report: "Room 34", notes: "Maintain strict sterile precautions while drawing sample." },
+    { test: "Urine Culture & Sensitivity (UCS)", tube: "Speci-can (Urine)", window: "Window 3 (Microbiology)", days: "Daily (Routine)", report: "Room 34", notes: "Clean catch midstream sample." },
+
+    // BLOOD BANK & COLLEGE LABS
+    { test: "BGCM (Blood Group & Cross Match)", tube: "EDTA (Purple)", window: "Blood Bank", days: "Daily (24x7)", report: "Blood Bank Counter", notes: "Requires BGCM Form + Release Form. If donation required, attach donor form." },
+    { test: "Direct Coombs Test (DCT)", tube: "EDTA (Purple)", window: "Blood Bank", days: "Daily", report: "Blood Bank Counter", notes: "Autoimmune hemolytic anemia workup." },
+    { test: "Indirect Coombs Test (ICT)", tube: "Red (Serum)", window: "Blood Bank", days: "Daily", report: "Blood Bank Counter", notes: "Antenatal / transfusion antibody screening." },
+    { test: "HIV Screening / TRIDOT", tube: "Red (Serum)", window: "College / Front of Mortuary", days: "Daily", report: "HIV Room (In front of Mortuary)", notes: "Attendant must submit form with address and phone number." },
+    { test: "HBsAg, Anti-HCV, VDRL", tube: "Red (Serum)", window: "College Building", days: "Daily", report: "College Lab Counter", notes: "Write address and phone number on requisition form." },
+    { test: "College Hemogram, HPLC", tube: "EDTA (Purple)", window: "Room 76 (Pathology Dept)", days: "Daily", report: "Room 96 (Dispatch)", notes: "College Hemogram Form required." },
+
+    // MISCELLANEOUS & SPECIAL LABS
+    { test: "Karyotyping / Genetic Testing", tube: "Green (Heparin)", window: "Genetic Medicine (In front of Ward 13A)", days: "Routine Days", report: "Genetic Department", notes: "Write a Clinical Referral Note instead of a standard investigation form." },
+    { test: "ANA, APLA, Autoimmune Profile", tube: "Red (Serum)", window: "BL Taneja Block (Nuclear Lab)", days: "Routine Days", report: "BL Taneja Lab", notes: "Get BLT form signed by PG, SR & Consultant before submission." },
+    { test: "Sputum AFB, Sputum CBNAAT", tube: "Speci-can", window: "TB Centre (Gate No. 2)", days: "Daily", report: "TB Centre Gate 2", notes: "Early morning deep cough sputum sample." },
+
+    // PATHOLOGY DEPARTMENT ROOM DIRECTORY
+    { test: "Bone Marrow Aspirate / Biopsy / Flow Cytometry", tube: "Special / Slides", window: "Room 52 & 62 (Pathology Dept)", days: "Routine Days", report: "Room 52 (Presence of Hemat PG)", notes: "Enquire in Room 52 for bone marrow aspirate and biopsy." },
+    { test: "Fluid Cytology / LBC", tube: "Fluid Container", window: "Room 63 (Cytopath Lab)", days: "Daily", report: "Room 63 (After 12:00 PM - 1:00 PM)", notes: "Send fluid samples for cytopathology." },
+    { test: "HPE (Histopathology) / Tissue Biopsy / Frozen Section", tube: "Formalin Container / Fresh", window: "Room 70 (Grossing Room)", days: "Daily", report: "Room 90 (Dispatch)", notes: "Frozen section: Inform resident room first, then submit tissue in Room 70." },
+    { test: "FNAC (Fine Needle Aspiration Cytology)", tube: "Patient Direct", window: "Room 93 & 94 (FNAC Rooms)", days: "Daily", report: "Room 98 (Dispatch)", notes: "Send patient directly to Room 93/94 opposite Room 90." }
+  ];
+
+  // Universal Search Function for Lab Directory
+  function searchLabTests() {
+    const query = document.getElementById('labSearch').value.toLowerCase().trim();
+    const resDiv = document.getElementById('labResults');
+    if (!query) { resDiv.innerHTML = ''; return; }
+
+    const matches = labDirectory.filter(item => 
+      item.test.toLowerCase().includes(query) ||
+      item.tube.toLowerCase().includes(query) ||
+      item.window.toLowerCase().includes(query) ||
+      item.days.toLowerCase().includes(query) ||
+      item.report.toLowerCase().includes(query) ||
+      item.notes.toLowerCase().includes(query)
+    );
+
+    if (matches.length === 0) {
+      resDiv.innerHTML = '<p>No matching tests, vials, or locations found.</p>';
+      return;
+    }
+
+    let html = `
+      <p style="color: #64748b; font-size: 13px; margin-bottom: 10px;">Found <strong>${matches.length}</strong> matching entries:</p>
+      <div style="overflow-x: auto;">
+        <table>
+          <thead>
+            <tr>
+              <th>Test Name</th>
+              <th>Vial / Tube</th>
+              <th>Sample Window / Room</th>
+              <th>Days</th>
+              <th>Report Collection</th>
+              <th>Key Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${matches.map(m => `
+              <tr>
+                <td><b>${m.test}</b></td>
+                <td><span class="badge" style="background: #fef3c7; color: #92400e;">${m.tube}</span></td>
+                <td><span class="badge" style="background: #e0f2fe; color: #0369a1;">${m.window}</span></td>
+                <td>${m.days}</td>
+                <td>${m.report}</td>
+                <td style="font-size: 12px; color: #475569;">${m.notes}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    `;
+
+    resDiv.innerHTML = html;
+  }
+
+  // INITIALIZE DATES
+  window.onload = function() {
+    setTodayDate();
+  };
+
+  function setTodayDate() {
+    const today = new Date().toISOString().split('T')[0];
+    const dateInput = document.getElementById('dutyDate');
+    
+    // Default to valid internship date if today is outside bounds
+    if (today < "2026-05-23" || today > "2027-05-22") {
+      dateInput.value = "2026-05-23";
+    } else {
+      dateInput.value = today;
+    }
+    onDateOrSelectionChange();
+  }
+
+  function getSelectedWeek() {
+    const selectedDate = document.getElementById('dutyDate').value;
+    for (let w of weeksData) {
+      if (selectedDate >= w.start && selectedDate <= w.end) return w;
+    }
+    return weeksData[0]; // fallback
+  }
+
+  function onDateOrSelectionChange() {
+    const activeTab = document.getElementById('person-tab').classList.contains('hidden') ? 'dept' : 'person';
+    if (activeTab === 'person') searchStudent();
+    else searchDepartment();
+  }
+
+   function switchTab(tab) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('person-tab').classList.add('hidden');
+    document.getElementById('department-tab').classList.add('hidden');
+    document.getElementById('schedule-tab').classList.add('hidden');
+    document.getElementById('lab-tab').classList.add('hidden');
+
+    const dateCard = document.getElementById('date-card');
+
+    if (tab === 'person') {
+      document.querySelectorAll('.tab-btn')[0].classList.add('active');
+      document.getElementById('person-tab').classList.remove('hidden');
+      if (dateCard) dateCard.classList.remove('hidden');
+      searchStudent();
+    } else if (tab === 'department') {
+      document.querySelectorAll('.tab-btn')[1].classList.add('active');
+      document.getElementById('department-tab').classList.remove('hidden');
+      if (dateCard) dateCard.classList.remove('hidden');
+      searchDepartment();
+    } else if (tab === 'schedule') {
+      document.querySelectorAll('.tab-btn')[2].classList.add('active');
+      document.getElementById('schedule-tab').classList.remove('hidden');
+      if (dateCard) dateCard.classList.add('hidden');
+      searchDeptSchedule();
+    } else if (tab === 'lab') {
+      document.querySelectorAll('.tab-btn')[3].classList.add('active');
+      document.getElementById('lab-tab').classList.remove('hidden');
+      if (dateCard) dateCard.classList.add('hidden'); // Hides Date Picker on Lab Tab
+      searchLabTests();
+    }
+  }
+
+
+
+
+  function searchStudent() {
+    const query = document.getElementById('studentSearch').value.toLowerCase().trim();
+    const resDiv = document.getElementById('studentResults');
+    if (!query) { resDiv.innerHTML = ''; return; }
+
+      const matches = interns.filter(i => 
+      i.name.toLowerCase().includes(query) || 
+      i.roll.includes(query) || 
+      i.batch.toLowerCase() === query ||
+      i.sno.toString() === query
+    );
+
+
+    if (matches.length === 0) {
+      resDiv.innerHTML = '<p>No interns found matching your search.</p>';
+      return;
+    }
+
+    const weekInfo = getSelectedWeek();
+
+    let html = '';
+    matches.forEach(student => {
+      const activePosting = getPostingForSubdivision(student.batch, weekInfo.wk);
+
+      html += `
+        <div style="border-bottom: 1px solid var(--border); padding: 12px 0;">
+          <h3>${student.name} <span class="badge">Subdivision ${student.batch}</span></h3>
+          <p><strong>Roll No:</strong> ${student.roll} | <strong>S.No:</strong> ${student.sno}</p>
+          
+          <div class="info-banner">
+            📍 <strong>Posting on Selected Date (${weekInfo.start} to ${weekInfo.end}):</strong><br>
+            <span style="font-size: 16px; color: var(--primary); font-weight: bold;">${activePosting}</span> 
+            <span style="font-size: 13px; color: #64748b;">(Week ${weekInfo.wk} • ${weekInfo.block})</span>
+          </div>
+
+          <details>
+            <summary style="cursor: pointer; color: var(--secondary); font-weight: 600;">View 52-Week Full Roster Timeline</summary>
+            <div style="max-height: 250px; overflow-y: auto; margin-top: 8px;">
+              <table>
+                <thead>
+                  <tr><th>Wk</th><th>Date Range</th><th>Department Posting</th></tr>
+                </thead>
+                <tbody>
+                  ${weeksData.map(w => {
+                    const post = getPostingForSubdivision(student.batch, w.wk);
+                    const isSelected = w.wk === weekInfo.wk;
+                    return `
+                      <tr ${isSelected ? 'style="background: #e0f2fe; font-weight: bold;"' : ''}>
+                        <td>W${w.wk}</td>
+                        <td>${w.start} to ${w.end}</td>
+                        <td>${post}</td>
+                      </tr>
+                    `;
+                  }).join('')}
+                </tbody>
+              </table>
+            </div>
+          </details>
+        </div>
+      `;
+    });
+
+    resDiv.innerHTML = html;
+  }
+
+  function searchDepartment() {
+    const dept = document.getElementById('deptSelect').value;
+    const resDiv = document.getElementById('deptResults');
+    if (!dept) { resDiv.innerHTML = ''; return; }
+
+    const weekInfo = getSelectedWeek();
+
+    // Scan all 48 subdivisions (A1-D12) for matching active posting in the selected week
+    const activeSubdivisions = [];
+    const groups = ['A', 'B', 'C', 'D'];
+    
+    groups.forEach(g => {
+      for (let i = 1; i <= 12; i++) {
+        const sub = g + i;
+        if (getPostingForSubdivision(sub, weekInfo.wk) === dept) {
+          activeSubdivisions.push(sub);
+        }
+      }
+    });
+
+    const activeInterns = interns.filter(i => activeSubdivisions.includes(i.batch));
+
+    let html = `
+      <div class="info-banner">
+        🏥 <strong>${dept} Roster</strong> for Week ${weekInfo.wk} (${weekInfo.start} to ${weekInfo.end})<br>
+        <strong>Posted Subdivisions:</strong> ${activeSubdivisions.length > 0 ? activeSubdivisions.map(s => `<span class="badge" style="margin-right: 4px;">${s}</span>`).join('') : 'None'}
+      </div>
+    `;
+
+    if (activeInterns.length === 0) {
+      html += '<p>No interns are posted in this department during the selected week.</p>';
+    } else {
+      html += `
+        <table>
+          <thead>
+            <tr><th>S.No</th><th>Roll No</th><th>Name</th><th>Subdivision</th></tr>
+          </thead>
+          <tbody>
+            ${activeInterns.map(i => `
+              <tr>
+                <td>${i.sno}</td>
+                <td>${i.roll}</td>
+                <td><b>${i.name}</b></td>
+                <td><span class="badge">${i.batch}</span></td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      `;
+    }
+
+        resDiv.innerHTML = html;
+  }
+</script>
+
+  <!-- FOOTER CREDIT -->
+  <footer style="text-align: center; margin-top: 30px; padding: 16px; border-top: 1px solid var(--border); color: #64748b; font-size: 13px;">
+    <p style="margin: 0;">Designed & Maintained by <strong>Ankit Raj</strong></p>
+    <p style="margin: 4px 0 0 0; font-size: 12px;">BATCH-2021</p>
+  </footer>
+
+</body>
+</html>
+      border-radius: 4px;
+      margin-bottom: 16px;
+      font-size: 14px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      font-size: 14px;
+    }
+    th, td {
+      padding: 10px 8px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    th {
+      background: #f1f5f9;
+      color: #334155;
+    }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>MAMC CRMI Duty Lookup</h1>
+  <p class="subtitle">Compulsory Rotatory Medical Internship (2026–2027)</p>
+
   <div class="tabs">
     <button class="tab-btn active" onclick="switchTab('person')">🔍 Search Person / Batch</button>
     <button class="tab-btn" onclick="switchTab('department')">🏥 Search Department</button>

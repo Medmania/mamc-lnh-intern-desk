@@ -137,7 +137,7 @@
     <button class="tab-btn active" onclick="switchTab('person')">🔍 Search Person</button>
     <button class="tab-btn" onclick="switchTab('department')">🏥 Search Department</button>
     <button class="tab-btn" onclick="switchTab('schedule')">📅 Dept Schedule & Wards</button>
-    <button class="tab-btn" onclick="switchTab('lab')">🧪 Labs & Vacutainers</button>
+    <button class="tab-btn" onclick="switchTab('lab')">🧪 Tests & Labs</button>
   </div>
   <!-- TAB 4: LAB TESTS, VIALS & LOCATIONS -->
   <div id="lab-tab" class="card hidden">
@@ -569,13 +569,13 @@
       id: "medicine",
       name: "Medicine Morning OPD (09:00 AM - 01:00 PM)",
       units: [
-        { title: "Unit 1", days: "Mon / Thu", location: "OPD Block 3rd Floor (Rooms 310-315)", ward: "ward 31" },
-        { title: "Unit 2", days: "Tue / Fri", location: "OPD Block 3rd Floor (Rooms 310-315)", ward: "ward 29" },
-        { title: "Unit 3", days: "Wed / Sat", location: "OPD Block 2nd Floor (Rooms 316-325)", ward: "ward 32" },
-        { title: "Unit 4", days: "Mon / Thu", location: "OPD Block 2nd Floor (Rooms 316-325)", ward: "ward 28" },
-        { title: "Unit 5", days: "Tue / Fri", location: "OPD Block 2nd Floor (Rooms 316-325)", ward: "ward 30" },
-        { title: "Unit 6", days: "Wed / Sat", location: "OPD Block 3rd Floor (Rooms 310-315)", ward: "ward 27" },
-        { title: "Hepatology Clinic", days: "Mon to Sat", location: "New Medicine Block (Room 443)", ward: "" }
+        { title: "Unit 1", days: "Mon / Thu", location: "OPD Block 3rd Floor (Rooms 310-315) | ward 31" },
+        { title: "Unit 2", days: "Tue / Fri", location: "OPD Block 3rd Floor (Rooms 310-315) | ward 29" },
+        { title: "Unit 3", days: "Wed / Sat", location: "OPD Block 2nd Floor (Rooms 316-325) | ward 32" },
+        { title: "Unit 4", days: "Mon / Thu", location: "OPD Block 2nd Floor (Rooms 316-325) | ward 28" },
+        { title: "Unit 5", days: "Tue / Fri", location: "OPD Block 2nd Floor (Rooms 316-325) | ward 30" },
+        { title: "Unit 6", days: "Wed / Sat", location: "OPD Block 3rd Floor (Rooms 310-315) | ward 27" },
+        
       ]
     },
     {
@@ -643,7 +643,8 @@
         { title: "Endocrinology Clinic", days: "Wednesday", location: "OPD Block 3rd Floor (Rooms 316-325)", ward: "" },
         { title: "Rheumatology Clinic", days: "Friday", location: "OPD Block 3rd Floor (Rooms 316-325)", ward: "" },
         { title: "Nephrology Clinic", days: "Thursday", location: "OPD Block 3rd Floor (Rooms 310-315)", ward: "" },
-        { title: "Hematology Clinic", days: "Tuesday", location: "OPD Block 3rd Floor (Rooms 310-315)", ward: "" }
+        { title: "Hematology Clinic", days: "Tuesday", location: "OPD Block 3rd Floor (Rooms 310-315)", ward: "" },
+      { title: "Hepatology Clinic", days: "Mon to Sat", location: "New Medicine Block (Room 443)", ward: "" }
       ]
     },
     {
@@ -707,14 +708,14 @@
     { test: "Serum Electrolytes (Sodium, Potassium, Chloride, Magnesium, Calcium)", tube: "Red (Serum)", window: "Window 2E (Biochemistry)", days: "Daily (Routine)", report: "Online Portal / Window 2E", notes: "Check for hemolysis before sending." },
     { test: "TFT (Thyroid Profile), LH, FSH, Prolactin, AMH, Testosterone, Estradiol", tube: "Red (Serum)", window: "Window 2E (Biochemistry)", days: "Not done on Saturday", report: "Online Portal / Window 2E", notes: "Immuno assay section." },
     { test: "Iron Profile (Ferritin, Iron, TIBC, Vitamin B12, Folic Acid)", tube: "Red (Serum)", window: "Window 2E (Biochemistry)", days: "Not done on Saturday", report: "Online Portal / Window 2E", notes: "Fasting sample preferred." },
-    { test: "Special Immuno (Anti-TPO, DHEAS, Insulin, C-Peptide, Immunoglobulins, Cystatin C, C3, C4)", tube: "Red (Serum)", window: "Window 2 (Biochemistry)", days: "Wednesday Only", report: "Window 2", notes: "Special biochemistry run on Wednesdays only." },
+    { test: "Special Immuno (Anti-TPO, DHEAS, Insulin, C-Peptide, Immunoglobulins, Cystatin C, C3, C4)", tube: "Red (Serum)", window: "Window 2E (Biochemistry)", days: "Wednesday Only", report: "Window 2E", notes: "Special biochemistry run on Wednesdays only." },
     { test: "Special Citrate (Protein C & S, Homocysteine, Anti Thrombin III)", tube: "Citrate (Blue)", window: "Window 2E (Biochemistry)", days: "Wednesday Only", report: "Window 2E", notes: "Special coagulation/thrombophilia panel." },
     { test: "Blood Sugar (Fasting / PP / Random)", tube: "Fluoride-Grey (Sugar)", window: "Window 2E (Biochemistry)", days: "Daily (Routine)", report: "Online Portal", notes: "Mention Fasting, PP, or Random explicitly on the requisition form." },
-    { test: "HbA1c", tube: "EDTA (Purple)", window: "Room  (Biochemistry)", days: "Daily (Routine)", report: "Online Portal", notes: "Minimum 3 ml blood required." },
-    { test: "Ammonia Levels", tube: "EDTA (Purple)", window: "Window 2 (Biochemistry)", days: "Daily (Routine)", report: "Window 2", notes: "MUST be transported in cold storage / ice pack." },
-    { test: "Coagulation Profile (PT-INR, APTT, D-Dimer, FDP)", tube: "Citrate (Blue)", window: "Window 2 (Biochemistry)", days: "Daily (Routine)", report: "Window 2", notes: "STRICT: Fill the vial EXACTLY up to the black mark (not less, not more)." },
+    { test: "HbA1c", tube: "EDTA (Purple)", window: "Window 2E (Biochemistry)", days: "Daily (Routine)", report: "Online Portal", notes: "Minimum 3 ml blood required." },
+    { test: "Ammonia Levels", tube: "EDTA (Purple)", window: "Window 2E (Biochemistry)", days: "Daily (Routine)", report: "Window 2E", notes: "MUST be transported in cold storage / ice pack." },
+    { test: "Coagulation Profile (PT-INR, APTT, D-Dimer, FDP)", tube: "Citrate (Blue)", window: "Window 2E (Biochemistry)", days: "Daily (Routine)", report: "Window 2E", notes: "STRICT: Fill the vial EXACTLY up to the black mark (not less, not more)." },
     { test: "ABG / VBG (Arterial / Venous Blood Gas)", tube: "Heparinized Syringe", window: "Window 2 (Biochemistry)", days: "Daily (Routine / Emergency)", report: "Hand-to-Hand", notes: "Send attendant immediately; report handed over on the spot." },
-    { test: "DIPSI (GDM Screening)", tube: "Fluoride-Grey (Sugar)", window: "Window 2E (Biochemistry)", days: "Daily (Routine)", report: "Online / Window 2E", notes: "75g glucose dissolved in 1 glass water drunk over 20 mins. Test 2-hr capillary blood. If deranged (>140), send venous sample in grey vial." },
+    { test: "DIPSI (GDM Screening)", tube: "Fluoride-Grey (Sugar)", window: "Window 2E (Biochemistry)", days: "Daily (Routine)", report: "Online / Window 2", notes: "75g glucose dissolved in 1 glass water drunk over 20 mins. Test 2-hr capillary blood. If deranged (>140), send venous sample in grey vial." },
 
     // WINDOW 3 - MICROBIOLOGY
     { test: "NS1 Antigen, IgM Antibodies (Dengue)", tube: "Red (Serum)", window: "Window 3 (Microbiology)", days: "Daily (Routine)", report: "Room 277", notes: "Mandatory: Write patient address and phone number on form." },
@@ -985,8 +986,8 @@
 
   <!-- FOOTER CREDIT -->
   <footer style="text-align: center; margin-top: 30px; padding: 16px; border-top: 1px solid var(--border); color: #64748b; font-size: 13px;">
-    <p style="margin: 0;">Designed & Maintained by <strong>Ankit Raj</strong></p>
-    <p style="margin: 4px 0 0 0; font-size: 12px;">BATCH-2021</p>
+    <p style="margin: 0;">Designed & Maintained by <strong>Dr. Ankit Raj</strong></p>
+    <p style="margin: 4px 0 0 0; font-size: 12px;">Batch-2021</p>
   </footer>
 
 </body>

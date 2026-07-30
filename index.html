@@ -157,6 +157,7 @@
         <optgroup label="Main OPD Departments">
           <option value="medicine">Medicine OPD</option>
           <option value="surgery">Surgery OPD</option>
+          <option value="ophtha">Ophthalmology (GNEC) OPD</option>
           <option value="peds_med">Pediatric Medicine OPD</option>
           <option value="peds_surg">Pediatric Surgery OPD</option>
           <option value="ent">ENT OPD</option>
@@ -171,6 +172,7 @@
           <option value="clinic_peds">Pediatric Special Clinics </option>
           <option value="clinic_ortho">Ortho Special Clinics </option>
           <option value="clinic_gynae">Gynae Special Clinics </option>
+          <option value="clinic_ophtha">Ophthalmology Special Clinics</option>
           <option value="clinic_other">Other Clinics (PAC, Pain, Rabies, Senior Citizen)</option>
         </optgroup>
       </select>
@@ -569,30 +571,59 @@
       id: "medicine",
       name: "Medicine Morning OPD (09:00 AM - 01:00 PM)",
       units: [
-        { title: "Unit 1", days: "Mon / Thu", location: "OPD Block 3rd Floor (Rooms 310-315) | ward 31" },
-        { title: "Unit 2", days: "Tue / Fri", location: "OPD Block 3rd Floor (Rooms 310-315) | ward 29" },
-        { title: "Unit 3", days: "Wed / Sat", location: "OPD Block 2nd Floor (Rooms 316-325) | ward 32" },
-        { title: "Unit 4", days: "Mon / Thu", location: "OPD Block 2nd Floor (Rooms 316-325) | ward 28" },
-        { title: "Unit 5", days: "Tue / Fri", location: "OPD Block 2nd Floor (Rooms 316-325) | ward 30" },
-        { title: "Unit 6", days: "Wed / Sat", location: "OPD Block 3rd Floor (Rooms 310-315) | ward 27" },
+        { title: 'Unit 1 <span style="font-weight: normal;">(Dr. Anurag Rohatgi)</span>', days: "Mon / Thu", location: "OPD Block 3rd Floor (Rooms 310-315) | ward 31" },
+        { title: 'Unit 2 <span style="font-weight: normal;">(Dr. S Anuradha)</span>', days: "Tue / Fri", location: "OPD Block 3rd Floor (Rooms 310-315) | ward 29" },
+        { title: 'Unit 3 <span style="font-weight: normal;">(Dr. Sunita Agarwal)</span>', days: "Wed / Sat", location: "OPD Block 2nd Floor (Rooms 316-325) | ward 32" },
+        { title: 'Unit 4 <span style="font-weight: normal;">(Dr. Sandeep Garg)</span>', days: "Mon / Thu", location: "OPD Block 2nd Floor (Rooms 316-325) | ward 28" },
+        { title: 'Unit 5 <span style="font-weight: normal;">(Dr. Sanjay Pandit)</span>', days: "Tue / Fri", location: "OPD Block 2nd Floor (Rooms 316-325) | ward 30" },
+        { title: 'Unit 6 <span style="font-weight: normal;">(Dr. Sumeet Singla)</span>', days: "Wed / Sat", location: "OPD Block 3rd Floor (Rooms 310-315) | ward 27" },
         
       ]
     },
-    {
+      {
+      id: "ophtha",
+      name: "Ophthalmology OPD & OT Schedule (Guru Nanak Eye Centre)",
+      units: [
+        { title: 'Unit 1A <span style="font-weight: normal;">(Dr. Paromita Dutta, Dr. Meenakshi Wadhwani)</span>', days: "Mon & Thu (OPD) / Tue & Fri (Round) / Wed & Sat (OT)", location: "GNEC OPD" },
+        { title: 'Unit 1B <span style="font-weight: normal;">(Dr. Parul Jain, Dr. Siddharth Madan)</span>', days: "Mon & Thu (OPD) / Tue & Fri (Round) / Wed & Sat (OT)", location: "GNEC OPD" },
+        { title: 'Unit 2A <span style="font-weight: normal;">(Dr. Kirti Singh, Dr. Anna Joon)</span>', days: "Tue & Fri (OPD) / Wed & Sat (Round) / Mon & Thu (OT)", location: "GNEC OPD" },
+        { title: 'Unit 2B <span style="font-weight: normal;">(Dr. Punita Sodhi, Dr. Aastha Singh)</span>', days: "Tue & Fri (OPD) / Wed & Sat (Round) / Mon & Thu (OT)", location: "GNEC OPD" },
+        { title: 'Unit 3A <span style="font-weight: normal;">(Dr. Meenakshi Thakar, Dr. Bhumika Sharma)</span>', days: "Wed & Sat (OPD) / Mon & Thu (Round) / Tue & Fri (OT)", location: "GNEC OPD" },
+        { title: 'Unit 3B <span style="font-weight: normal;">(Dr. Subhash Dadeya, Dr. Pranita Sahay)</span>', days: "Wed & Sat (OPD) / Mon & Thu (Round) / Tue & Fri (OT)", location: "GNEC OPD" }
+      ]
+    },
+
+     {
+      id: "clinic_ophtha",
+      name: "Ophthalmology Special Day-wise Clinics (GNEC)",
+      units: [
+        { title: 'Monday Special Clinics', days: 'Retina-2 <span style="font-weight: normal;">(Dr. Meenakshi Thakar)</span> / Old Squint Clinic <span style="font-weight: normal;">(Dr. Subhash Dadeya)</span> / POC <span style="font-weight: normal;">(Dr. Siddharth Madan)</span>', location: "GNEC Special Clinics" },
+        { title: 'Tuesday Special Clinics', days: 'Contact Lens <span style="font-weight: normal;">(Dr. Parul Jain)</span> / Oculoplasty Clinic <span style="font-weight: normal;">(Dr. Meenakshi Wadhwani)</span> / POC + ROP Clinic <span style="font-weight: normal;">(Dr. Siddharth Madan)</span>', location: "GNEC Special Clinics" },
+        { title: 'Wednesday Special Clinics', days: 'Glaucoma Clinic <span style="font-weight: normal;">(Dr. Kirti Singh)</span> / Retina Clinic-1 <span style="font-weight: normal;">(Dr. Punita K. Sodhi)</span>', location: "GNEC Special Clinics" },
+        { title: 'Thursday Special Clinics', days: 'Retina Clinic-2 <span style="font-weight: normal;">(Dr. Meenakshi Thakar)</span> / Squint Clinic <span style="font-weight: normal;">(Dr. Subhash Dadeya)</span>', location: "GNEC Special Clinics" },
+        { title: 'Friday Special Clinics', days: 'NOC + Squint <span style="font-weight: normal;">(Dr. Paromita Dutta)</span> / Cornea Clinic <span style="font-weight: normal;">(Dr. Parul Jain & Dr. Pranita Sahay)</span>', location: "GNEC Special Clinics" },
+        { title: 'Saturday Special Clinics', days: 'Retina Clinic-1 <span style="font-weight: normal;">(Dr. Punita K. Sodhi)</span>', location: "GNEC Special Clinics" },
+        { title: 'Daily Special Clinic', days: "LVA Clinic (Low Vision Aids) - Held Daily", location: "GNEC Special Clinics" }
+      ]
+    },
+
+
+        {
       id: "surgery",
       name: "Surgery Morning OPD (09:00 AM - 01:00 PM)",
       units: [
-        { title: "Surgery Unit 1", days: "Mon (New OPD, Em) / Thu (Follow-up) / Wed (OT A,B) / Fri (OT C,D) / Sat (Uro OT)", location: "OPD Block 4th Floor (Rooms 409, 410, 412, 414, 416, 417 - West Wing) | Ward 2A" },
-        { title: "Surgery Unit 2", days: "Wed (New OPD, Em) / Sat (Follow-up) / Fri (OT A,B) / Mon (OT C,D) / Tue (Uro OT)", location: "OPD Block 4th Floor (Rooms 431-435 - West Wing) | Ward 3A" },
-        { title: "Surgery Unit 3", days: "Fri (New OPD, Em) / Tue (Follow-up) / Mon (OT A,B) / Wed (OT C,D) / Thu (Uro OT)", location: "OPD Block 4th Floor (Rooms 409, 410, 412, 414, 416, 417 - West Wing) | Ward 4A" },
-        { title: "Surgery Unit 4", days: "Tue (New OPD, Em) / Fri (Follow-up) / Thu (OT A,B) / Sat (OT C,D) / Mon (Uro OT)", location: "OPD Block 4th Floor (Rooms 409, 410, 412, 414, 416, 417 - East Wing) | Ward 3B" },
-        { title: "Surgery Unit 5", days: "Thu (New OPD, Em) / Mon (Follow-up) / Sat (OT A,B) / Tue (OT C,D) / Wed (Uro OT)", location: "OPD Block 4th Floor (Rooms 409, 410, 412, 414, 416, 417 - East Wing) | Ward 4B" },
-        { title: "Surgery Unit 6", days: "Sat (New OPD, Em) / Wed (Follow-up) / Tue (OT A,B) / Thu (OT C,D) / Fri (Uro OT)", location: "OPD Block 4th Floor (Rooms 431-435 - East Wing) | Ward 2B" }
+        { title: 'Surgery Unit 1 <span style="font-weight: normal;">(Dr. C.B. Singh, Dr. Manu Vats)</span>', days: "Mon (New OPD, Em) / Thu (Follow-up) / Wed (OT A,B) / Fri (OT C,D) / Sat (Uro OT)", location: "OPD Block 4th Floor (Rooms 409, 410, 412, 414, 416, 417 - West Wing) | Ward 2A" },
+        { title: 'Surgery Unit 2 <span style="font-weight: normal;">(Dr. Pawan Lal, Dr. Anurag Mishra)</span>', days: "Wed (New OPD, Em) / Sat (Follow-up) / Fri (OT A,B) / Mon (OT C,D) / Tue (Uro OT)", location: "OPD Block 4th Floor (Rooms 431-435 - West Wing) | Ward 3A" },
+        { title: 'Surgery Unit 3 <span style="font-weight: normal;">(Dr. Rajdeep Singh, Dr. Lovekesh Kumar)</span>', days: "Fri (New OPD, Em) / Tue (Follow-up) / Mon (OT A,B) / Wed (OT C,D) / Thu (Uro OT)", location: "OPD Block 4th Floor (Rooms 409, 410, 412, 414, 416, 417 - West Wing) | Ward 4A" },
+        { title: 'Surgery Unit 4 <span style="font-weight: normal;">(Dr. Sushanto Neogi, Dr. Deepak Bhardwaj)</span>', days: "Tue (New OPD, Em) / Fri (Follow-up) / Thu (OT A,B) / Sat (OT C,D) / Mon (Uro OT)", location: "OPD Block 4th Floor (Rooms 409, 410, 412, 414, 416, 417 - East Wing) | Ward 3B" },
+        { title: 'Surgery Unit 5 <span style="font-weight: normal;">(Dr. Anubhav Vindal, Dr. Lovenish Kr Bains)</span>', days: "Thu (New OPD, Em) / Mon (Follow-up) / Sat (OT A,B) / Tue (OT C,D) / Wed (Uro OT)", location: "OPD Block 4th Floor (Rooms 409, 410, 412, 414, 416, 417 - East Wing) | Ward 4B" },
+        { title: 'Surgery Unit 6 <span style="font-weight: normal;">(Dr. Deepak Ghuliani, Dr. Tirlok Chand, Dr. Viresh Kumar)</span>', days: "Sat (New OPD, Em) / Wed (Follow-up) / Tue (OT A,B) / Thu (OT C,D) / Fri (Uro OT)", location: "OPD Block 4th Floor (Rooms 431-435 - East Wing) | Ward 2B" }
       ]
     },
+
     {
       id: "peds_med",
-      name: "Pediatric Medicine Morning OPD (07:30 AM - 11:30 AM)",
+      name: "Pediatric Medicine Morning OPD (09:00 AM - 01:00 PM)",
       units: [
         { title: "Unit 1", days: "Mon / Thu", location: "OPD Block 5th Floor (Rooms 515-519)", ward: "" },
         { title: "Unit 2", days: "Mon / Thu", location: "OPD Block 5th Floor (Rooms 506, 511, 512, 513, 514)", ward: "" },
@@ -604,7 +635,7 @@
     },
     {
       id: "ent",
-      name: "ENT Morning OPD (07:30 AM - 11:30 AM)",
+      name: "ENT Morning OPD (09:00 AM - 01:00 PM)",
       units: [
         { title: "Unit 1", days: "Mon / Thu", location: "OPD Block 6th Floor (Rooms 609-617)", ward: "" },
         { title: "Unit 2", days: "Tue / Fri", location: "OPD Block 6th Floor (Rooms 609-617)", ward: "" },
@@ -613,17 +644,31 @@
     },
     {
       id: "ortho",
-      name: "Orthopedics Morning OPD (07:30 AM - 11:30 AM)",
+      name: "Orthopedics OPD, OT & Emergency Schedule",
       units: [
-        { title: "Unit 1", days: "Mon / Thu", location: "Ortho Block 1st Floor (Rooms 101-104, 111-113, 115)", ward: "" },
-        { title: "Unit 2", days: "Tue / Fri", location: "Ortho Block 1st Floor (Rooms 101-104, 111-113, 115)", ward: "" },
-        { title: "Unit 3", days: "Wed / Sat", location: "Ortho Block 1st Floor (Rooms 101-104, 111-113, 115)", ward: "" },
-        { title: "Fracture Clinic", days: "Mon to Sat (07:30 AM - 02:00 PM)", location: "Ortho Block 1st Floor (Room 105)", ward: "" }
+        { title: 'Orthopedics Unit 1 <span style="font-weight: normal;">(Dr. Vinod Kumar, Dr. Abhishek Kashyap, Dr. Kumar Keshav, Dr. Deepak Gupta, Dr. Manoj Kumar)</span>', days: "Tue & Fri (OPD / Em. Call) / Wed & Sat (Round) / Mon & Thu (OT)", location: "Ortho Block (Rooms 111, 112, 113, 115, 101, 102, 103, 104, Minor OT 107)" },
+        { title: 'Orthopedics Unit 2 <span style="font-weight: normal;">(Dr. Sumit Sural, Dr. Dhananjaya Sabat, Dr. Mayank Gupta, Dr. Vineet Bajaj, Dr. Anant Krishna)</span>', days: "Wed & Sat (OPD / Em. Call) / Mon & Thu (Round) / Tue & Fri (OT)", location: "Ortho Block (Rooms 111, 112, 113, 115, 101, 102, 103, 104, Minor OT 107)" },
+        { title: 'Orthopedics Unit 3 <span style="font-weight: normal;">(Dr. Lalit Maini, Dr. Sumit Arora, Dr. Vedpal Yadav, Dr. Pankaj Kumar, Dr. Devward Kaushik)</span>', days: "Mon & Thu (OPD / Em. Call) / Tue & Fri (Round) / Wed & Sat (OT)", location: "Ortho Block (Rooms 111, 112, 113, 115, 101, 102, 103, 104, Minor OT 107)" },
+        { title: "Fracture Clinic", days: "Mon to Sat (07:30 AM - 02:00 PM)", location: "Ortho Block 1st Floor (Room 105)" }
       ]
     },
+
+     {
+      id: "clinic_ortho",
+      name: "Orthopedics Afternoon Specialty Clinics (02:00 PM - 04:00 PM)",
+      units: [
+        { title: 'Sports Injury Clinic <span style="font-weight: normal;">(Dr. Vinod Kumar)</span>', days: "Tuesday", location: "New Ortho Block (Room 115)" },
+        { title: 'Spine Clinic <span style="font-weight: normal;">(Dr. Sumit Sural)</span>', days: "Wednesday", location: "New Ortho Block (Room 115)" },
+        { title: 'Adult Hip Clinic <span style="font-weight: normal;">(Dr. Lalit Maini)</span>', days: "Thursday", location: "New Ortho Block (Room 115)" },
+        { title: 'Club Foot Clinic <span style="font-weight: normal;">(Dr. Kumar Keshav)</span>', days: "Friday", location: "New Ortho Block (Room 115)" }
+      ]
+    },
+
+
+
     {
       id: "gynae",
-      name: "Gynecology & Antenatal Morning OPD (07:30 AM - 11:30 AM)",
+      name: "Gynecology & Antenatal Morning OPD (09:00 AM - 01:00 PM)",
       units: [
 { title: "Gynecology Unit 1", days: "Mon (Gynae) / Thu (ANC) / Wed & Sat (OT) / Fri (PP OT) / Tue (Round)", location: "OPD Block (Room 209-214)" },
 { title: "Gynecology Unit 2", days: "Tue (Gynae) / Fri (ANC) / Mon & Thu (OT) / Sat (PP OT) / Wed (Round)", location: "OPD Block (Room 209-214)" },
@@ -634,6 +679,39 @@
         { title: "Antenatal Clinic (ANC)", days: "Mon to Sat", location: "OPD Block 2nd Floor (Rooms 230-235)" }
       ]
     },
+      {
+      id: "derma",
+      name: "Dermatology & STD OPD (09:00 AM - 01:00 PM & Special Evening Clinics 01:00 PM - 02:00 PM)",
+      units: [
+        { title: 'Dermatology & STD Morning OPD <span style="font-weight: normal;">(Dr. K.D. Barman)</span>', days: "Mon to Sat (07:30 AM - 11:30 AM)", location: "OPD Block 7th Floor (Rooms 709, 710, 711, 712, 713, 714, 716, 717)" },
+        { title: 'Leprosy Clinic <span style="font-weight: normal;">(Dr. Laxmi P. Kumar)</span>', days: "Tuesday (01:00 PM - 02:00 PM)", location: "OPD Block 7th Floor (Room 711)" },
+        { title: 'Psoriasis Clinic <span style="font-weight: normal;">(Dr. Deepika Yadav)</span>', days: "Wednesday (01:00 PM - 02:00 PM)", location: "OPD Block 7th Floor (Room 711)" },
+        { title: 'Vitiligo Clinic <span style="font-weight: normal;">(Dr. Laxmi P. Kumar)</span>', days: "Wednesday (01:00 PM - 02:00 PM)", location: "OPD Block 7th Floor (Room 711)" },
+        { title: 'Contact Dermatitis Clinic <span style="font-weight: normal;">(Dr. K.D. Barman)</span>', days: "Friday (01:00 PM - 02:00 PM)", location: "OPD Block 7th Floor (Room 711)" },
+        { title: 'Connective Tissue Disease Clinic <span style="font-weight: normal;">(Dr. K.D. Barman)</span>', days: "Friday (01:00 PM - 02:00 PM)", location: "OPD Block 7th Floor (Room 711)" },
+        { title: 'Vesiculobullous Disease Clinic <span style="font-weight: normal;">(Dr. K.D. Barman)</span>', days: "Friday (01:00 PM - 02:00 PM)", location: "OPD Block 7th Floor (Room 711)" },
+        { title: 'Autoimmune & Phototherapy Clinic <span style="font-weight: normal;">(Dr. Tanvidev)</span>', days: "Friday (01:00 PM - 02:00 PM)", location: "OPD Block 7th Floor (Room 711)" }
+      ]
+    },
+    {
+      id: "burns",
+      name: "Burns & Plastic Surgery Morning OPD (09:00 AM - 01:00 PM)",
+      units: [
+        { title: 'Burns & Plastic Surgery (Unit 1) <span style="font-weight: normal;">(Dr. Prabhat Shrivastava)</span>', days: "Mon / Tue / Thu / Fri", location: "OPD Block 7th Floor (Rooms 733, 734, 735)" },
+        { title: 'Burns & Plastic Surgery (Unit 2) <span style="font-weight: normal;">(Dr. Varsha Gupta)</span>', days: "Wed / Sat", location: "OPD Block 7th Floor (Rooms 733, 734, 735)" }
+      ]
+    },
+    {
+      id: "clinic_other",
+      name: "Other Special Clinics (PAC, Pain, Rabies, Senior Citizen)",
+      units: [
+        { title: 'Pre-Anesthetic Check-up (PAC) Clinic <span style="font-weight: normal;">(Dr. Kirti Saxena)</span>', days: "Mon to Sat (07:30 AM - 11:30 AM)", location: "OPD Block 4th Floor (Rooms 444, 445, 447)" },
+        { title: 'Pain Clinic <span style="font-weight: normal;">(Pain OPD)</span>', days: "Mon to Sat (01:00 PM - 02:00 PM)", location: "OPD Block 1st Floor (Room 121)" },
+        { title: 'Anti-Rabies Clinic <span style="font-weight: normal;">(Dr. Anju)</span>', days: "Mon to Sat", location: "Emergency Block (Room 21)" },
+        { title: 'Senior Citizen Clinic', days: "Only Sunday (09:00 AM - 01:00 PM)", location: "OPD Block 1st Floor" }
+      ]
+    },
+
     {
       id: "clinic_med",
       name: "Medicine Evening Special Clinics (01:00 PM - 02:00 PM)",
@@ -704,7 +782,7 @@
 
     // WINDOW 2E - BIOCHEMISTRY
     { test: "LFT (Liver Function Test)", tube: "Red (Serum)", window: "Window 2E (Biochemistry)", days: "Daily (Routine)", report: "Online Portal / Window 2E", notes: "Includes T. Bil, D. Bil, ALT, AST, ALKP, Total Protein, Albumin." },
-    { test: "KFT (Kidney Function Test), Urea, Creatinine, Uric Acid", tube: "Red (Serum)", window: "Window 2E (Biochemistry)", days: "Daily (Routine)", report: "Online Portal / Window 2E", notes: "Includes Urea, Creatinine, Uric Acid, LDH." },
+    { test: "KFT (Kidney Function Test), Urea, Creatinine, Uric Acid, LDH", tube: "Red (Serum)", window: "Window 2E (Biochemistry)", days: "Daily (Routine)", report: "Online Portal / Window 2E", notes: "Includes Urea, Creatinine, Uric Acid, LDH." },
     { test: "Serum Electrolytes (Sodium, Potassium, Chloride, Magnesium, Calcium)", tube: "Red (Serum)", window: "Window 2E (Biochemistry)", days: "Daily (Routine)", report: "Online Portal / Window 2E", notes: "Check for hemolysis before sending." },
     { test: "TFT (Thyroid Profile), LH, FSH, Prolactin, AMH, Testosterone, Estradiol", tube: "Red (Serum)", window: "Window 2E (Biochemistry)", days: "Not done on Saturday", report: "Online Portal / Window 2E", notes: "Immuno assay section." },
     { test: "Iron Profile (Ferritin, Iron, TIBC, Vitamin B12, Folic Acid)", tube: "Red (Serum)", window: "Window 2E (Biochemistry)", days: "Not done on Saturday", report: "Online Portal / Window 2E", notes: "Fasting sample preferred." },

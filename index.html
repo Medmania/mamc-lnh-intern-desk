@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -157,13 +157,13 @@
         <optgroup label="Main OPD Departments">
           <option value="medicine">Medicine OPD</option>
           <option value="surgery">Surgery OPD</option>
+          <option value="gynae">Gynecology & ANC OPD</option>
           <option value="ophtha">Ophthalmology (GNEC) OPD</option>
+          <option value="ent">ENT OPD</option>
+          <option value="ortho">Orthopedics OPD</option>      
+          <option value="derma">Dermatology & STD OPD</option>
           <option value="peds_med">Pediatric Medicine OPD</option>
           <option value="peds_surg">Pediatric Surgery OPD</option>
-          <option value="ent">ENT OPD</option>
-          <option value="ortho">Orthopedics OPD</option>
-          <option value="gynae">Gynecology & ANC OPD</option>
-          <option value="derma">Dermatology & STD OPD</option>
           <option value="burns">Burns & Plastic Surgery OPD</option>
         </optgroup>
         <optgroup label="Special Evening Clinics">
@@ -173,6 +173,8 @@
           <option value="clinic_ortho">Ortho Special Clinics </option>
           <option value="clinic_gynae">Gynae Special Clinics </option>
           <option value="clinic_ophtha">Ophthalmology Special Clinics</option>
+          <option value="clinic_ent">ENT Special Clinics</option>
+          <option value="neurosurgery">Neurosurgery OPD</option>
           <option value="clinic_other">Other Clinics (PAC, Pain, Rabies, Senior Citizen)</option>
         </optgroup>
       </select>
@@ -571,12 +573,12 @@
       id: "medicine",
       name: "Medicine Morning OPD (09:00 AM - 01:00 PM)",
       units: [
-        { title: 'Unit 1 <span style="font-weight: normal;">(Dr. Anurag Rohatgi)</span>', days: "Mon / Thu", location: "OPD Block 3rd Floor (Rooms 310-315) | ward 31" },
-        { title: 'Unit 2 <span style="font-weight: normal;">(Dr. S Anuradha)</span>', days: "Tue / Fri", location: "OPD Block 3rd Floor (Rooms 310-315) | ward 29" },
-        { title: 'Unit 3 <span style="font-weight: normal;">(Dr. Sunita Agarwal)</span>', days: "Wed / Sat", location: "OPD Block 2nd Floor (Rooms 316-325) | ward 32" },
-        { title: 'Unit 4 <span style="font-weight: normal;">(Dr. Sandeep Garg)</span>', days: "Mon / Thu", location: "OPD Block 2nd Floor (Rooms 316-325) | ward 28" },
-        { title: 'Unit 5 <span style="font-weight: normal;">(Dr. Sanjay Pandit)</span>', days: "Tue / Fri", location: "OPD Block 2nd Floor (Rooms 316-325) | ward 30" },
-        { title: 'Unit 6 <span style="font-weight: normal;">(Dr. Sumeet Singla)</span>', days: "Wed / Sat", location: "OPD Block 3rd Floor (Rooms 310-315) | ward 27" },
+        { title: 'Unit 1 <span style="font-weight: normal;">(Dr. Anurag Rohatgi)</span>', days: "Mon / Thu", location: "OPD Block 3rd Floor (Rooms 310-315) | <strong>Ward 31</strong>" },
+        { title: 'Unit 2 <span style="font-weight: normal;">(Dr. S Anuradha)</span>', days: "Tue / Fri", location: "OPD Block 3rd Floor (Rooms 310-315) | <strong>Ward 29</strong>" },
+        { title: 'Unit 3 <span style="font-weight: normal;">(Dr. Sunita Agarwal)</span>', days: "Wed / Sat", location: "OPD Block 2nd Floor (Rooms 316-325) | <strong>Ward 32</strong>" },
+        { title: 'Unit 4 <span style="font-weight: normal;">(Dr. Sandeep Garg)</span>', days: "Mon / Thu", location: "OPD Block 2nd Floor (Rooms 316-325) | <strong>Ward 28</strong>" },
+        { title: 'Unit 5 <span style="font-weight: normal;">(Dr. Sanjay Pandit)</span>', days: "Tue / Fri", location: "OPD Block 2nd Floor (Rooms 316-325) | <strong>Ward 30</strong>" },
+        { title: 'Unit 6 <span style="font-weight: normal;">(Dr. Sumeet Singla)</span>', days: "Wed / Sat", location: "OPD Block 3rd Floor (Rooms 310-315) | <strong>Ward 27</strong>" },
         
       ]
     },
@@ -633,6 +635,29 @@
         { title: "Unit 6", days: "Wed / Sat", location: "OPD Block 5th Floor (Rooms 515-519)", ward: "" }
       ]
     },
+      {
+      id: "peds_surg",
+      name: "Pediatric Surgery Morning OPD (09:00 AM - 01:00 PM)",
+      units: [
+        { title: 'Pediatric Surgery Unit 1 <span style="font-weight: normal;">(Dr. S.K. Ratan / Dr. Sujoy Neogi)</span>', days: "Monday", location: "OPD Block 5th Floor (Rooms 533, 534)" },
+        { title: 'Pediatric Surgery Unit 2 <span style="font-weight: normal;">(Dr. S.M.K. Ratan)</span>', days: "Tuesday & Saturday", location: "OPD Block 5th Floor (Rooms 533, 534)" },
+        { title: 'Pediatric Surgery Unit 3 <span style="font-weight: normal;">(Dr. S.K. Ratan / Dr. Prafull Kumar)</span>', days: "Wednesday", location: "OPD Block 5th Floor (Rooms 533, 534)" },
+        { title: 'Pediatric Surgery Unit 4 <span style="font-weight: normal;">(Dr. S.K. Ratan / Dr. Chiranjiv Kumar)</span>', days: "Thursday", location: "OPD Block 5th Floor (Rooms 533, 534)" },
+        { title: 'Pediatric Surgery Unit 5 <span style="font-weight: normal;">(Dr. S.K. Ratan / Dr. Gaurav Saxena)</span>', days: "Friday", location: "OPD Block 5th Floor (Rooms 533, 534)" }
+      ]
+    },
+    {
+      id: "clinic_peds",
+      name: "Pediatric Special Evening Clinics (02:00 PM - 04:00 PM)",
+      units: [
+        { title: 'Peds Oncology Clinic <span style="font-weight: normal;">(Dr. Sujoy Neogi)</span>', days: "Monday", location: "OPD Block 5th Floor (Room 535)" },
+        { title: 'Peds Urology & Antenatal Clinic & DIS <span style="font-weight: normal;">(Dr. S.K. Ratan)</span>', days: "Tuesday", location: "OPD Block 5th Floor (Room 535)" },
+        { title: 'GI & Hepatobiliary Clinic <span style="font-weight: normal;">(Dr. Gaurav Saxena)</span>', days: "Friday", location: "OPD Block 5th Floor (Room 535)" },
+        { title: 'Peds Laparoscopy / Endoscopy Clinic <span style="font-weight: normal;">(Dr. Prafull Kumar)</span>', days: "Wednesday", location: "OPD Block 5th Floor (Room 535)" },
+        { title: 'D. Neurosurgery & Lymphatic Vascular Clinic <span style="font-weight: normal;">(Dr. Chiranjiv Kumar)</span>', days: "Thursday", location: "OPD Block 5th Floor (Room 535)" }
+      ]
+    },
+
     {
       id: "ent",
       name: "ENT Morning OPD (09:00 AM - 01:00 PM)",
@@ -642,6 +667,16 @@
         { title: "Unit 3", days: "Wed / Sat", location: "OPD Block 6th Floor (Rooms 609-617)", ward: "" }
       ]
     },
+      {
+      id: "clinic_ent",
+      name: "ENT Evening Special Clinics (02:00 PM - 04:00 PM)",
+      units: [
+        { title: 'Rhinology Clinic <span style="font-weight: normal;">(Dr. H.C. Taneja)</span>', days: "Wednesday", location: "OPD Block 6th Floor (Room 609)" },
+        { title: 'Vertigo and Audiology Clinic <span style="font-weight: normal;">(Dr. P.K. Rathore)</span>', days: "Friday", location: "OPD Block 6th Floor (Room 609)" },
+        { title: 'Voice and Laryngology Clinic <span style="font-weight: normal;">(Dr. Ravi Mehar)</span>', days: "Monday", location: "OPD Block 6th Floor (Room 609)" }
+      ]
+    },
+
     {
       id: "ortho",
       name: "Orthopedics OPD, OT & Emergency Schedule",
@@ -680,17 +715,30 @@
       ]
     },
       {
-      id: "derma",
-      name: "Dermatology & STD OPD (09:00 AM - 01:00 PM & Special Evening Clinics 01:00 PM - 02:00 PM)",
+      id: "clinic_gynae",
+      name: "Gynecology Special Evening Clinics (02:00 PM - 04:00 PM)",
       units: [
-        { title: 'Dermatology & STD Morning OPD <span style="font-weight: normal;">(Dr. K.D. Barman)</span>', days: "Mon to Sat (07:30 AM - 11:30 AM)", location: "OPD Block 7th Floor (Rooms 709, 710, 711, 712, 713, 714, 716, 717)" },
-        { title: 'Leprosy Clinic <span style="font-weight: normal;">(Dr. Laxmi P. Kumar)</span>', days: "Tuesday (01:00 PM - 02:00 PM)", location: "OPD Block 7th Floor (Room 711)" },
-        { title: 'Psoriasis Clinic <span style="font-weight: normal;">(Dr. Deepika Yadav)</span>', days: "Wednesday (01:00 PM - 02:00 PM)", location: "OPD Block 7th Floor (Room 711)" },
-        { title: 'Vitiligo Clinic <span style="font-weight: normal;">(Dr. Laxmi P. Kumar)</span>', days: "Wednesday (01:00 PM - 02:00 PM)", location: "OPD Block 7th Floor (Room 711)" },
-        { title: 'Contact Dermatitis Clinic <span style="font-weight: normal;">(Dr. K.D. Barman)</span>', days: "Friday (01:00 PM - 02:00 PM)", location: "OPD Block 7th Floor (Room 711)" },
-        { title: 'Connective Tissue Disease Clinic <span style="font-weight: normal;">(Dr. K.D. Barman)</span>', days: "Friday (01:00 PM - 02:00 PM)", location: "OPD Block 7th Floor (Room 711)" },
-        { title: 'Vesiculobullous Disease Clinic <span style="font-weight: normal;">(Dr. K.D. Barman)</span>', days: "Friday (01:00 PM - 02:00 PM)", location: "OPD Block 7th Floor (Room 711)" },
-        { title: 'Autoimmune & Phototherapy Clinic <span style="font-weight: normal;">(Dr. Tanvidev)</span>', days: "Friday (01:00 PM - 02:00 PM)", location: "OPD Block 7th Floor (Room 711)" }
+        { title: 'Fertility & ART Clinic <span style="font-weight: normal;">(Dr. Deepti Goswami, Dr. Madhavi M. Gupta)</span>', days: "Monday", location: "OPD Block 2nd Floor (Room 234)" },
+        { title: 'Gynae Endocrine Clinic <span style="font-weight: normal;">(Dr. Deepti Goswami, Dr. Madhavi M. Gupta)</span>', days: "Thursday", location: "OPD Block 2nd Floor (Room 234)" },
+        { title: 'High-Risk Pregnancy Clinic <span style="font-weight: normal;">(Dr. Krishna Agarwal, Dr. Y.M. Mala)</span>', days: "Thursday", location: "OPD Block 2nd Floor (Room 235)" },
+        { title: 'Fetal Medicine Clinic <span style="font-weight: normal;">(Dr. Krishna Agarwal, Dr. Sangeeta Gupta)</span>', days: "Thursday", location: "OPD Block 2nd Floor (Room 234)" },
+        { title: 'Gynecology Cancer Clinic <span style="font-weight: normal;">(Dr. Y.M. Mala, Dr. Latika Sahu)</span>', days: "Friday", location: "OPD Block 2nd Floor (Room 234)" },
+        { title: 'Postnatal Clinic <span style="font-weight: normal;">(Dr. Rachna Sharma)</span>', days: "Tuesday", location: "OPD Block 1st Floor (Room 130)" }
+      ]
+    },
+
+      {
+      id: "derma",
+      name: "Dermatology & STD OPD (09:00 AM - 01:00 PM & Special Evening Clinics 02:00 PM - 04:00 PM)",
+      units: [
+        { title: 'Dermatology & STD Morning OPD <span style="font-weight: normal;">(Dr. K.D. Barman)</span>', days: "Mon to Sat (09:00 AM - 01:00 PM)", location: "OPD Block 7th Floor (Rooms 709, 710, 711, 712, 713, 714, 716, 717)" },
+        { title: 'Leprosy Clinic <span style="font-weight: normal;">(Dr. Laxmi P. Kumar)</span>', days: "Tuesday (02:00 PM - 04:00 PM)", location: "OPD Block 7th Floor (Room 711)" },
+        { title: 'Psoriasis Clinic <span style="font-weight: normal;">(Dr. Deepika Yadav)</span>', days: "Wednesday (02:00 PM - 04:00 PM)", location: "OPD Block 7th Floor (Room 711)" },
+        { title: 'Vitiligo Clinic <span style="font-weight: normal;">(Dr. Laxmi P. Kumar)</span>', days: "Wednesday (02:00 PM - 04:00 PM)", location: "OPD Block 7th Floor (Room 711)" },
+        { title: 'Contact Dermatitis Clinic <span style="font-weight: normal;">(Dr. K.D. Barman)</span>', days: "Friday (02:00 PM - 04:00 PM)", location: "OPD Block 7th Floor (Room 711)" },
+        { title: 'Connective Tissue Disease Clinic <span style="font-weight: normal;">(Dr. K.D. Barman)</span>', days: "Friday (02:00 PM - 04:00 PM)", location: "OPD Block 7th Floor (Room 711)" },
+        { title: 'Vesiculobullous Disease Clinic <span style="font-weight: normal;">(Dr. K.D. Barman)</span>', days: "Friday (02:00 PM - 04:00 PM)", location: "OPD Block 7th Floor (Room 711)" },
+        { title: 'Autoimmune & Phototherapy Clinic <span style="font-weight: normal;">(Dr. Tanvidev)</span>', days: "Friday (02:00 PM - 04:00 PM)", location: "OPD Block 7th Floor (Room 711)" }
       ]
     },
     {
@@ -706,7 +754,7 @@
       name: "Other Special Clinics (PAC, Pain, Rabies, Senior Citizen)",
       units: [
         { title: 'Pre-Anesthetic Check-up (PAC) Clinic <span style="font-weight: normal;">(Dr. Kirti Saxena)</span>', days: "Mon to Sat (07:30 AM - 11:30 AM)", location: "OPD Block 4th Floor (Rooms 444, 445, 447)" },
-        { title: 'Pain Clinic <span style="font-weight: normal;">(Pain OPD)</span>', days: "Mon to Sat (01:00 PM - 02:00 PM)", location: "OPD Block 1st Floor (Room 121)" },
+        { title: 'Pain Clinic <span style="font-weight: normal;">(Pain OPD)</span>', days: "Mon to Sat (02:00 PM - 04:00 PM)", location: "OPD Block 1st Floor (Room 121)" },
         { title: 'Anti-Rabies Clinic <span style="font-weight: normal;">(Dr. Anju)</span>', days: "Mon to Sat", location: "Emergency Block (Room 21)" },
         { title: 'Senior Citizen Clinic', days: "Only Sunday (09:00 AM - 01:00 PM)", location: "OPD Block 1st Floor" }
       ]
@@ -714,7 +762,7 @@
 
     {
       id: "clinic_med",
-      name: "Medicine Evening Special Clinics (01:00 PM - 02:00 PM)",
+      name: "Medicine Evening Special Clinics (02:00 PM - 04:00 PM)",
       units: [
         { title: "Diabetes Clinic", days: "Monday", location: "OPD Block 3rd Floor (Rooms 316-325)", ward: "" },
         { title: "Pulmonary Clinic", days: "Mon / Tue / Thu", location: "OPD Block 3rd Floor (310-313, 315)", ward: "" },
@@ -725,9 +773,18 @@
       { title: "Hepatology Clinic", days: "Mon to Sat", location: "New Medicine Block (Room 443)", ward: "" }
       ]
     },
+      {
+      id: "neurosurgery",
+      name: "Neurosurgery Clinic (09:00 AM - 01:00 PM & Friday Evening 02:00 PM - 04:00 PM)",
+      units: [
+        { title: 'Neurosurgery Clinic <span style="font-weight: normal;">(Dr. Chander Shekhar)</span>', days: "Mon / Thu (09:00 AM - 01:00 PM)", location: "OPD Block 4th Floor (Rooms 418, 419)" },
+        { title: 'Spine and Peds Neurosurgery <span style="font-weight: normal;">(Dr. Chander Shekhar)</span>', days: "Friday (02:00 PM - 04:00 PM)", location: "OPD Block 4th Floor (Rooms 418, 419)" }
+      ]
+    },
+
     {
       id: "clinic_surg",
-      name: "Surgery Evening Special Clinics (01:00 PM - 02:00 PM)",
+      name: "Surgery Evening Special Clinics (02:00 PM - 04:00 PM)",
       units: [
         { title: "Male Infertility & Vascular", days: "1st & 3rd Thursday", location: "OPD Block 4th Floor (Room 417)", ward: "" },
         { title: "Metabolic / Bariatric Clinic", days: "2nd & 4th Thursday", location: "OPD Block 4th Floor (Room 410)", ward: "" },
@@ -1064,8 +1121,8 @@
 
   <!-- FOOTER CREDIT -->
   <footer style="text-align: center; margin-top: 30px; padding: 16px; border-top: 1px solid var(--border); color: #64748b; font-size: 13px;">
-    <p style="margin: 0;">Designed & Maintained by <strong>Dr. Ankit Raj</strong></p>
-    <p style="margin: 4px 0 0 0; font-size: 12px;">Batch-2021</p>
+    
+    <p style="margin: 4px 0 0 0; font-size: 16px;"><strong>Batch-2021</strong></strong></p>
   </footer>
 
 </body>

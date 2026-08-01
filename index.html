@@ -148,11 +148,20 @@
     <div id="labResults" class="results"></div>
   </div>
 
-    <!-- TAB 3: DEPARTMENT SCHEDULE & WARDS -->
+    <!-- TAB 3: DEPARTMENT SCHEDULE & WARDS (SEARCH + DROPDOWN) -->
   <div id="schedule-tab" class="card hidden">
+    <!-- 1. Live Keyword Search Box -->
+    <div class="input-group">
+      <label for="scheduleSearch">🔍 Search Facility, Clinic, Room or Day:</label>
+      <input type="text" id="scheduleSearch" placeholder="Type e.g., Diabetes, Room 310, Monday, Unit 1..." oninput="onScheduleSearchInput()">
+    </div>
+
+    <div style="text-align: center; color: #94a3b8; font-size: 12px; margin: -6px 0 10px 0;">— OR SELECT CATEGORY —</div>
+
+    <!-- 2. Department Dropdown Select -->
     <div class="input-group">
       <label for="deptScheduleSelect">Select Department or Special Clinic:</label>
-      <select id="deptScheduleSelect" onchange="searchDeptSchedule()">
+      <select id="deptScheduleSelect" onchange="onScheduleSelectChange()">
         <option value="">-- Choose Category --</option>
         <optgroup label="Main OPD Departments">
           <option value="medicine">Medicine</option>
@@ -167,11 +176,11 @@
           <option value="burns">Burns & Plastic Surgery</option>
         </optgroup>
         <optgroup label="Special Evening Clinics">
-          <option value="clinic_med">Medicine Special Clinics </option>
-          <option value="clinic_surg">Surgery Special Clinics </option>
-          <option value="clinic_peds">Pediatric Special Clinics </option>
-          <option value="clinic_ortho">Ortho Special Clinics </option>
-          <option value="clinic_gynae">Gynae Special Clinics </option>
+          <option value="clinic_med">Medicine Special Clinics</option>
+          <option value="clinic_surg">Surgery Special Clinics</option>
+          <option value="clinic_peds">Pediatric Special Clinics</option>
+          <option value="clinic_ortho">Ortho Special Clinics</option>
+          <option value="clinic_gynae">Gynae Special Clinics</option>
           <option value="clinic_ophtha">Ophthalmology Special Clinics</option>
           <option value="clinic_ent">ENT Special Clinics</option>
           <option value="neurosurgery">Neurosurgery OPD</option>
@@ -179,8 +188,10 @@
         </optgroup>
       </select>
     </div>
+
     <div id="scheduleResults" class="results"></div>
   </div>
+
 
 
 
@@ -1165,7 +1176,7 @@ const Block4D = {
         { title: 'Orthopedics Unit 1 <span style="font-weight: normal;">(Dr. Vinod Kumar, Dr. Abhishek Kashyap, Dr. Kumar Keshav, Dr. Deepak Gupta, Dr. Manoj Kumar)</span>', days: "Tue & Fri (OPD / Em. Call) / Wed & Sat (Round) / Mon & Thu (OT)", location: "Ortho Block (Rooms 111, 112, 113, 115, 101, 102, 103, 104, Minor OT 107)" },
         { title: 'Orthopedics Unit 2 <span style="font-weight: normal;">(Dr. Sumit Sural, Dr. Dhananjaya Sabat, Dr. Mayank Gupta, Dr. Vineet Bajaj, Dr. Anant Krishna)</span>', days: "Wed & Sat (OPD / Em. Call) / Mon & Thu (Round) / Tue & Fri (OT)", location: "Ortho Block (Rooms 111, 112, 113, 115, 101, 102, 103, 104, Minor OT 107)" },
         { title: 'Orthopedics Unit 3 <span style="font-weight: normal;">(Dr. Lalit Maini, Dr. Sumit Arora, Dr. Vedpal Yadav, Dr. Pankaj Kumar, Dr. Devward Kaushik)</span>', days: "Mon & Thu (OPD / Em. Call) / Tue & Fri (Round) / Wed & Sat (OT)", location: "Ortho Block (Rooms 111, 112, 113, 115, 101, 102, 103, 104, Minor OT 107)" },
-        { title: "Fracture Clinic", days: "Mon to Sat (07:30 AM - 02:00 PM)", location: "Ortho Block 1st Floor (Room 105)" }
+        { title: "Fracture Clinic", days: "Mon to Sat (09:00 AM - 02:00 PM)", location: "Ortho Block 1st Floor (Room 105)" }
       ]
     },
 
@@ -1263,7 +1274,7 @@ const Block4D = {
       id: "clinic_other",
       name: "Other Special Clinics (PAC, Pain, Rabies, Senior Citizen)",
       units: [
-        { title: 'Pre-Anesthetic Check-up (PAC) Clinic <span style="font-weight: normal;">(Dr. Kirti Saxena)</span>', days: "Mon to Sat (09:00 AM - 12:00 PM)", location: "OPD Block 4th Floor" },
+        { title: 'Pre-Anesthetic Check-up (PAC) Clinic <span style="font-weight: normal;">(Dr. Kirti Saxena)</span>', days: "Mon to Sat (09:00 AM - 12:00 PM)", location: "OPD Block 1st Floor" },
         { title: 'Pain Clinic <span style="font-weight: normal;">(Pain OPD)</span>', days: "Mon to Sat (02:00 PM - 04:00 PM)", location: "OPD Block 1st Floor (Room 121)" },
         { title: 'Anti-Rabies Clinic <span style="font-weight: normal;">(Dr. Anju)</span>', days: "Mon to Sat", location: "Emergency Block (Room 21)" },
         { title: 'Senior Citizen Clinic', days: "Only Sunday (09:00 AM - 01:00 PM)", location: "OPD Block 1st Floor" }
@@ -1305,42 +1316,123 @@ const Block4D = {
       ]
     }
   ];
-  function searchDeptSchedule() {
+    // Triggered when user types in the Search Input
+  function onScheduleSearchInput() {
+    const query = document.getElementById('scheduleSearch').value.toLowerCase().trim();
+    if (query) {
+      document.getElementById('deptScheduleSelect').value = "";
+    }
+    renderScheduleResults();
+  }
+
+  // Triggered when user picks an option from the Dropdown
+  function onScheduleSelectChange() {
+    const selectVal = document.getElementById('deptScheduleSelect').value;
+    if (selectVal) {
+      document.getElementById('scheduleSearch').value = "";
+    }
+    renderScheduleResults();
+  }
+
+  // Unified Rendering Logic for Both Search & Dropdown Selection
+  function renderScheduleResults() {
+    const query = document.getElementById('scheduleSearch').value.toLowerCase().trim();
     const categoryId = document.getElementById('deptScheduleSelect').value;
     const resDiv = document.getElementById('scheduleResults');
-    if (!categoryId) { resDiv.innerHTML = ''; return; }
 
-    const category = deptSchedules.find(c => c.id === categoryId);
-    if (!category) {
-      resDiv.innerHTML = '<p>Details for this category will be updated soon.</p>';
+    if (!resDiv) return;
+
+    // CASE 1: Searching via Keyword Input
+    if (query) {
+      const matches = [];
+      deptSchedules.forEach(category => {
+        category.units.forEach(unit => {
+          if (
+            unit.title.toLowerCase().includes(query) ||
+            unit.days.toLowerCase().includes(query) ||
+            unit.location.toLowerCase().includes(query) ||
+            category.name.toLowerCase().includes(query)
+          ) {
+            matches.push({
+              deptCategory: category.name,
+              title: unit.title,
+              days: unit.days,
+              location: unit.location
+            });
+          }
+        });
+      });
+
+      if (matches.length === 0) {
+        resDiv.innerHTML = '<p style="padding: 12px; color: #64748b;">No matching facility, room, or clinic found.</p>';
+        return;
+      }
+
+      resDiv.innerHTML = `
+        <p style="color: #64748b; font-size: 13px; margin-bottom: 10px;">Found <strong>${matches.length}</strong> matching entries:</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Unit / Specialty</th>
+              <th>OPD / Duty Days</th>
+              <th>Location (Room No.)</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${matches.map(m => `
+              <tr>
+                <td><b>${m.title}</b><br><span style="font-size: 11.5px; color: #64748b;">${m.deptCategory}</span></td>
+                <td><span class="badge" style="background: #e0f2fe; color: #0369a1;">${m.days}</span></td>
+                <td>${m.location}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      `;
       return;
     }
 
-    let html = `<h3 style="color: var(--primary); margin-bottom: 12px;">${category.name}</h3>`;
-    
-    html += `
-      <table>
-        <thead>
-          <tr>
-            <th>Unit / Special Clinic</th>
-            <th>OPD Days</th>
-            <th>Location (Room No.)</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${category.units.map(u => `
-            <tr>
-              <td><b>${u.title}</b></td>
-              <td><span class="badge" style="background: #e0f2fe; color: #0369a1;">${u.days}</span></td>
-              <td>${u.location}</td>
-            </tr>
-          `).join('')}
-        </tbody>
-      </table>
-    `;
+    // CASE 2: Selected via Dropdown Category
+    if (categoryId) {
+      const category = deptSchedules.find(c => c.id === categoryId);
+      if (!category) {
+        resDiv.innerHTML = '<p>Details for this category will be updated soon.</p>';
+        return;
+      }
 
-    resDiv.innerHTML = html;
+      resDiv.innerHTML = `
+        <h3 style="color: var(--primary); margin-bottom: 12px;">${category.name}</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Unit / Special Clinic</th>
+              <th>OPD Days</th>
+              <th>Location (Room No.)</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${category.units.map(u => `
+              <tr>
+                <td><b>${u.title}</b></td>
+                <td><span class="badge" style="background: #e0f2fe; color: #0369a1;">${u.days}</span></td>
+                <td>${u.location}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      `;
+      return;
+    }
+
+    // CASE 3: Neither input is active
+    resDiv.innerHTML = '';
   }
+
+  // Alias for tab switching compatibility
+  function searchDeptSchedule() {
+    renderScheduleResults();
+  }
+
   // --- LOK NAYAK HOSPITAL LAB TESTS & VIAL DIRECTORY DATABASE ---
   const labDirectory = [
     // WINDOW 1 - PATHOLOGY

@@ -1676,32 +1676,81 @@ const deptSchedules = [
     }
   }
 
+// --- UNIVERSAL DEPARTMENT UNIT ALLOCATION REGISTRY ---
+  // Define how different departments distribute students across units
+  const departmentUnitRules = {
+    // 6-Unit Cyclic Allocation (MED, Surgery, ObsGynae)
+    'MED':      { type: 'cyclic', totalUnits: 6 },
+    'Surgery':  { type: 'cyclic', totalUnits: 6 },
+    'ObsGynae': { type: 'cyclic', totalUnits: 6 },
 
+    // Example Future Patterns (Uncomment or add when needed):
+    // 'ENT':     { type: 'cyclic', totalUnits: 3 },
+    // 'Ortho':   { type: 'cyclic', totalUnits: 3 },
+    // 'Caslty':  { type: 'chunk',  perUnit: 5 },    // Splits into teams of 5
+  };
 
+  // Helper Function: Calculates Unit Number for ANY Student & Department
+  function getUnitForStudent(dept, studentSno, weekNum) {
+    const rule = departmentUnitRules[dept];
+    if (!rule) return null; // Department doesn't have units or hasn't been configured yet
 
+    // 1. Find all subdivisions posted in this department during the given week
+    const activeSubdivisions = [];
+    const groups = ['A', 'B', 'C', 'D'];
+    groups.forEach(g => {
+      for (let i = 1; i <= 12; i++) {
+        const sub = g + i;
+        if (getPostingForSubdivision(sub, weekNum) === dept) {
+          activeSubdivisions.push(sub);
+        }
+      }
+    });
+
+    // 2. Sort active interns sequentially by S.No
+    const deptInterns = interns
+      .filter(x => activeSubdivisions.includes(x.batch))
+      .sort((a, b) => a.sno - b.sno);
+
+    // 3. Find student's relative position index
+    const index = deptInterns.findIndex(x => x.sno === studentSno);
+    if (index === -1) return null;
+
+    // 4. Calculate Unit based on registered rule pattern
+    if (rule.type === 'cyclic') {
+      return (index % rule.totalUnits) + 1;
+    } else if (rule.type === 'chunk') {
+      return Math.floor(index / rule.perUnit) + 1;
+    }
+
+    return null;
+  }
   function searchStudent() {
     const query = document.getElementById('studentSearch').value.toLowerCase().trim();
     const resDiv = document.getElementById('studentResults');
     if (!query) { resDiv.innerHTML = ''; return; }
 
-      const matches = interns.filter(i => 
+    const matches = interns.filter(i => 
       i.name.toLowerCase().includes(query) || 
       i.roll.includes(query) || 
       i.batch.toLowerCase() === query ||
       i.sno.toString() === query
     );
 
-
     if (matches.length === 0) {
-      resDiv.innerHTML = '<p>No interns found matching your search.</p>';
+      resDiv.innerHTML = '<p style="padding: 12px; color: #64748b;">No interns found matching your search.</p>';
       return;
     }
 
     const weekInfo = getSelectedWeek();
-
     let html = '';
+
     matches.forEach(student => {
       const activePosting = getPostingForSubdivision(student.batch, weekInfo.wk);
+      
+      // Automatically fetches unit for ANY configured department
+      const unitNum = getUnitForStudent(activePosting, student.sno, weekInfo.wk);
+      const postingDisplay = unitNum ? `${activePosting} (Unit ${unitNum})` : activePosting;
 
       html += `
         <div style="border-bottom: 1px solid var(--border); padding: 12px 0;">
@@ -1710,7 +1759,7 @@ const deptSchedules = [
           
           <div class="info-banner">
             📍 <strong>Posting on Selected Date (${weekInfo.start} to ${weekInfo.end}):</strong><br>
-            <span style="font-size: 16px; color: var(--primary); font-weight: bold;">${activePosting}</span> 
+            <span style="font-size: 16px; color: var(--primary); font-weight: bold;">${postingDisplay}</span> 
             <span style="font-size: 13px; color: #64748b;">(Week ${weekInfo.wk} • ${weekInfo.block})</span>
           </div>
 
@@ -1743,7 +1792,6 @@ const deptSchedules = [
 
     resDiv.innerHTML = html;
   }
-
 function searchDepartment() {
     const deptSelect = document.getElementById('deptSelect');
     if (!deptSelect) return;
@@ -1757,10 +1805,9 @@ function searchDepartment() {
 
     const weekInfo = getSelectedWeek();
 
-    // Scan all 48 subdivisions (A1-D12) for matching active posting in selected week
+    // Scan subdivisions
     const activeSubdivisions = [];
     const groups = ['A', 'B', 'C', 'D'];
-    
     groups.forEach(g => {
       for (let i = 1; i <= 12; i++) {
         const sub = g + i;
@@ -1770,13 +1817,11 @@ function searchDepartment() {
       }
     });
 
-    // Filter active interns and sort sequentially by S.No
     const activeInterns = interns
       .filter(i => activeSubdivisions.includes(i.batch))
       .sort((a, b) => a.sno - b.sno);
 
-    // Departments that follow 6-unit cyclic allocation
-    const is6UnitDept = ['MED', 'Surgery', 'ObsGynae'].includes(dept);
+    const hasUnitRule = !!departmentUnitRules[dept];
 
     let html = `
       <div class="info-banner">
@@ -1796,20 +1841,19 @@ function searchDepartment() {
               <th>Roll No</th>
               <th>Name</th>
               <th>Subdivision</th>
-              ${is6UnitDept ? '<th>Unit</th>' : ''}
+              ${hasUnitRule ? '<th>Unit</th>' : ''}
             </tr>
           </thead>
           <tbody>
-            ${activeInterns.map((i, index) => {
-              // Position-based cyclic unit allocation (1 to 6)
-              const unitNum = is6UnitDept ? (index % 6) + 1 : '';
+            ${activeInterns.map(i => {
+              const unitNum = getUnitForStudent(dept, i.sno, weekInfo.wk);
               return `
                 <tr>
                   <td>${i.sno}</td>
                   <td>${i.roll}</td>
                   <td><b>${i.name}</b></td>
                   <td><span class="badge">${i.batch}</span></td>
-                  ${is6UnitDept ? `<td><span class="badge" style="background: #fef3c7; color: #92400e;">Unit ${unitNum}</span></td>` : ''}
+                  ${hasUnitRule ? `<td><span class="badge" style="background: #fef3c7; color: #92400e;">Unit ${unitNum}</span></td>` : ''}
                 </tr>
               `;
             }).join('')}

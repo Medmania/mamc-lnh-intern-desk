@@ -1744,14 +1744,20 @@ const deptSchedules = [
     resDiv.innerHTML = html;
   }
 
-  function searchDepartment() {
-    const dept = document.getElementById('deptSelect').value;
+function searchDepartment() {
+    const deptSelect = document.getElementById('deptSelect');
+    if (!deptSelect) return;
+    
+    const dept = deptSelect.value;
     const resDiv = document.getElementById('deptResults');
-    if (!dept) { resDiv.innerHTML = ''; return; }
+    if (!dept || !resDiv) { 
+      if (resDiv) resDiv.innerHTML = ''; 
+      return; 
+    }
 
     const weekInfo = getSelectedWeek();
 
-    // Scan all 48 subdivisions (A1-D12) for matching active posting in the selected week
+    // Scan all 48 subdivisions (A1-D12) for matching active posting in selected week
     const activeSubdivisions = [];
     const groups = ['A', 'B', 'C', 'D'];
     
@@ -1764,7 +1770,13 @@ const deptSchedules = [
       }
     });
 
-    const activeInterns = interns.filter(i => activeSubdivisions.includes(i.batch));
+    // Filter active interns and sort sequentially by S.No
+    const activeInterns = interns
+      .filter(i => activeSubdivisions.includes(i.batch))
+      .sort((a, b) => a.sno - b.sno);
+
+    // Departments that follow 6-unit cyclic allocation
+    const is6UnitDept = ['MED', 'Surgery', 'ObsGynae'].includes(dept);
 
     let html = `
       <div class="info-banner">
@@ -1774,28 +1786,39 @@ const deptSchedules = [
     `;
 
     if (activeInterns.length === 0) {
-      html += '<p>No interns are posted in this department during the selected week.</p>';
+      html += '<p style="padding: 12px; color: #64748b;">No interns are posted in this department during the selected week.</p>';
     } else {
       html += `
         <table>
           <thead>
-            <tr><th>S.No</th><th>Roll No</th><th>Name</th><th>Subdivision</th></tr>
+            <tr>
+              <th>S.No</th>
+              <th>Roll No</th>
+              <th>Name</th>
+              <th>Subdivision</th>
+              ${is6UnitDept ? '<th>Unit</th>' : ''}
+            </tr>
           </thead>
           <tbody>
-            ${activeInterns.map(i => `
-              <tr>
-                <td>${i.sno}</td>
-                <td>${i.roll}</td>
-                <td><b>${i.name}</b></td>
-                <td><span class="badge">${i.batch}</span></td>
-              </tr>
-            `).join('')}
+            ${activeInterns.map((i, index) => {
+              // Position-based cyclic unit allocation (1 to 6)
+              const unitNum = is6UnitDept ? (index % 6) + 1 : '';
+              return `
+                <tr>
+                  <td>${i.sno}</td>
+                  <td>${i.roll}</td>
+                  <td><b>${i.name}</b></td>
+                  <td><span class="badge">${i.batch}</span></td>
+                  ${is6UnitDept ? `<td><span class="badge" style="background: #fef3c7; color: #92400e;">Unit ${unitNum}</span></td>` : ''}
+                </tr>
+              `;
+            }).join('')}
           </tbody>
         </table>
       `;
     }
 
-        resDiv.innerHTML = html;
+    resDiv.innerHTML = html;
   }
 </script>
 

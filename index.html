@@ -1878,10 +1878,6 @@ function searchDepartment() {
     }
     return key;
   }
-<div style="display: flex; justify-content: space-between; align-items: center;">
-  <h3 style="margin-top: 0; color: var(--primary);">🤖 MAMC Duty & Facility Assistant</h3>
-  <button onclick="localStorage.removeItem('mamc_gemini_key'); alert('Saved API Key cleared! Refresh or ask a question to enter a new key.');" style="font-size: 11px; padding: 4px 8px; background: #cbd5e1; border: none; border-radius: 4px; cursor: pointer;">Reset Key</button>
-</div>
   async function askAIAssistant() {
     const apiKey = getApiKey();
     if (!apiKey) {

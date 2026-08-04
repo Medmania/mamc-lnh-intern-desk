@@ -1,4 +1,4 @@
-333<!DOCTYPE html> 
+<!DOCTYPE html> 
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -1883,23 +1883,58 @@ function askAIAssistant() {
 
     let matches = [];
 
-    // Helper to format object properties dynamically into clean HTML
+    // Helper to format values (handles nested objects & arrays of units cleanly)
+    function formatValue(val) {
+      if (!val) return '';
+      
+      if (Array.isArray(val)) {
+        return val.map(subItem => {
+          if (typeof subItem === 'object' && subItem !== null) {
+            let subFields = [];
+            for (const [sKey, sVal] of Object.entries(subItem)) {
+              if (sVal && String(sVal).trim() !== '') {
+                const cleanSKey = sKey.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
+                subFields.push(`<strong>${cleanSKey}:</strong> ${sVal}`);
+              }
+            }
+            return `<div style="margin-left: 12px; margin-top: 4px; padding-left: 8px; border-left: 2px solid var(--primary, #2563eb);">${subFields.join(' | ')}</div>`;
+          }
+          return subItem;
+        }).join('');
+      }
+
+      if (typeof val === 'object' && val !== null) {
+        let objFields = [];
+        for (const [oKey, oVal] of Object.entries(val)) {
+          if (oVal && String(oVal).trim() !== '') {
+            const cleanOKey = oKey.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
+            objFields.push(`<strong>${cleanOKey}:</strong> ${oVal}`);
+          }
+        }
+        return objFields.join(', ');
+      }
+
+      return String(val);
+    }
+
+    // Helper to format an entire item object
     function formatObject(obj, titleEmoji, titleText) {
       let fields = [];
       for (const [key, val] of Object.entries(obj)) {
-        if (val && String(val).trim() !== '' && String(val).trim() !== 'N/A') {
-          // Format keys cleanly (e.g. opdDays -> OPD Days)
+        if (val && String(val).trim() !== '' && key !== 'id') {
           const cleanKey = key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
-          fields.push(`<strong>${cleanKey}:</strong> ${val}`);
+          const formattedVal = formatValue(val);
+          if (formattedVal) {
+            fields.push(`<strong>${cleanKey}:</strong> ${formattedVal}`);
+          }
         }
       }
-      return `<strong>${titleEmoji} ${titleText}:</strong><br>${fields.join('<br>')}`;
+      return `<strong>${titleEmoji} ${titleText}</strong><br>${fields.join('<br>')}`;
     }
 
-    // Helper to check partial keyword matches anywhere in the item string/JSON
+    // Deep check to search keyword anywhere inside strings or nested objects
     function itemMatches(item) {
-      const itemString = JSON.stringify(item).toLowerCase();
-      return itemString.includes(queryLower);
+      return JSON.stringify(item).toLowerCase().includes(queryLower);
     }
 
     // --- 1. SEARCH LAB DIRECTORY ---
@@ -1916,7 +1951,7 @@ function askAIAssistant() {
     if (typeof deptSchedules !== 'undefined' && Array.isArray(deptSchedules)) {
       deptSchedules.forEach(item => {
         if (itemMatches(item)) {
-          const name = item.dept || item.department || item.name || 'Department/OPD';
+          const name = item.name || item.dept || item.department || 'Department/OPD';
           matches.push(formatObject(item, '🏥', name));
         }
       });
@@ -1939,12 +1974,27 @@ function askAIAssistant() {
       reply = `Found ${uniqueMatches.length} matching record(s):<br><br>` + 
               uniqueMatches.join('<hr style="border:0; border-top:1px dashed #cbd5e1; margin:10px 0;">');
     } else {
-      reply = `No matching records found for <em>"${rawQuery}"</em>. Try a shorter keyword like <strong>rheumat</strong>, <strong>lft</strong>, <strong>kft</strong>, or a doctor's name.`;
+      reply = `No matching records found for <em>"${rawQuery}"</em>. Try searching by doctor name (e.g. <strong>Sunita Agarwal</strong>), clinic name, or lab test.`;
     }
 
     chatBox.innerHTML += `<p style="margin: 8px 0; color: #0f172a;"><strong>🤖 Assistant:</strong> ${reply}</p>`;
     chatBox.scrollTop = chatBox.scrollHeight;
   }
+  // Ensure embedded forms adjust cleanly on mobile screens
+function adjustFormResponsive() {
+  const formIframe = document.querySelector('.card iframe');
+  if (formIframe) {
+    if (window.innerWidth < 600) {
+      formIframe.style.height = '620px'; // Give extra height for stacked mobile inputs
+    } else {
+      formIframe.style.height = '562px';
+    }
+  }
+}
+
+// Run adjustment on load and window resize
+window.addEventListener('load', adjustFormResponsive);
+window.addEventListener('resize', adjustFormResponsive);
 </script>
 <!-- TAB 5 /AI ASSISTANT -->
   <div class="card" style="margin-top: 20px;">
@@ -1958,6 +2008,27 @@ function askAIAssistant() {
   <div style="display: flex; gap: 8px;">
     <input type="text" id="aiUserInput" placeholder="e.g. LFT, Rheumatology, or Dr. Anurag..." onkeydown="if(event.key==='Enter') askAIAssistant()">
     <button onclick="askAIAssistant()" style="padding: 10px 18px; background: var(--primary); color: white; border: none; font-weight: 600; border-radius: 6px; cursor: pointer;">Search</button>
+</div>
+    <!-- SUGGESTION & FEEDBACK BOARD -->
+<div class="card" style="margin-top: 20px; padding: 16px; background: #ffffff; border-radius: 8px; border: 1px solid #e2e8f0; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+  <h3 style="margin-top: 0; color: var(--primary, #1e293b); font-size: 16px; display: flex; align-items: center; gap: 6px;">
+    💡 Suggest Changes / Roster Corrections
+  </h3>
+  <p style="font-size: 13px; color: #64748b; margin-bottom: 12px; margin-top: 4px;">
+    Notice an incorrect OPD day, missing test location, or roster change? Submit your feedback below!
+  </p>
+
+  <!-- RESPONSIVE IFRAME CONTAINER -->
+  <div style="width: 100%; overflow: hidden; border-radius: 6px; border: 1px solid #f1f5f9;">
+    <iframe 
+      src="https://docs.google.com/forms/d/e/1FAIpQLSdTHssorcf7rmuzjX7nfiZ1QRddKD1is_rXuyA-NNz28tyQQQ/viewform?embedded=true" 
+      width="100%" 
+      height="562" 
+      frameborder="0" 
+      marginheight="0" 
+      marginwidth="0"
+      style="border: none; display: block;"
+    >Loading…</iframe>
   </div>
 </div>
   <!-- FOOTER CREDIT -->

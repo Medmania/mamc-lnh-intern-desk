@@ -133,12 +133,13 @@
   <h1>MAMC CRMI Duty Lookup</h1>
   <p class="subtitle">Compulsory Rotatory Medical Internship (2026–2027)</p>
 
-    <div class="tabs" style="flex-wrap: wrap;">
+  <div class="tabs" style="flex-wrap: wrap;">
     <button class="tab-btn active" onclick="switchTab('person')">🔍 Search Person</button>
     <button class="tab-btn" onclick="switchTab('department')">🏥 Search Department</button>
     <button class="tab-btn" onclick="switchTab('schedule')">📅 Hospital facilities</button>
     <button class="tab-btn" onclick="switchTab('lab')">🧪 Tests & Labs</button>
   </div>
+
   <!-- TAB 4: LAB TESTS, VIALS & LOCATIONS -->
   <div id="lab-tab" class="card hidden">
     <div class="input-group">
@@ -148,9 +149,8 @@
     <div id="labResults" class="results"></div>
   </div>
 
-    <!-- TAB 3: DEPARTMENT SCHEDULE & WARDS (SEARCH + DROPDOWN) -->
+  <!-- TAB 3: DEPARTMENT SCHEDULE & WARDS -->
   <div id="schedule-tab" class="card hidden">
-    <!-- 1. Live Keyword Search Box -->
     <div class="input-group">
       <label for="scheduleSearch">🔍 Search Facility, Clinic, Room or Day:</label>
       <input type="text" id="scheduleSearch" placeholder="Type e.g., Diabetes, Room 310, Monday, Unit 1..." oninput="onScheduleSearchInput()">
@@ -158,7 +158,6 @@
 
     <div style="text-align: center; color: #94a3b8; font-size: 12px; margin: -6px 0 10px 0;">— OR SELECT CATEGORY —</div>
 
-    <!-- 2. Department Dropdown Select -->
     <div class="input-group">
       <label for="deptScheduleSelect">Select Department or Special Clinic:</label>
       <select id="deptScheduleSelect" onchange="onScheduleSelectChange()">
@@ -192,9 +191,6 @@
     <div id="scheduleResults" class="results"></div>
   </div>
 
-
-
-
   <!-- SHARED DATE SELECTOR -->
   <div class="card" style="margin-bottom: 16px; padding: 14px;">
     <div id="date-card" class="date-row" style="margin-bottom: 0;">
@@ -209,9 +205,8 @@
   <!-- TAB 1: SEARCH BY PERSON -->
   <div id="person-tab" class="card">
     <div class="input-group">
-     <label for="studentSearch">Search Name, Roll No, S.No, or Batch (e.g., 29, 44591, A7, Ankit Raj):</label>
-<input type="text" id="studentSearch" placeholder="Type name, roll, or serial number..." oninput="searchStudent()">
-
+      <label for="studentSearch">Search Name, Roll No, S.No, or Batch (e.g., 29, 44591, A7, Ankit Raj):</label>
+      <input type="text" id="studentSearch" placeholder="Type name, roll, or serial number..." oninput="searchStudent()">
     </div>
     <div id="studentResults" class="results"></div>
   </div>
@@ -240,6 +235,59 @@
       </select>
     </div>
     <div id="deptResults" class="results"></div>
+  </div>
+
+  <!-- SUGGESTION & FEEDBACK BOARD (GOOGLE FORM) -->
+  <div class="card" style="margin-top: 20px; padding: 16px; background: #ffffff; border-radius: 8px; border: 1px solid #e2e8f0; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+    <h3 style="margin-top: 0; color: var(--primary, #1e293b); font-size: 16px; display: flex; align-items: center; gap: 6px;">
+      💡 Suggest Changes / Roster Corrections
+    </h3>
+    <p style="font-size: 13px; color: #64748b; margin-bottom: 12px; margin-top: 4px;">
+      Notice an incorrect OPD day, missing test location, or roster change? Submit your feedback below!
+    </p>
+
+    <!-- RESPONSIVE IFRAME CONTAINER -->
+    <div style="width: 100%; overflow: hidden; border-radius: 6px; border: 1px solid #f1f5f9;">
+      <iframe 
+        src="https://docs.google.com/forms/d/e/1FAIpQLSdTHssorcf7rmuzjX7nfiZ1QRddKD1is_rXuyA-NNz28tyQQQ/viewform?embedded=true" 
+        width="100%" 
+        height="562" 
+        frameborder="0" 
+        marginheight="0" 
+        marginwidth="0"
+        style="border: none; display: block;"
+      >Loading…</iframe>
+    </div>
+  </div>
+
+</div> <!-- END CONTAINER -->
+
+<!-- FOOTER CREDIT -->
+<footer style="text-align: center; margin-top: 30px; padding: 16px; border-top: 1px solid var(--border); color: #64748b; font-size: 13px;">
+  <p style="margin: 4px 0 0 0; font-size: 16px;"><strong>Batch-2021</strong></p>
+</footer>
+
+<!-- FLOATING ASSISTANT TOGGLE BUTTON -->
+<button id="aiToggleBtn" onclick="toggleAIAssistant()" style="position: fixed; bottom: 20px; right: 20px; z-index: 9999; background: var(--primary, #2563eb); color: white; border: none; border-radius: 50px; padding: 12px 20px; font-weight: 600; font-size: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); cursor: pointer; display: flex; align-items: center; gap: 8px;">
+  🤖 <span>Assistant</span>
+</button>
+
+<!-- FLOATING ASSISTANT POPUP CARD -->
+<div id="aiPopupCard" style="display: none; position: fixed; bottom: 80px; right: 20px; z-index: 9999; width: 360px; max-width: calc(100vw - 40px); background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.15); padding: 16px; box-sizing: border-box;">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+    <h3 style="margin: 0; color: var(--primary, #1e293b); font-size: 15px;">🔍 MAMC Duty & Facility Assistant</h3>
+    <button onclick="toggleAIAssistant()" style="background: none; border: none; font-size: 18px; cursor: pointer; color: #64748b; line-height: 1;">&times;</button>
+  </div>
+
+  <p style="font-size: 12px; color: #64748b; margin: 0 0 10px 0;">Search OPD days, test locations, or intern/person name & S.No for complete schedule!</p>
+  
+  <div id="aiChatBox" style="height: 240px; overflow-y: auto; background: #f8fafc; border: 1px solid #e2e8f0; padding: 10px; border-radius: 8px; margin-bottom: 10px; font-size: 13px;">
+    <p style="margin: 0; color: #475569;"><strong>🤖 Assistant:</strong> Hello! Enter a name, S.No, test, or department.</p>
+  </div>
+
+  <div style="display: flex; gap: 6px;">
+    <input type="text" id="aiUserInput" placeholder="e.g. Ankit, S.No 33, LFT..." onkeydown="if(event.key==='Enter') askAIAssistant()" style="flex: 1; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px;">
+    <button onclick="askAIAssistant()" style="padding: 8px 14px; background: var(--primary, #2563eb); color: white; border: none; font-weight: 600; border-radius: 6px; cursor: pointer; font-size: 13px;">Search</button>
   </div>
 </div>
 
@@ -329,7 +377,7 @@
     { sno: 81, roll: "44649", name: "Jashith Goel", batch: "B8" },
     { sno: 82, roll: "44651", name: "Jitender Kumar Meena", batch: "B8" },
     { sno: 83, roll: "44654", name: "Kanika Bansal", batch: "B8" },
-    { sno: 84, roll: "44655", name: "Kanishk Rathor", batch: "B9" },
+    { sno: 84, roll: "44656", name: "Kanishk Rathor", batch: "B9" },
     { sno: 85, roll: "44656", name: "Karan", batch: "B9" },
     { sno: 86, roll: "44657", name: "Kartikey Joshi", batch: "B9" },
     { sno: 87, roll: "44658", name: "Kashish Jaiswal", batch: "B9" },
@@ -346,7 +394,7 @@
     { sno: 98, roll: "4471", name: "Lata", batch: "B12" },
     { sno: 99, roll: "44672", name: "Lokesh Choudhary", batch: "B12" },
     { sno: 100, roll: "44675", name: "Maimuna Fatima", batch: "C1" },
-    { sno: 101, roll: "44676", name: "Mal Rasika Dinesh", batch: "C1" },
+    { sno: 101, roll: "44678", name: "Mal Rasika Dinesh", batch: "C1" },
     { sno: 102, roll: "44678", name: "Mandava Sri Naga Venkata Hitesh", batch: "C1" },
     { sno: 103, roll: "44679", name: "Manish Kumar", batch: "C1" },
     { sno: 104, roll: "44682", name: "Md Shaquib", batch: "C1" },
@@ -489,7 +537,6 @@
     { sno: 241, roll: "45144", name: "Tarun", batch: "A1" },
     { sno: 242, roll: "45145", name: "Viral", batch: "B1" },
     { sno: 243, roll: "45147", name: "Arpit Yadav", batch: "C1" }
-
   ];
 
   // 52 WEEK DATES DATABASE
@@ -547,395 +594,253 @@
     { wk: 51, start: "2027-05-08", end: "2027-05-14", block: "Block 4" },
     { wk: 52, start: "2027-05-15", end: "2027-05-22", block: "Block 4" }
   ];
+
   const Block1 = {
-  weeks: [
-    "Week1","Week2","Week3","Week4","Week5","Week6","Week7",
-    "Week8","Week9","Week10","Week11","Week12","Week13"
-  ],
-
-  A: {
-    A1:  {Week1:"Forensic", Week2:"PSM", Week3:"PSM", Week4:"PSM", Week5:"PSM", Week6:"PSM", Week7:"PSM", Week8:"PSM", Week9:"PSM", Week10:"PSM", Week11:"PSM", Week12:"PSM", Week13:"PSM"},
-    A2:  {Week1:"PSM", Week2:"Forensic", Week3:"PSM", Week4:"PSM", Week5:"PSM", Week6:"PSM", Week7:"PSM", Week8:"PSM", Week9:"PSM", Week10:"PSM", Week11:"PSM", Week12:"PSM", Week13:"PSM"},
-    A3:  {Week1:"PSM", Week2:"PSM", Week3:"Forensic", Week4:"PSM", Week5:"PSM", Week6:"PSM", Week7:"PSM", Week8:"PSM", Week9:"PSM", Week10:"PSM", Week11:"PSM", Week12:"PSM", Week13:"PSM"},
-    A4:  {Week1:"PSM", Week2:"PSM", Week3:"PSM", Week4:"Forensic", Week5:"PSM", Week6:"PSM", Week7:"PSM", Week8:"PSM", Week9:"PSM", Week10:"PSM", Week11:"PSM", Week12:"PSM", Week13:"PSM"},
-    A5:  {Week1:"PSM", Week2:"PSM", Week3:"PSM", Week4:"PSM", Week5:"Forensic", Week6:"PSM", Week7:"PSM", Week8:"PSM", Week9:"PSM", Week10:"PSM", Week11:"PSM", Week12:"PSM", Week13:"PSM"},
-    A6:  {Week1:"PSM", Week2:"PSM", Week3:"PSM", Week4:"PSM", Week5:"PSM", Week6:"Forensic", Week7:"PSM", Week8:"PSM", Week9:"PSM", Week10:"PSM", Week11:"PSM", Week12:"PSM", Week13:"PSM"},
-    A7:  {Week1:"PSM", Week2:"PSM", Week3:"PSM", Week4:"PSM", Week5:"PSM", Week6:"PSM", Week7:"Forensic", Week8:"PSM", Week9:"PSM", Week10:"PSM", Week11:"PSM", Week12:"PSM", Week13:"PSM"},
-    A8:  {Week1:"PSM", Week2:"PSM", Week3:"PSM", Week4:"PSM", Week5:"PSM", Week6:"PSM", Week7:"PSM", Week8:"Forensic", Week9:"PSM", Week10:"PSM", Week11:"PSM", Week12:"PSM", Week13:"PSM"},
-    A9:  {Week1:"PSM", Week2:"PSM", Week3:"PSM", Week4:"PSM", Week5:"PSM", Week6:"PSM", Week7:"PSM", Week8:"PSM", Week9:"Forensic", Week10:"PSM", Week11:"PSM", Week12:"PSM", Week13:"PSM"},
-    A10: {Week1:"PSM", Week2:"PSM", Week3:"PSM", Week4:"PSM", Week5:"PSM", Week6:"PSM", Week7:"PSM", Week8:"PSM", Week9:"PSM", Week10:"Forensic", Week11:"PSM", Week12:"PSM", Week13:"PSM"},
-    A11: {Week1:"PSM", Week2:"PSM", Week3:"PSM", Week4:"PSM", Week5:"PSM", Week6:"PSM", Week7:"PSM", Week8:"PSM", Week9:"PSM", Week10:"PSM", Week11:"Forensic", Week12:"PSM", Week13:"PSM"},
-    A12: {Week1:"PSM", Week2:"PSM", Week3:"PSM", Week4:"PSM", Week5:"PSM", Week6:"PSM", Week7:"PSM", Week8:"PSM", Week9:"PSM", Week10:"PSM", Week11:"PSM", Week12:"Forensic", Week13:"PSM"}
-  },
-
-  B: {
-    B1:  {Week1:"DVL", Week2:"MED", Week3:"MED", Week4:"MED", Week5:"MED", Week6:"MED", Week7:"MED", Week8:"Surgery", Week9:"Surgery", Week10:"Surgery", Week11:"Surgery", Week12:"Surgery", Week13:"Surgery"},
-    B2:  {Week1:"MED", Week2:"DVL", Week3:"MED", Week4:"MED", Week5:"MED", Week6:"MED", Week7:"MED", Week8:"Surgery", Week9:"Surgery", Week10:"Surgery", Week11:"Surgery", Week12:"Surgery", Week13:"Surgery"},
-    B3:  {Week1:"MED", Week2:"MED", Week3:"DVL", Week4:"MED", Week5:"MED", Week6:"MED", Week7:"MED", Week8:"Surgery", Week9:"Surgery", Week10:"Surgery", Week11:"Surgery", Week12:"Surgery", Week13:"Surgery"},
-    B4:  {Week1:"MED", Week2:"MED", Week3:"MED", Week4:"MED", Week5:"MED", Week6:"MED", Week7:"DVL", Week8:"Surgery", Week9:"Surgery", Week10:"Surgery", Week11:"Surgery", Week12:"Surgery", Week13:"Surgery"},
-    B5:  {Week1:"MED", Week2:"MED", Week3:"MED", Week4:"MED", Week5:"MED", Week6:"MED", Week7:"Surgery", Week8:"DVL", Week9:"Surgery", Week10:"Surgery", Week11:"Surgery", Week12:"Surgery", Week13:"Surgery"},
-    B6:  {Week1:"MED", Week2:"MED", Week3:"MED", Week4:"MED", Week5:"MED", Week6:"MED", Week7:"Surgery", Week8:"Surgery", Week9:"DVL", Week10:"Surgery", Week11:"Surgery", Week12:"Surgery", Week13:"Surgery"},
-    B7:  {Week1:"Surgery", Week2:"Surgery", Week3:"Surgery", Week4:"Surgery", Week5:"Surgery", Week6:"Surgery", Week7:"MED", Week8:"MED", Week9:"MED", Week10:"MED", Week11:"DVL", Week12:"MED", Week13:"MED"},
-    B8:  {Week1:"Surgery", Week2:"Surgery", Week3:"Surgery", Week4:"Surgery", Week5:"Surgery", Week6:"Surgery", Week7:"MED", Week8:"MED", Week9:"MED", Week10:"MED", Week11:"MED", Week12:"DVL", Week13:"MED"},
-    B9:  {Week1:"Surgery", Week2:"Surgery", Week3:"Surgery", Week4:"Surgery", Week5:"Surgery", Week6:"Surgery", Week7:"MED", Week8:"MED", Week9:"MED", Week10:"MED", Week11:"MED", Week12:"MED", Week13:"DVL"},
-    B10: {Week1:"Surgery", Week2:"Surgery", Week3:"Surgery", Week4:"DVL", Week5:"Surgery", Week6:"Surgery", Week7:"Surgery", Week8:"MED", Week9:"MED", Week10:"MED", Week11:"MED", Week12:"MED", Week13:"MED"},
-    B11: {Week1:"Surgery", Week2:"Surgery", Week3:"Surgery", Week4:"Surgery", Week5:"DVL", Week6:"Surgery", Week7:"Surgery", Week8:"MED", Week9:"MED", Week10:"MED", Week11:"MED", Week12:"MED", Week13:"MED"},
-    B12: {Week1:"Surgery", Week2:"Surgery", Week3:"Surgery", Week4:"Surgery", Week5:"Surgery", Week6:"DVL", Week7:"Surgery", Week8:"MED", Week9:"MED", Week10:"MED", Week11:"MED", Week12:"MED", Week13:"MED"}
-  }
-};
-
-const Block1CD = {
-  weeks: [
-    "Week1","Week2","Week3","Week4","Week5","Week6","Week7",
-    "Week8","Week9","Week10","Week11","Week12","Week13"
-  ],
-
-  C: {
-    C1:  {Week1:"ObsGynae", Week2:"ObsGynae", Week3:"ObsGynae", Week4:"ObsGynae", Week5:"ObsGynae", Week6:"ObsGynae", Week7:"ObsGynae", Week8:"Radiology", Week9:"Radiology", Week10:"Pulm Med", Week11:"Pulm Med", Week12:"Psychi", Week13:"Psychi"},
-    C2:  {Week1:"ObsGynae", Week2:"ObsGynae", Week3:"ObsGynae", Week4:"ObsGynae", Week5:"ObsGynae", Week6:"ObsGynae", Week7:"ObsGynae", Week8:"Radiology", Week9:"Radiology", Week10:"Pulm Med", Week11:"Pulm Med", Week12:"Psychi", Week13:"Psychi"},
-    C3:  {Week1:"ObsGynae", Week2:"ObsGynae", Week3:"ObsGynae", Week4:"ObsGynae", Week5:"ObsGynae", Week6:"ObsGynae", Week7:"ObsGynae", Week8:"Psychi", Week9:"Psychi", Week10:"Radiology", Week11:"Radiology", Week12:"Pulm Med", Week13:"Pulm Med"},
-    C4:  {Week1:"ObsGynae", Week2:"ObsGynae", Week3:"ObsGynae", Week4:"ObsGynae", Week5:"ObsGynae", Week6:"ObsGynae", Week7:"ObsGynae", Week8:"Psychi", Week9:"Psychi", Week10:"Radiology", Week11:"Radiology", Week12:"Pulm Med", Week13:"Pulm Med"},
-    C5:  {Week1:"ObsGynae", Week2:"ObsGynae", Week3:"ObsGynae", Week4:"ObsGynae", Week5:"ObsGynae", Week6:"ObsGynae", Week7:"ObsGynae", Week8:"Pulm Med", Week9:"Pulm Med", Week10:"Psychi", Week11:"Psychi", Week12:"Radiology", Week13:"Radiology"},
-    C6:  {Week1:"ObsGynae", Week2:"ObsGynae", Week3:"ObsGynae", Week4:"ObsGynae", Week5:"ObsGynae", Week6:"ObsGynae", Week7:"ObsGynae", Week8:"Pulm Med", Week9:"Pulm Med", Week10:"Psychi", Week11:"Psychi", Week12:"Radiology", Week13:"Radiology"},
-    C7:  {Week1:"Radiology", Week2:"Radiology", Week3:"Pulm Med", Week4:"Pulm Med", Week5:"Psychi", Week6:"Psychi", Week7:"ObsGynae", Week8:"ObsGynae", Week9:"ObsGynae", Week10:"ObsGynae", Week11:"ObsGynae", Week12:"ObsGynae", Week13:"ObsGynae"},
-    C8:  {Week1:"Radiology", Week2:"Radiology", Week3:"Pulm Med", Week4:"Pulm Med", Week5:"Psychi", Week6:"Psychi", Week7:"ObsGynae", Week8:"ObsGynae", Week9:"ObsGynae", Week10:"ObsGynae", Week11:"ObsGynae", Week12:"ObsGynae", Week13:"ObsGynae"},
-    C9:  {Week1:"Psychi", Week2:"Psychi", Week3:"Radiology", Week4:"Radiology", Week5:"Pulm Med", Week6:"Pulm Med", Week7:"ObsGynae", Week8:"ObsGynae", Week9:"ObsGynae", Week10:"ObsGynae", Week11:"ObsGynae", Week12:"ObsGynae", Week13:"ObsGynae"},
-    C10: {Week1:"Psychi", Week2:"Psychi", Week3:"Radiology", Week4:"Radiology", Week5:"Pulm Med", Week6:"Pulm Med", Week7:"ObsGynae", Week8:"ObsGynae", Week9:"ObsGynae", Week10:"ObsGynae", Week11:"ObsGynae", Week12:"ObsGynae", Week13:"ObsGynae"},
-    C11: {Week1:"Pulm Med", Week2:"Pulm Med", Week3:"Psychi", Week4:"Psychi", Week5:"Radiology", Week6:"Radiology", Week7:"ObsGynae", Week8:"ObsGynae", Week9:"ObsGynae", Week10:"ObsGynae", Week11:"ObsGynae", Week12:"ObsGynae", Week13:"ObsGynae"},
-    C12: {Week1:"Pulm Med", Week2:"Pulm Med", Week3:"Psychi", Week4:"Psychi", Week5:"Radiology", Week6:"Radiology", Week7:"ObsGynae", Week8:"ObsGynae", Week9:"ObsGynae", Week10:"ObsGynae", Week11:"ObsGynae", Week12:"ObsGynae", Week13:"ObsGynae"}
-  },
-
-  D: {
-    D1:  {Week1:"Pediatrics", Week2:"Pediatrics", Week3:"Pediatrics", Week4:"Anaest", Week5:"Anaest", Week6:"Caslty", Week7:"Caslty", Week8:"ENT", Week9:"ENT", Week10:"Ophtha", Week11:"Ophtha", Week12:"Ortho", Week13:"Ortho"},
-    D2:  {Week1:"Pediatrics", Week2:"Pediatrics", Week3:"Pediatrics", Week4:"Anaest", Week5:"Anaest", Week6:"Caslty", Week7:"Caslty", Week8:"ENT", Week9:"ENT", Week10:"Ophtha", Week11:"Ophtha", Week12:"Ortho", Week13:"Ortho"},
-    D3:  {Week1:"Ortho", Week2:"Ortho", Week3:"Pediatrics", Week4:"Pediatrics", Week5:"Pediatrics", Week6:"Anaest", Week7:"Anaest", Week8:"Caslty", Week9:"Caslty", Week10:"ENT", Week11:"ENT", Week12:"Ophtha", Week13:"Ophtha"},
-    D4:  {Week1:"Ortho", Week2:"Ortho", Week3:"Pediatrics", Week4:"Pediatrics", Week5:"Pediatrics", Week6:"Anaest", Week7:"Anaest", Week8:"Caslty", Week9:"Caslty", Week10:"ENT", Week11:"ENT", Week12:"Ophtha", Week13:"Ophtha"},
-    D5:  {Week1:"Ophtha", Week2:"Ophtha", Week3:"Ortho", Week4:"Ortho", Week5:"Pediatrics", Week6:"Pediatrics", Week7:"Pediatrics", Week8:"Anaest", Week9:"Anaest", Week10:"Caslty", Week11:"Caslty", Week12:"ENT", Week13:"ENT"},
-    D6:  {Week1:"Ophtha", Week2:"Ophtha", Week3:"Ortho", Week4:"Ortho", Week5:"Pediatrics", Week6:"Pediatrics", Week7:"Pediatrics", Week8:"Anaest", Week9:"Anaest", Week10:"Caslty", Week11:"Caslty", Week12:"ENT", Week13:"ENT"},
-    D7:  {Week1:"ENT", Week2:"ENT", Week3:"Ophtha", Week4:"Ophtha", Week5:"Ortho", Week6:"Ortho", Week7:"Pediatrics", Week8:"Pediatrics", Week9:"Pediatrics", Week10:"Anaest", Week11:"Anaest", Week12:"Caslty", Week13:"Caslty"},
-    D8:  {Week1:"ENT", Week2:"ENT", Week3:"Ophtha", Week4:"Ophtha", Week5:"Ortho", Week6:"Ortho", Week7:"Pediatrics", Week8:"Pediatrics", Week9:"Pediatrics", Week10:"Anaest", Week11:"Anaest", Week12:"Caslty", Week13:"Caslty"},
-    D9:  {Week1:"Caslty", Week2:"Caslty", Week3:"ENT", Week4:"ENT", Week5:"Ophtha", Week6:"Ophtha", Week7:"Ortho", Week8:"Ortho", Week9:"Pediatrics", Week10:"Pediatrics", Week11:"Pediatrics", Week12:"Anaest", Week13:"Anaest"},
-    D10: {Week1:"Caslty", Week2:"Caslty", Week3:"ENT", Week4:"ENT", Week5:"Ophtha", Week6:"Ophtha", Week7:"Ortho", Week8:"Ortho", Week9:"Pediatrics", Week10:"Pediatrics", Week11:"Pediatrics", Week12:"Anaest", Week13:"Anaest"},
-    D11: {Week1:"Anaest", Week2:"Anaest", Week3:"Caslty", Week4:"Caslty", Week5:"ENT", Week6:"ENT", Week7:"Ophtha", Week8:"Ophtha", Week9:"Ortho", Week10:"Ortho", Week11:"Pediatrics", Week12:"Pediatrics", Week13:"Pediatrics"},
-    D12: {Week1:"Anaest", Week2:"Anaest", Week3:"Caslty", Week4:"Caslty", Week5:"ENT", Week6:"ENT", Week7:"Ophtha", Week8:"Ophtha", Week9:"Ortho", Week10:"Ortho", Week11:"Pediatrics", Week12:"Pediatrics", Week13:"Pediatrics"}
-  }
-};
-
-const Block2A = {
-  A1:  {Week14:"Pediatrics", Week15:"Pediatrics", Week16:"Pediatrics", Week17:"Anaest", Week18:"Anaest", Week19:"Caslty", Week20:"Caslty", Week21:"ENT", Week22:"ENT", Week23:"Ophtha", Week24:"Ophtha", Week25:"Ortho", Week26:"Ortho"},
-
-  A2:  {Week14:"Pediatrics", Week15:"Pediatrics", Week16:"Pediatrics", Week17:"Anaest", Week18:"Anaest", Week19:"Caslty", Week20:"Caslty", Week21:"ENT", Week22:"ENT", Week23:"Ophtha", Week24:"Ophtha", Week25:"Ortho", Week26:"Ortho"},
-
-  A3:  {Week14:"Ortho", Week15:"Ortho", Week16:"Pediatrics", Week17:"Pediatrics", Week18:"Pediatrics", Week19:"Anaest", Week20:"Anaest", Week21:"Caslty", Week22:"Caslty", Week23:"ENT", Week24:"ENT", Week25:"Ophtha", Week26:"Ophtha"},
-
-  A4:  {Week14:"Ortho", Week15:"Ortho", Week16:"Pediatrics", Week17:"Pediatrics", Week18:"Pediatrics", Week19:"Anaest", Week20:"Anaest", Week21:"Caslty", Week22:"Caslty", Week23:"ENT", Week24:"ENT", Week25:"Ophtha", Week26:"Ophtha"},
-
-  A5:  {Week14:"Ophtha", Week15:"Ophtha", Week16:"Ortho", Week17:"Ortho", Week18:"Pediatrics", Week19:"Pediatrics", Week20:"Pediatrics", Week21:"Anaest", Week22:"Anaest", Week23:"Caslty", Week24:"Caslty", Week25:"ENT", Week26:"ENT"},
-
-  A6:  {Week14:"Ophtha", Week15:"Ophtha", Week16:"Ortho", Week17:"Ortho", Week18:"Pediatrics", Week19:"Pediatrics", Week20:"Pediatrics", Week21:"Anaest", Week22:"Anaest", Week23:"Caslty", Week24:"Caslty", Week25:"ENT", Week26:"ENT"},
-
-  A7:  {Week14:"ENT", Week15:"ENT", Week16:"Ophtha", Week17:"Ophtha", Week18:"Ortho", Week19:"Ortho", Week20:"Pediatrics", Week21:"Pediatrics", Week22:"Pediatrics", Week23:"Anaest", Week24:"Anaest", Week25:"Caslty", Week26:"Caslty"},
-
-  A8:  {Week14:"ENT", Week15:"ENT", Week16:"Ophtha", Week17:"Ophtha", Week18:"Ortho", Week19:"Ortho", Week20:"Pediatrics", Week21:"Pediatrics", Week22:"Pediatrics", Week23:"Anaest", Week24:"Anaest", Week25:"Caslty", Week26:"Caslty"},
-
-  A9:  {Week14:"Caslty", Week15:"Caslty", Week16:"ENT", Week17:"ENT", Week18:"Ophtha", Week19:"Ophtha", Week20:"Ortho", Week21:"Ortho", Week22:"Pediatrics", Week23:"Pediatrics", Week24:"Pediatrics", Week25:"Anaest", Week26:"Anaest"},
-
-  A10: {Week14:"Caslty", Week15:"Caslty", Week16:"ENT", Week17:"ENT", Week18:"Ophtha", Week19:"Ophtha", Week20:"Ortho", Week21:"Ortho", Week22:"Pediatrics", Week23:"Pediatrics", Week24:"Pediatrics", Week25:"Anaest", Week26:"Anaest"},
-
-  A11: {Week14:"Anaest", Week15:"Anaest", Week16:"Caslty", Week17:"Caslty", Week18:"ENT", Week19:"ENT", Week20:"Ophtha", Week21:"Ophtha", Week22:"Ortho", Week23:"Ortho", Week24:"Pediatrics", Week25:"Pediatrics", Week26:"Pediatrics"},
-
-  A12: {Week14:"Anaest", Week15:"Anaest", Week16:"Caslty", Week17:"Caslty", Week18:"ENT", Week19:"ENT", Week20:"Ophtha", Week21:"Ophtha", Week22:"Ortho", Week23:"Ortho", Week24:"Pediatrics", Week25:"Pediatrics", Week26:"Pediatrics"}
-};
-
-const Block2B = {
-  B1:  {Week14:"Forensic", Week15:"PSM", Week16:"PSM", Week17:"PSM", Week18:"PSM", Week19:"PSM", Week20:"PSM", Week21:"PSM", Week22:"PSM", Week23:"PSM", Week24:"PSM", Week25:"PSM", Week26:"PSM"},
-
-  B2:  {Week14:"PSM", Week15:"Forensic", Week16:"PSM", Week17:"PSM", Week18:"PSM", Week19:"PSM", Week20:"PSM", Week21:"PSM", Week22:"PSM", Week23:"PSM", Week24:"PSM", Week25:"PSM", Week26:"PSM"},
-
-  B3:  {Week14:"PSM", Week15:"PSM", Week16:"Forensic", Week17:"PSM", Week18:"PSM", Week19:"PSM", Week20:"PSM", Week21:"PSM", Week22:"PSM", Week23:"PSM", Week24:"PSM", Week25:"PSM", Week26:"PSM"},
-
-  B4:  {Week14:"PSM", Week15:"PSM", Week16:"PSM", Week17:"Forensic", Week18:"PSM", Week19:"PSM", Week20:"PSM", Week21:"PSM", Week22:"PSM", Week23:"PSM", Week24:"PSM", Week25:"PSM", Week26:"PSM"},
-
-  B5:  {Week14:"PSM", Week15:"PSM", Week16:"PSM", Week17:"PSM", Week18:"Forensic", Week19:"PSM", Week20:"PSM", Week21:"PSM", Week22:"PSM", Week23:"PSM", Week24:"PSM", Week25:"PSM", Week26:"PSM"},
-
-  B6:  {Week14:"PSM", Week15:"PSM", Week16:"PSM", Week17:"PSM", Week18:"PSM", Week19:"Forensic", Week20:"PSM", Week21:"PSM", Week22:"PSM", Week23:"PSM", Week24:"PSM", Week25:"PSM", Week26:"PSM"},
-
-  B7:  {Week14:"PSM", Week15:"PSM", Week16:"PSM", Week17:"PSM", Week18:"PSM", Week19:"PSM", Week20:"Forensic", Week21:"PSM", Week22:"PSM", Week23:"PSM", Week24:"PSM", Week25:"PSM", Week26:"PSM"},
-
-  B8:  {Week14:"PSM", Week15:"PSM", Week16:"PSM", Week17:"PSM", Week18:"PSM", Week19:"PSM", Week20:"PSM", Week21:"Forensic", Week22:"PSM", Week23:"PSM", Week24:"PSM", Week25:"PSM", Week26:"PSM"},
-
-  B9:  {Week14:"PSM", Week15:"PSM", Week16:"PSM", Week17:"PSM", Week18:"PSM", Week19:"PSM", Week20:"PSM", Week21:"PSM", Week22:"Forensic", Week23:"PSM", Week24:"PSM", Week25:"PSM", Week26:"PSM"},
-
-  B10: {Week14:"PSM", Week15:"PSM", Week16:"PSM", Week17:"PSM", Week18:"PSM", Week19:"PSM", Week20:"PSM", Week21:"PSM", Week22:"PSM", Week23:"Forensic", Week24:"PSM", Week25:"PSM", Week26:"PSM"},
-
-  B11: {Week14:"PSM", Week15:"PSM", Week16:"PSM", Week17:"PSM", Week18:"PSM", Week19:"PSM", Week20:"PSM", Week21:"PSM", Week22:"PSM", Week23:"PSM", Week24:"Forensic", Week25:"PSM", Week26:"PSM"},
-
-  B12: {Week14:"PSM", Week15:"PSM", Week16:"PSM", Week17:"PSM", Week18:"PSM", Week19:"PSM", Week20:"PSM", Week21:"PSM", Week22:"PSM", Week23:"PSM", Week24:"PSM", Week25:"Forensic", Week26:"PSM"}
-};
-
-const Block2C = {
-  C1:  {Week14:"DVL", Week15:"MED", Week16:"MED", Week17:"MED", Week18:"MED", Week19:"MED", Week20:"MED", Week21:"Surgery", Week22:"Surgery", Week23:"Surgery", Week24:"Surgery", Week25:"Surgery", Week26:"Surgery"},
-
-  C2:  {Week14:"MED", Week15:"DVL", Week16:"MED", Week17:"MED", Week18:"MED", Week19:"MED", Week20:"MED", Week21:"Surgery", Week22:"Surgery", Week23:"Surgery", Week24:"Surgery", Week25:"Surgery", Week26:"Surgery"},
-
-  C3:  {Week14:"MED", Week15:"MED", Week16:"DVL", Week17:"MED", Week18:"MED", Week19:"MED", Week20:"MED", Week21:"Surgery", Week22:"Surgery", Week23:"Surgery", Week24:"Surgery", Week25:"Surgery", Week26:"Surgery"},
-
-  C4:  {Week14:"MED", Week15:"MED", Week16:"MED", Week17:"MED", Week18:"MED", Week19:"MED", Week20:"DVL", Week21:"Surgery", Week22:"Surgery", Week23:"Surgery", Week24:"Surgery", Week25:"Surgery", Week26:"Surgery"},
-
-  C5:  {Week14:"MED", Week15:"MED", Week16:"MED", Week17:"MED", Week18:"MED", Week19:"MED", Week20:"Surgery", Week21:"DVL", Week22:"Surgery", Week23:"Surgery", Week24:"Surgery", Week25:"Surgery", Week26:"Surgery"},
-
-  C6:  {Week14:"MED", Week15:"MED", Week16:"MED", Week17:"MED", Week18:"MED", Week19:"MED", Week20:"Surgery", Week21:"Surgery", Week22:"DVL", Week23:"Surgery", Week24:"Surgery", Week25:"Surgery", Week26:"Surgery"},
-
-  C7:  {Week14:"Surgery", Week15:"Surgery", Week16:"Surgery", Week17:"Surgery", Week18:"Surgery", Week19:"Surgery", Week20:"MED", Week21:"MED", Week22:"MED", Week23:"MED", Week24:"DVL", Week25:"MED", Week26:"MED"},
-
-  C8:  {Week14:"Surgery", Week15:"Surgery", Week16:"Surgery", Week17:"Surgery", Week18:"Surgery", Week19:"Surgery", Week20:"MED", Week21:"MED", Week22:"MED", Week23:"MED", Week24:"MED", Week25:"DVL", Week26:"MED"},
-
-  C9:  {Week14:"Surgery", Week15:"Surgery", Week16:"Surgery", Week17:"Surgery", Week18:"Surgery", Week19:"Surgery", Week20:"MED", Week21:"MED", Week22:"MED", Week23:"MED", Week24:"MED", Week25:"MED", Week26:"DVL"},
-
-  C10: {Week14:"Surgery", Week15:"Surgery", Week16:"Surgery", Week17:"DVL", Week18:"Surgery", Week19:"Surgery", Week20:"Surgery", Week21:"MED", Week22:"MED", Week23:"MED", Week24:"MED", Week25:"MED", Week26:"MED"},
-
-  C11: {Week14:"Surgery", Week15:"Surgery", Week16:"Surgery", Week17:"Surgery", Week18:"DVL", Week19:"Surgery", Week20:"Surgery", Week21:"MED", Week22:"MED", Week23:"MED", Week24:"MED", Week25:"MED", Week26:"MED"},
-
-  C12: {Week14:"Surgery", Week15:"Surgery", Week16:"Surgery", Week17:"Surgery", Week18:"Surgery", Week19:"DVL", Week20:"Surgery", Week21:"MED", Week22:"MED", Week23:"MED", Week24:"MED", Week25:"MED", Week26:"MED"}
-};
-
-const Block2D = {
-  D1:  {Week14:"ObsGynae", Week15:"ObsGynae", Week16:"ObsGynae", Week17:"ObsGynae", Week18:"ObsGynae", Week19:"ObsGynae", Week20:"ObsGynae", Week21:"Radiology", Week22:"Radiology", Week23:"Pulm Med", Week24:"Pulm Med", Week25:"Psychy", Week26:"Psychy"},
-
-  D2:  {Week14:"ObsGynae", Week15:"ObsGynae", Week16:"ObsGynae", Week17:"ObsGynae", Week18:"ObsGynae", Week19:"ObsGynae", Week20:"ObsGynae", Week21:"Radiology", Week22:"Radiology", Week23:"Pulm Med", Week24:"Pulm Med", Week25:"Psychy", Week26:"Psychy"},
-
-  D3:  {Week14:"ObsGynae", Week15:"ObsGynae", Week16:"ObsGynae", Week17:"ObsGynae", Week18:"ObsGynae", Week19:"ObsGynae", Week20:"ObsGynae", Week21:"Psychy", Week22:"Psychy", Week23:"Radiology", Week24:"Radiology", Week25:"Pulm Med", Week26:"Pulm Med"},
-
-  D4:  {Week14:"ObsGynae", Week15:"ObsGynae", Week16:"ObsGynae", Week17:"ObsGynae", Week18:"ObsGynae", Week19:"ObsGynae", Week20:"ObsGynae", Week21:"Psychy", Week22:"Psychy", Week23:"Radiology", Week24:"Radiology", Week25:"Pulm Med", Week26:"Pulm Med"},
-
-  D5:  {Week14:"ObsGynae", Week15:"ObsGynae", Week16:"ObsGynae", Week17:"ObsGynae", Week18:"ObsGynae", Week19:"ObsGynae", Week20:"ObsGynae", Week21:"Pulm Med", Week22:"Pulm Med", Week23:"Psychy", Week24:"Psychy", Week25:"Radiology", Week26:"Radiology"},
-
-  D6:  {Week14:"ObsGynae", Week15:"ObsGynae", Week16:"ObsGynae", Week17:"ObsGynae", Week18:"ObsGynae", Week19:"ObsGynae", Week20:"ObsGynae", Week21:"Pulm Med", Week22:"Pulm Med", Week23:"Psychy", Week24:"Psychy", Week25:"Radiology", Week26:"Radiology"},
-
-  D7:  {Week14:"Radiology", Week15:"Radiology", Week16:"Pulm Med", Week17:"Pulm Med", Week18:"Psychy", Week19:"Psychy", Week20:"ObsGynae", Week21:"ObsGynae", Week22:"ObsGynae", Week23:"ObsGynae", Week24:"ObsGynae", Week25:"ObsGynae", Week26:"ObsGynae"},
-
-  D8:  {Week14:"Radiology", Week15:"Radiology", Week16:"Pulm Med", Week17:"Pulm Med", Week18:"Psychy", Week19:"Psychy", Week20:"ObsGynae", Week21:"ObsGynae", Week22:"ObsGynae", Week23:"ObsGynae", Week24:"ObsGynae", Week25:"ObsGynae", Week26:"ObsGynae"},
-
-  D9:  {Week14:"Psychy", Week15:"Psychy", Week16:"Radiology", Week17:"Radiology", Week18:"Pulm Med", Week19:"Pulm Med", Week20:"ObsGynae", Week21:"ObsGynae", Week22:"ObsGynae", Week23:"ObsGynae", Week24:"ObsGynae", Week25:"ObsGynae", Week26:"ObsGynae"},
-
-  D10: {Week14:"Psychy", Week15:"Psychy", Week16:"Radiology", Week17:"Radiology", Week18:"Pulm Med", Week19:"Pulm Med", Week20:"ObsGynae", Week21:"ObsGynae", Week22:"ObsGynae", Week23:"ObsGynae", Week24:"ObsGynae", Week25:"ObsGynae", Week26:"ObsGynae"},
-
-  D11: {Week14:"Pulm Med", Week15:"Pulm Med", Week16:"Psychy", Week17:"Psychy", Week18:"Radiology", Week19:"Radiology", Week20:"ObsGynae", Week21:"ObsGynae", Week22:"ObsGynae", Week23:"ObsGynae", Week24:"ObsGynae", Week25:"ObsGynae", Week26:"ObsGynae"},
-
-  D12: {Week14:"Pulm Med", Week15:"Pulm Med", Week16:"Psychy", Week17:"Psychy", Week18:"Radiology", Week19:"Radiology", Week20:"ObsGynae", Week21:"ObsGynae", Week22:"ObsGynae", Week23:"ObsGynae", Week24:"ObsGynae", Week25:"ObsGynae", Week26:"ObsGynae"}
-};
-
-const Block3A = {
-  A1:  {Week27:"ObsGynae", Week28:"ObsGynae", Week29:"ObsGynae", Week30:"ObsGynae", Week31:"ObsGynae", Week32:"ObsGynae", Week33:"ObsGynae", Week34:"Radiology", Week35:"Radiology", Week36:"Pulm Med", Week37:"Pulm Med", Week38:"Psychy", Week39:"Psychy"},
-
-  A2:  {Week27:"ObsGynae", Week28:"ObsGynae", Week29:"ObsGynae", Week30:"ObsGynae", Week31:"ObsGynae", Week32:"ObsGynae", Week33:"ObsGynae", Week34:"Radiology", Week35:"Radiology", Week36:"Pulm Med", Week37:"Pulm Med", Week38:"Psychy", Week39:"Psychy"},
-
-  A3:  {Week27:"ObsGynae", Week28:"ObsGynae", Week29:"ObsGynae", Week30:"ObsGynae", Week31:"ObsGynae", Week32:"ObsGynae", Week33:"ObsGynae", Week34:"Psychy", Week35:"Psychy", Week36:"Radiology", Week37:"Radiology", Week38:"Pulm Med", Week39:"Pulm Med"},
-
-  A4:  {Week27:"ObsGynae", Week28:"ObsGynae", Week29:"ObsGynae", Week30:"ObsGynae", Week31:"ObsGynae", Week32:"ObsGynae", Week33:"ObsGynae", Week34:"Psychy", Week35:"Psychy", Week36:"Radiology", Week37:"Radiology", Week38:"Pulm Med", Week39:"Pulm Med"},
-
-  A5:  {Week27:"ObsGynae", Week28:"ObsGynae", Week29:"ObsGynae", Week30:"ObsGynae", Week31:"ObsGynae", Week32:"ObsGynae", Week33:"ObsGynae", Week34:"Pulm Med", Week35:"Pulm Med", Week36:"Psychy", Week37:"Psychy", Week38:"Radiology", Week39:"Radiology"},
-
-  A6:  {Week27:"ObsGynae", Week28:"ObsGynae", Week29:"ObsGynae", Week30:"ObsGynae", Week31:"ObsGynae", Week32:"ObsGynae", Week33:"ObsGynae", Week34:"Pulm Med", Week35:"Pulm Med", Week36:"Psychy", Week37:"Psychy", Week38:"Radiology", Week39:"Radiology"},
-
-  A7:  {Week27:"Radiology", Week28:"Radiology", Week29:"Pulm Med", Week30:"Pulm Med", Week31:"Psychy", Week32:"Psychy", Week33:"ObsGynae", Week34:"ObsGynae", Week35:"ObsGynae", Week36:"ObsGynae", Week37:"ObsGynae", Week38:"ObsGynae", Week39:"ObsGynae"},
-
-  A8:  {Week27:"Radiology", Week28:"Radiology", Week29:"Pulm Med", Week30:"Pulm Med", Week31:"Psychy", Week32:"Psychy", Week33:"ObsGynae", Week34:"ObsGynae", Week35:"ObsGynae", Week36:"ObsGynae", Week37:"ObsGynae", Week38:"ObsGynae", Week39:"ObsGynae"},
-
-  A9:  {Week27:"Psychy", Week28:"Psychy", Week29:"Radiology", Week30:"Radiology", Week31:"Pulm Med", Week32:"Pulm Med", Week33:"ObsGynae", Week34:"ObsGynae", Week35:"ObsGynae", Week36:"ObsGynae", Week37:"ObsGynae", Week38:"ObsGynae", Week39:"ObsGynae"},
-
-  A10: {Week27:"Psychy", Week28:"Psychy", Week29:"Radiology", Week30:"Radiology", Week31:"Pulm Med", Week32:"Pulm Med", Week33:"ObsGynae", Week34:"ObsGynae", Week35:"ObsGynae", Week36:"ObsGynae", Week37:"ObsGynae", Week38:"ObsGynae", Week39:"ObsGynae"},
-
-  A11: {Week27:"Pulm Med", Week28:"Pulm Med", Week29:"Psychy", Week30:"Psychy", Week31:"Radiology", Week32:"Radiology", Week33:"ObsGynae", Week34:"ObsGynae", Week35:"ObsGynae", Week36:"ObsGynae", Week37:"ObsGynae", Week38:"ObsGynae", Week39:"ObsGynae"},
-
-  A12: {Week27:"Pulm Med", Week28:"Pulm Med", Week29:"Psychy", Week30:"Psychy", Week31:"Radiology", Week32:"Radiology", Week33:"ObsGynae", Week34:"ObsGynae", Week35:"ObsGynae", Week36:"ObsGynae", Week37:"ObsGynae", Week38:"ObsGynae", Week39:"ObsGynae"}
-};
-
-const Block3B = {
-  B1:  {Week27:"Pediatrics", Week28:"Pediatrics", Week29:"Pediatrics", Week30:"Anaest", Week31:"Anaest", Week32:"Caslty", Week33:"Caslty", Week34:"ENT", Week35:"ENT", Week36:"Ophtha", Week37:"Ophtha", Week38:"Ortho", Week39:"Ortho"},
-
-  B2:  {Week27:"Pediatrics", Week28:"Pediatrics", Week29:"Pediatrics", Week30:"Anaest", Week31:"Anaest", Week32:"Caslty", Week33:"Caslty", Week34:"ENT", Week35:"ENT", Week36:"Ophtha", Week37:"Ophtha", Week38:"Ortho", Week39:"Ortho"},
-
-  B3:  {Week27:"Ortho", Week28:"Ortho", Week29:"Pediatrics", Week30:"Pediatrics", Week31:"Pediatrics", Week32:"Anaest", Week33:"Anaest", Week34:"Caslty", Week35:"Caslty", Week36:"ENT", Week37:"ENT", Week38:"Ophtha", Week39:"Ophtha"},
-
-  B4:  {Week27:"Ortho", Week28:"Ortho", Week29:"Pediatrics", Week30:"Pediatrics", Week31:"Pediatrics", Week32:"Anaest", Week33:"Anaest", Week34:"Caslty", Week35:"Caslty", Week36:"ENT", Week37:"ENT", Week38:"Ophtha", Week39:"Ophtha"},
-
-  B5:  {Week27:"Ophtha", Week28:"Ophtha", Week29:"Ortho", Week30:"Ortho", Week31:"Pediatrics", Week32:"Pediatrics", Week33:"Pediatrics", Week34:"Anaest", Week35:"Anaest", Week36:"Caslty", Week37:"Caslty", Week38:"ENT", Week39:"ENT"},
-
-  B6:  {Week27:"Ophtha", Week28:"Ophtha", Week29:"Ortho", Week30:"Ortho", Week31:"Pediatrics", Week32:"Pediatrics", Week33:"Pediatrics", Week34:"Anaest", Week35:"Anaest", Week36:"Caslty", Week37:"Caslty", Week38:"ENT", Week39:"ENT"},
-
-  B7:  {Week27:"ENT", Week28:"ENT", Week29:"Ophtha", Week30:"Ophtha", Week31:"Ortho", Week32:"Ortho", Week33:"Pediatrics", Week34:"Pediatrics", Week35:"Pediatrics", Week36:"Anaest", Week37:"Anaest", Week38:"Caslty", Week39:"Caslty"},
-
-  B8:  {Week27:"ENT", Week28:"ENT", Week29:"Ophtha", Week30:"Ophtha", Week31:"Ortho", Week32:"Ortho", Week33:"Pediatrics", Week34:"Pediatrics", Week35:"Pediatrics", Week36:"Anaest", Week37:"Anaest", Week38:"Caslty", Week39:"Caslty"},
-
-  B9:  {Week27:"Caslty", Week28:"Caslty", Week29:"ENT", Week30:"ENT", Week31:"Ophtha", Week32:"Ophtha", Week33:"Ortho", Week34:"Ortho", Week35:"Pediatrics", Week36:"Pediatrics", Week37:"Pediatrics", Week38:"Anaest", Week39:"Anaest"},
-
-  B10: {Week27:"Caslty", Week28:"Caslty", Week29:"ENT", Week30:"ENT", Week31:"Ophtha", Week32:"Ophtha", Week33:"Ortho", Week34:"Ortho", Week35:"Pediatrics", Week36:"Pediatrics", Week37:"Pediatrics", Week38:"Anaest", Week39:"Anaest"},
-
-  B11: {Week27:"Anaest", Week28:"Anaest", Week29:"Caslty", Week30:"Caslty", Week31:"ENT", Week32:"ENT", Week33:"Ophtha", Week34:"Ophtha", Week35:"Ortho", Week36:"Ortho", Week37:"Pediatrics", Week38:"Pediatrics", Week39:"Pediatrics"},
-
-  B12: {Week27:"Anaest", Week28:"Anaest", Week29:"Caslty", Week30:"Caslty", Week31:"ENT", Week32:"ENT", Week33:"Ophtha", Week34:"Ophtha", Week35:"Ortho", Week36:"Ortho", Week37:"Pediatrics", Week38:"Pediatrics", Week39:"Pediatrics"}
-};
-
-const Block3C = {
-  C1:  {Week27:"Forensic", Week28:"PSM", Week29:"PSM", Week30:"PSM", Week31:"PSM", Week32:"PSM", Week33:"PSM", Week34:"PSM", Week35:"PSM", Week36:"PSM", Week37:"PSM", Week38:"PSM", Week39:"PSM"},
-
-  C2:  {Week27:"PSM", Week28:"Forensic", Week29:"PSM", Week30:"PSM", Week31:"PSM", Week32:"PSM", Week33:"PSM", Week34:"PSM", Week35:"PSM", Week36:"PSM", Week37:"PSM", Week38:"PSM", Week39:"PSM"},
-
-  C3:  {Week27:"PSM", Week28:"PSM", Week29:"Forensic", Week30:"PSM", Week31:"PSM", Week32:"PSM", Week33:"PSM", Week34:"PSM", Week35:"PSM", Week36:"PSM", Week37:"PSM", Week38:"PSM", Week39:"PSM"},
-
-  C4:  {Week27:"PSM", Week28:"PSM", Week29:"PSM", Week30:"Forensic", Week31:"PSM", Week32:"PSM", Week33:"PSM", Week34:"PSM", Week35:"PSM", Week36:"PSM", Week37:"PSM", Week38:"PSM", Week39:"PSM"},
-
-  C5:  {Week27:"PSM", Week28:"PSM", Week29:"PSM", Week30:"PSM", Week31:"Forensic", Week32:"PSM", Week33:"PSM", Week34:"PSM", Week35:"PSM", Week36:"PSM", Week37:"PSM", Week38:"PSM", Week39:"PSM"},
-
-  C6:  {Week27:"PSM", Week28:"PSM", Week29:"PSM", Week30:"PSM", Week31:"PSM", Week32:"Forensic", Week33:"PSM", Week34:"PSM", Week35:"PSM", Week36:"PSM", Week37:"PSM", Week38:"PSM", Week39:"PSM"},
-
-  C7:  {Week27:"PSM", Week28:"PSM", Week29:"PSM", Week30:"PSM", Week31:"PSM", Week32:"PSM", Week33:"Forensic", Week34:"PSM", Week35:"PSM", Week36:"PSM", Week37:"PSM", Week38:"PSM", Week39:"PSM"},
-
-  C8:  {Week27:"PSM", Week28:"PSM", Week29:"PSM", Week30:"PSM", Week31:"PSM", Week32:"PSM", Week33:"PSM", Week34:"Forensic", Week35:"PSM", Week36:"PSM", Week37:"PSM", Week38:"PSM", Week39:"PSM"},
-
-  C9:  {Week27:"PSM", Week28:"PSM", Week29:"PSM", Week30:"PSM", Week31:"PSM", Week32:"PSM", Week33:"PSM", Week34:"PSM", Week35:"Forensic", Week36:"PSM", Week37:"PSM", Week38:"PSM", Week39:"PSM"},
-
-  C10: {Week27:"PSM", Week28:"PSM", Week29:"PSM", Week30:"PSM", Week31:"PSM", Week32:"PSM", Week33:"PSM", Week34:"PSM", Week35:"PSM", Week36:"Forensic", Week37:"PSM", Week38:"PSM", Week39:"PSM"},
-
-  C11: {Week27:"PSM", Week28:"PSM", Week29:"PSM", Week30:"PSM", Week31:"PSM", Week32:"PSM", Week33:"PSM", Week34:"PSM", Week35:"PSM", Week36:"PSM", Week37:"Forensic", Week38:"PSM", Week39:"PSM"},
-
-  C12: {Week27:"PSM", Week28:"PSM", Week29:"PSM", Week30:"PSM", Week31:"PSM", Week32:"PSM", Week33:"PSM", Week34:"PSM", Week35:"PSM", Week36:"PSM", Week37:"PSM", Week38:"Forensic", Week39:"PSM"}
-};
-
-const Block3D = {
-  D1:  {Week27:"DVL", Week28:"MED", Week29:"MED", Week30:"MED", Week31:"MED", Week32:"MED", Week33:"MED", Week34:"Surgery", Week35:"Surgery", Week36:"Surgery", Week37:"Surgery", Week38:"Surgery", Week39:"Surgery"},
-
-  D2:  {Week27:"MED", Week28:"DVL", Week29:"MED", Week30:"MED", Week31:"MED", Week32:"MED", Week33:"MED", Week34:"Surgery", Week35:"Surgery", Week36:"Surgery", Week37:"Surgery", Week38:"Surgery", Week39:"Surgery"},
-
-  D3:  {Week27:"MED", Week28:"MED", Week29:"DVL", Week30:"MED", Week31:"MED", Week32:"MED", Week33:"MED", Week34:"Surgery", Week35:"Surgery", Week36:"Surgery", Week37:"Surgery", Week38:"Surgery", Week39:"Surgery"},
-
-  D4:  {Week27:"MED", Week28:"MED", Week29:"MED", Week30:"MED", Week31:"MED", Week32:"MED", Week33:"DVL", Week34:"Surgery", Week35:"Surgery", Week36:"Surgery", Week37:"Surgery", Week38:"Surgery", Week39:"Surgery"},
-
-  D5:  {Week27:"MED", Week28:"MED", Week29:"MED", Week30:"MED", Week31:"MED", Week32:"MED", Week33:"Surgery", Week34:"DVL", Week35:"Surgery", Week36:"Surgery", Week37:"Surgery", Week38:"Surgery", Week39:"Surgery"},
-
-  D6:  {Week27:"MED", Week28:"MED", Week29:"MED", Week30:"MED", Week31:"MED", Week32:"MED", Week33:"Surgery", Week34:"Surgery", Week35:"DVL", Week36:"Surgery", Week37:"Surgery", Week38:"Surgery", Week39:"Surgery"},
-
-  D7:  {Week27:"Surgery", Week28:"Surgery", Week29:"Surgery", Week30:"Surgery", Week31:"Surgery", Week32:"Surgery", Week33:"MED", Week34:"MED", Week35:"MED", Week36:"MED", Week37:"DVL", Week38:"MED", Week39:"MED"},
-
-  D8:  {Week27:"Surgery", Week28:"Surgery", Week29:"Surgery", Week30:"Surgery", Week31:"Surgery", Week32:"Surgery", Week33:"MED", Week34:"MED", Week35:"MED", Week36:"MED", Week37:"MED", Week38:"DVL", Week39:"MED"},
-
-  D9:  {Week27:"Surgery", Week28:"Surgery", Week29:"Surgery", Week30:"Surgery", Week31:"Surgery", Week32:"Surgery", Week33:"MED", Week34:"MED", Week35:"MED", Week36:"MED", Week37:"MED", Week38:"MED", Week39:"DVL"},
-
-  D10: {Week27:"Surgery", Week28:"Surgery", Week29:"Surgery", Week30:"DVL", Week31:"Surgery", Week32:"Surgery", Week33:"Surgery", Week34:"MED", Week35:"MED", Week36:"MED", Week37:"MED", Week38:"MED", Week39:"MED"},
-
-  D11: {Week27:"Surgery", Week28:"Surgery", Week29:"Surgery", Week30:"Surgery", Week31:"DVL", Week32:"Surgery", Week33:"Surgery", Week34:"MED", Week35:"MED", Week36:"MED", Week37:"MED", Week38:"MED", Week39:"MED"},
-
-  D12: {Week27:"Surgery", Week28:"Surgery", Week29:"Surgery", Week30:"Surgery", Week31:"Surgery", Week32:"DVL", Week33:"Surgery", Week34:"MED", Week35:"MED", Week36:"MED", Week37:"MED", Week38:"MED", Week39:"MED"}
-};
-
-const Block4A = {
-  A1:  {Week40:"DVL", Week41:"MED", Week42:"MED", Week43:"MED", Week44:"MED", Week45:"MED", Week46:"MED", Week47:"Surgery", Week48:"Surgery", Week49:"Surgery", Week50:"Surgery", Week51:"Surgery", Week52:"Surgery"},
-
-  A2:  {Week40:"MED", Week41:"DVL", Week42:"MED", Week43:"MED", Week44:"MED", Week45:"MED", Week46:"MED", Week47:"Surgery", Week48:"Surgery", Week49:"Surgery", Week50:"Surgery", Week51:"Surgery", Week52:"Surgery"},
-
-  A3:  {Week40:"MED", Week41:"MED", Week42:"DVL", Week43:"MED", Week44:"MED", Week45:"MED", Week46:"MED", Week47:"Surgery", Week48:"Surgery", Week49:"Surgery", Week50:"Surgery", Week51:"Surgery", Week52:"Surgery"},
-
-  A4:  {Week40:"MED", Week41:"MED", Week42:"MED", Week43:"MED", Week44:"MED", Week45:"MED", Week46:"DVL", Week47:"Surgery", Week48:"Surgery", Week49:"Surgery", Week50:"Surgery", Week51:"Surgery", Week52:"Surgery"},
-
-  A5:  {Week40:"MED", Week41:"MED", Week42:"MED", Week43:"MED", Week44:"MED", Week45:"MED", Week46:"Surgery", Week47:"DVL", Week48:"Surgery", Week49:"Surgery", Week50:"Surgery", Week51:"Surgery", Week52:"Surgery"},
-
-  A6:  {Week40:"MED", Week41:"MED", Week42:"MED", Week43:"MED", Week44:"MED", Week45:"MED", Week46:"Surgery", Week47:"Surgery", Week48:"DVL", Week49:"Surgery", Week50:"Surgery", Week51:"Surgery", Week52:"Surgery"},
-
-  A7:  {Week40:"Surgery", Week41:"Surgery", Week42:"Surgery", Week43:"Surgery", Week44:"Surgery", Week45:"Surgery", Week46:"MED", Week47:"MED", Week48:"MED", Week49:"MED", Week50:"DVL", Week51:"MED", Week52:"MED"},
-
-  A8:  {Week40:"Surgery", Week41:"Surgery", Week42:"Surgery", Week43:"Surgery", Week44:"Surgery", Week45:"Surgery", Week46:"MED", Week47:"MED", Week48:"MED", Week49:"MED", Week50:"MED", Week51:"DVL", Week52:"MED"},
-
-  A9:  {Week40:"Surgery", Week41:"Surgery", Week42:"Surgery", Week43:"Surgery", Week44:"Surgery", Week45:"Surgery", Week46:"MED", Week47:"MED", Week48:"MED", Week49:"MED", Week50:"MED", Week51:"MED", Week52:"DVL"},
-
-  A10: {Week40:"Surgery", Week41:"Surgery", Week42:"Surgery", Week43:"DVL", Week44:"Surgery", Week45:"Surgery", Week46:"Surgery", Week47:"MED", Week48:"MED", Week49:"MED", Week50:"MED", Week51:"MED", Week52:"MED"},
-
-  A11: {Week40:"Surgery", Week41:"Surgery", Week42:"Surgery", Week43:"Surgery", Week44:"DVL", Week45:"Surgery", Week46:"Surgery", Week47:"MED", Week48:"MED", Week49:"MED", Week50:"MED", Week51:"MED", Week52:"MED"},
-
-  A12: {Week40:"Surgery", Week41:"Surgery", Week42:"Surgery", Week43:"Surgery", Week44:"Surgery", Week45:"DVL", Week46:"Surgery", Week47:"MED", Week48:"MED", Week49:"MED", Week50:"MED", Week51:"MED", Week52:"MED"}
-};
-
-const Block4B = {
-  B1:  {Week40:"ObsGynae", Week41:"ObsGynae", Week42:"ObsGynae", Week43:"ObsGynae", Week44:"ObsGynae", Week45:"ObsGynae", Week46:"ObsGynae", Week47:"Radiology", Week48:"Radiology", Week49:"Pulm Med", Week50:"Pulm Med", Week51:"Psychy", Week52:"Psychy"},
-
-  B2:  {Week40:"ObsGynae", Week41:"ObsGynae", Week42:"ObsGynae", Week43:"ObsGynae", Week44:"ObsGynae", Week45:"ObsGynae", Week46:"ObsGynae", Week47:"Radiology", Week48:"Radiology", Week49:"Pulm Med", Week50:"Pulm Med", Week51:"Psychy", Week52:"Psychy"},
-
-  B3:  {Week40:"ObsGynae", Week41:"ObsGynae", Week42:"ObsGynae", Week43:"ObsGynae", Week44:"ObsGynae", Week45:"ObsGynae", Week46:"ObsGynae", Week47:"Psychy", Week48:"Psychy", Week49:"Radiology", Week50:"Radiology", Week51:"Pulm Med", Week52:"Pulm Med"},
-
-  B4:  {Week40:"ObsGynae", Week41:"ObsGynae", Week42:"ObsGynae", Week43:"ObsGynae", Week44:"ObsGynae", Week45:"ObsGynae", Week46:"ObsGynae", Week47:"Psychy", Week48:"Psychy", Week49:"Radiology", Week50:"Radiology", Week51:"Pulm Med", Week52:"Pulm Med"},
-
-  B5:  {Week40:"ObsGynae", Week41:"ObsGynae", Week42:"ObsGynae", Week43:"ObsGynae", Week44:"ObsGynae", Week45:"ObsGynae", Week46:"ObsGynae", Week47:"Pulm Med", Week48:"Pulm Med", Week49:"Psychy", Week50:"Psychy", Week51:"Radiology", Week52:"Radiology"},
-
-  B6:  {Week40:"ObsGynae", Week41:"ObsGynae", Week42:"ObsGynae", Week43:"ObsGynae", Week44:"ObsGynae", Week45:"ObsGynae", Week46:"ObsGynae", Week47:"Pulm Med", Week48:"Pulm Med", Week49:"Psychy", Week50:"Psychy", Week51:"Radiology", Week52:"Radiology"},
-
-  B7:  {Week40:"Radiology", Week41:"Radiology", Week42:"Pulm Med", Week43:"Pulm Med", Week44:"Psychy", Week45:"Psychy", Week46:"ObsGynae", Week47:"ObsGynae", Week48:"ObsGynae", Week49:"ObsGynae", Week50:"ObsGynae", Week51:"ObsGynae", Week52:"ObsGynae"},
-
-  B8:  {Week40:"Radiology", Week41:"Radiology", Week42:"Pulm Med", Week43:"Pulm Med", Week44:"Psychy", Week45:"Psychy", Week46:"ObsGynae", Week47:"ObsGynae", Week48:"ObsGynae", Week49:"ObsGynae", Week50:"ObsGynae", Week51:"ObsGynae", Week52:"ObsGynae"},
-
-  B9:  {Week40:"Psychy", Week41:"Psychy", Week42:"Radiology", Week43:"Radiology", Week44:"Pulm Med", Week45:"Pulm Med", Week46:"ObsGynae", Week47:"ObsGynae", Week48:"ObsGynae", Week49:"ObsGynae", Week50:"ObsGynae", Week51:"ObsGynae", Week52:"ObsGynae"},
-
-  B10: {Week40:"Psychy", Week41:"Psychy", Week42:"Radiology", Week43:"Radiology", Week44:"Pulm Med", Week45:"Pulm Med", Week46:"ObsGynae", Week47:"ObsGynae", Week48:"ObsGynae", Week49:"ObsGynae", Week50:"ObsGynae", Week51:"ObsGynae", Week52:"ObsGynae"},
-
-  B11: {Week40:"Pulm Med", Week41:"Pulm Med", Week42:"Psychy", Week43:"Psychy", Week44:"Radiology", Week45:"Radiology", Week46:"ObsGynae", Week47:"ObsGynae", Week48:"ObsGynae", Week49:"ObsGynae", Week50:"ObsGynae", Week51:"ObsGynae", Week52:"ObsGynae"},
-
-  B12: {Week40:"Pulm Med", Week41:"Pulm Med", Week42:"Psychy", Week43:"Psychy", Week44:"Radiology", Week45:"Radiology", Week46:"ObsGynae", Week47:"ObsGynae", Week48:"ObsGynae", Week49:"ObsGynae", Week50:"ObsGynae", Week51:"ObsGynae", Week52:"ObsGynae"}
-};
-
-const Block4C = {
-  C1:  {Week40:"Pediatrics", Week41:"Pediatrics", Week42:"Pediatrics", Week43:"Anaest", Week44:"Anaest", Week45:"Caslty", Week46:"Caslty", Week47:"ENT", Week48:"ENT", Week49:"Ophtha", Week50:"Ophtha", Week51:"Ortho", Week52:"Ortho"},
-
-  C2:  {Week40:"Pediatrics", Week41:"Pediatrics", Week42:"Pediatrics", Week43:"Anaest", Week44:"Anaest", Week45:"Caslty", Week46:"Caslty", Week47:"ENT", Week48:"ENT", Week49:"Ophtha", Week50:"Ophtha", Week51:"Ortho", Week52:"Ortho"},
-
-  C3:  {Week40:"Ortho", Week41:"Ortho", Week42:"Pediatrics", Week43:"Pediatrics", Week44:"Pediatrics", Week45:"Anaest", Week46:"Anaest", Week47:"Caslty", Week48:"Caslty", Week49:"ENT", Week50:"ENT", Week51:"Ophtha", Week52:"Ophtha"},
-
-  C4:  {Week40:"Ortho", Week41:"Ortho", Week42:"Pediatrics", Week43:"Pediatrics", Week44:"Pediatrics", Week45:"Anaest", Week46:"Anaest", Week47:"Caslty", Week48:"Caslty", Week49:"ENT", Week50:"ENT", Week51:"Ophtha", Week52:"Ophtha"},
-
-  C5:  {Week40:"Ophtha", Week41:"Ophtha", Week42:"Ortho", Week43:"Ortho", Week44:"Pediatrics", Week45:"Pediatrics", Week46:"Pediatrics", Week47:"Anaest", Week48:"Anaest", Week49:"Caslty", Week50:"Caslty", Week51:"ENT", Week52:"ENT"},
-
-  C6:  {Week40:"Ophtha", Week41:"Ophtha", Week42:"Ortho", Week43:"Ortho", Week44:"Pediatrics", Week45:"Pediatrics", Week46:"Pediatrics", Week47:"Anaest", Week48:"Anaest", Week49:"Caslty", Week50:"Caslty", Week51:"ENT", Week52:"ENT"},
-
-  C7:  {Week40:"ENT", Week41:"ENT", Week42:"Ophtha", Week43:"Ophtha", Week44:"Ortho", Week45:"Ortho", Week46:"Pediatrics", Week47:"Pediatrics", Week48:"Pediatrics", Week49:"Anaest", Week50:"Anaest", Week51:"Caslty", Week52:"Caslty"},
-
-  C8:  {Week40:"ENT", Week41:"ENT", Week42:"Ophtha", Week43:"Ophtha", Week44:"Ortho", Week45:"Ortho", Week46:"Pediatrics", Week47:"Pediatrics", Week48:"Pediatrics", Week49:"Anaest", Week50:"Anaest", Week51:"Caslty", Week52:"Caslty"},
-
-  C9:  {Week40:"Caslty", Week41:"Caslty", Week42:"ENT", Week43:"ENT", Week44:"Ophtha", Week45:"Ophtha", Week46:"Ortho", Week47:"Ortho", Week48:"Pediatrics", Week49:"Pediatrics", Week50:"Pediatrics", Week51:"Anaest", Week52:"Anaest"},
-
-  C10: {Week40:"Caslty", Week41:"Caslty", Week42:"ENT", Week43:"ENT", Week44:"Ophtha", Week45:"Ophtha", Week46:"Ortho", Week47:"Ortho", Week48:"Pediatrics", Week49:"Pediatrics", Week50:"Pediatrics", Week51:"Anaest", Week52:"Anaest"},
-
-  C11: {Week40:"Anaest", Week41:"Anaest", Week42:"Caslty", Week43:"Caslty", Week44:"ENT", Week45:"ENT", Week46:"Ophtha", Week47:"Ophtha", Week48:"Ortho", Week49:"Ortho", Week50:"Pediatrics", Week51:"Pediatrics", Week52:"Pediatrics"},
-
-  C12: {Week40:"Anaest", Week41:"Anaest", Week42:"Caslty", Week43:"Caslty", Week44:"ENT", Week45:"ENT", Week46:"Ophtha", Week47:"Ophtha", Week48:"Ortho", Week49:"Ortho", Week50:"Pediatrics", Week51:"Pediatrics", Week52:"Pediatrics"}
-};
-
-const Block4D = {
-  D1:  {Week40:"Forensic", Week41:"PSM", Week42:"PSM", Week43:"PSM", Week44:"PSM", Week45:"PSM", Week46:"PSM", Week47:"PSM", Week48:"PSM", Week49:"PSM", Week50:"PSM", Week51:"PSM", Week52:"PSM"},
-
-  D2:  {Week40:"PSM", Week41:"Forensic", Week42:"PSM", Week43:"PSM", Week44:"PSM", Week45:"PSM", Week46:"PSM", Week47:"PSM", Week48:"PSM", Week49:"PSM", Week50:"PSM", Week51:"PSM", Week52:"PSM"},
-
-  D3:  {Week40:"PSM", Week41:"PSM", Week42:"Forensic", Week43:"PSM", Week44:"PSM", Week45:"PSM", Week46:"PSM", Week47:"PSM", Week48:"PSM", Week49:"PSM", Week50:"PSM", Week51:"PSM", Week52:"PSM"},
-
-  D4:  {Week40:"PSM", Week41:"PSM", Week42:"PSM", Week43:"Forensic", Week44:"PSM", Week45:"PSM", Week46:"PSM", Week47:"PSM", Week48:"PSM", Week49:"PSM", Week50:"PSM", Week51:"PSM", Week52:"PSM"},
-
-  D5:  {Week40:"PSM", Week41:"PSM", Week42:"PSM", Week43:"PSM", Week44:"Forensic", Week45:"PSM", Week46:"PSM", Week47:"PSM", Week48:"PSM", Week49:"PSM", Week50:"PSM", Week51:"PSM", Week52:"PSM"},
-
-  D6:  {Week40:"PSM", Week41:"PSM", Week42:"PSM", Week43:"PSM", Week44:"PSM", Week45:"Forensic", Week46:"PSM", Week47:"PSM", Week48:"PSM", Week49:"PSM", Week50:"PSM", Week51:"PSM", Week52:"PSM"},
-
-  D7:  {Week40:"PSM", Week41:"PSM", Week42:"PSM", Week43:"PSM", Week44:"PSM", Week45:"PSM", Week46:"Forensic", Week47:"PSM", Week48:"PSM", Week49:"PSM", Week50:"PSM", Week51:"PSM", Week52:"PSM"},
-
-  D8:  {Week40:"PSM", Week41:"PSM", Week42:"PSM", Week43:"PSM", Week44:"PSM", Week45:"PSM", Week46:"PSM", Week47:"Forensic", Week48:"PSM", Week49:"PSM", Week50:"PSM", Week51:"PSM", Week52:"PSM"},
-
-  D9:  {Week40:"PSM", Week41:"PSM", Week42:"PSM", Week43:"PSM", Week44:"PSM", Week45:"PSM", Week46:"PSM", Week47:"PSM", Week48:"Forensic", Week49:"PSM", Week50:"PSM", Week51:"PSM", Week52:"PSM"},
-
-  D10: {Week40:"PSM", Week41:"PSM", Week42:"PSM", Week43:"PSM", Week44:"PSM", Week45:"PSM", Week46:"PSM", Week47:"PSM", Week48:"PSM", Week49:"Forensic", Week50:"PSM", Week51:"PSM", Week52:"PSM"},
-
-  D11: {Week40:"PSM", Week41:"PSM", Week42:"PSM", Week43:"PSM", Week44:"PSM", Week45:"PSM", Week46:"PSM", Week47:"PSM", Week48:"PSM", Week49:"PSM", Week50:"Forensic", Week51:"PSM", Week52:"PSM"},
-
-  D12: {Week40:"PSM", Week41:"PSM", Week42:"PSM", Week43:"PSM", Week44:"PSM", Week45:"PSM", Week46:"PSM", Week47:"PSM", Week48:"PSM", Week49:"PSM", Week50:"PSM", Week51:"Forensic", Week52:"PSM"}
-};
-
-    // --- MASTER 52-WEEK SCHEDULE LOOKUP DATABASE ---
+    weeks: ["Week1","Week2","Week3","Week4","Week5","Week6","Week7","Week8","Week9","Week10","Week11","Week12","Week13"],
+    A: {
+      A1:  {Week1:"Forensic", Week2:"PSM", Week3:"PSM", Week4:"PSM", Week5:"PSM", Week6:"PSM", Week7:"PSM", Week8:"PSM", Week9:"PSM", Week10:"PSM", Week11:"PSM", Week12:"PSM", Week13:"PSM"},
+      A2:  {Week1:"PSM", Week2:"Forensic", Week3:"PSM", Week4:"PSM", Week5:"PSM", Week6:"PSM", Week7:"PSM", Week8:"PSM", Week9:"PSM", Week10:"PSM", Week11:"PSM", Week12:"PSM", Week13:"PSM"},
+      A3:  {Week1:"PSM", Week2:"PSM", Week3:"Forensic", Week4:"PSM", Week5:"PSM", Week6:"PSM", Week7:"PSM", Week8:"PSM", Week9:"PSM", Week10:"PSM", Week11:"PSM", Week12:"PSM", Week13:"PSM"},
+      A4:  {Week1:"PSM", Week2:"PSM", Week3:"PSM", Week4:"Forensic", Week5:"PSM", Week6:"PSM", Week7:"PSM", Week8:"PSM", Week9:"PSM", Week10:"PSM", Week11:"PSM", Week12:"PSM", Week13:"PSM"},
+      A5:  {Week1:"PSM", Week2:"PSM", Week3:"PSM", Week4:"PSM", Week5:"Forensic", Week6:"PSM", Week7:"PSM", Week8:"PSM", Week9:"PSM", Week10:"PSM", Week11:"PSM", Week12:"PSM", Week13:"PSM"},
+      A6:  {Week1:"PSM", Week2:"PSM", Week3:"PSM", Week4:"PSM", Week5:"PSM", Week6:"Forensic", Week7:"PSM", Week8:"PSM", Week9:"PSM", Week10:"PSM", Week11:"PSM", Week12:"PSM", Week13:"PSM"},
+      A7:  {Week1:"PSM", Week2:"PSM", Week3:"PSM", Week4:"PSM", Week5:"PSM", Week6:"PSM", Week7:"Forensic", Week8:"PSM", Week9:"PSM", Week10:"PSM", Week11:"PSM", Week12:"PSM", Week13:"PSM"},
+      A8:  {Week1:"PSM", Week2:"PSM", Week3:"PSM", Week4:"PSM", Week5:"PSM", Week6:"PSM", Week7:"PSM", Week8:"Forensic", Week9:"PSM", Week10:"PSM", Week11:"PSM", Week12:"PSM", Week13:"PSM"},
+      A9:  {Week1:"PSM", Week2:"PSM", Week3:"PSM", Week4:"PSM", Week5:"PSM", Week6:"PSM", Week7:"PSM", Week8:"PSM", Week9:"Forensic", Week10:"PSM", Week11:"PSM", Week12:"PSM", Week13:"PSM"},
+      A10: {Week1:"PSM", Week2:"PSM", Week3:"PSM", Week4:"PSM", Week5:"PSM", Week6:"PSM", Week7:"PSM", Week8:"PSM", Week9:"PSM", Week10:"Forensic", Week11:"PSM", Week12:"PSM", Week13:"PSM"},
+      A11: {Week1:"PSM", Week2:"PSM", Week3:"PSM", Week4:"PSM", Week5:"PSM", Week6:"PSM", Week7:"PSM", Week8:"PSM", Week9:"PSM", Week10:"PSM", Week11:"Forensic", Week12:"PSM", Week13:"PSM"},
+      A12: {Week1:"PSM", Week2:"PSM", Week3:"PSM", Week4:"PSM", Week5:"PSM", Week6:"PSM", Week7:"PSM", Week8:"PSM", Week9:"PSM", Week10:"PSM", Week11:"PSM", Week12:"Forensic", Week13:"PSM"}
+    },
+    B: {
+      B1:  {Week1:"DVL", Week2:"MED", Week3:"MED", Week4:"MED", Week5:"MED", Week6:"MED", Week7:"MED", Week8:"Surgery", Week9:"Surgery", Week10:"Surgery", Week11:"Surgery", Week12:"Surgery", Week13:"Surgery"},
+      B2:  {Week1:"MED", Week2:"DVL", Week3:"MED", Week4:"MED", Week5:"MED", Week6:"MED", Week7:"MED", Week8:"Surgery", Week9:"Surgery", Week10:"Surgery", Week11:"Surgery", Week12:"Surgery", Week13:"Surgery"},
+      B3:  {Week1:"MED", Week2:"MED", Week3:"DVL", Week4:"MED", Week5:"MED", Week6:"MED", Week7:"MED", Week8:"Surgery", Week9:"Surgery", Week10:"Surgery", Week11:"Surgery", Week12:"Surgery", Week13:"Surgery"},
+      B4:  {Week1:"MED", Week2:"MED", Week3:"MED", Week4:"MED", Week5:"MED", Week6:"MED", Week7:"DVL", Week8:"Surgery", Week9:"Surgery", Week10:"Surgery", Week11:"Surgery", Week12:"Surgery", Week13:"Surgery"},
+      B5:  {Week1:"MED", Week2:"MED", Week3:"MED", Week4:"MED", Week5:"MED", Week6:"MED", Week7:"Surgery", Week8:"DVL", Week9:"Surgery", Week10:"Surgery", Week11:"Surgery", Week12:"Surgery", Week13:"Surgery"},
+      B6:  {Week1:"MED", Week2:"MED", Week3:"MED", Week4:"MED", Week5:"MED", Week6:"MED", Week7:"Surgery", Week8:"Surgery", Week9:"DVL", Week10:"Surgery", Week11:"Surgery", Week12:"Surgery", Week13:"Surgery"},
+      B7:  {Week1:"Surgery", Week2:"Surgery", Week3:"Surgery", Week4:"Surgery", Week5:"Surgery", Week6:"Surgery", Week7:"MED", Week8:"MED", Week9:"MED", Week10:"MED", Week11:"DVL", Week12:"MED", Week13:"MED"},
+      B8:  {Week1:"Surgery", Week2:"Surgery", Week3:"Surgery", Week4:"Surgery", Week5:"Surgery", Week6:"Surgery", Week7:"MED", Week8:"MED", Week9:"MED", Week10:"MED", Week11:"MED", Week12:"DVL", Week13:"MED"},
+      B9:  {Week1:"Surgery", Week2:"Surgery", Week3:"Surgery", Week4:"Surgery", Week5:"Surgery", Week6:"Surgery", Week7:"MED", Week8:"MED", Week9:"MED", Week10:"MED", Week11:"MED", Week12:"MED", Week13:"DVL"},
+      B10: {Week1:"Surgery", Week2:"Surgery", Week3:"Surgery", Week4:"DVL", Week5:"Surgery", Week6:"Surgery", Week7:"Surgery", Week8:"MED", Week9:"MED", Week10:"MED", Week11:"MED", Week12:"MED", Week13:"MED"},
+      B11: {Week1:"Surgery", Week2:"Surgery", Week3:"Surgery", Week4:"Surgery", Week5:"DVL", Week6:"Surgery", Week7:"Surgery", Week8:"MED", Week9:"MED", Week10:"MED", Week11:"MED", Week12:"MED", Week13:"MED"},
+      B12: {Week1:"Surgery", Week2:"Surgery", Week3:"Surgery", Week4:"Surgery", Week5:"Surgery", Week6:"DVL", Week7:"Surgery", Week8:"MED", Week9:"MED", Week10:"MED", Week11:"MED", Week12:"MED", Week13:"MED"}
+    }
+  };
+
+  const Block1CD = {
+    weeks: ["Week1","Week2","Week3","Week4","Week5","Week6","Week7","Week8","Week9","Week10","Week11","Week12","Week13"],
+    C: {
+      C1:  {Week1:"ObsGynae", Week2:"ObsGynae", Week3:"ObsGynae", Week4:"ObsGynae", Week5:"ObsGynae", Week6:"ObsGynae", Week7:"ObsGynae", Week8:"Radiology", Week9:"Radiology", Week10:"Pulm Med", Week11:"Pulm Med", Week12:"Psychi", Week13:"Psychi"},
+      C2:  {Week1:"ObsGynae", Week2:"ObsGynae", Week3:"ObsGynae", Week4:"ObsGynae", Week5:"ObsGynae", Week6:"ObsGynae", Week7:"ObsGynae", Week8:"Radiology", Week9:"Radiology", Week10:"Pulm Med", Week11:"Pulm Med", Week12:"Psychi", Week13:"Psychi"},
+      C3:  {Week1:"ObsGynae", Week2:"ObsGynae", Week3:"ObsGynae", Week4:"ObsGynae", Week5:"ObsGynae", Week6:"ObsGynae", Week7:"ObsGynae", Week8:"Psychi", Week9:"Psychi", Week10:"Radiology", Week11:"Radiology", Week12:"Pulm Med", Week13:"Pulm Med"},
+      C4:  {Week1:"ObsGynae", Week2:"ObsGynae", Week3:"ObsGynae", Week4:"ObsGynae", Week5:"ObsGynae", Week6:"ObsGynae", Week7:"ObsGynae", Week8:"Psychi", Week9:"Psychi", Week10:"Radiology", Week11:"Radiology", Week12:"Pulm Med", Week13:"Pulm Med"},
+      C5:  {Week1:"ObsGynae", Week2:"ObsGynae", Week3:"ObsGynae", Week4:"ObsGynae", Week5:"ObsGynae", Week6:"ObsGynae", Week7:"ObsGynae", Week8:"Pulm Med", Week9:"Pulm Med", Week10:"Psychi", Week11:"Psychi", Week12:"Radiology", Week13:"Radiology"},
+      C6:  {Week1:"ObsGynae", Week2:"ObsGynae", Week3:"ObsGynae", Week4:"ObsGynae", Week5:"ObsGynae", Week6:"ObsGynae", Week7:"ObsGynae", Week8:"Pulm Med", Week9:"Pulm Med", Week10:"Psychi", Week11:"Psychi", Week12:"Radiology", Week13:"Radiology"},
+      C7:  {Week1:"Radiology", Week2:"Radiology", Week3:"Pulm Med", Week4:"Pulm Med", Week5:"Psychi", Week6:"Psychi", Week7:"ObsGynae", Week8:"ObsGynae", Week9:"ObsGynae", Week10:"ObsGynae", Week11:"ObsGynae", Week12:"ObsGynae", Week13:"ObsGynae"},
+      C8:  {Week1:"Radiology", Week2:"Radiology", Week3:"Pulm Med", Week4:"Pulm Med", Week5:"Psychi", Week6:"Psychi", Week7:"ObsGynae", Week8:"ObsGynae", Week9:"ObsGynae", Week10:"ObsGynae", Week11:"ObsGynae", Week12:"ObsGynae", Week13:"ObsGynae"},
+      C9:  {Week1:"Psychi", Week2:"Psychi", Week3:"Radiology", Week4:"Radiology", Week5:"Pulm Med", Week6:"Pulm Med", Week7:"ObsGynae", Week8:"ObsGynae", Week9:"ObsGynae", Week10:"ObsGynae", Week11:"ObsGynae", Week12:"ObsGynae", Week13:"ObsGynae"},
+      C10: {Week1:"Psychi", Week2:"Psychi", Week3:"Radiology", Week4:"Radiology", Week5:"Pulm Med", Week6:"Pulm Med", Week7:"ObsGynae", Week8:"ObsGynae", Week9:"ObsGynae", Week10:"ObsGynae", Week11:"ObsGynae", Week12:"ObsGynae", Week13:"ObsGynae"},
+      C11: {Week1:"Pulm Med", Week2:"Pulm Med", Week3:"Psychi", Week4:"Psychi", Week5:"Radiology", Week6:"Radiology", Week7:"ObsGynae", Week8:"ObsGynae", Week9:"ObsGynae", Week10:"ObsGynae", Week11:"ObsGynae", Week12:"ObsGynae", Week13:"ObsGynae"},
+      C12: {Week1:"Pulm Med", Week2:"Pulm Med", Week3:"Psychi", Week4:"Psychi", Week5:"Radiology", Week6:"Radiology", Week7:"ObsGynae", Week8:"ObsGynae", Week9:"ObsGynae", Week10:"ObsGynae", Week11:"ObsGynae", Week12:"ObsGynae", Week13:"ObsGynae"}
+    },
+    D: {
+      D1:  {Week1:"Pediatrics", Week2:"Pediatrics", Week3:"Pediatrics", Week4:"Anaest", Week5:"Anaest", Week6:"Caslty", Week7:"Caslty", Week8:"ENT", Week9:"ENT", Week10:"Ophtha", Week11:"Ophtha", Week12:"Ortho", Week13:"Ortho"},
+      D2:  {Week1:"Pediatrics", Week2:"Pediatrics", Week3:"Pediatrics", Week4:"Anaest", Week5:"Anaest", Week6:"Caslty", Week7:"Caslty", Week8:"ENT", Week9:"ENT", Week10:"Ophtha", Week11:"Ophtha", Week12:"Ortho", Week13:"Ortho"},
+      D3:  {Week1:"Ortho", Week2:"Ortho", Week3:"Pediatrics", Week4:"Pediatrics", Week5:"Pediatrics", Week6:"Anaest", Week7:"Anaest", Week8:"Caslty", Week9:"Caslty", Week10:"ENT", Week11:"ENT", Week12:"Ophtha", Week13:"Ophtha"},
+      D4:  {Week1:"Ortho", Week2:"Ortho", Week3:"Pediatrics", Week4:"Pediatrics", Week5:"Pediatrics", Week6:"Anaest", Week7:"Anaest", Week8:"Caslty", Week9:"Caslty", Week10:"ENT", Week11:"ENT", Week12:"Ophtha", Week13:"Ophtha"},
+      D5:  {Week1:"Ophtha", Week2:"Ophtha", Week3:"Ortho", Week4:"Ortho", Week5:"Pediatrics", Week6:"Pediatrics", Week7:"Pediatrics", Week8:"Anaest", Week9:"Anaest", Week10:"Caslty", Week11:"Caslty", Week12:"ENT", Week13:"ENT"},
+      D6:  {Week1:"Ophtha", Week2:"Ophtha", Week3:"Ortho", Week4:"Ortho", Week5:"Pediatrics", Week6:"Pediatrics", Week7:"Pediatrics", Week8:"Anaest", Week9:"Anaest", Week10:"Caslty", Week11:"Caslty", Week12:"ENT", Week13:"ENT"},
+      D7:  {Week1:"ENT", Week2:"ENT", Week3:"Ophtha", Week4:"Ophtha", Week5:"Ortho", Week6:"Ortho", Week7:"Pediatrics", Week8:"Pediatrics", Week9:"Pediatrics", Week10:"Anaest", Week11:"Anaest", Week12:"Caslty", Week13:"Caslty"},
+      D8:  {Week1:"ENT", Week2:"ENT", Week3:"Ophtha", Week4:"Ophtha", Week5:"Ortho", Week6:"Ortho", Week7:"Pediatrics", Week8:"Pediatrics", Week9:"Pediatrics", Week10:"Anaest", Week11:"Anaest", Week12:"Caslty", Week13:"Caslty"},
+      D9:  {Week1:"Caslty", Week2:"Caslty", Week3:"ENT", Week4:"ENT", Week5:"Ophtha", Week6:"Ophtha", Week7:"Ortho", Week8:"Ortho", Week9:"Pediatrics", Week10:"Pediatrics", Week11:"Pediatrics", Week12:"Anaest", Week13:"Anaest"},
+      D10: {Week1:"Caslty", Week2:"Caslty", Week3:"ENT", Week4:"ENT", Week5:"Ophtha", Week6:"Ophtha", Week7:"Ortho", Week8:"Ortho", Week9:"Pediatrics", Week10:"Pediatrics", Week11:"Pediatrics", Week12:"Anaest", Week13:"Anaest"},
+      D11: {Week1:"Anaest", Week2:"Anaest", Week3:"Caslty", Week4:"Caslty", Week5:"ENT", Week6:"ENT", Week7:"Ophtha", Week8:"Ophtha", Week9:"Ortho", Week10:"Ortho", Week11:"Pediatrics", Week12:"Pediatrics", Week13:"Pediatrics"},
+      D12: {Week1:"Anaest", Week2:"Anaest", Week3:"Caslty", Week4:"Caslty", Week5:"ENT", Week6:"ENT", Week7:"Ophtha", Week8:"Ophtha", Week9:"Ortho", Week10:"Ortho", Week11:"Pediatrics", Week12:"Pediatrics", Week13:"Pediatrics"}
+    }
+  };
+
+  const Block2A = {
+    A1:  {Week14:"Pediatrics", Week15:"Pediatrics", Week16:"Pediatrics", Week17:"Anaest", Week18:"Anaest", Week19:"Caslty", Week20:"Caslty", Week21:"ENT", Week22:"ENT", Week23:"Ophtha", Week24:"Ophtha", Week25:"Ortho", Week26:"Ortho"},
+    A2:  {Week14:"Pediatrics", Week15:"Pediatrics", Week16:"Pediatrics", Week17:"Anaest", Week18:"Anaest", Week19:"Caslty", Week20:"Caslty", Week21:"ENT", Week22:"ENT", Week23:"Ophtha", Week24:"Ophtha", Week25:"Ortho", Week26:"Ortho"},
+    A3:  {Week14:"Ortho", Week15:"Ortho", Week16:"Pediatrics", Week17:"Pediatrics", Week18:"Pediatrics", Week19:"Anaest", Week20:"Anaest", Week21:"Caslty", Week22:"Caslty", Week23:"ENT", Week24:"ENT", Week25:"Ophtha", Week26:"Ophtha"},
+    A4:  {Week14:"Ortho", Week15:"Ortho", Week16:"Pediatrics", Week17:"Pediatrics", Week18:"Pediatrics", Week19:"Anaest", Week20:"Anaest", Week21:"Caslty", Week22:"Caslty", Week23:"ENT", Week24:"ENT", Week25:"Ophtha", Week26:"Ophtha"},
+    A5:  {Week14:"Ophtha", Week15:"Ophtha", Week16:"Ortho", Week17:"Ortho", Week18:"Pediatrics", Week19:"Pediatrics", Week20:"Pediatrics", Week21:"Anaest", Week22:"Anaest", Week23:"Caslty", Week24:"Caslty", Week25:"ENT", Week26:"ENT"},
+    A6:  {Week14:"Ophtha", Week15:"Ophtha", Week16:"Ortho", Week17:"Ortho", Week18:"Pediatrics", Week19:"Pediatrics", Week20:"Pediatrics", Week21:"Anaest", Week22:"Anaest", Week23:"Caslty", Week24:"Caslty", Week25:"ENT", Week26:"ENT"},
+    A7:  {Week14:"ENT", Week15:"ENT", Week16:"Ophtha", Week17:"Ophtha", Week18:"Ortho", Week19:"Ortho", Week20:"Pediatrics", Week21:"Pediatrics", Week22:"Pediatrics", Week23:"Anaest", Week24:"Anaest", Week25:"Caslty", Week26:"Caslty"},
+    A8:  {Week14:"ENT", Week15:"ENT", Week16:"Ophtha", Week17:"Ophtha", Week18:"Ortho", Week19:"Ortho", Week20:"Pediatrics", Week21:"Pediatrics", Week22:"Pediatrics", Week23:"Anaest", Week24:"Anaest", Week25:"Caslty", Week26:"Caslty"},
+    A9:  {Week14:"Caslty", Week15:"Caslty", Week16:"ENT", Week17:"ENT", Week18:"Ophtha", Week19:"Ophtha", Week20:"Ortho", Week21:"Ortho", Week22:"Pediatrics", Week23:"Pediatrics", Week24:"Pediatrics", Week25:"Anaest", Week26:"Anaest"},
+    A10: {Week14:"Caslty", Week15:"Caslty", Week16:"ENT", Week17:"ENT", Week18:"Ophtha", Week19:"Ophtha", Week20:"Ortho", Week21:"Ortho", Week22:"Pediatrics", Week23:"Pediatrics", Week24:"Pediatrics", Week25:"Anaest", Week26:"Anaest"},
+    A11: {Week14:"Anaest", Week15:"Anaest", Week16:"Caslty", Week17:"Caslty", Week18:"ENT", Week19:"ENT", Week20:"Ophtha", Week21:"Ophtha", Week22:"Ortho", Week23:"Ortho", Week24:"Pediatrics", Week25:"Pediatrics", Week26:"Pediatrics"},
+    A12: {Week14:"Anaest", Week15:"Anaest", Week16:"Caslty", Week17:"Caslty", Week18:"ENT", Week19:"ENT", Week20:"Ophtha", Week21:"Ophtha", Week22:"Ortho", Week23:"Ortho", Week24:"Pediatrics", Week25:"Pediatrics", Week26:"Pediatrics"}
+  };
+
+  const Block2B = {
+    B1:  {Week14:"Forensic", Week15:"PSM", Week16:"PSM", Week17:"PSM", Week18:"PSM", Week19:"PSM", Week20:"PSM", Week21:"PSM", Week22:"PSM", Week23:"PSM", Week24:"PSM", Week25:"PSM", Week26:"PSM"},
+    B2:  {Week14:"PSM", Week15:"Forensic", Week16:"PSM", Week17:"PSM", Week18:"PSM", Week19:"PSM", Week20:"PSM", Week21:"PSM", Week22:"PSM", Week23:"PSM", Week24:"PSM", Week25:"PSM", Week26:"PSM"},
+    B3:  {Week14:"PSM", Week15:"PSM", Week16:"Forensic", Week17:"PSM", Week18:"PSM", Week19:"PSM", Week20:"PSM", Week21:"PSM", Week22:"PSM", Week23:"PSM", Week24:"PSM", Week25:"PSM", Week26:"PSM"},
+    B4:  {Week14:"PSM", Week15:"PSM", Week16:"PSM", Week17:"Forensic", Week18:"PSM", Week19:"PSM", Week20:"PSM", Week21:"PSM", Week22:"PSM", Week23:"PSM", Week24:"PSM", Week25:"PSM", Week26:"PSM"},
+    B5:  {Week14:"PSM", Week15:"PSM", Week16:"PSM", Week17:"PSM", Week18:"Forensic", Week19:"PSM", Week20:"PSM", Week21:"PSM", Week22:"PSM", Week23:"PSM", Week24:"PSM", Week25:"PSM", Week26:"PSM"},
+    B6:  {Week14:"PSM", Week15:"PSM", Week16:"PSM", Week17:"PSM", Week18:"PSM", Week19:"Forensic", Week20:"PSM", Week21:"PSM", Week22:"PSM", Week23:"PSM", Week24:"PSM", Week25:"PSM", Week26:"PSM"},
+    B7:  {Week14:"PSM", Week15:"PSM", Week16:"PSM", Week17:"PSM", Week18:"PSM", Week19:"PSM", Week20:"Forensic", Week21:"PSM", Week22:"PSM", Week23:"PSM", Week24:"PSM", Week25:"PSM", Week26:"PSM"},
+    B8:  {Week14:"PSM", Week15:"PSM", Week16:"PSM", Week17:"PSM", Week18:"PSM", Week19:"PSM", Week20:"PSM", Week21:"Forensic", Week22:"PSM", Week23:"PSM", Week24:"PSM", Week25:"PSM", Week26:"PSM"},
+    B9:  {Week14:"PSM", Week15:"PSM", Week16:"PSM", Week17:"PSM", Week18:"PSM", Week19:"PSM", Week20:"PSM", Week21:"PSM", Week22:"Forensic", Week23:"PSM", Week24:"PSM", Week25:"PSM", Week26:"PSM"},
+    B10: {Week14:"PSM", Week15:"PSM", Week16:"PSM", Week17:"PSM", Week18:"PSM", Week19:"PSM", Week20:"PSM", Week21:"PSM", Week22:"PSM", Week23:"Forensic", Week24:"PSM", Week25:"PSM", Week26:"PSM"},
+    B11: {Week14:"PSM", Week15:"PSM", Week16:"PSM", Week17:"PSM", Week18:"PSM", Week19:"PSM", Week20:"PSM", Week21:"PSM", Week22:"PSM", Week23:"PSM", Week24:"Forensic", Week25:"PSM", Week26:"PSM"},
+    B12: {Week14:"PSM", Week15:"PSM", Week16:"PSM", Week17:"PSM", Week18:"PSM", Week19:"PSM", Week20:"PSM", Week21:"PSM", Week22:"PSM", Week23:"PSM", Week24:"PSM", Week25:"Forensic", Week26:"PSM"}
+  };
+
+  const Block2C = {
+    C1:  {Week14:"DVL", Week15:"MED", Week16:"MED", Week17:"MED", Week18:"MED", Week19:"MED", Week20:"MED", Week21:"Surgery", Week22:"Surgery", Week23:"Surgery", Week24:"Surgery", Week25:"Surgery", Week26:"Surgery"},
+    C2:  {Week14:"MED", Week15:"DVL", Week16:"MED", Week17:"MED", Week18:"MED", Week19:"MED", Week20:"MED", Week21:"Surgery", Week22:"Surgery", Week23:"Surgery", Week24:"Surgery", Week25:"Surgery", Week26:"Surgery"},
+    C3:  {Week14:"MED", Week15:"MED", Week16:"DVL", Week17:"MED", Week18:"MED", Week19:"MED", Week20:"MED", Week21:"Surgery", Week22:"Surgery", Week23:"Surgery", Week24:"Surgery", Week25:"Surgery", Week26:"Surgery"},
+    C4:  {Week14:"MED", Week15:"MED", Week16:"MED", Week17:"MED", Week18:"MED", Week19:"MED", Week20:"DVL", Week21:"Surgery", Week22:"Surgery", Week23:"Surgery", Week24:"Surgery", Week25:"Surgery", Week26:"Surgery"},
+    C5:  {Week14:"MED", Week15:"MED", Week16:"MED", Week17:"MED", Week18:"MED", Week19:"MED", Week20:"Surgery", Week21:"DVL", Week22:"Surgery", Week23:"Surgery", Week24:"Surgery", Week25:"Surgery", Week26:"Surgery"},
+    C6:  {Week14:"MED", Week15:"MED", Week16:"MED", Week17:"MED", Week18:"MED", Week19:"MED", Week20:"Surgery", Week21:"Surgery", Week22:"DVL", Week23:"Surgery", Week24:"Surgery", Week25:"Surgery", Week26:"Surgery"},
+    C7:  {Week14:"Surgery", Week15:"Surgery", Week16:"Surgery", Week17:"Surgery", Week18:"Surgery", Week19:"Surgery", Week20:"MED", Week21:"MED", Week22:"MED", Week23:"MED", Week24:"DVL", Week25:"MED", Week26:"MED"},
+    C8:  {Week14:"Surgery", Week15:"Surgery", Week16:"Surgery", Week17:"Surgery", Week18:"Surgery", Week19:"Surgery", Week20:"MED", Week21:"MED", Week22:"MED", Week23:"MED", Week24:"MED", Week25:"DVL", Week26:"MED"},
+    C9:  {Week14:"Surgery", Week15:"Surgery", Week16:"Surgery", Week17:"Surgery", Week18:"Surgery", Week19:"Surgery", Week20:"MED", Week21:"MED", Week22:"MED", Week23:"MED", Week24:"MED", Week25:"MED", Week26:"DVL"},
+    C10: {Week14:"Surgery", Week15:"Surgery", Week16:"Surgery", Week17:"DVL", Week18:"Surgery", Week19:"Surgery", Week20:"Surgery", Week21:"MED", Week22:"MED", Week23:"MED", Week24:"MED", Week25:"MED", Week26:"MED"},
+    C11: {Week14:"Surgery", Week15:"Surgery", Week16:"Surgery", Week17:"Surgery", Week18:"DVL", Week19:"Surgery", Week20:"Surgery", Week21:"MED", Week22:"MED", Week23:"MED", Week24:"MED", Week25:"MED", Week26:"MED"},
+    C12: {Week14:"Surgery", Week15:"Surgery", Week16:"Surgery", Week17:"Surgery", Week18:"Surgery", Week19:"DVL", Week20:"Surgery", Week21:"MED", Week22:"MED", Week23:"MED", Week24:"MED", Week25:"MED", Week26:"MED"}
+  };
+
+  const Block2D = {
+    D1:  {Week14:"ObsGynae", Week15:"ObsGynae", Week16:"ObsGynae", Week17:"ObsGynae", Week18:"ObsGynae", Week19:"ObsGynae", Week20:"ObsGynae", Week21:"Radiology", Week22:"Radiology", Week23:"Pulm Med", Week24:"Pulm Med", Week25:"Psychy", Week26:"Psychy"},
+    D2:  {Week14:"ObsGynae", Week15:"ObsGynae", Week16:"ObsGynae", Week17:"ObsGynae", Week18:"ObsGynae", Week19:"ObsGynae", Week20:"ObsGynae", Week21:"Radiology", Week22:"Radiology", Week23:"Pulm Med", Week24:"Pulm Med", Week25:"Psychy", Week26:"Psychy"},
+    D3:  {Week14:"ObsGynae", Week15:"ObsGynae", Week16:"ObsGynae", Week17:"ObsGynae", Week18:"ObsGynae", Week19:"ObsGynae", Week20:"ObsGynae", Week21:"Psychy", Week22:"Psychy", Week23:"Radiology", Week24:"Radiology", Week25:"Pulm Med", Week26:"Pulm Med"},
+    D4:  {Week14:"ObsGynae", Week15:"ObsGynae", Week16:"ObsGynae", Week17:"ObsGynae", Week18:"ObsGynae", Week19:"ObsGynae", Week20:"ObsGynae", Week21:"Psychy", Week22:"Psychy", Week23:"Radiology", Week24:"Radiology", Week25:"Pulm Med", Week26:"Pulm Med"},
+    D5:  {Week14:"ObsGynae", Week15:"ObsGynae", Week16:"ObsGynae", Week17:"ObsGynae", Week18:"ObsGynae", Week19:"ObsGynae", Week20:"ObsGynae", Week21:"Pulm Med", Week22:"Pulm Med", Week23:"Psychy", Week24:"Psychy", Week25:"Radiology", Week26:"Radiology"},
+    D6:  {Week14:"ObsGynae", Week15:"ObsGynae", Week16:"ObsGynae", Week17:"ObsGynae", Week18:"ObsGynae", Week19:"ObsGynae", Week20:"ObsGynae", Week21:"Pulm Med", Week22:"Pulm Med", Week23:"Psychy", Week24:"Psychy", Week25:"Radiology", Week26:"Radiology"},
+    D7:  {Week14:"Radiology", Week15:"Radiology", Week16:"Pulm Med", Week17:"Pulm Med", Week18:"Psychy", Week19:"Psychy", Week20:"ObsGynae", Week21:"ObsGynae", Week22:"ObsGynae", Week23:"ObsGynae", Week24:"ObsGynae", Week25:"ObsGynae", Week26:"ObsGynae"},
+    D8:  {Week14:"Radiology", Week15:"Radiology", Week16:"Pulm Med", Week17:"Pulm Med", Week18:"Psychy", Week19:"Psychy", Week20:"ObsGynae", Week21:"ObsGynae", Week22:"ObsGynae", Week23:"ObsGynae", Week24:"ObsGynae", Week25:"ObsGynae", Week26:"ObsGynae"},
+    D9:  {Week14:"Psychy", Week15:"Psychy", Week16:"Radiology", Week17:"Radiology", Week18:"Pulm Med", Week19:"Pulm Med", Week20:"ObsGynae", Week21:"ObsGynae", Week22:"ObsGynae", Week23:"ObsGynae", Week24:"ObsGynae", Week25:"ObsGynae", Week26:"ObsGynae"},
+    D10: {Week14:"Psychy", Week15:"Psychy", Week16:"Radiology", Week17:"Radiology", Week18:"Pulm Med", Week19:"Pulm Med", Week20:"ObsGynae", Week21:"ObsGynae", Week22:"ObsGynae", Week23:"ObsGynae", Week24:"ObsGynae", Week25:"ObsGynae", Week26:"ObsGynae"},
+    D11: {Week14:"Pulm Med", Week15:"Pulm Med", Week16:"Psychy", Week17:"Psychy", Week18:"Radiology", Week19:"Radiology", Week20:"ObsGynae", Week21:"ObsGynae", Week22:"ObsGynae", Week23:"ObsGynae", Week24:"ObsGynae", Week25:"ObsGynae", Week26:"ObsGynae"},
+    D12: {Week14:"Pulm Med", Week15:"Pulm Med", Week16:"Psychy", Week17:"Psychy", Week18:"Radiology", Week19:"Radiology", Week20:"ObsGynae", Week21:"ObsGynae", Week22:"ObsGynae", Week23:"ObsGynae", Week24:"ObsGynae", Week25:"ObsGynae", Week26:"ObsGynae"}
+  };
+
+  const Block3A = {
+    A1:  {Week27:"ObsGynae", Week28:"ObsGynae", Week29:"ObsGynae", Week30:"ObsGynae", Week31:"ObsGynae", Week32:"ObsGynae", Week33:"ObsGynae", Week34:"Radiology", Week35:"Radiology", Week36:"Pulm Med", Week37:"Pulm Med", Week38:"Psychy", Week39:"Psychy"},
+    A2:  {Week27:"ObsGynae", Week28:"ObsGynae", Week29:"ObsGynae", Week30:"ObsGynae", Week31:"ObsGynae", Week32:"ObsGynae", Week33:"ObsGynae", Week34:"Radiology", Week35:"Radiology", Week36:"Pulm Med", Week37:"Pulm Med", Week38:"Psychy", Week39:"Psychy"},
+    A3:  {Week27:"ObsGynae", Week28:"ObsGynae", Week29:"ObsGynae", Week30:"ObsGynae", Week31:"ObsGynae", Week32:"ObsGynae", Week33:"ObsGynae", Week34:"Psychy", Week35:"Psychy", Week36:"Radiology", Week37:"Radiology", Week38:"Pulm Med", Week39:"Pulm Med"},
+    A4:  {Week27:"ObsGynae", Week28:"ObsGynae", Week29:"ObsGynae", Week30:"ObsGynae", Week31:"ObsGynae", Week32:"ObsGynae", Week33:"ObsGynae", Week34:"Psychy", Week35:"Psychy", Week36:"Radiology", Week37:"Radiology", Week38:"Pulm Med", Week39:"Pulm Med"},
+    A5:  {Week27:"ObsGynae", Week28:"ObsGynae", Week29:"ObsGynae", Week30:"ObsGynae", Week31:"ObsGynae", Week32:"ObsGynae", Week33:"ObsGynae", Week34:"Pulm Med", Week35:"Pulm Med", Week36:"Psychy", Week37:"Psychy", Week38:"Radiology", Week39:"Radiology"},
+    A6:  {Week27:"ObsGynae", Week28:"ObsGynae", Week29:"ObsGynae", Week30:"ObsGynae", Week31:"ObsGynae", Week32:"ObsGynae", Week33:"ObsGynae", Week34:"Pulm Med", Week35:"Pulm Med", Week36:"Psychy", Week37:"Psychy", Week38:"Radiology", Week39:"Radiology"},
+    A7:  {Week27:"Radiology", Week28:"Radiology", Week29:"Pulm Med", Week30:"Pulm Med", Week31:"Psychy", Week32:"Psychy", Week33:"ObsGynae", Week34:"ObsGynae", Week35:"ObsGynae", Week36:"ObsGynae", Week37:"ObsGynae", Week38:"ObsGynae", Week39:"ObsGynae"},
+    A8:  {Week27:"Radiology", Week28:"Radiology", Week29:"Pulm Med", Week30:"Pulm Med", Week31:"Psychy", Week32:"Psychy", Week33:"ObsGynae", Week34:"ObsGynae", Week35:"ObsGynae", Week36:"ObsGynae", Week37:"ObsGynae", Week38:"ObsGynae", Week39:"ObsGynae"},
+    A9:  {Week27:"Psychy", Week28:"Psychy", Week29:"Radiology", Week30:"Radiology", Week31:"Pulm Med", Week32:"Pulm Med", Week33:"ObsGynae", Week34:"ObsGynae", Week35:"ObsGynae", Week36:"ObsGynae", Week37:"ObsGynae", Week38:"ObsGynae", Week39:"ObsGynae"},
+    A10: {Week27:"Psychy", Week28:"Psychy", Week29:"Radiology", Week30:"Radiology", Week31:"Pulm Med", Week32:"Pulm Med", Week33:"ObsGynae", Week34:"ObsGynae", Week35:"ObsGynae", Week36:"ObsGynae", Week37:"ObsGynae", Week38:"ObsGynae", Week39:"ObsGynae"},
+    A11: {Week27:"Pulm Med", Week28:"Pulm Med", Week29:"Psychy", Week30:"Psychy", Week31:"Radiology", Week32:"Radiology", Week33:"ObsGynae", Week34:"ObsGynae", Week35:"ObsGynae", Week36:"ObsGynae", Week37:"ObsGynae", Week38:"ObsGynae", Week39:"ObsGynae"},
+    A12: {Week27:"Pulm Med", Week28:"Pulm Med", Week29:"Psychy", Week30:"Psychy", Week31:"Radiology", Week32:"Radiology", Week33:"ObsGynae", Week34:"ObsGynae", Week35:"ObsGynae", Week36:"ObsGynae", Week37:"ObsGynae", Week38:"ObsGynae", Week39:"ObsGynae"}
+  };
+
+  const Block3B = {
+    B1:  {Week27:"Pediatrics", Week28:"Pediatrics", Week29:"Pediatrics", Week30:"Anaest", Week31:"Anaest", Week32:"Caslty", Week33:"Caslty", Week34:"ENT", Week35:"ENT", Week36:"Ophtha", Week37:"Ophtha", Week38:"Ortho", Week39:"Ortho"},
+    B2:  {Week27:"Pediatrics", Week28:"Pediatrics", Week29:"Pediatrics", Week30:"Anaest", Week31:"Anaest", Week32:"Caslty", Week33:"Caslty", Week34:"ENT", Week35:"ENT", Week36:"Ophtha", Week37:"Ophtha", Week38:"Ortho", Week39:"Ortho"},
+    B3:  {Week27:"Ortho", Week28:"Ortho", Week29:"Pediatrics", Week30:"Pediatrics", Week31:"Pediatrics", Week32:"Anaest", Week33:"Anaest", Week34:"Caslty", Week35:"Caslty", Week36:"ENT", Week37:"ENT", Week38:"Ophtha", Week39:"Ophtha"},
+    B4:  {Week27:"Ortho", Week28:"Ortho", Week29:"Pediatrics", Week30:"Pediatrics", Week31:"Pediatrics", Week32:"Anaest", Week33:"Anaest", Week34:"Caslty", Week35:"Caslty", Week36:"ENT", Week37:"ENT", Week38:"Ophtha", Week39:"Ophtha"},
+    B5:  {Week27:"Ophtha", Week28:"Ophtha", Week29:"Ortho", Week30:"Ortho", Week31:"Pediatrics", Week32:"Pediatrics", Week33:"Pediatrics", Week34:"Anaest", Week35:"Anaest", Week36:"Caslty", Week37:"Caslty", Week38:"ENT", Week39:"ENT"},
+    B6:  {Week27:"Ophtha", Week28:"Ophtha", Week29:"Ortho", Week30:"Ortho", Week31:"Pediatrics", Week32:"Pediatrics", Week33:"Pediatrics", Week34:"Anaest", Week35:"Anaest", Week36:"Caslty", Week37:"Caslty", Week38:"ENT", Week39:"ENT"},
+    B7:  {Week27:"ENT", Week28:"ENT", Week29:"Ophtha", Week30:"Ophtha", Week31:"Ortho", Week32:"Ortho", Week33:"Pediatrics", Week34:"Pediatrics", Week35:"Pediatrics", Week36:"Anaest", Week37:"Anaest", Week38:"Caslty", Week39:"Caslty"},
+    B8:  {Week27:"ENT", Week28:"ENT", Week29:"Ophtha", Week30:"Ophtha", Week31:"Ortho", Week32:"Ortho", Week33:"Pediatrics", Week34:"Pediatrics", Week35:"Pediatrics", Week36:"Anaest", Week37:"Anaest", Week38:"Caslty", Week39:"Caslty"},
+    B9:  {Week27:"Caslty", Week28:"Caslty", Week29:"ENT", Week30:"ENT", Week31:"Ophtha", Week32:"Ophtha", Week33:"Ortho", Week34:"Ortho", Week35:"Pediatrics", Week36:"Pediatrics", Week37:"Pediatrics", Week38:"Anaest", Week39:"Anaest"},
+    B10: {Week27:"Caslty", Week28:"Caslty", Week29:"ENT", Week30:"ENT", Week31:"Ophtha", Week32:"Ophtha", Week33:"Ortho", Week34:"Ortho", Week35:"Pediatrics", Week36:"Pediatrics", Week37:"Pediatrics", Week38:"Anaest", Week39:"Anaest"},
+    B11: {Week27:"Anaest", Week28:"Anaest", Week29:"Caslty", Week30:"Caslty", Week31:"ENT", Week32:"ENT", Week33:"Ophtha", Week34:"Ophtha", Week35:"Ortho", Week36:"Ortho", Week37:"Pediatrics", Week38:"Pediatrics", Week39:"Pediatrics"},
+    B12: {Week27:"Anaest", Week28:"Anaest", Week29:"Caslty", Week30:"Caslty", Week31:"ENT", Week32:"ENT", Week33:"Ophtha", Week34:"Ophtha", Week35:"Ortho", Week36:"Ortho", Week37:"Pediatrics", Week38:"Pediatrics", Week39:"Pediatrics"}
+  };
+
+  const Block3C = {
+    C1:  {Week27:"Forensic", Week28:"PSM", Week29:"PSM", Week30:"PSM", Week31:"PSM", Week32:"PSM", Week33:"PSM", Week34:"PSM", Week35:"PSM", Week36:"PSM", Week37:"PSM", Week38:"PSM", Week39:"PSM"},
+    C2:  {Week27:"PSM", Week28:"Forensic", Week29:"PSM", Week30:"PSM", Week31:"PSM", Week32:"PSM", Week33:"PSM", Week34:"PSM", Week35:"PSM", Week36:"PSM", Week37:"PSM", Week38:"PSM", Week39:"PSM"},
+    C3:  {Week27:"PSM", Week28:"PSM", Week29:"Forensic", Week30:"PSM", Week31:"PSM", Week32:"PSM", Week33:"PSM", Week34:"PSM", Week35:"PSM", Week36:"PSM", Week37:"PSM", Week38:"PSM", Week39:"PSM"},
+    C4:  {Week27:"PSM", Week28:"PSM", Week29:"PSM", Week30:"Forensic", Week31:"PSM", Week32:"PSM", Week33:"PSM", Week34:"PSM", Week35:"PSM", Week36:"PSM", Week37:"PSM", Week38:"PSM", Week39:"PSM"},
+    C5:  {Week27:"PSM", Week28:"PSM", Week29:"PSM", Week30:"PSM", Week31:"Forensic", Week32:"PSM", Week33:"PSM", Week34:"PSM", Week35:"PSM", Week36:"PSM", Week37:"PSM", Week38:"PSM", Week39:"PSM"},
+    C6:  {Week27:"PSM", Week28:"PSM", Week29:"PSM", Week30:"PSM", Week31:"PSM", Week32:"Forensic", Week33:"PSM", Week34:"PSM", Week35:"PSM", Week36:"PSM", Week37:"PSM", Week38:"PSM", Week39:"PSM"},
+    C7:  {Week27:"PSM", Week28:"PSM", Week29:"PSM", Week30:"PSM", Week31:"PSM", Week32:"PSM", Week33:"Forensic", Week34:"PSM", Week35:"PSM", Week36:"PSM", Week37:"PSM", Week38:"PSM", Week39:"PSM"},
+    C8:  {Week27:"PSM", Week28:"PSM", Week29:"PSM", Week30:"PSM", Week31:"PSM", Week32:"PSM", Week33:"PSM", Week34:"Forensic", Week35:"PSM", Week36:"PSM", Week37:"PSM", Week38:"PSM", Week39:"PSM"},
+    C9:  {Week27:"PSM", Week28:"PSM", Week29:"PSM", Week30:"PSM", Week31:"PSM", Week32:"PSM", Week33:"PSM", Week34:"PSM", Week35:"Forensic", Week36:"PSM", Week37:"PSM", Week38:"PSM", Week39:"PSM"},
+    C10: {Week27:"PSM", Week28:"PSM", Week29:"PSM", Week30:"PSM", Week31:"PSM", Week32:"PSM", Week33:"PSM", Week34:"PSM", Week35:"PSM", Week36:"Forensic", Week37:"PSM", Week38:"PSM", Week39:"PSM"},
+    C11: {Week27:"PSM", Week28:"PSM", Week29:"PSM", Week30:"PSM", Week31:"PSM", Week32:"PSM", Week33:"PSM", Week34:"PSM", Week35:"PSM", Week36:"PSM", Week37:"Forensic", Week38:"PSM", Week39:"PSM"},
+    C12: {Week27:"PSM", Week28:"PSM", Week29:"PSM", Week30:"PSM", Week31:"PSM", Week32:"PSM", Week33:"PSM", Week34:"PSM", Week35:"PSM", Week36:"PSM", Week37:"PSM", Week38:"Forensic", Week39:"PSM"}
+  };
+
+  const Block3D = {
+    D1:  {Week27:"DVL", Week28:"MED", Week29:"MED", Week30:"MED", Week31:"MED", Week32:"MED", Week33:"MED", Week34:"Surgery", Week35:"Surgery", Week36:"Surgery", Week37:"Surgery", Week38:"Surgery", Week39:"Surgery"},
+    D2:  {Week27:"MED", Week28:"DVL", Week29:"MED", Week30:"MED", Week31:"MED", Week32:"MED", Week33:"MED", Week34:"Surgery", Week35:"Surgery", Week36:"Surgery", Week37:"Surgery", Week38:"Surgery", Week39:"Surgery"},
+    D3:  {Week27:"MED", Week28:"MED", Week29:"DVL", Week30:"MED", Week31:"MED", Week32:"MED", Week33:"MED", Week34:"Surgery", Week35:"Surgery", Week36:"Surgery", Week37:"Surgery", Week38:"Surgery", Week39:"Surgery"},
+    D4:  {Week27:"MED", Week28:"MED", Week29:"MED", Week30:"MED", Week31:"MED", Week32:"MED", Week33:"DVL", Week34:"Surgery", Week35:"Surgery", Week36:"Surgery", Week37:"Surgery", Week38:"Surgery", Week39:"Surgery"},
+    D5:  {Week27:"MED", Week28:"MED", Week29:"MED", Week30:"MED", Week31:"MED", Week32:"MED", Week33:"Surgery", Week34:"DVL", Week35:"Surgery", Week36:"Surgery", Week37:"Surgery", Week38:"Surgery", Week39:"Surgery"},
+    D6:  {Week27:"MED", Week28:"MED", Week29:"MED", Week30:"MED", Week31:"MED", Week32:"MED", Week33:"Surgery", Week34:"Surgery", Week35:"DVL", Week36:"Surgery", Week37:"Surgery", Week38:"Surgery", Week39:"Surgery"},
+    D7:  {Week27:"Surgery", Week28:"Surgery", Week29:"Surgery", Week30:"Surgery", Week31:"Surgery", Week32:"Surgery", Week33:"MED", Week34:"MED", Week35:"MED", Week36:"MED", Week37:"DVL", Week38:"MED", Week39:"MED"},
+    D8:  {Week27:"Surgery", Week28:"Surgery", Week29:"Surgery", Week30:"Surgery", Week31:"Surgery", Week32:"Surgery", Week33:"MED", Week34:"MED", Week35:"MED", Week36:"MED", Week37:"MED", Week38:"DVL", Week39:"MED"},
+    D9:  {Week27:"Surgery", Week28:"Surgery", Week29:"Surgery", Week30:"Surgery", Week31:"Surgery", Week32:"Surgery", Week33:"MED", Week34:"MED", Week35:"MED", Week36:"MED", Week37:"MED", Week38:"MED", Week39:"DVL"},
+    D10: {Week27:"Surgery", Week28:"Surgery", Week29:"Surgery", Week30:"DVL", Week31:"Surgery", Week32:"Surgery", Week33:"Surgery", Week34:"MED", Week35:"MED", Week36:"MED", Week37:"MED", Week38:"MED", Week39:"MED"},
+    D11: {Week27:"Surgery", Week28:"Surgery", Week29:"Surgery", Week30:"Surgery", Week31:"DVL", Week32:"Surgery", Week33:"Surgery", Week34:"MED", Week35:"MED", Week36:"MED", Week37:"MED", Week38:"MED", Week39:"MED"},
+    D12: {Week27:"Surgery", Week28:"Surgery", Week29:"Surgery", Week30:"Surgery", Week31:"Surgery", Week32:"DVL", Week33:"Surgery", Week34:"MED", Week35:"MED", Week36:"MED", Week37:"MED", Week38:"MED", Week39:"MED"}
+  };
+
+  const Block4A = {
+    A1:  {Week40:"DVL", Week41:"MED", Week42:"MED", Week43:"MED", Week44:"MED", Week45:"MED", Week46:"MED", Week47:"Surgery", Week48:"Surgery", Week49:"Surgery", Week50:"Surgery", Week51:"Surgery", Week52:"Surgery"},
+    A2:  {Week40:"MED", Week41:"DVL", Week42:"MED", Week43:"MED", Week44:"MED", Week45:"MED", Week46:"MED", Week47:"Surgery", Week48:"Surgery", Week49:"Surgery", Week50:"Surgery", Week51:"Surgery", Week52:"Surgery"},
+    A3:  {Week40:"MED", Week41:"MED", Week42:"DVL", Week43:"MED", Week44:"MED", Week45:"MED", Week46:"MED", Week47:"Surgery", Week48:"Surgery", Week49:"Surgery", Week50:"Surgery", Week51:"Surgery", Week52:"Surgery"},
+    A4:  {Week40:"MED", Week41:"MED", Week42:"MED", Week43:"MED", Week44:"MED", Week45:"MED", Week46:"DVL", Week47:"Surgery", Week48:"Surgery", Week49:"Surgery", Week50:"Surgery", Week51:"Surgery", Week52:"Surgery"},
+    A5:  {Week40:"MED", Week41:"MED", Week42:"MED", Week43:"MED", Week44:"MED", Week45:"MED", Week46:"Surgery", Week47:"DVL", Week48:"Surgery", Week49:"Surgery", Week50:"Surgery", Week51:"Surgery", Week52:"Surgery"},
+    A6:  {Week40:"MED", Week41:"MED", Week42:"MED", Week43:"MED", Week44:"MED", Week45:"MED", Week46:"Surgery", Week47:"Surgery", Week48:"DVL", Week49:"Surgery", Week50:"Surgery", Week51:"Surgery", Week52:"Surgery"},
+    A7:  {Week40:"Surgery", Week41:"Surgery", Week42:"Surgery", Week43:"Surgery", Week44:"Surgery", Week45:"Surgery", Week46:"MED", Week47:"MED", Week48:"MED", Week49:"MED", Week50:"DVL", Week51:"MED", Week52:"MED"},
+    A8:  {Week40:"Surgery", Week41:"Surgery", Week42:"Surgery", Week43:"Surgery", Week44:"Surgery", Week45:"Surgery", Week46:"MED", Week47:"MED", Week48:"MED", Week49:"MED", Week50:"MED", Week51:"DVL", Week52:"MED"},
+    A9:  {Week40:"Surgery", Week41:"Surgery", Week42:"Surgery", Week43:"Surgery", Week44:"Surgery", Week45:"Surgery", Week46:"MED", Week47:"MED", Week48:"MED", Week49:"MED", Week50:"MED", Week51:"MED", Week52:"DVL"},
+    A10: {Week40:"Surgery", Week41:"Surgery", Week42:"Surgery", Week43:"DVL", Week44:"Surgery", Week45:"Surgery", Week46:"Surgery", Week47:"MED", Week48:"MED", Week49:"MED", Week50:"MED", Week51:"MED", Week52:"MED"},
+    A11: {Week40:"Surgery", Week41:"Surgery", Week42:"Surgery", Week43:"Surgery", Week44:"DVL", Week45:"Surgery", Week46:"Surgery", Week47:"MED", Week48:"MED", Week49:"MED", Week50:"MED", Week51:"MED", Week52:"MED"},
+    A12: {Week40:"Surgery", Week41:"Surgery", Week42:"Surgery", Week43:"Surgery", Week44:"Surgery", Week45:"DVL", Week46:"Surgery", Week47:"MED", Week48:"MED", Week49:"MED", Week50:"MED", Week51:"MED", Week52:"MED"}
+  };
+
+  const Block4B = {
+    B1:  {Week40:"ObsGynae", Week41:"ObsGynae", Week42:"ObsGynae", Week43:"ObsGynae", Week44:"ObsGynae", Week45:"ObsGynae", Week46:"ObsGynae", Week47:"Radiology", Week48:"Radiology", Week49:"Pulm Med", Week50:"Pulm Med", Week51:"Psychy", Week52:"Psychy"},
+    B2:  {Week40:"ObsGynae", Week41:"ObsGynae", Week42:"ObsGynae", Week43:"ObsGynae", Week44:"ObsGynae", Week45:"ObsGynae", Week46:"ObsGynae", Week47:"Radiology", Week48:"Radiology", Week49:"Pulm Med", Week50:"Pulm Med", Week51:"Psychy", Week52:"Psychy"},
+    B3:  {Week40:"ObsGynae", Week41:"ObsGynae", Week42:"ObsGynae", Week43:"ObsGynae", Week44:"ObsGynae", Week45:"ObsGynae", Week46:"ObsGynae", Week47:"Psychy", Week48:"Psychy", Week49:"Radiology", Week50:"Radiology", Week51:"Pulm Med", Week52:"Pulm Med"},
+    B4:  {Week40:"ObsGynae", Week41:"ObsGynae", Week42:"ObsGynae", Week43:"ObsGynae", Week44:"ObsGynae", Week45:"ObsGynae", Week46:"ObsGynae", Week47:"Psychy", Week48:"Psychy", Week49:"Radiology", Week50:"Radiology", Week51:"Pulm Med", Week52:"Pulm Med"},
+    B5:  {Week40:"ObsGynae", Week41:"ObsGynae", Week42:"ObsGynae", Week43:"ObsGynae", Week44:"ObsGynae", Week45:"ObsGynae", Week46:"ObsGynae", Week47:"Pulm Med", Week48:"Pulm Med", Week49:"Psychy", Week50:"Psychy", Week51:"Radiology", Week52:"Radiology"},
+    B6:  {Week40:"ObsGynae", Week41:"ObsGynae", Week42:"ObsGynae", Week43:"ObsGynae", Week44:"ObsGynae", Week45:"ObsGynae", Week46:"ObsGynae", Week47:"Pulm Med", Week48:"Pulm Med", Week49:"Psychy", Week50:"Psychy", Week51:"Radiology", Week52:"Radiology"},
+    B7:  {Week40:"Radiology", Week41:"Radiology", Week42:"Pulm Med", Week43:"Pulm Med", Week44:"Psychy", Week45:"Psychy", Week46:"ObsGynae", Week47:"ObsGynae", Week48:"ObsGynae", Week49:"ObsGynae", Week50:"ObsGynae", Week51:"ObsGynae", Week52:"ObsGynae"},
+    B8:  {Week40:"Radiology", Week41:"Radiology", Week42:"Pulm Med", Week43:"Pulm Med", Week44:"Psychy", Week45:"Psychy", Week46:"ObsGynae", Week47:"ObsGynae", Week48:"ObsGynae", Week49:"ObsGynae", Week50:"ObsGynae", Week51:"ObsGynae", Week52:"ObsGynae"},
+    B9:  {Week40:"Psychy", Week41:"Psychy", Week42:"Radiology", Week43:"Radiology", Week44:"Pulm Med", Week45:"Pulm Med", Week46:"ObsGynae", Week47:"ObsGynae", Week48:"ObsGynae", Week49:"ObsGynae", Week50:"ObsGynae", Week51:"ObsGynae", Week52:"ObsGynae"},
+    B10: {Week40:"Psychy", Week41:"Psychy", Week42:"Radiology", Week43:"Radiology", Week44:"Pulm Med", Week45:"Pulm Med", Week46:"ObsGynae", Week47:"ObsGynae", Week48:"ObsGynae", Week49:"ObsGynae", Week50:"ObsGynae", Week51:"ObsGynae", Week52:"ObsGynae"},
+    B11: {Week40:"Pulm Med", Week41:"Pulm Med", Week42:"Psychy", Week43:"Psychy", Week44:"Radiology", Week45:"Radiology", Week46:"ObsGynae", Week47:"ObsGynae", Week48:"ObsGynae", Week49:"ObsGynae", Week50:"ObsGynae", Week51:"ObsGynae", Week52:"ObsGynae"},
+    B12: {Week40:"Pulm Med", Week41:"Pulm Med", Week42:"Psychy", Week43:"Psychy", Week44:"Radiology", Week45:"Radiology", Week46:"ObsGynae", Week47:"ObsGynae", Week48:"ObsGynae", Week49:"ObsGynae", Week50:"ObsGynae", Week51:"ObsGynae", Week52:"ObsGynae"}
+  };
+
+  const Block4C = {
+    C1:  {Week40:"Pediatrics", Week41:"Pediatrics", Week42:"Pediatrics", Week43:"Anaest", Week44:"Anaest", Week45:"Caslty", Week46:"Caslty", Week47:"ENT", Week48:"ENT", Week49:"Ophtha", Week50:"Ophtha", Week51:"Ortho", Week52:"Ortho"},
+    C2:  {Week40:"Pediatrics", Week41:"Pediatrics", Week42:"Pediatrics", Week43:"Anaest", Week44:"Anaest", Week45:"Caslty", Week46:"Caslty", Week47:"ENT", Week48:"ENT", Week49:"Ophtha", Week50:"Ophtha", Week51:"Ortho", Week52:"Ortho"},
+    C3:  {Week40:"Ortho", Week41:"Ortho", Week42:"Pediatrics", Week43:"Pediatrics", Week44:"Pediatrics", Week45:"Anaest", Week46:"Anaest", Week47:"Caslty", Week48:"Caslty", Week49:"ENT", Week50:"ENT", Week51:"Ophtha", Week52:"Ophtha"},
+    C4:  {Week40:"Ortho", Week41:"Ortho", Week42:"Pediatrics", Week43:"Pediatrics", Week44:"Pediatrics", Week45:"Anaest", Week46:"Anaest", Week47:"Caslty", Week48:"Caslty", Week49:"ENT", Week50:"ENT", Week51:"Ophtha", Week52:"Ophtha"},
+    C5:  {Week40:"Ophtha", Week41:"Ophtha", Week42:"Ortho", Week43:"Ortho", Week44:"Pediatrics", Week45:"Pediatrics", Week46:"Pediatrics", Week47:"Anaest", Week48:"Anaest", Week49:"Caslty", Week50:"Caslty", Week51:"ENT", Week52:"ENT"},
+    C6:  {Week40:"Ophtha", Week41:"Ophtha", Week42:"Ortho", Week43:"Ortho", Week44:"Pediatrics", Week45:"Pediatrics", Week46:"Pediatrics", Week47:"Anaest", Week48:"Anaest", Week49:"Caslty", Week50:"Caslty", Week51:"ENT", Week52:"ENT"},
+    C7:  {Week40:"ENT", Week41:"ENT", Week42:"Ophtha", Week43:"Ophtha", Week44:"Ortho", Week45:"Ortho", Week46:"Pediatrics", Week47:"Pediatrics", Week48:"Pediatrics", Week49:"Anaest", Week50:"Anaest", Week51:"Caslty", Week52:"Caslty"},
+    C8:  {Week40:"ENT", Week41:"ENT", Week42:"Ophtha", Week43:"Ophtha", Week44:"Ortho", Week45:"Ortho", Week46:"Pediatrics", Week47:"Pediatrics", Week48:"Pediatrics", Week49:"Anaest", Week50:"Anaest", Week51:"Caslty", Week52:"Caslty"},
+    C9:  {Week40:"Caslty", Week41:"Caslty", Week42:"ENT", Week43:"ENT", Week44:"Ophtha", Week45:"Ophtha", Week46:"Ortho", Week47:"Ortho", Week48:"Pediatrics", Week49:"Pediatrics", Week50:"Pediatrics", Week51:"Anaest", Week52:"Anaest"},
+    C10: {Week40:"Caslty", Week41:"Caslty", Week42:"ENT", Week43:"ENT", Week44:"Ophtha", Week45:"Ophtha", Week46:"Ortho", Week47:"Ortho", Week48:"Pediatrics", Week49:"Pediatrics", Week50:"Pediatrics", Week51:"Anaest", Week52:"Anaest"},
+    C11: {Week40:"Anaest", Week41:"Anaest", Week42:"Caslty", Week43:"Caslty", Week44:"ENT", Week45:"ENT", Week46:"Ophtha", Week47:"Ophtha", Week48:"Ortho", Week49:"Ortho", Week50:"Pediatrics", Week51:"Pediatrics", Week52:"Pediatrics"},
+    C12: {Week40:"Anaest", Week41:"Anaest", Week42:"Caslty", Week43:"Caslty", Week44:"ENT", Week45:"ENT", Week46:"Ophtha", Week47:"Ophtha", Week48:"Ortho", Week49:"Ortho", Week50:"Pediatrics", Week51:"Pediatrics", Week52:"Pediatrics"}
+  };
+
+  const Block4D = {
+    D1:  {Week40:"Forensic", Week41:"PSM", Week42:"PSM", Week43:"PSM", Week44:"PSM", Week45:"PSM", Week46:"PSM", Week47:"PSM", Week48:"PSM", Week49:"PSM", Week50:"PSM", Week51:"PSM", Week52:"PSM"},
+    D2:  {Week40:"PSM", Week41:"Forensic", Week42:"PSM", Week43:"PSM", Week44:"PSM", Week45:"PSM", Week46:"PSM", Week47:"PSM", Week48:"PSM", Week49:"PSM", Week50:"PSM", Week51:"PSM", Week52:"PSM"},
+    D3:  {Week40:"PSM", Week41:"PSM", Week42:"Forensic", Week43:"PSM", Week44:"PSM", Week45:"PSM", Week46:"PSM", Week47:"PSM", Week48:"PSM", Week49:"PSM", Week50:"PSM", Week51:"PSM", Week52:"PSM"},
+    D4:  {Week40:"PSM", Week41:"PSM", Week42:"PSM", Week43:"Forensic", Week44:"PSM", Week45:"PSM", Week46:"PSM", Week47:"PSM", Week48:"PSM", Week49:"PSM", Week50:"PSM", Week51:"PSM", Week52:"PSM"},
+    D5:  {Week40:"PSM", Week41:"PSM", Week42:"PSM", Week43:"PSM", Week44:"Forensic", Week45:"PSM", Week46:"PSM", Week47:"PSM", Week48:"PSM", Week49:"PSM", Week50:"PSM", Week51:"PSM", Week52:"PSM"},
+    D6:  {Week40:"PSM", Week41:"PSM", Week42:"PSM", Week43:"PSM", Week44:"PSM", Week45:"Forensic", Week46:"PSM", Week47:"PSM", Week48:"PSM", Week49:"PSM", Week50:"PSM", Week51:"PSM", Week52:"PSM"},
+    D7:  {Week40:"PSM", Week41:"PSM", Week42:"PSM", Week43:"PSM", Week44:"PSM", Week45:"PSM", Week46:"Forensic", Week47:"PSM", Week48:"PSM", Week49:"PSM", Week50:"PSM", Week51:"PSM", Week52:"PSM"},
+    D8:  {Week40:"PSM", Week41:"PSM", Week42:"PSM", Week43:"PSM", Week44:"PSM", Week45:"PSM", Week46:"PSM", Week47:"Forensic", Week48:"PSM", Week49:"PSM", Week50:"PSM", Week51:"PSM", Week52:"PSM"},
+    D9:  {Week40:"PSM", Week41:"PSM", Week42:"PSM", Week43:"PSM", Week44:"PSM", Week45:"PSM", Week46:"PSM", Week47:"PSM", Week48:"Forensic", Week49:"PSM", Week50:"PSM", Week51:"PSM", Week52:"PSM"},
+    D10: {Week40:"PSM", Week41:"PSM", Week42:"PSM", Week43:"PSM", Week44:"PSM", Week45:"PSM", Week46:"PSM", Week47:"PSM", Week48:"PSM", Week49:"Forensic", Week50:"PSM", Week51:"PSM", Week52:"PSM"},
+    D11: {Week40:"PSM", Week41:"PSM", Week42:"PSM", Week43:"PSM", Week44:"PSM", Week45:"PSM", Week46:"PSM", Week47:"PSM", Week48:"PSM", Week49:"PSM", Week50:"Forensic", Week51:"PSM", Week52:"PSM"},
+    D12: {Week40:"PSM", Week41:"PSM", Week42:"PSM", Week43:"PSM", Week44:"PSM", Week45:"PSM", Week46:"PSM", Week47:"PSM", Week48:"PSM", Week49:"PSM", Week50:"PSM", Week51:"Forensic", Week52:"PSM"}
+  };
+
+  // MASTER 52-WEEK SCHEDULE LOOKUP DATABASE
   const subdivisionRoster = {
-    // SUBDIVISION A1 TO A12
     A1:  { ...Block1.A.A1,  ...Block2A.A1,  ...Block3A.A1,  ...Block4A.A1 },
     A2:  { ...Block1.A.A2,  ...Block2A.A2,  ...Block3A.A2,  ...Block4A.A2 },
     A3:  { ...Block1.A.A3,  ...Block2A.A3,  ...Block3A.A3,  ...Block4A.A3 },
@@ -949,7 +854,6 @@ const Block4D = {
     A11: { ...Block1.A.A11, ...Block2A.A11, ...Block3A.A11, ...Block4A.A11 },
     A12: { ...Block1.A.A12, ...Block2A.A12, ...Block3A.A12, ...Block4A.A12 },
 
-    // SUBDIVISION B1 TO B12
     B1:  { ...Block1.B.B1,  ...Block2B.B1,  ...Block3B.B1,  ...Block4B.B1 },
     B2:  { ...Block1.B.B2,  ...Block2B.B2,  ...Block3B.B2,  ...Block4B.B2 },
     B3:  { ...Block1.B.B3,  ...Block2B.B3,  ...Block3B.B3,  ...Block4B.B3 },
@@ -963,7 +867,6 @@ const Block4D = {
     B11: { ...Block1.B.B11, ...Block2B.B11, ...Block3B.B11, ...Block4B.B11 },
     B12: { ...Block1.B.B12, ...Block2B.B12, ...Block3B.B12, ...Block4B.B12 },
 
-    // SUBDIVISION C1 TO C12
     C1:  { ...Block1CD.C.C1,  ...Block2C.C1,  ...Block3C.C1,  ...Block4C.C1 },
     C2:  { ...Block1CD.C.C2,  ...Block2C.C2,  ...Block3C.C2,  ...Block4C.C2 },
     C3:  { ...Block1CD.C.C3,  ...Block2C.C3,  ...Block3C.C3,  ...Block4C.C3 },
@@ -977,7 +880,6 @@ const Block4D = {
     C11: { ...Block1CD.C.C11, ...Block2C.C11, ...Block3C.C11, ...Block4C.C11 },
     C12: { ...Block1CD.C.C12, ...Block2C.C12, ...Block3C.C12, ...Block4C.C12 },
 
-    // SUBDIVISION D1 TO D12
     D1:  { ...Block1CD.D.D1,  ...Block2D.D1,  ...Block3D.D1,  ...Block4D.D1 },
     D2:  { ...Block1CD.D.D2,  ...Block2D.D2,  ...Block3D.D2,  ...Block4D.D2 },
     D3:  { ...Block1CD.D.D3,  ...Block2D.D3,  ...Block3D.D3,  ...Block4D.D3 },
@@ -992,7 +894,6 @@ const Block4D = {
     D12: { ...Block1CD.D.D12, ...Block2D.D12, ...Block3D.D12, ...Block4D.D12 }
   };
 
-  // SUBDIVISION WEEKLY SCHEDULE MAPPING FOR ALL 48 SUBDIVISIONS (A1-D12)
   function getPostingForSubdivision(subdiv, weekNum) {
     const weekKey = `Week${weekNum}`;
     if (subdivisionRoster[subdiv] && subdivisionRoster[subdiv][weekKey]) {
@@ -1000,400 +901,272 @@ const Block4D = {
     }
     return 'General Duty';
   }
-// --- LOK NAYAK HOSPITAL OPD & CLINIC SCHEDULE DATABASE ---
-const deptSchedules = [
-  {
-    id: "medicine",
-    name: "Medicine Morning OPD (09:00 AM - 01:00 PM)",
-    units: [
-      { 
-        title: 'Unit 1 <span style="font-weight: normal;">(Dr. Anurag Rohatgi)</span>', 
-        days: "🔹 <b>OPD:</b> Mon & Thu<br>🚨 <b>Em:</b> Monday", 
-        location: "<b>OPD</b> (Rooms 310, 311, 312, 313, 315)<br><b>Ward:</b> Ward 31" 
-      },
-      { 
-        title: 'Unit 2 <span style="font-weight: normal;">(Dr. S Anuradha)</span>', 
-        days: "🔹 <b>OPD:</b> Tue & Fri<br>🚨 <b>Em:</b> Tuesday", 
-        location: "<b>OPD</b> (Rooms 310, 311, 312, 313, 315)<br><b>Ward:</b> Ward 29" 
-      },
-      { 
-        title: 'Unit 3 <span style="font-weight: normal;">(Dr. Sunita Agarwal)</span>', 
-        days: "🔹 <b>OPD:</b> Wed & Sat<br>🚨 <b>Eme:</b> Wednesday", 
-        location: "<b>OPD</b> (Rooms 310, 311, 312, 313, 315)<br><b>Ward:</b> Ward 32" 
-      },
-      { 
-        title: 'Unit 4 <span style="font-weight: normal;">(Dr. Sandeep Garg)</span>', 
-        days: "🔹 <b>OPD:</b> Mon & Thu<br>🚨 <b>Em:</b> Thursday", 
-        location: "<b>OPD</b> (Rooms 316, 322, 323, 324, 325)<br><b>Ward:</b> Ward 28" 
-      },
-      { 
-        title: 'Unit 5 <span style="font-weight: normal;">(Dr. Sanjay Pandit)</span>', 
-        days: "🔹 <b>OPD:</b> Tue & Fri<br>🚨 <b>Em:</b> Friday", 
-        location: "<b>OPD</b> (Rooms 316, 322, 323, 324, 325)<br><b>Ward:</b> Ward 30" 
-      },
-      { 
-        title: 'Unit 6 <span style="font-weight: normal;">(Dr. Sumeet Singla)</span>', 
-        days: "🔹 <b>OPD:</b> Wed & Sat<br>🚨 <b>Em:</b> Saturday", 
-        location: "<b>OPD</b> (Rooms 316, 322, 323, 324, 325)<br><b>Ward:</b> Ward 27" 
-      }
-    ]
-  },
 
-  {
-    id: "ophtha",
-    name: "Ophthalmology OPD & OT Schedule (Guru Nanak Eye Centre)",
-    units: [
-      { title: 'Unit 1A <span style="font-weight: normal;">(Dr. Paromita Dutta, Dr. Meenakshi Wadhwani)</span>', days: "Mon & Thu (OPD) / Tue & Fri (Round) / Wed & Sat (OT)", location: "GNEC OPD" },
-      { title: 'Unit 1B <span style="font-weight: normal;">(Dr. Parul Jain, Dr. Siddharth Madan)</span>', days: "Mon & Thu (OPD) / Tue & Fri (Round) / Wed & Sat (OT)", location: "GNEC OPD" },
-      { title: 'Unit 2A <span style="font-weight: normal;">(Dr. Kirti Singh, Dr. Anna Joon)</span>', days: "Tue & Fri (OPD) / Wed & Sat (Round) / Mon & Thu (OT)", location: "GNEC OPD" },
-      { title: 'Unit 2B <span style="font-weight: normal;">(Dr. Punita Sodhi, Dr. Aastha Singh)</span>', days: "Tue & Fri (OPD) / Wed & Sat (Round) / Mon & Thu (OT)", location: "GNEC OPD" },
-      { title: 'Unit 3A <span style="font-weight: normal;">(Dr. Meenakshi Thakar, Dr. Bhumika Sharma)</span>', days: "Wed & Sat (OPD) / Mon & Thu (Round) / Tue & Fri (OT)", location: "GNEC OPD" },
-      { title: 'Unit 3B <span style="font-weight: normal;">(Dr. Subhash Dadeya, Dr. Pranita Sahay)</span>', days: "Wed & Sat (OPD) / Mon & Thu (Round) / Tue & Fri (OT)", location: "GNEC OPD" }
-    ]
-  },
+  // OPD & CLINIC SCHEDULE DATABASE
+  const deptSchedules = [
+    {
+      id: "medicine",
+      name: "Medicine Morning OPD (09:00 AM - 01:00 PM)",
+      units: [
+        { title: 'Unit 1 <span style="font-weight: normal;">(Dr. Anurag Rohatgi)</span>', days: "🔹 <b>OPD:</b> Mon & Thu<br>🚨 <b>Em:</b> Monday", location: "<b>OPD</b> (Rooms 310, 311, 312, 313, 315)<br><b>Ward:</b> Ward 31" },
+        { title: 'Unit 2 <span style="font-weight: normal;">(Dr. S Anuradha)</span>', days: "🔹 <b>OPD:</b> Tue & Fri<br>🚨 <b>Em:</b> Tuesday", location: "<b>OPD</b> (Rooms 310, 311, 312, 313, 315)<br><b>Ward:</b> Ward 29" },
+        { title: 'Unit 3 <span style="font-weight: normal;">(Dr. Sunita Agarwal)</span>', days: "🔹 <b>OPD:</b> Wed & Sat<br>🚨 <b>Eme:</b> Wednesday", location: "<b>OPD</b> (Rooms 310, 311, 312, 313, 315)<br><b>Ward:</b> Ward 32" },
+        { title: 'Unit 4 <span style="font-weight: normal;">(Dr. Sandeep Garg)</span>', days: "🔹 <b>OPD:</b> Mon & Thu<br>🚨 <b>Em:</b> Thursday", location: "<b>OPD</b> (Rooms 316, 322, 323, 324, 325)<br><b>Ward:</b> Ward 28" },
+        { title: 'Unit 5 <span style="font-weight: normal;">(Dr. Sanjay Pandit)</span>', days: "🔹 <b>OPD:</b> Tue & Fri<br>🚨 <b>Em:</b> Friday", location: "<b>OPD</b> (Rooms 316, 322, 323, 324, 325)<br><b>Ward:</b> Ward 30" },
+        { title: 'Unit 6 <span style="font-weight: normal;">(Dr. Sumeet Singla)</span>', days: "🔹 <b>OPD:</b> Wed & Sat<br>🚨 <b>Em:</b> Saturday", location: "<b>OPD</b> (Rooms 316, 322, 323, 324, 325)<br><b>Ward:</b> Ward 27" }
+      ]
+    },
+    {
+      id: "ophtha",
+      name: "Ophthalmology OPD & OT Schedule (Guru Nanak Eye Centre)",
+      units: [
+        { title: 'Unit 1A <span style="font-weight: normal;">(Dr. Paromita Dutta, Dr. Meenakshi Wadhwani)</span>', days: "Mon & Thu (OPD) / Tue & Fri (Round) / Wed & Sat (OT)", location: "GNEC OPD" },
+        { title: 'Unit 1B <span style="font-weight: normal;">(Dr. Parul Jain, Dr. Siddharth Madan)</span>', days: "Mon & Thu (OPD) / Tue & Fri (Round) / Wed & Sat (OT)", location: "GNEC OPD" },
+        { title: 'Unit 2A <span style="font-weight: normal;">(Dr. Kirti Singh, Dr. Anna Joon)</span>', days: "Tue & Fri (OPD) / Wed & Sat (Round) / Mon & Thu (OT)", location: "GNEC OPD" },
+        { title: 'Unit 2B <span style="font-weight: normal;">(Dr. Punita Sodhi, Dr. Aastha Singh)</span>', days: "Tue & Fri (OPD) / Wed & Sat (Round) / Mon & Thu (OT)", location: "GNEC OPD" },
+        { title: 'Unit 3A <span style="font-weight: normal;">(Dr. Meenakshi Thakar, Dr. Bhumika Sharma)</span>', days: "Wed & Sat (OPD) / Mon & Thu (Round) / Tue & Fri (OT)", location: "GNEC OPD" },
+        { title: 'Unit 3B <span style="font-weight: normal;">(Dr. Subhash Dadeya, Dr. Pranita Sahay)</span>', days: "Wed & Sat (OPD) / Mon & Thu (Round) / Tue & Fri (OT)", location: "GNEC OPD" }
+      ]
+    },
+    {
+      id: "clinic_ophtha",
+      name: "Ophthalmology Special Day-wise Clinics (GNEC)",
+      units: [
+        { title: 'Monday Special Clinics', days: 'Retina-2 <span style="font-weight: normal;">(Dr. Meenakshi Thakar)</span> / Old Squint Clinic <span style="font-weight: normal;">(Dr. Subhash Dadeya)</span> / POC <span style="font-weight: normal;">(Dr. Siddharth Madan)</span>', location: "GNEC Special Clinics" },
+        { title: 'Tuesday Special Clinics', days: 'Contact Lens <span style="font-weight: normal;">(Dr. Parul Jain)</span> / Oculoplasty Clinic <span style="font-weight: normal;">(Dr. Meenakshi Wadhwani)</span> / POC + ROP Clinic <span style="font-weight: normal;">(Dr. Siddharth Madan)</span>', location: "GNEC Special Clinics" },
+        { title: 'Wednesday Special Clinics', days: 'Glaucoma Clinic <span style="font-weight: normal;">(Dr. Kirti Singh)</span> / Retina Clinic-1 <span style="font-weight: normal;">(Dr. Punita K. Sodhi)</span>', location: "GNEC Special Clinics" },
+        { title: 'Thursday Special Clinics', days: 'Retina Clinic-2 <span style="font-weight: normal;">(Dr. Meenakshi Thakar)</span> / Squint Clinic <span style="font-weight: normal;">(Dr. Subhash Dadeya)</span>', location: "GNEC Special Clinics" },
+        { title: 'Friday Special Clinics', days: 'NOC + Squint <span style="font-weight: normal;">(Dr. Paromita Dutta)</span> / Cornea Clinic <span style="font-weight: normal;">(Dr. Parul Jain & Dr. Pranita Sahay)</span>', location: "GNEC Special Clinics" },
+        { title: 'Saturday Special Clinics', days: 'Retina Clinic-1 <span style="font-weight: normal;">(Dr. Punita K. Sodhi)</span>', location: "GNEC Special Clinics" },
+        { title: 'Daily Special Clinic', days: "LVA Clinic (Low Vision Aids) - Held Daily", location: "GNEC Special Clinics" }
+      ]
+    },
+    {
+      id: "surgery",
+      name: "Surgery Morning OPD (09:00 AM - 01:00 PM)",
+      units: [
+        { title: 'Surgery Unit 1 <span style="font-weight: normal;">(Dr. C.B. Singh)</span>', days: "🔹 <b>OPD:</b> Mon (New, Em) / Thu (Follow-up)<br>🔴 <b>OT:</b> Wed (A,B) / Fri (C,D)<br>🟡 <b>Uro OT:</b> Saturday", location: "<b>OPD</b> (Rooms 409, 410, 412, 414, 416)<br><b>Ward:</b> Ward 2A" },
+        { title: 'Surgery Unit 2 <span style="font-weight: normal;">(Dr. Pawan Lal)</span>', days: "🔹 <b>OPD:</b> Wed (New, Em) / Sat (Follow-up)<br>🔴 <b>OT:</b> Fri (A,B) / Mon (C,D)<br>🟡 <b>Uro OT:</b> Tuesday", location: "<b>OPD</b> (Rooms 409, 410, 412, 414, 416)<br><b>Ward:</b> Ward 3A" },
+        { title: 'Surgery Unit 3 <span style="font-weight: normal;">(Dr. Rajdeep Singh)</span>', days: "🔹 <b>OPD:</b> Fri (New, Em) / Tue (Follow-up)<br>🔴 <b>OT:</b> Mon (A,B) / Wed (C,D)<br>🟡 <b>Uro OT:</b> Thursday", location: "<b>OPD</b> (Rooms 409, 410, 412, 414, 416)<br><b>Ward:</b> Ward 4A" },
+        { title: 'Surgery Unit 4 <span style="font-weight: normal;">(Dr. Sushanto Neogi)</span>', days: "🔹 <b>OPD:</b> Tue (New, Em) / Fri (Follow-up)<br>🔴 <b>OT:</b> Thu (A,B) / Sat (C,D)<br>🟡 <b>Uro OT:</b> Monday", location: "<b>OPD</b> (Rooms 417, 431, 433, 435)<br><b>Ward:</b> Ward 3B" },
+        { title: 'Surgery Unit 5 <span style="font-weight: normal;">(Dr. Anubhav Vindal)</span>', days: "🔹 <b>OPD:</b> Thu (New, Em) / Mon (Follow-up)<br>🔴 <b>OT:</b> Sat (A,B) / Tue (C,D)<br>🟡 <b>Uro OT:</b> Wednesday", location: "<b>OPD</b> (Rooms 417, 431, 433, 435)<br><b>Ward:</b> Ward 4B" },
+        { title: 'Surgery Unit 6 <span style="font-weight: normal;">(Dr. Deepak Ghuliani)</span>', days: "🔹 <b>OPD:</b> Sat (New, Em) / Wed (Follow-up)<br>🔴 <b>OT:</b> Tue (A,B) / Thu (C,D)<br>🟡 <b>Uro OT:</b> Friday", location: "<b>OPD</b> (Rooms 417, 431, 433, 435)<br><b>Ward:</b> Ward 2B" }
+      ]
+    },
+    {
+      id: "peds_med",
+      name: "Pediatric Medicine Morning OPD (09:00 AM - 01:00 PM)",
+      units: [
+        { title: 'Peds Medicine <span style="font-weight: normal;">(Dr. Mukta Mantan)</span>', days: "Mon / Thu", location: "OPD Block 5th Floor (Rooms 517, 518, 519, 520A, 520B)" },
+        { title: 'Peds Medicine <span style="font-weight: normal;">(Dr. Virendra)</span>', days: "Mon / Thu", location: "OPD Block 5th Floor (Rooms 512, 513, 514, 515, 516)" },
+        { title: 'Peds Medicine <span style="font-weight: normal;">(Dr. Monica Juneja)</span>', days: "Tue / Fri", location: "OPD Block 5th Floor (Rooms 512, 513, 514, 515, 516)" },
+        { title: 'Peds Medicine <span style="font-weight: normal;">(Dr. D. Mishra)</span>', days: "Tue / Fri", location: "OPD Block 5th Floor (Rooms 517, 518, 519, 520A, 520B)" },
+        { title: 'Peds Medicine <span style="font-weight: normal;">(Dr. K. Rajeshwari)</span>', days: "Wed / Sat", location: "OPD Block 5th Floor (Rooms 512, 513, 514, 515, 516)" },
+        { title: 'Peds Medicine <span style="font-weight: normal;">(Dr. Anurag Agarwal)</span>', days: "Wed / Sat", location: "OPD Block 5th Floor (Rooms 517, 518, 519, 520A, 520B)" },
+        { title: 'Medicine Genetic <span style="font-weight: normal;">(Dr. Seema Kapoor / Dr. Amit K. Gupta)</span>', days: "Mon to Thu", location: "OPD Block 5th Floor (Rooms 735, 743)" }
+      ]
+    },
+    {
+      id: "peds_surg",
+      name: "Pediatric Surgery Morning OPD (09:00 AM - 01:00 PM)",
+      units: [
+        { title: 'Pediatric Surgery Unit 1 <span style="font-weight: normal;">(Dr. Sujoy Neogi)</span>', days: "Monday", location: "OPD Block 5th Floor (Rooms 533, 534)" },
+        { title: 'Pediatric Surgery Unit 2 <span style="font-weight: normal;">(Dr. Simmi K. Ratan)</span>', days: "Tue / Fri / Sat", location: "OPD Block 5th Floor (Rooms 533, 534)" },
+        { title: 'Pediatric Surgery Unit 3 <span style="font-weight: normal;">(Dr. Prafull Kumar)</span>', days: "Wednesday", location: "OPD Block 5th Floor (Rooms 533, 534)" },
+        { title: 'Pediatric Surgery Unit 4 <span style="font-weight: normal;">(Dr. Chiranjiv Kumar)</span>', days: "Thursday", location: "OPD Block 5th Floor (Rooms 533, 534)" }
+      ]
+    },
+    {
+      id: "clinic_peds",
+      name: "Pediatric Special Evening Clinics (02:00 PM - 04:00 PM)",
+      units: [
+        { title: 'Peds Genetics Clinic <span style="font-weight: normal;">(Dr. Seema Kapoor / Dr. Amit K. Gupta)</span>', days: "Mon & Thu", location: "OPD Block 5th Floor (Room 515)" },
+        { title: 'Peds Neurology Clinic <span style="font-weight: normal;">(Dr. D. Mishra)</span>', days: "Friday", location: "OPD Block 5th Floor (Room 517)" },
+        { title: 'Well Baby Clinic <span style="font-weight: normal;">(Dr. Ashish Jain)</span>', days: "Tuesday", location: "OPD Block 5th Floor (Rooms 517-518)" },
+        { title: 'High Risk Neonate Clinic <span style="font-weight: normal;">(Dr. Ajay Kumar)</span>', days: "Friday", location: "OPD Block 5th Floor (Rooms 511-512)" },
+        { title: 'High Risk Clinic <span style="font-weight: normal;">(Dr. Ashish Jain)</span>', days: "Friday", location: "OPD Block 5th Floor (Rooms 517-518)" },
+        { title: 'Peds Endocrine Clinic <span style="font-weight: normal;">(Dr. Ashima Dabas)</span>', days: "Monday", location: "OPD Block 5th Floor (Rooms 506-514)" },
+        { title: 'Peds Cardiology Clinic <span style="font-weight: normal;">(Dr. Anurag Aggarwal)</span>', days: "Monday", location: "OPD Block 5th Floor (Room 514)" },
+        { title: 'Peds Nephrology Clinic <span style="font-weight: normal;">(Dr. M. Mantan)</span>', days: "Monday", location: "OPD Block 5th Floor (Room 515)" },
+        { title: 'Peds Gastroenterology Clinic <span style="font-weight: normal;">(Dr. Raghvendra Singh)</span>', days: "Friday", location: "OPD Block 5th Floor (Room 514)" },
+        { title: 'Peds Intensive Care <span style="font-weight: normal;">(Dr. Urmila Jhamb)</span>', days: "Friday", location: "OPD Block 5th Floor (Rooms 512, 513)" },
+        { title: 'Peds Pulmonology Clinic <span style="font-weight: normal;">(Dr. Deepak Kumar)</span>', days: "Friday", location: "OPD Block 5th Floor (Room 506)" },
+        { title: 'Peds Oncology Clinic <span style="font-weight: normal;">(Dr. Sujoy Neogi)</span>', days: "Monday", location: "OPD Block 5th Floor (Room 535)" },
+        { title: 'Peds Urology & Antenatal Clinic & DSD <span style="font-weight: normal;">(Dr. S.K. Ratan)</span>', days: "Tuesday", location: "OPD Block 5th Floor (Room 535)" },
+        { title: 'GI & Hepatobiliary Clinic <span style="font-weight: normal;">(Dr. S.K. Ratan)</span>', days: "Friday", location: "OPD Block 5th Floor (Room 535)" },
+        { title: 'Peds Laparoscopy / Endoscopy Clinic <span style="font-weight: normal;">(Dr. Prafull Kumar)</span>', days: "Wednesday", location: "OPD Block 5th Floor (Room 535)" },
+        { title: 'Peds Neurosurgery & Lymphatic Vascular Clinic <span style="font-weight: normal;">(Dr. Chiranjiv Kumar)</span>', days: "Thursday", location: "OPD Block 5th Floor (Room 535)" }
+      ]
+    },
+    {
+      id: "ent",
+      name: "ENT Morning OPD (09:00 AM - 01:00 PM)",
+      units: [
+        { title: 'Unit 1 <span style="font-weight: normal;">(Dr. Ravi Meher)</span>', days: "🔹 <b>OPD:</b> Wed / Sat<br>🔴 <b>OT:</b> Mon / Thu<br>🟡 <b>Ward:</b> Tue / Fri", location: "<b>OPD</b> (Rooms 609-617, 6th Fl)" },
+        { title: 'Unit 2 <span style="font-weight: normal;">(Dr. Ishwar Singh)</span>', days: "🔹 <b>OPD:</b> Mon / Thu<br>🔴 <b>OT:</b> Tue / Fri<br>🟡 <b>Ward:</b> Wed / Sat", location: "<b>OPD</b> (Rooms 609-617, 6th Fl)" },
+        { title: 'Unit 3 <span style="font-weight: normal;">(Dr. H.C. Taneja)</span>', days: "🔹 <b>OPD:</b> Tue / Fri<br>🔴 <b>OT:</b> Wed / Sat<br>🟡 <b>Ward:</b> Mon / Thu", location: "<b>OPD</b> (Rooms 609-617, 6th Fl)" }
+      ]
+    },
+    {
+      id: "clinic_ent",
+      name: "ENT Evening Special Clinics (02:00 PM - 04:00 PM)",
+      units: [
+        { title: 'Rhinology Clinic <span style="font-weight: normal;">(Dr. H.C. Taneja)</span>', days: "Wednesday", location: "OPD Block 6th Floor (Room 609)" },
+        { title: 'Vertigo and Audiology Clinic <span style="font-weight: normal;">(Dr. P.K. Rathore)</span>', days: "Wednesday", location: "OPD Block 6th Floor (Room 609)" },
+        { title: 'Voice and Laryngology Clinic <span style="font-weight: normal;">(Dr. Ravi Mehar)</span>', days: "Monday", location: "OPD Block 6th Floor (Room 609)" }
+      ]
+    },
+    {
+      id: "ortho",
+      name: "Orthopedics OPD, OT & Emergency Schedule",
+      units: [
+        { title: 'Orthopedics Unit 1 <span style="font-weight: normal;">(Dr. Sumit Sural, Dr. Sumit Arora)</span>', days: "Mon & Thu", location: "Ortho Block 1st Floor (Rooms 101-104, 111-113, 115)" },
+        { title: 'Orthopedics Unit 2 <span style="font-weight: normal;">(Dr. Lalit Maini)</span>', days: "Tue & Fri", location: "Ortho Block 1st Floor (Rooms 101-104, 111-113, 115)" },
+        { title: 'Orthopedics Unit 3 <span style="font-weight: normal;">(Dr. Abhishek Kashyap)</span>', days: "Wed & Sat", location: "Ortho Block 1st Floor (Rooms 101-104, 111-113, 115)" },
+        { title: 'Fracture Clinic <span style="font-weight: normal;">(Dr. Lalit Maini)</span>', days: "Mon to Sat (Morning & Evening Shift)", location: "Ortho Block 1st Floor (Room 105)" }
+      ]
+    },
+    {
+      id: "clinic_ortho",
+      name: "Orthopedics Afternoon Specialty Clinics (02:00 PM - 04:00 PM)",
+      units: [
+        { title: 'Trauma Clinic <span style="font-weight: normal;">(Dr. Mayank Gupta)</span>', days: "Monday", location: "Ortho Block 1st Floor (Room 115)" },
+        { title: 'Adult Reconstruction Clinic <span style="font-weight: normal;">(Dr. Lalit Maini)</span>', days: "Tuesday", location: "Ortho Block 1st Floor (Room 115)" },
+        { title: 'Spine Clinic <span style="font-weight: normal;">(Dr. Abhishek Kashyap)</span>', days: "Wednesday", location: "Ortho Block 1st Floor (Room 115)" },
+        { title: 'Arthroscopy Sports Injury Clinic <span style="font-weight: normal;">(Dr. Sumit Arora)</span>', days: "Thursday", location: "Ortho Block 1st Floor (Room 115)" },
+        { title: 'Trauma Clinic <span style="font-weight: normal;">(Dr. Vedpal Yadav)</span>', days: "Friday", location: "Ortho Block 1st Floor (Room 115)" }
+      ]
+    },
+    {
+      id: "gynae",
+      name: "Gynecology & Antenatal Morning OPD (09:00 AM - 01:00 PM)",
+      units: [
+        { title: 'Gynecology Unit 1 <span style="font-weight: normal;">(Dr. Latika Sahu)</span>', days: "🔹 <b>OPD:</b> Monday", location: "OPD Block 2nd Floor (Rooms 209-213)" },
+        { title: 'Gynecology Unit 2 <span style="font-weight: normal;">(Dr. Sangeeta Gupta)</span>', days: "🔹 <b>OPD:</b> Tuesday", location: "OPD Block 2nd Floor (Rooms 209-213)" },
+        { title: 'Gynecology Unit 3 <span style="font-weight: normal;">(Dr. Y.M. Mala)</span>', days: "🔹 <b>OPD:</b> Wednesday", location: "OPD Block 2nd Floor (Rooms 209-213)" },
+        { title: 'Gynecology Unit 4 <span style="font-weight: normal;">(Dr. Deepti Goswami)</span>', days: "🔹 <b>OPD:</b> Thursday", location: "OPD Block 2nd Floor (Rooms 209-213)" },
+        { title: 'Gynecology Unit 5 <span style="font-weight: normal;">(Dr. Madhavi M. Gupta)</span>', days: "🔹 <b>OPD:</b> Friday", location: "OPD Block 2nd Floor (Rooms 209-213)" },
+        { title: 'Gynecology Unit 6 <span style="font-weight: normal;">(Dr. Krishna Agarwal)</span>', days: "🔹 <b>OPD:</b> Saturday", location: "OPD Block 2nd Floor (Rooms 209-213)" },
+        { title: 'Antenatal Clinic (ANC) <span style="font-weight: normal;">(Dr. Deepti Goswami)</span>', days: "Monday", location: "OPD Block 2nd Floor (Rooms 230-235)" },
+        { title: 'Antenatal Clinic (ANC) <span style="font-weight: normal;">(Dr. Madhavi M. Gupta)</span>', days: "Tuesday", location: "OPD Block 2nd Floor (Rooms 230-235)" },
+        { title: 'Antenatal Clinic (ANC) <span style="font-weight: normal;">(Dr. Krishna Agarwal)</span>', days: "Wednesday", location: "OPD Block 2nd Floor (Rooms 230-235)" },
+        { title: 'Antenatal Clinic (ANC) <span style="font-weight: normal;">(Dr. Latika Sahu)</span>', days: "Thursday", location: "OPD Block 2nd Floor (Rooms 230-235)" },
+        { title: 'Antenatal Clinic (ANC) <span style="font-weight: normal;">(Dr. Sangeeta Gupta)</span>', days: "Friday", location: "OPD Block 2nd Floor (Rooms 230-235)" },
+        { title: 'Antenatal Clinic (ANC) <span style="font-weight: normal;">(Dr. Y.M. Mala)</span>', days: "Saturday", location: "OPD Block 2nd Floor (Rooms 230-235)" }
+      ]
+    },
+    {
+      id: "clinic_gynae",
+      name: "Gynecology Special Evening Clinics (02:00 PM - 04:00 PM)",
+      units: [
+        { title: 'Fertility & ART Clinic <span style="font-weight: normal;">(Dr. Deepti Goswami)</span>', days: "Monday", location: "OPD Block 2nd Floor (Rooms 209, 210)" },
+        { title: 'Fertility & ART Clinic <span style="font-weight: normal;">(Dr. Madhavi M. Gupta)</span>', days: "Monday", location: "OPD Block 2nd Floor (Rooms 213, 214)" },
+        { title: 'Gynae Endocrine Clinic <span style="font-weight: normal;">(Dr. Deepti Goswami)</span>', days: "Thursday", location: "OPD Block 2nd Floor (Rooms 209, 210)" },
+        { title: 'Gynae Endocrine Clinic <span style="font-weight: normal;">(Dr. Madhavi M. Gupta)</span>', days: "Thursday", location: "OPD Block 2nd Floor (Rooms 213, 214)" },
+        { title: 'High-Risk Pregnancy Clinic <span style="font-weight: normal;">(Dr. Krishna Agarwal)</span>', days: "Thursday", location: "OPD Block 2nd Floor (Room 235)" },
+        { title: 'High-Risk Pregnancy Clinic <span style="font-weight: normal;">(Dr. Y.M. Mala)</span>', days: "Thursday", location: "OPD Block 2nd Floor (Room 234)" },
+        { title: 'Fetal Medicine Clinic <span style="font-weight: normal;">(Dr. Krishna Agarwal)</span>', days: "Thursday", location: "OPD Block 2nd Floor (Room 235)" },
+        { title: 'Fetal Medicine Clinic <span style="font-weight: normal;">(Dr. Sangeeta Gupta)</span>', days: "Thursday", location: "OPD Block 2nd Floor (Room 234)" },
+        { title: 'Gynecology Cancer Clinic <span style="font-weight: normal;">(Dr. Y.M. Mala)</span>', days: "Friday", location: "OPD Block 2nd Floor (Rooms 209, 210)" },
+        { title: 'Gynecology Cancer Clinic <span style="font-weight: normal;">(Dr. Latika Sahu)</span>', days: "Friday", location: "OPD Block 2nd Floor (Rooms 213, 214)" }
+      ]
+    },
+    {
+      id: "derma",
+      name: "Dermatology & STD OPD (09:00 AM - 01:00 PM & Special Evening Clinics 02:00 PM - 04:00 PM)",
+      units: [
+        { title: 'Dermatology & STD Morning OPD <span style="font-weight: normal;">(Dr. K.D. Barman)</span>', days: "Mon to Sat (09:00 AM - 01:00 PM)", location: "OPD Block 7th Floor (Rooms 709-717)" },
+        { title: 'Leprosy Clinic <span style="font-weight: normal;">(Dr. Laxmi P. Kumar)</span>', days: "Tuesday", location: "OPD Block 7th Floor (Room 711)" },
+        { title: 'Psoriasis Clinic <span style="font-weight: normal;">(Dr. Deepika Yadav)</span>', days: "Wednesday", location: "OPD Block 7th Floor (Room 711)" },
+        { title: 'Vitiligo Clinic <span style="font-weight: normal;">(Dr. Laxmi P. Kumar)</span>', days: "Wednesday", location: "OPD Block 7th Floor (Room 711)" },
+        { title: 'Contact Dermatitis Clinic <span style="font-weight: normal;">(Dr. K.D. Barman)</span>', days: "Friday", location: "OPD Block 7th Floor (Room 711)" },
+        { title: 'Connective Tissue Disease Clinic <span style="font-weight: normal;">(Dr. K.D. Barman)</span>', days: "Friday", location: "OPD Block 7th Floor (Room 711)" },
+        { title: 'Vesicobullous Disease Clinic <span style="font-weight: normal;">(Dr. K.D. Barman)</span>', days: "Friday", location: "OPD Block 7th Floor (Room 711)" },
+        { title: 'Autoimmune Disorders Allergy Clinic <span style="font-weight: normal;">(Dr. Tanvi Dev)</span>', days: "Friday", location: "OPD Block 7th Floor (Room 711)" }
+      ]
+    },
+    {
+      id: "burns",
+      name: "Burns & Plastic Surgery Morning OPD (09:00 AM - 01:00 PM)",
+      units: [
+        { title: 'Burn and Plastic Surgery <span style="font-weight: normal;">(Dr. Krittika Aggarwal)</span>', days: "Mon / Thu", location: "OPD Block 7th Floor (Rooms 733, 734)" },
+        { title: 'Burn and Plastic Surgery <span style="font-weight: normal;">(Dr. Prabhat Shrivastava)</span>', days: "Tue / Fri", location: "OPD Block 7th Floor (Rooms 733, 734)" },
+        { title: 'Burn and Plastic Surgery <span style="font-weight: normal;">(Dr. Varsha Gupta)</span>', days: "Wed / Sat", location: "OPD Block 7th Floor (Rooms 733, 734)" }
+      ]
+    },
+    {
+      id: "clinic_other",
+      name: "Other Special Clinics (PAC, Pain, Rabies, Senior Citizen)",
+      units: [
+        { title: 'PAC Clinic <span style="font-weight: normal;">(Dr. Mona Arya)</span>', days: "Monday (07:30 AM - 11:30 AM)", location: "OPD Block 1st Floor (Room 115)" },
+        { title: 'PAC Clinic <span style="font-weight: normal;">(Dr. Neelam Prasad)</span>', days: "Tuesday (07:30 AM - 11:30 AM)", location: "OPD Block 1st Floor (Room 115)" },
+        { title: 'PAC Clinic <span style="font-weight: normal;">(Dr. Bharti Wadhwa)</span>', days: "Wednesday (07:30 AM - 11:30 AM)", location: "OPD Block 1st Floor (Room 117)" },
+        { title: 'PAC Clinic <span style="font-weight: normal;">(Dr. Sonia Wadhawan)</span>', days: "Thursday (07:30 AM - 11:30 AM)", location: "OPD Block 1st Floor (Room 117)" },
+        { title: 'PAC Clinic <span style="font-weight: normal;">(Dr. Anjur Bhalotra)</span>', days: "Friday (07:30 AM - 11:30 AM)", location: "OPD Block 1st Floor (Room 117)" },
+        { title: 'PAC Clinic <span style="font-weight: normal;">(Dr. Munisha Agarwal)</span>', days: "Saturday (07:30 AM - 11:30 AM)", location: "OPD Block 1st Floor (Room 115)" },
+        { title: 'Pain Clinic <span style="font-weight: normal;">(Pain OPD)</span>', days: "Mon to Sat (Morning & Evening Shift)", location: "OPD Block 1st Floor (Room 121)" },
+        { title: 'Anti-Rabies Clinic', days: "Mon to Sat (Morning & Evening Shift)", location: "Emergency Block (Room 21)" },
+        { title: 'Senior Citizen Clinic', days: "Only Sunday (08:30 AM - 10:30 AM)", location: "OPD Block 1st Floor" }
+      ]
+    },
+    {
+      id: "clinic_med",
+      name: "Medicine Evening Special Clinics (02:00 PM - 04:00 PM)",
+      units: [
+        { title: 'Pulmonary Clinic <span style="font-weight: normal;">(Dr. Naresh Kumar)</span>', days: "Tue / Thu / Sat (Morning)", location: "OPD Block 1st Floor (Rooms 111, 113)" },
+        { title: 'Hepatology Clinic <span style="font-weight: normal;">(Dr. S. Anuradha)</span>', days: "Mon to Sat (Morning)", location: "OPD Block 1st Floor (Room 139)" },
+        { title: 'Diabetes Clinic <span style="font-weight: normal;">(Dr. Sanjay Pandit)</span>', days: "Monday", location: "OPD Block 3rd Floor (Rooms 316, 322, 323, 324, 325)" },
+        { title: 'Hematology Clinic <span style="font-weight: normal;">(Dr. Sunita Aggarwal)</span>', days: "Tuesday", location: "OPD Block 3rd Floor (Rooms 310, 311, 312, 313, 315)" },
+        { title: 'Endocrinology Clinic <span style="font-weight: normal;">(Dr. Sandeep Garg)</span>', days: "Wednesday", location: "OPD Block 3rd Floor (Rooms 316, 322, 323, 324, 325)" },
+        { title: 'Rheumatology Clinic <span style="font-weight: normal;">(Dr. Sumeet Singla)</span>', days: "Thursday", location: "OPD Block 3rd Floor (Rooms 316, 322, 323, 324, 325)" },
+        { title: 'Nephrology Clinic <span style="font-weight: normal;">(Dr. Anurag Rohtagi)</span>', days: "Friday", location: "OPD Block 3rd Floor (Rooms 310, 311, 312, 313, 315)" }
+      ]
+    },
+    {
+      id: "neurosurgery",
+      name: "Neurosurgery Clinic (09:00 AM - 01:00 PM & Friday Evening 02:00 PM - 04:00 PM)",
+      units: [
+        { title: 'Neurosurgery Clinic <span style="font-weight: normal;">(Dr. Chander Shekhar / Dr. P.N. Pandey)</span>', days: "Mon / Thu / Fri (07:30 AM - 11:30 AM)", location: "OPD Block 4th Floor (Rooms 428, 429)" },
+        { title: 'Spine and Peds Neurosurgery Clinic <span style="font-weight: normal;">(Dr. Anuj Kumar)</span>', days: "Friday (01:00 PM - 02:00 PM)", location: "OPD Block 4th Floor (Rooms 428, 429)" }
+      ]
+    },
+    {
+      id: "clinic_surg",
+      name: "Surgery Evening Special Clinics (02:00 PM - 04:00 PM)",
+      units: [
+        { title: 'Male Infertility & Vascular Clinic <span style="font-weight: normal;">(Dr. C.B. Singh)</span>', days: "1st & 3rd Thursday", location: "OPD Block 4th Floor (Room 417)" },
+        { title: 'Male Infertility <span style="font-weight: normal;">(Dr. Sushanto Neogi)</span>', days: "All Fridays", location: "OPD Block 4th Floor (Room 417)" },
+        { title: 'Metabolic / Bariatric Clinic <span style="font-weight: normal;">(Dr. Anubhav Vindal)</span>', days: "2nd & 4th Monday", location: "OPD Block 4th Floor (Room 410)" },
+        { title: 'Breast & Endocrine Clinic <span style="font-weight: normal;">(Dr. Deepak Ghuliani)</span>', days: "Wednesday", location: "OPD Block 4th Floor (Room 434)" },
+        { title: 'Proctology Clinic <span style="font-weight: normal;">(Dr. Pawan Lal)</span>', days: "Wednesday", location: "OPD Block 4th Floor (Room 410)" },
+        { title: 'Stoma / Wound Clinic <span style="font-weight: normal;">(Dr. Sushanto Neogi)</span>', days: "2nd & 4th Monday", location: "OPD Block 4th Floor (Room 410)" },
+        { title: 'AWR Clinic <span style="font-weight: normal;">(Dr. Rajdeep Singh)</span>', days: "2nd & 4th Tuesday", location: "OPD Block 4th Floor (Room 434)" }
+      ]
+    },
+    {
+      id: "radiotherapy",
+      name: "Radiotherapy / Oncology Morning OPD (09:00 AM - 01:00 PM)",
+      units: [
+        { title: 'Radiotherapy / Oncology <span style="font-weight: normal;">(Dr. Arun Kumar Rathi)</span>', days: "Mon / Wed / Fri", location: "OPD Block 6th Floor (Rooms 635, 636)" },
+        { title: 'Gynaecology Oncology <span style="font-weight: normal;">(Dr. Anurita Srivastava)</span>', days: "Tue / Thu / Sat", location: "OPD Block 6th Floor (Rooms 635, 636)" }
+      ]
+    },
+    {
+      id: "panchkarma",
+      name: "Panchkarma Morning OPD (09:00 AM - 01:00 PM)",
+      units: [
+        { title: 'Panchkarma <span style="font-weight: normal;">(Dr. Akhilesh Vashishtha)</span>', days: "Mon to Sat", location: "OPD Block 7th Floor (Room 739)" }
+      ]
+    },
+    {
+      id: "unani",
+      name: "Unani Morning OPD (09:00 AM - 01:00 PM)",
+      units: [
+        { title: 'Unani <span style="font-weight: normal;">(Dr. Azra Anjum)</span>', days: "Mon to Sat", location: "OPD Block 7th Floor (Room 742)" }
+      ]
+    }
+  ];
 
-  {
-    id: "clinic_ophtha",
-    name: "Ophthalmology Special Day-wise Clinics (GNEC)",
-    units: [
-      { title: 'Monday Special Clinics', days: 'Retina-2 <span style="font-weight: normal;">(Dr. Meenakshi Thakar)</span> / Old Squint Clinic <span style="font-weight: normal;">(Dr. Subhash Dadeya)</span> / POC <span style="font-weight: normal;">(Dr. Siddharth Madan)</span>', location: "GNEC Special Clinics" },
-      { title: 'Tuesday Special Clinics', days: 'Contact Lens <span style="font-weight: normal;">(Dr. Parul Jain)</span> / Oculoplasty Clinic <span style="font-weight: normal;">(Dr. Meenakshi Wadhwani)</span> / POC + ROP Clinic <span style="font-weight: normal;">(Dr. Siddharth Madan)</span>', location: "GNEC Special Clinics" },
-      { title: 'Wednesday Special Clinics', days: 'Glaucoma Clinic <span style="font-weight: normal;">(Dr. Kirti Singh)</span> / Retina Clinic-1 <span style="font-weight: normal;">(Dr. Punita K. Sodhi)</span>', location: "GNEC Special Clinics" },
-      { title: 'Thursday Special Clinics', days: 'Retina Clinic-2 <span style="font-weight: normal;">(Dr. Meenakshi Thakar)</span> / Squint Clinic <span style="font-weight: normal;">(Dr. Subhash Dadeya)</span>', location: "GNEC Special Clinics" },
-      { title: 'Friday Special Clinics', days: 'NOC + Squint <span style="font-weight: normal;">(Dr. Paromita Dutta)</span> / Cornea Clinic <span style="font-weight: normal;">(Dr. Parul Jain & Dr. Pranita Sahay)</span>', location: "GNEC Special Clinics" },
-      { title: 'Saturday Special Clinics', days: 'Retina Clinic-1 <span style="font-weight: normal;">(Dr. Punita K. Sodhi)</span>', location: "GNEC Special Clinics" },
-      { title: 'Daily Special Clinic', days: "LVA Clinic (Low Vision Aids) - Held Daily", location: "GNEC Special Clinics" }
-    ]
-  },
-
-  {
-    id: "surgery",
-    name: "Surgery Morning OPD (09:00 AM - 01:00 PM)",
-    units: [
-      { 
-        title: 'Surgery Unit 1 <span style="font-weight: normal;">(Dr. C.B. Singh)</span>', 
-        days: "🔹 <b>OPD:</b> Mon (New, Em) / Thu (Follow-up)<br>🔴 <b>OT:</b> Wed (A,B) / Fri (C,D)<br>🟡 <b>Uro OT:</b> Saturday", 
-        location: "<b>OPD</b> (Rooms 409, 410, 412, 414, 416)<br><b>Ward:</b> Ward 2A" 
-      },
-      { 
-        title: 'Surgery Unit 2 <span style="font-weight: normal;">(Dr. Pawan Lal)</span>', 
-        days: "🔹 <b>OPD:</b> Wed (New, Em) / Sat (Follow-up)<br>🔴 <b>OT:</b> Fri (A,B) / Mon (C,D)<br>🟡 <b>Uro OT:</b> Tuesday", 
-        location: "<b>OPD</b> (Rooms 409, 410, 412, 414, 416)<br><b>Ward:</b> Ward 3A" 
-      },
-      { 
-        title: 'Surgery Unit 3 <span style="font-weight: normal;">(Dr. Rajdeep Singh)</span>', 
-        days: "🔹 <b>OPD:</b> Fri (New, Em) / Tue (Follow-up)<br>🔴 <b>OT:</b> Mon (A,B) / Wed (C,D)<br>🟡 <b>Uro OT:</b> Thursday", 
-        location: "<b>OPD</b> (Rooms 409, 410, 412, 414, 416)<br><b>Ward:</b> Ward 4A" 
-      },
-      { 
-        title: 'Surgery Unit 4 <span style="font-weight: normal;">(Dr. Sushanto Neogi)</span>', 
-        days: "🔹 <b>OPD:</b> Tue (New, Em) / Fri (Follow-up)<br>🔴 <b>OT:</b> Thu (A,B) / Sat (C,D)<br>🟡 <b>Uro OT:</b> Monday", 
-        location: "<b>OPD</b> (Rooms 417, 431, 433, 435)<br><b>Ward:</b> Ward 3B" 
-      },
-      { 
-        title: 'Surgery Unit 5 <span style="font-weight: normal;">(Dr. Anubhav Vindal)</span>', 
-        days: "🔹 <b>OPD:</b> Thu (New, Em) / Mon (Follow-up)<br>🔴 <b>OT:</b> Sat (A,B) / Tue (C,D)<br>🟡 <b>Uro OT:</b> Wednesday", 
-        location: "<b>OPD</b> (Rooms 417, 431, 433, 435)<br><b>Ward:</b> Ward 4B" 
-      },
-      { 
-        title: 'Surgery Unit 6 <span style="font-weight: normal;">(Dr. Deepak Ghuliani)</span>', 
-        days: "🔹 <b>OPD:</b> Sat (New, Em) / Wed (Follow-up)<br>🔴 <b>OT:</b> Tue (A,B) / Thu (C,D)<br>🟡 <b>Uro OT:</b> Friday", 
-        location: "<b>OPD</b> (Rooms 417, 431, 433, 435)<br><b>Ward:</b> Ward 2B" 
-      }
-    ]
-  },
-
-  {
-    id: "peds_med",
-    name: "Pediatric Medicine Morning OPD (09:00 AM - 01:00 PM)",
-    units: [
-      { title: 'Peds Medicine <span style="font-weight: normal;">(Dr. Mukta Mantan)</span>', days: "Mon / Thu", location: "OPD Block 5th Floor (Rooms 517, 518, 519, 520A, 520B)", ward: "" },
-      { title: 'Peds Medicine <span style="font-weight: normal;">(Dr. Virendra)</span>', days: "Mon / Thu", location: "OPD Block 5th Floor (Rooms 512, 513, 514, 515, 516)", ward: "" },
-      { title: 'Peds Medicine <span style="font-weight: normal;">(Dr. Monica Juneja)</span>', days: "Tue / Fri", location: "OPD Block 5th Floor (Rooms 512, 513, 514, 515, 516)", ward: "" },
-      { title: 'Peds Medicine <span style="font-weight: normal;">(Dr. D. Mishra)</span>', days: "Tue / Fri", location: "OPD Block 5th Floor (Rooms 517, 518, 519, 520A, 520B)", ward: "" },
-      { title: 'Peds Medicine <span style="font-weight: normal;">(Dr. K. Rajeshwari)</span>', days: "Wed / Sat", location: "OPD Block 5th Floor (Rooms 512, 513, 514, 515, 516)", ward: "" },
-      { title: 'Peds Medicine <span style="font-weight: normal;">(Dr. Anurag Agarwal)</span>', days: "Wed / Sat", location: "OPD Block 5th Floor (Rooms 517, 518, 519, 520A, 520B)", ward: "" },
-      { title: 'Medicine Genetic <span style="font-weight: normal;">(Dr. Seema Kapoor / Dr. Amit K. Gupta)</span>', days: "Mon to Thu", location: "OPD Block 5th Floor (Rooms 735, 743)", ward: "" }
-    ]
-  },
-
-  {
-    id: "peds_surg",
-    name: "Pediatric Surgery Morning OPD (09:00 AM - 01:00 PM)",
-    units: [
-      { title: 'Pediatric Surgery Unit 1 <span style="font-weight: normal;">(Dr. Sujoy Neogi)</span>', days: "Monday", location: "OPD Block 5th Floor (Rooms 533, 534)" },
-      { title: 'Pediatric Surgery Unit 2 <span style="font-weight: normal;">(Dr. Simmi K. Ratan)</span>', days: "Tue / Fri / Sat", location: "OPD Block 5th Floor (Rooms 533, 534)" },
-      { title: 'Pediatric Surgery Unit 3 <span style="font-weight: normal;">(Dr. Prafull Kumar)</span>', days: "Wednesday", location: "OPD Block 5th Floor (Rooms 533, 534)" },
-      { title: 'Pediatric Surgery Unit 4 <span style="font-weight: normal;">(Dr. Chiranjiv Kumar)</span>', days: "Thursday", location: "OPD Block 5th Floor (Rooms 533, 534)" }
-    ]
-  },
-
-  {
-    id: "clinic_peds",
-    name: "Pediatric Special Evening Clinics (02:00 PM - 04:00 PM)",
-    units: [
-      { title: 'Peds Genetics Clinic <span style="font-weight: normal;">(Dr. Seema Kapoor / Dr. Amit K. Gupta)</span>', days: "Mon & Thu", location: "OPD Block 5th Floor (Room 515)" },
-      { title: 'Peds Neurology Clinic <span style="font-weight: normal;">(Dr. D. Mishra)</span>', days: "Friday", location: "OPD Block 5th Floor (Room 517)" },
-      { title: 'Well Baby Clinic <span style="font-weight: normal;">(Dr. Ashish Jain)</span>', days: "Tuesday", location: "OPD Block 5th Floor (Rooms 517-518)" },
-      { title: 'High Risk Neonate Clinic <span style="font-weight: normal;">(Dr. Ajay Kumar)</span>', days: "Friday", location: "OPD Block 5th Floor (Rooms 511-512)" },
-      { title: 'High Risk Clinic <span style="font-weight: normal;">(Dr. Ashish Jain)</span>', days: "Friday", location: "OPD Block 5th Floor (Rooms 517-518)" },
-      { title: 'Peds Endocrine Clinic <span style="font-weight: normal;">(Dr. Ashima Dabas)</span>', days: "Monday", location: "OPD Block 5th Floor (Rooms 506-514)" },
-      { title: 'Peds Cardiology Clinic <span style="font-weight: normal;">(Dr. Anurag Aggarwal)</span>', days: "Monday", location: "OPD Block 5th Floor (Room 514)" },
-      { title: 'Peds Nephrology Clinic <span style="font-weight: normal;">(Dr. M. Mantan)</span>', days: "Monday", location: "OPD Block 5th Floor (Room 515)" },
-      { title: 'Peds Gastroenterology Clinic <span style="font-weight: normal;">(Dr. Raghvendra Singh)</span>', days: "Friday", location: "OPD Block 5th Floor (Room 514)" },
-      { title: 'Peds Intensive Care <span style="font-weight: normal;">(Dr. Urmila Jhamb)</span>', days: "Friday", location: "OPD Block 5th Floor (Rooms 512, 513)" },
-      { title: 'Peds Pulmonology Clinic <span style="font-weight: normal;">(Dr. Deepak Kumar)</span>', days: "Friday", location: "OPD Block 5th Floor (Room 506)" },
-      { title: 'Peds Oncology Clinic <span style="font-weight: normal;">(Dr. Sujoy Neogi)</span>', days: "Monday", location: "OPD Block 5th Floor (Room 535)" },
-      { title: 'Peds Urology & Antenatal Clinic & DSD <span style="font-weight: normal;">(Dr. S.K. Ratan)</span>', days: "Tuesday", location: "OPD Block 5th Floor (Room 535)" },
-      { title: 'GI & Hepatobiliary Clinic <span style="font-weight: normal;">(Dr. S.K. Ratan)</span>', days: "Friday", location: "OPD Block 5th Floor (Room 535)" },
-      { title: 'Peds Laparoscopy / Endoscopy Clinic <span style="font-weight: normal;">(Dr. Prafull Kumar)</span>', days: "Wednesday", location: "OPD Block 5th Floor (Room 535)" },
-      { title: 'Peds Neurosurgery & Lymphatic Vascular Clinic <span style="font-weight: normal;">(Dr. Chiranjiv Kumar)</span>', days: "Thursday", location: "OPD Block 5th Floor (Room 535)" }
-    ]
-  },
-
-  {
-    id: "ent",
-    name: "ENT Morning OPD (09:00 AM - 01:00 PM)",
-    units: [
-      { 
-        title: 'Unit 1 <span style="font-weight: normal;">(Dr. Ravi Meher)</span>', 
-        days: "🔹 <b>OPD:</b> Wed / Sat<br>🔴 <b>OT:</b> Mon / Thu<br>🟡 <b>Ward:</b> Tue / Fri", 
-        location: "<b>OPD</b> (Rooms 609-617, 6th Fl)" 
-      },
-      { 
-        title: 'Unit 2 <span style="font-weight: normal;">(Dr. Ishwar Singh)</span>', 
-        days: "🔹 <b>OPD:</b> Mon / Thu<br>🔴 <b>OT:</b> Tue / Fri<br>🟡 <b>Ward:</b> Wed / Sat", 
-        location: "<b>OPD</b> (Rooms 609-617, 6th Fl)" 
-      },
-      { 
-        title: 'Unit 3 <span style="font-weight: normal;">(Dr. H.C. Taneja)</span>', 
-        days: "🔹 <b>OPD:</b> Tue / Fri<br>🔴 <b>OT:</b> Wed / Sat<br>🟡 <b>Ward:</b> Mon / Thu", 
-        location: "<b>OPD</b> (Rooms 609-617, 6th Fl)" 
-      }
-    ]
-  },
-
-  {
-    id: "clinic_ent",
-    name: "ENT Evening Special Clinics (02:00 PM - 04:00 PM)",
-    units: [
-      { title: 'Rhinology Clinic <span style="font-weight: normal;">(Dr. H.C. Taneja)</span>', days: "Wednesday", location: "OPD Block 6th Floor (Room 609)" },
-      { title: 'Vertigo and Audiology Clinic <span style="font-weight: normal;">(Dr. P.K. Rathore)</span>', days: "Wednesday", location: "OPD Block 6th Floor (Room 609)" },
-      { title: 'Voice and Laryngology Clinic <span style="font-weight: normal;">(Dr. Ravi Mehar)</span>', days: "Monday", location: "OPD Block 6th Floor (Room 609)" }
-    ]
-  },
-
-  {
-    id: "ortho",
-    name: "Orthopedics OPD, OT & Emergency Schedule",
-    units: [
-      { title: 'Orthopedics Unit 1 <span style="font-weight: normal;">(Dr. Sumit Sural, Dr. Sumit Arora)</span>', days: "Mon & Thu", location: "Ortho Block 1st Floor (Rooms 101-104, 111-113, 115)" },
-      { title: 'Orthopedics Unit 2 <span style="font-weight: normal;">(Dr. Lalit Maini)</span>', days: "Tue & Fri", location: "Ortho Block 1st Floor (Rooms 101-104, 111-113, 115)" },
-      { title: 'Orthopedics Unit 3 <span style="font-weight: normal;">(Dr. Abhishek Kashyap)</span>', days: "Wed & Sat", location: "Ortho Block 1st Floor (Rooms 101-104, 111-113, 115)" },
-      { title: 'Fracture Clinic <span style="font-weight: normal;">(Dr. Lalit Maini)</span>', days: "Mon to Sat (Morning & Evening Shift)", location: "Ortho Block 1st Floor (Room 105)" }
-    ]
-  },
-
-  {
-    id: "clinic_ortho",
-    name: "Orthopedics Afternoon Specialty Clinics (02:00 PM - 04:00 PM)",
-    units: [
-      { title: 'Trauma Clinic <span style="font-weight: normal;">(Dr. Mayank Gupta)</span>', days: "Monday", location: "Ortho Block 1st Floor (Room 115)" },
-      { title: 'Adult Reconstruction Clinic <span style="font-weight: normal;">(Dr. Lalit Maini)</span>', days: "Tuesday", location: "Ortho Block 1st Floor (Room 115)" },
-      { title: 'Spine Clinic <span style="font-weight: normal;">(Dr. Abhishek Kashyap)</span>', days: "Wednesday", location: "Ortho Block 1st Floor (Room 115)" },
-      { title: 'Arthroscopy Sports Injury Clinic <span style="font-weight: normal;">(Dr. Sumit Arora)</span>', days: "Thursday", location: "Ortho Block 1st Floor (Room 115)" },
-      { title: 'Trauma Clinic <span style="font-weight: normal;">(Dr. Vedpal Yadav)</span>', days: "Friday", location: "Ortho Block 1st Floor (Room 115)" }
-    ]
-  },
-
-  {
-    id: "gynae",
-    name: "Gynecology & Antenatal Morning OPD (09:00 AM - 01:00 PM)",
-    units: [
-      { 
-        title: 'Gynecology Unit 1 <span style="font-weight: normal;">(Dr. Latika Sahu)</span>', 
-        days: "🔹 <b>OPD:</b> Monday", 
-        location: "OPD Block 2nd Floor (Rooms 209-213)" 
-      },
-      { 
-        title: 'Gynecology Unit 2 <span style="font-weight: normal;">(Dr. Sangeeta Gupta)</span>', 
-        days: "🔹 <b>OPD:</b> Tuesday", 
-        location: "OPD Block 2nd Floor (Rooms 209-213)" 
-      },
-      { 
-        title: 'Gynecology Unit 3 <span style="font-weight: normal;">(Dr. Y.M. Mala)</span>', 
-        days: "🔹 <b>OPD:</b> Wednesday", 
-        location: "OPD Block 2nd Floor (Rooms 209-213)" 
-      },
-      { 
-        title: 'Gynecology Unit 4 <span style="font-weight: normal;">(Dr. Deepti Goswami)</span>', 
-        days: "🔹 <b>OPD:</b> Thursday", 
-        location: "OPD Block 2nd Floor (Rooms 209-213)" 
-      },
-      { 
-        title: 'Gynecology Unit 5 <span style="font-weight: normal;">(Dr. Madhavi M. Gupta)</span>', 
-        days: "🔹 <b>OPD:</b> Friday", 
-        location: "OPD Block 2nd Floor (Rooms 209-213)" 
-      },
-      { 
-        title: 'Gynecology Unit 6 <span style="font-weight: normal;">(Dr. Krishna Agarwal)</span>', 
-        days: "🔹 <b>OPD:</b> Saturday", 
-        location: "OPD Block 2nd Floor (Rooms 209-213)" 
-      },
-      { 
-        title: 'Antenatal Clinic (ANC) <span style="font-weight: normal;">(Dr. Deepti Goswami)</span>', 
-        days: "Monday", 
-        location: "OPD Block 2nd Floor (Rooms 230-235)" 
-      },
-      { 
-        title: 'Antenatal Clinic (ANC) <span style="font-weight: normal;">(Dr. Madhavi M. Gupta)</span>', 
-        days: "Tuesday", 
-        location: "OPD Block 2nd Floor (Rooms 230-235)" 
-      },
-      { 
-        title: 'Antenatal Clinic (ANC) <span style="font-weight: normal;">(Dr. Krishna Agarwal)</span>', 
-        days: "Wednesday", 
-        location: "OPD Block 2nd Floor (Rooms 230-235)" 
-      },
-      { 
-        title: 'Antenatal Clinic (ANC) <span style="font-weight: normal;">(Dr. Latika Sahu)</span>', 
-        days: "Thursday", 
-        location: "OPD Block 2nd Floor (Rooms 230-235)" 
-      },
-      { 
-        title: 'Antenatal Clinic (ANC) <span style="font-weight: normal;">(Dr. Sangeeta Gupta)</span>', 
-        days: "Friday", 
-        location: "OPD Block 2nd Floor (Rooms 230-235)" 
-      },
-      { 
-        title: 'Antenatal Clinic (ANC) <span style="font-weight: normal;">(Dr. Y.M. Mala)</span>', 
-        days: "Saturday", 
-        location: "OPD Block 2nd Floor (Rooms 230-235)" 
-      }
-    ]
-  },
-
-  {
-    id: "clinic_gynae",
-    name: "Gynecology Special Evening Clinics (02:00 PM - 04:00 PM)",
-    units: [
-      { title: 'Fertility & ART Clinic <span style="font-weight: normal;">(Dr. Deepti Goswami)</span>', days: "Monday", location: "OPD Block 2nd Floor (Rooms 209, 210)" },
-      { title: 'Fertility & ART Clinic <span style="font-weight: normal;">(Dr. Madhavi M. Gupta)</span>', days: "Monday", location: "OPD Block 2nd Floor (Rooms 213, 214)" },
-      { title: 'Gynae Endocrine Clinic <span style="font-weight: normal;">(Dr. Deepti Goswami)</span>', days: "Thursday", location: "OPD Block 2nd Floor (Rooms 209, 210)" },
-      { title: 'Gynae Endocrine Clinic <span style="font-weight: normal;">(Dr. Madhavi M. Gupta)</span>', days: "Thursday", location: "OPD Block 2nd Floor (Rooms 213, 214)" },
-      { title: 'High-Risk Pregnancy Clinic <span style="font-weight: normal;">(Dr. Krishna Agarwal)</span>', days: "Thursday", location: "OPD Block 2nd Floor (Room 235)" },
-      { title: 'High-Risk Pregnancy Clinic <span style="font-weight: normal;">(Dr. Y.M. Mala)</span>', days: "Thursday", location: "OPD Block 2nd Floor (Room 234)" },
-      { title: 'Fetal Medicine Clinic <span style="font-weight: normal;">(Dr. Krishna Agarwal)</span>', days: "Thursday", location: "OPD Block 2nd Floor (Room 235)" },
-      { title: 'Fetal Medicine Clinic <span style="font-weight: normal;">(Dr. Sangeeta Gupta)</span>', days: "Thursday", location: "OPD Block 2nd Floor (Room 234)" },
-      { title: 'Gynecology Cancer Clinic <span style="font-weight: normal;">(Dr. Y.M. Mala)</span>', days: "Friday", location: "OPD Block 2nd Floor (Rooms 209, 210)" },
-      { title: 'Gynecology Cancer Clinic <span style="font-weight: normal;">(Dr. Latika Sahu)</span>', days: "Friday", location: "OPD Block 2nd Floor (Rooms 213, 214)" }
-    ]
-  },
-
-  {
-    id: "derma",
-    name: "Dermatology & STD OPD (09:00 AM - 01:00 PM & Special Evening Clinics 02:00 PM - 04:00 PM)",
-    units: [
-      { title: 'Dermatology & STD Morning OPD <span style="font-weight: normal;">(Dr. K.D. Barman)</span>', days: "Mon to Sat (09:00 AM - 01:00 PM)", location: "OPD Block 7th Floor (Rooms 709-717)" },
-      { title: 'Leprosy Clinic <span style="font-weight: normal;">(Dr. Laxmi P. Kumar)</span>', days: "Tuesday", location: "OPD Block 7th Floor (Room 711)" },
-      { title: 'Psoriasis Clinic <span style="font-weight: normal;">(Dr. Deepika Yadav)</span>', days: "Wednesday", location: "OPD Block 7th Floor (Room 711)" },
-      { title: 'Vitiligo Clinic <span style="font-weight: normal;">(Dr. Laxmi P. Kumar)</span>', days: "Wednesday", location: "OPD Block 7th Floor (Room 711)" },
-      { title: 'Contact Dermatitis Clinic <span style="font-weight: normal;">(Dr. K.D. Barman)</span>', days: "Friday", location: "OPD Block 7th Floor (Room 711)" },
-      { title: 'Connective Tissue Disease Clinic <span style="font-weight: normal;">(Dr. K.D. Barman)</span>', days: "Friday", location: "OPD Block 7th Floor (Room 711)" },
-      { title: 'Vesicobullous Disease Clinic <span style="font-weight: normal;">(Dr. K.D. Barman)</span>', days: "Friday", location: "OPD Block 7th Floor (Room 711)" },
-      { title: 'Autoimmune Disorders Allergy Clinic <span style="font-weight: normal;">(Dr. Tanvi Dev)</span>', days: "Friday", location: "OPD Block 7th Floor (Room 711)" }
-    ]
-  },
-
-  {
-    id: "burns",
-    name: "Burns & Plastic Surgery Morning OPD (09:00 AM - 01:00 PM)",
-    units: [
-      { title: 'Burn and Plastic Surgery <span style="font-weight: normal;">(Dr. Krittika Aggarwal)</span>', days: "Mon / Thu", location: "OPD Block 7th Floor (Rooms 733, 734)" },
-      { title: 'Burn and Plastic Surgery <span style="font-weight: normal;">(Dr. Prabhat Shrivastava)</span>', days: "Tue / Fri", location: "OPD Block 7th Floor (Rooms 733, 734)" },
-      { title: 'Burn and Plastic Surgery <span style="font-weight: normal;">(Dr. Varsha Gupta)</span>', days: "Wed / Sat", location: "OPD Block 7th Floor (Rooms 733, 734)" }
-    ]
-  },
-
-  {
-    id: "clinic_other",
-    name: "Other Special Clinics (PAC, Pain, Rabies, Senior Citizen)",
-    units: [
-      { title: 'PAC Clinic <span style="font-weight: normal;">(Dr. Mona Arya)</span>', days: "Monday (07:30 AM - 11:30 AM)", location: "OPD Block 1st Floor (Room 115)" },
-      { title: 'PAC Clinic <span style="font-weight: normal;">(Dr. Neelam Prasad)</span>', days: "Tuesday (07:30 AM - 11:30 AM)", location: "OPD Block 1st Floor (Room 115)" },
-      { title: 'PAC Clinic <span style="font-weight: normal;">(Dr. Bharti Wadhwa)</span>', days: "Wednesday (07:30 AM - 11:30 AM)", location: "OPD Block 1st Floor (Room 117)" },
-      { title: 'PAC Clinic <span style="font-weight: normal;">(Dr. Sonia Wadhawan)</span>', days: "Thursday (07:30 AM - 11:30 AM)", location: "OPD Block 1st Floor (Room 117)" },
-      { title: 'PAC Clinic <span style="font-weight: normal;">(Dr. Anjur Bhalotra)</span>', days: "Friday (07:30 AM - 11:30 AM)", location: "OPD Block 1st Floor (Room 117)" },
-      { title: 'PAC Clinic <span style="font-weight: normal;">(Dr. Munisha Agarwal)</span>', days: "Saturday (07:30 AM - 11:30 AM)", location: "OPD Block 1st Floor (Room 115)" },
-      { title: 'Pain Clinic <span style="font-weight: normal;">(Pain OPD)</span>', days: "Mon to Sat (Morning & Evening Shift)", location: "OPD Block 1st Floor (Room 121)" },
-      { title: 'Anti-Rabies Clinic', days: "Mon to Sat (Morning & Evening Shift)", location: "Emergency Block (Room 21)" },
-      { title: 'Senior Citizen Clinic', days: "Only Sunday (08:30 AM - 10:30 AM)", location: "OPD Block 1st Floor" }
-    ]
-  },
-
-  {
-    id: "clinic_med",
-    name: "Medicine Evening Special Clinics (02:00 PM - 04:00 PM)",
-    units: [
-      { title: 'Pulmonary Clinic <span style="font-weight: normal;">(Dr. Naresh Kumar)</span>', days: "Tue / Thu / Sat (Morning)", location: "OPD Block 1st Floor (Rooms 111, 113)", ward: "" },
-      { title: 'Hepatology Clinic <span style="font-weight: normal;">(Dr. S. Anuradha)</span>', days: "Mon to Sat (Morning)", location: "OPD Block 1st Floor (Room 139)", ward: "" },
-      { title: 'Diabetes Clinic <span style="font-weight: normal;">(Dr. Sanjay Pandit)</span>', days: "Monday", location: "OPD Block 3rd Floor (Rooms 316, 322, 323, 324, 325)", ward: "" },
-      { title: 'Hematology Clinic <span style="font-weight: normal;">(Dr. Sunita Aggarwal)</span>', days: "Tuesday", location: "OPD Block 3rd Floor (Rooms 310, 311, 312, 313, 315)", ward: "" },
-      { title: 'Endocrinology Clinic <span style="font-weight: normal;">(Dr. Sandeep Garg)</span>', days: "Wednesday", location: "OPD Block 3rd Floor (Rooms 316, 322, 323, 324, 325)", ward: "" },
-      { title: 'Rheumatology Clinic <span style="font-weight: normal;">(Dr. Sumeet Singla)</span>', days: "Thursday", location: "OPD Block 3rd Floor (Rooms 316, 322, 323, 324, 325)", ward: "" },
-      { title: 'Nephrology Clinic <span style="font-weight: normal;">(Dr. Anurag Rohtagi)</span>', days: "Friday", location: "OPD Block 3rd Floor (Rooms 310, 311, 312, 313, 315)", ward: "" }
-    ]
-  },
-
-  {
-    id: "neurosurgery",
-    name: "Neurosurgery Clinic (09:00 AM - 01:00 PM & Friday Evening 02:00 PM - 04:00 PM)",
-    units: [
-      { title: 'Neurosurgery Clinic <span style="font-weight: normal;">(Dr. Chander Shekhar / Dr. P.N. Pandey)</span>', days: "Mon / Thu / Fri (07:30 AM - 11:30 AM)", location: "OPD Block 4th Floor (Rooms 428, 429)" },
-      { title: 'Spine and Peds Neurosurgery Clinic <span style="font-weight: normal;">(Dr. Anuj Kumar)</span>', days: "Friday (01:00 PM - 02:00 PM)", location: "OPD Block 4th Floor (Rooms 428, 429)" }
-    ]
-  },
-
-  {
-    id: "clinic_surg",
-    name: "Surgery Evening Special Clinics (02:00 PM - 04:00 PM)",
-    units: [
-      { title: 'Male Infertility & Vascular Clinic <span style="font-weight: normal;">(Dr. C.B. Singh)</span>', days: "1st & 3rd Thursday", location: "OPD Block 4th Floor (Room 417)" },
-      { title: 'Male Infertility <span style="font-weight: normal;">(Dr. Sushanto Neogi)</span>', days: "All Fridays", location: "OPD Block 4th Floor (Room 417)" },
-      { title: 'Metabolic / Bariatric Clinic <span style="font-weight: normal;">(Dr. Anubhav Vindal)</span>', days: "2nd & 4th Monday", location: "OPD Block 4th Floor (Room 410)" },
-      { title: 'Breast & Endocrine Clinic <span style="font-weight: normal;">(Dr. Deepak Ghuliani)</span>', days: "Wednesday", location: "OPD Block 4th Floor (Room 434)" },
-      { title: 'Proctology Clinic <span style="font-weight: normal;">(Dr. Pawan Lal)</span>', days: "Wednesday", location: "OPD Block 4th Floor (Room 410)" },
-      { title: 'Stoma / Wound Clinic <span style="font-weight: normal;">(Dr. Sushanto Neogi)</span>', days: "2nd & 4th Monday", location: "OPD Block 4th Floor (Room 410)" },
-      { title: 'AWR Clinic <span style="font-weight: normal;">(Dr. Rajdeep Singh)</span>', days: "2nd & 4th Tuesday", location: "OPD Block 4th Floor (Room 434)" }
-    ]
-  },
-
-  {
-    id: "radiotherapy",
-    name: "Radiotherapy / Oncology Morning OPD (09:00 AM - 01:00 PM)",
-    units: [
-      { title: 'Radiotherapy / Oncology <span style="font-weight: normal;">(Dr. Arun Kumar Rathi)</span>', days: "Mon / Wed / Fri", location: "OPD Block 6th Floor (Rooms 635, 636)" },
-      { title: 'Gynaecology Oncology <span style="font-weight: normal;">(Dr. Anurita Srivastava)</span>', days: "Tue / Thu / Sat", location: "OPD Block 6th Floor (Rooms 635, 636)" }
-    ]
-  },
-
-  {
-    id: "panchkarma",
-    name: "Panchkarma Morning OPD (09:00 AM - 01:00 PM)",
-    units: [
-      { title: 'Panchkarma <span style="font-weight: normal;">(Dr. Akhilesh Vashishtha)</span>', days: "Mon to Sat", location: "OPD Block 7th Floor (Room 739)" }
-    ]
-  },
-
-  {
-    id: "unani",
-    name: "Unani Morning OPD (09:00 AM - 01:00 PM)",
-    units: [
-      { title: 'Unani <span style="font-weight: normal;">(Dr. Azra Anjum)</span>', days: "Mon to Sat", location: "OPD Block 7th Floor (Room 742)" }
-    ]
-  }
-];
-    // Triggered when user types in the Search Input
   function onScheduleSearchInput() {
     const query = document.getElementById('scheduleSearch').value.toLowerCase().trim();
     if (query) {
@@ -1402,7 +1175,6 @@ const deptSchedules = [
     renderScheduleResults();
   }
 
-  // Triggered when user picks an option from the Dropdown
   function onScheduleSelectChange() {
     const selectVal = document.getElementById('deptScheduleSelect').value;
     if (selectVal) {
@@ -1411,7 +1183,6 @@ const deptSchedules = [
     renderScheduleResults();
   }
 
-  // Unified Rendering Logic for Both Search & Dropdown Selection
   function renderScheduleResults() {
     const query = document.getElementById('scheduleSearch').value.toLowerCase().trim();
     const categoryId = document.getElementById('deptScheduleSelect').value;
@@ -1419,7 +1190,6 @@ const deptSchedules = [
 
     if (!resDiv) return;
 
-    // CASE 1: Searching via Keyword Input
     if (query) {
       const matches = [];
       deptSchedules.forEach(category => {
@@ -1469,7 +1239,6 @@ const deptSchedules = [
       return;
     }
 
-    // CASE 2: Selected via Dropdown Category
     if (categoryId) {
       const category = deptSchedules.find(c => c.id === categoryId);
       if (!category) {
@@ -1501,22 +1270,17 @@ const deptSchedules = [
       return;
     }
 
-    // CASE 3: Neither input is active
     resDiv.innerHTML = '';
   }
 
-  // Alias for tab switching compatibility
   function searchDeptSchedule() {
     renderScheduleResults();
   }
 
-  // --- LOK NAYAK HOSPITAL LAB TESTS & VIAL DIRECTORY DATABASE ---
+  // LAB DIRECTORY DATABASE
   const labDirectory = [
-    // WINDOW 1 - PATHOLOGY
     { test: "CBC (Complete Blood Count), ESR, Peripheral Smear", tube: "EDTA (Purple)", window: "Window 1 (Pathology)", days: "Daily (Routine)", report: "Online / Dispatch Room 96", notes: "Low platelets -> MPC can be sent in Blue Citrate vial if specified." },
     { test: "URM (Urine Routine Microscopy)", tube: "Speci-can (Urine)", window: "Window 1 (Pathology)", days: "Daily (Routine)", report: "Online / Counter", notes: "Collect clean catch urine in speci-can." },
-
-      // WINDOW 2E - BIOCHEMISTRY (ROUTINE)
     { test: "LFT (Liver Function Test)", tube: "Red (Serum)", window: "Window 2E (Biochemistry)", days: "Daily (Routine)", report: "Online Portal / Window 2E", notes: "Includes T. Bilirubin, D. Bilirubin, ALT, AST, ALP, Total Protein, Albumin, GGT." },
     { test: "KFT (Kidney Function Test)", tube: "Red (Serum)", window: "Window 2E (Biochemistry)", days: "Daily (Routine)", report: "Online Portal / Window 2E", notes: "Includes Urea, Creatinine, Uric Acid." },
     { test: "Serum Electrolytes", tube: "Red (Serum)", window: "Window 2E (Biochemistry)", days: "Daily (Routine)", report: "Online Portal / Window 2E", notes: "Sodium (Na), Potassium (K), Chloride (Cl)." },
@@ -1533,42 +1297,31 @@ const deptSchedules = [
     { test: "Glycated Hemoglobin (HbA1c)", tube: "EDTA (Purple)", window: "Window 2E (Biochemistry)", days: "Daily (Routine)", report: "Online Portal", notes: "Minimum 3 ml blood required." },   
     { test: "DIPSI (GDM Screening)", tube: "Fluoride-Grey (Sugar)", window: "Window 2E (Biochemistry)", days: "Daily (Routine)", report: "Online / Window 2E", notes: "75g glucose dissolved in 1 glass water drunk over 20 mins. Test 2-hr capillary blood. If deranged (>140), send venous sample in grey vial." },
     { test: "Molecular Tests (AML, ALL, BCR-ABL, JAK-2, BRAF, EGFR, HER 2/NEU, KRAS, MTHFR, Factor V, FSH-R, BRCA, VMA, Metanephrine, Oxalate, Citrate, Urinary Copper)", tube: "EDTA (Purple) / Special Container", window: "Window 2E (Biochemistry - Room No. 255)", days: "As per department schedule", report: "Room No. 255", notes: "Molecular Diagnostics Lab (Room No. 255)." },
-    
-    // WINDOW 2 - BIOCHEMISTRY (EMERGENCY)
     { test: "ABG / VBG (Arterial / Venous Blood Gas)", tube: "Heparinized Syringe", window: "Window 2 (Biochemistry)", days: "Daily (Routine / Emergency)", report: "Hand-to-Hand", notes: "Send attendant immediately; report handed over on the spot." },
     { test: "LFT (Liver Function Test)", tube: "Red (Serum)", window: "Window 2 (Biochemistry)", days: "Daily (Emergency)", report: "Window 2", notes: "Includes T. Bilirubin, D. Bilirubin, ALT, AST, ALP, Total Protein, Albumin, GGT." },
     { test: "KFT (Kidney Function Test)", tube: "Red (Serum)", window: "Window 2 (Biochemistry)", days: "Daily (Emergency)", report: "Window 2", notes: "Includes Urea, Creatinine, Uric Acid." },
     { test: "UPCR (Urine protein creatinine ratio)", tube: "Speci-can (Urine)", window: "Window 2 (Biochemistry)", days: "Daily", report: "Window 2 (Biochemistry)", notes: "Collect clean catch urine in speci-can." },
- 
-    // WINDOW 3 - MICROBIOLOGY
     { test: "NS1 Antigen, IgM Antibodies (Dengue)", tube: "Red (Serum)", window: "Window 3 (Microbiology)", days: "Daily (Routine)", report: "Room 277", notes: "Mandatory: Write patient address and phone number on form." },
     { test: "Widal, Typhidot", tube: "Red (Serum)", window: "Window 3 (Microbiology)", days: "Daily (Routine)", report: "Room 126", notes: "Mandatory: Write patient address and phone number on form." },
     { test: "PSMP (Peripheral Smear for Malarial Parasite)", tube: "EDTA (Purple)", window: "Window 3 (Microbiology)", days: "Daily (Routine)", report: "Room 128", notes: "Mandatory: Write patient address and phone number on form." },
     { test: "Blood Culture & Sensitivity (BCS)", tube: "Blood Culture Bottle", window: "Window 3 (Microbiology)", days: "Daily (Routine)", report: "Room 34", notes: "Maintain strict sterile precautions while drawing sample." },
     { test: "Urine Culture & Sensitivity (UCS)", tube: "Speci-can (Urine)", window: "Window 3 (Microbiology)", days: "Daily (Routine)", report: "Room 34", notes: "Clean catch midstream sample." },
-
-    // BLOOD BANK & COLLEGE LABS
     { test: "BGCM (Blood Group & Cross Match)", tube: "EDTA (Purple)", window: "Blood Bank", days: "Daily (24x7)", report: "Blood Bank Counter", notes: "Requires BGCM Form + Release Form. If donation required, attach donor form." },
     { test: "Direct Coombs Test (DCT)", tube: "EDTA (Purple)", window: "Blood Bank", days: "Daily", report: "Blood Bank Counter", notes: "Autoimmune hemolytic anemia workup." },
     { test: "Indirect Coombs Test (ICT)", tube: "Red (Serum)", window: "Blood Bank", days: "Daily", report: "Blood Bank Counter", notes: "Antenatal / transfusion antibody screening." },
     { test: "HIV Screening / TRIDOT", tube: "Red (Serum)", window: "College / Front of Mortuary", days: "Daily", report: "HIV Room (In front of Mortuary)", notes: "Attendant must submit form with address and phone number." },
-    { test: "HBsAg, Anti-HCV, VDRL (Tridot)", tube: "Red (Serum)", window: "College Building / Window 3(for em)", days: "Daily / Em", report: "College Lab Counter / Window 3(Em)", notes: "Emergency sample only in case of Needle prick. Take a Tridot/Needle prick form from Casualty CMO. Take sample of patient and yourself for em tridot.  Write address and phone number on requisition form." },
+    { test: "HBsAg, Anti-HCV, VDRL (Tridot)", tube: "Red (Serum)", window: "College Building / Window 3(for em)", days: "Daily / Em", report: "College Lab Counter / Window 3(Em)", notes: "Emergency sample only in case of Needle prick. Take a Tridot/Needle prick form from Casualty CMO." },
     { test: "College Hemogram, HPLC", tube: "EDTA (Purple)", window: "Room 76 (Pathology Dept)", days: "Daily", report: "Room 96 (Dispatch)", notes: "College Hemogram Form required." },
-
-    // MISCELLANEOUS & SPECIAL LABS
     { test: "Karyotyping / Genetic Testing", tube: "Green (Heparin)", window: "Genetic Medicine (In front of Ward 13A)", days: "Routine Days", report: "Genetic Department", notes: "Write a Clinical Referral Note instead of a standard investigation form." },
-    { test: "ANA, APLA, Autoimmune Profile", tube: "Red (Serum)", window: "College Microbiology (Immuno lab, 1st Floor)", days: "Routine Days", report: "College Microbiology (Immuno lab, 1st Floor", notes: "Special form for Autoimmune prof" },
+    { test: "ANA, APLA, Autoimmune Profile", tube: "Red (Serum)", window: "College Microbiology (Immuno lab, 1st Floor)", days: "Routine Days", report: "College Microbiology (Immuno lab, 1st Floor)", notes: "Special form for Autoimmune prof" },
     { test: "Sputum AFB, Sputum CBNAAT", tube: "Speci-can", window: "TB Centre (Gate No. 2)", days: "Daily", report: "TB Centre Gate 2", notes: "Early morning deep cough sputum sample." },
     { test: "URM (Urine Routine Microscopy) (OPD)", tube: "Speci-can (Urine)", window: "Gate 4 (behind fountain)", days: "Daily (Routine)", report: "Gate 4 (behind fountain)", notes: "Collect clean catch urine in speci-can." },
-  
-    // PATHOLOGY DEPARTMENT ROOM DIRECTORY
     { test: "Bone Marrow Aspirate / Biopsy / Flow Cytometry", tube: "Special / Slides", window: "Room 52 & 62 (Pathology Dept)", days: "Routine Days", report: "Room 52 (Presence of Hemat PG)", notes: "Enquire in Room 52 for bone marrow aspirate and biopsy." },
     { test: "Fluid Cytology / LBC", tube: "Fluid Container", window: "Room 63 (Cytopath Lab)", days: "Daily", report: "Room 63 (After 12:00 PM - 1:00 PM)", notes: "Send fluid samples for cytopathology." },
     { test: "HPE (Histopathology) / Tissue Biopsy / Frozen Section", tube: "Formalin Container / Fresh", window: "Room 70 (Grossing Room)", days: "Daily", report: "Room 90 (Dispatch)", notes: "Frozen section: Inform resident room first, then submit tissue in Room 70." },
     { test: "FNAC (Fine Needle Aspiration Cytology)", tube: "Patient Direct", window: "Room 93 & 94 (FNAC Rooms)", days: "Daily", report: "Room 98 (Dispatch)", notes: "Send patient directly to Room 93/94 opposite Room 90." }
   ];
 
-  // Universal Search Function for Lab Directory
   function searchLabTests() {
     const query = document.getElementById('labSearch').value.toLowerCase().trim();
     const resDiv = document.getElementById('labResults');
@@ -1621,7 +1374,6 @@ const deptSchedules = [
     resDiv.innerHTML = html;
   }
 
-  // INITIALIZE DATES
   window.onload = function() {
     setTodayDate();
   };
@@ -1630,7 +1382,6 @@ const deptSchedules = [
     const today = new Date().toISOString().split('T')[0];
     const dateInput = document.getElementById('dutyDate');
     
-    // Default to valid internship date if today is outside bounds
     if (today < "2026-05-23" || today > "2027-05-22") {
       dateInput.value = "2026-05-23";
     } else {
@@ -1644,7 +1395,7 @@ const deptSchedules = [
     for (let w of weeksData) {
       if (selectedDate >= w.start && selectedDate <= w.end) return w;
     }
-    return weeksData[0]; // fallback
+    return weeksData[0];
   }
 
   function onDateOrSelectionChange() {
@@ -1653,7 +1404,7 @@ const deptSchedules = [
     else searchDepartment();
   }
 
-   function switchTab(tab) {
+  function switchTab(tab) {
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     document.getElementById('person-tab').classList.add('hidden');
     document.getElementById('department-tab').classList.add('hidden');
@@ -1680,31 +1431,17 @@ const deptSchedules = [
     } else if (tab === 'lab') {
       document.querySelectorAll('.tab-btn')[3].classList.add('active');
       document.getElementById('lab-tab').classList.remove('hidden');
-      if (dateCard) dateCard.classList.add('hidden'); // Hides Date Picker on Lab Tab
+      if (dateCard) dateCard.classList.add('hidden');
       searchLabTests();
     }
   }
 
-// --- UNIVERSAL DEPARTMENT UNIT ALLOCATION REGISTRY ---
-  // Define how different departments distribute students across units
-  const departmentUnitRules = {
-    // 6-Unit Cyclic Allocation (MED, Surgery, ObsGynae)
-   // 'MED':      { type: 'cyclic', totalUnits: 6 },
-   // 'Surgery':  { type: 'cyclic', totalUnits: 6 },
-  //  'ObsGynae': { type: 'cyclic', totalUnits: 6 },
+  const departmentUnitRules = {};
 
-    // Example Future Patterns (Uncomment or add when needed):
-    // 'ENT':     { type: 'cyclic', totalUnits: 3 },
-    // 'Ortho':   { type: 'cyclic', totalUnits: 3 },
-    // 'Caslty':  { type: 'chunk',  perUnit: 5 },    // Splits into teams of 5
-  };
-
-  // Helper Function: Calculates Unit Number for ANY Student & Department
   function getUnitForStudent(dept, studentSno, weekNum) {
     const rule = departmentUnitRules[dept];
-    if (!rule) return null; // Department doesn't have units or hasn't been configured yet
+    if (!rule) return null;
 
-    // 1. Find all subdivisions posted in this department during the given week
     const activeSubdivisions = [];
     const groups = ['A', 'B', 'C', 'D'];
     groups.forEach(g => {
@@ -1716,16 +1453,13 @@ const deptSchedules = [
       }
     });
 
-    // 2. Sort active interns sequentially by S.No
     const deptInterns = interns
       .filter(x => activeSubdivisions.includes(x.batch))
       .sort((a, b) => a.sno - b.sno);
 
-    // 3. Find student's relative position index
     const index = deptInterns.findIndex(x => x.sno === studentSno);
     if (index === -1) return null;
 
-    // 4. Calculate Unit based on registered rule pattern
     if (rule.type === 'cyclic') {
       return (index % rule.totalUnits) + 1;
     } else if (rule.type === 'chunk') {
@@ -1734,12 +1468,13 @@ const deptSchedules = [
 
     return null;
   }
- // Helper to convert "YYYY-MM-DD" -> "DD/MM/YY"
+
   function formatDateShort(dateStr) {
     if (!dateStr) return "";
     const [year, month, day] = dateStr.split("-");
     return `${day}/${month}/${year.slice(2)}`;
   }
+
   function searchStudent() {
     const query = document.getElementById('studentSearch').value.toLowerCase().trim();
     const resDiv = document.getElementById('studentResults');
@@ -1803,7 +1538,8 @@ const deptSchedules = [
 
     resDiv.innerHTML = html;
   }
-function searchDepartment() {
+
+  function searchDepartment() {
     const deptSelect = document.getElementById('deptSelect');
     if (!deptSelect) return;
     
@@ -1816,7 +1552,6 @@ function searchDepartment() {
 
     const weekInfo = getSelectedWeek();
 
-    // Scan subdivisions
     const activeSubdivisions = [];
     const groups = ['A', 'B', 'C', 'D'];
     groups.forEach(g => {
@@ -1875,29 +1610,8 @@ function searchDepartment() {
 
     resDiv.innerHTML = html;
   }
-  <!-- SUGGESTION & FEEDBACK BOARD (GOOGLE FORM) -->
-<div class="card" style="margin-top: 20px; padding: 16px; background: #ffffff; border-radius: 8px; border: 1px solid #e2e8f0; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
-  <h3 style="margin-top: 0; color: var(--primary, #1e293b); font-size: 16px; display: flex; align-items: center; gap: 6px;">
-    💡 Suggest Changes / Roster Corrections
-  </h3>
-  <p style="font-size: 13px; color: #64748b; margin-bottom: 12px; margin-top: 4px;">
-    Notice an incorrect OPD day, missing test location, or roster change? Submit your feedback below!
-  </p>
 
-  <!-- RESPONSIVE IFRAME CONTAINER -->
-  <div style="width: 100%; overflow: hidden; border-radius: 6px; border: 1px solid #f1f5f9;">
-    <iframe 
-      src="https://docs.google.com/forms/d/e/1FAIpQLSdTHssorcf7rmuzjX7nfiZ1QRddKD1is_rXuyA-NNz28tyQQQ/viewform?embedded=true" 
-      width="100%" 
-      height="562" 
-      frameborder="0" 
-      marginheight="0" 
-      marginwidth="0"
-      style="border: none; display: block;"
-    >Loading…</iframe>
-</div>
-  
-// 1. TOGGLE FLOATING POPUP VISIBILITY
+  // TOGGLE FLOATING POPUP VISIBILITY
   function toggleAIAssistant() {
     const card = document.getElementById('aiPopupCard');
     if (card) {
@@ -1910,7 +1624,7 @@ function searchDepartment() {
     }
   }
 
-  // 2. SEARCH & PRINT COMPLETE SCHEDULE
+  // SEARCH & PRINT COMPLETE SCHEDULE
   function askAIAssistant() {
     const inputEl = document.getElementById('aiUserInput');
     const chatBox = document.getElementById('aiChatBox');
@@ -1921,13 +1635,11 @@ function searchDepartment() {
 
     const queryLower = rawQuery.toLowerCase();
 
-    // Append User Query
     chatBox.innerHTML += `<p style="margin: 6px 0; text-align: right; color: var(--primary, #2563eb);"><strong>You:</strong> ${rawQuery}</p>`;
     inputEl.value = '';
 
     let matches = [];
 
-    // Helper to print all key-values recursively
     function formatValue(val) {
       if (!val) return '';
       
@@ -1975,7 +1687,6 @@ function searchDepartment() {
       return `<strong>${titleEmoji} ${titleText}</strong><br>${fields.join('<br>')}`;
     }
 
-    // --- SEARCH INTERNS & PERSON SCHEDULES (Matches Name, Roll, S.No, Batch) ---
     if (typeof interns !== 'undefined' && Array.isArray(interns)) {
       interns.forEach(item => {
         const itemStr = JSON.stringify(item).toLowerCase();
@@ -1986,7 +1697,6 @@ function searchDepartment() {
       });
     }
 
-    // --- SEARCH LAB DIRECTORY ---
     if (typeof labDirectory !== 'undefined' && Array.isArray(labDirectory)) {
       labDirectory.forEach(item => {
         if (JSON.stringify(item).toLowerCase().includes(queryLower)) {
@@ -1996,7 +1706,6 @@ function searchDepartment() {
       });
     }
 
-    // --- SEARCH DEPARTMENTS & OPD SCHEDULES ---
     if (typeof deptSchedules !== 'undefined' && Array.isArray(deptSchedules)) {
       deptSchedules.forEach(item => {
         if (JSON.stringify(item).toLowerCase().includes(queryLower)) {
@@ -2006,7 +1715,6 @@ function searchDepartment() {
       });
     }
 
-    // Render Reply
     let reply = '';
     if (matches.length > 0) {
       const uniqueMatches = [...new Set(matches)];
@@ -2019,54 +1727,21 @@ function searchDepartment() {
     chatBox.innerHTML += `<p style="margin: 6px 0; color: #0f172a;"><strong>🤖 Assistant:</strong> ${reply}</p>`;
     chatBox.scrollTop = chatBox.scrollHeight;
   }
-  // Ensure embedded forms adjust cleanly on mobile screens
-function adjustFormResponsive() {
-  const formIframe = document.querySelector('.card iframe');
-  if (formIframe) {
-    if (window.innerWidth < 600) {
-      formIframe.style.height = '620px'; // Give extra height for stacked mobile inputs
-    } else {
-      formIframe.style.height = '562px';
+
+  function adjustFormResponsive() {
+    const formIframe = document.querySelector('.card iframe');
+    if (formIframe) {
+      if (window.innerWidth < 600) {
+        formIframe.style.height = '620px';
+      } else {
+        formIframe.style.height = '562px';
+      }
     }
   }
-}
 
-// Run adjustment on load and window resize
-window.addEventListener('load', adjustFormResponsive);
-window.addEventListener('resize', adjustFormResponsive);
+  window.addEventListener('load', adjustFormResponsive);
+  window.addEventListener('resize', adjustFormResponsive);
 </script>
-<!-- FLOATING ASSISTANT TOGGLE BUTTON -->
-<button id="aiToggleBtn" onclick="toggleAIAssistant()" style="position: fixed; bottom: 20px; right: 20px; z-index: 9999; background: var(--primary, #2563eb); color: white; border: none; border-radius: 50px; padding: 12px 20px; font-weight: 600; font-size: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); cursor: pointer; display: flex; align-items: center; gap: 8px;">
-  🤖 <span>Assistant</span>
-</button>
-
-<!-- FLOATING ASSISTANT POPUP CARD -->
-<div id="aiPopupCard" style="display: none; position: fixed; bottom: 80px; right: 20px; z-index: 9999; width: 360px; max-width: calc(100vw - 40px); background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.15); padding: 16px; box-sizing: border-box;">
-  
-  <!-- CARD HEADER WITH CLOSE BUTTON -->
-  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-    <h3 style="margin: 0; color: var(--primary, #1e293b); font-size: 15px;">🔍 MAMC Duty & Facility Assistant</h3>
-    <button onclick="toggleAIAssistant()" style="background: none; border: none; font-size: 18px; cursor: pointer; color: #64748b; line-height: 1;">&times;</button>
-  </div>
-
-  <p style="font-size: 12px; color: #64748b; margin: 0 0 10px 0;">Search OPD days, test locations, or intern/person name & S.No for complete schedule!</p>
-  
-  <!-- CHAT / RESULTS BOX -->
-  <div id="aiChatBox" style="height: 240px; overflow-y: auto; background: #f8fafc; border: 1px solid #e2e8f0; padding: 10px; border-radius: 8px; margin-bottom: 10px; font-size: 13px;">
-    <p style="margin: 0; color: #475569;"><strong>🤖 Assistant:</strong> Hello! Enter a name, S.No, test, or department.</p>
-  </div>
-
-  <!-- INPUT AREA -->
-  <div style="display: flex; gap: 6px;">
-    <input type="text" id="aiUserInput" placeholder="e.g. Ankit, S.No 33, LFT..." onkeydown="if(event.key==='Enter') askAIAssistant()" style="flex: 1; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px;">
-    <button onclick="askAIAssistant()" style="padding: 8px 14px; background: var(--primary, #2563eb); color: white; border: none; font-weight: 600; border-radius: 6px; cursor: pointer; font-size: 13px;">Search</button>
-  </div>
-</div>
-  <!-- FOOTER CREDIT -->
-  <footer style="text-align: center; margin-top: 30px; padding: 16px; border-top: 1px solid var(--border); color: #64748b; font-size: 13px;">
-    
-    <p style="margin: 4px 0 0 0; font-size: 16px;"><strong>Batch-2021</strong></strong></p>
-  </footer>
 
 </body>
 </html>

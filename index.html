@@ -1734,6 +1734,12 @@ const deptSchedules = [
 
     return null;
   }
+ // Helper to convert "YYYY-MM-DD" -> "DD/MM/YY"
+  function formatDateShort(dateStr) {
+    if (!dateStr) return "";
+    const [year, month, day] = dateStr.split("-");
+    return `${day}/${month}/${year.slice(2)}`;
+  }
   function searchStudent() {
     const query = document.getElementById('studentSearch').value.toLowerCase().trim();
     const resDiv = document.getElementById('studentResults');
@@ -1747,19 +1753,15 @@ const deptSchedules = [
     );
 
     if (matches.length === 0) {
-      resDiv.innerHTML = '<p style="padding: 12px; color: #64748b;">No interns found matching your search.</p>';
+      resDiv.innerHTML = '<p>No interns found matching your search.</p>';
       return;
     }
 
     const weekInfo = getSelectedWeek();
-    let html = '';
 
+    let html = '';
     matches.forEach(student => {
       const activePosting = getPostingForSubdivision(student.batch, weekInfo.wk);
-      
-      // Automatically fetches unit for ANY configured department
-      const unitNum = getUnitForStudent(activePosting, student.sno, weekInfo.wk);
-      const postingDisplay = unitNum ? `${activePosting} (Unit ${unitNum})` : activePosting;
 
       html += `
         <div style="border-bottom: 1px solid var(--border); padding: 12px 0;">
@@ -1767,13 +1769,13 @@ const deptSchedules = [
           <p><strong>Roll No:</strong> ${student.roll} | <strong>S.No:</strong> ${student.sno}</p>
           
           <div class="info-banner">
-            📍 <strong>Posting on Selected Date (${weekInfo.start} to ${weekInfo.end}):</strong><br>
-            <span style="font-size: 16px; color: var(--primary); font-weight: bold;">${postingDisplay}</span> 
+            📍 <strong>Posting on Selected Date (${formatDateShort(weekInfo.start)} to ${formatDateShort(weekInfo.end)}):</strong><br>
+            <span style="font-size: 16px; color: var(--primary); font-weight: bold;">${activePosting}</span> 
             <span style="font-size: 13px; color: #64748b;">(Week ${weekInfo.wk} • ${weekInfo.block})</span>
           </div>
 
-          <details>
-            <summary style="cursor: pointer; color: var(--secondary); font-weight: 600;">View 52-Week Full Roster Timeline</summary>
+          <details ontoggle="if(this.open){ const activeRow = this.querySelector('.selected-week-row'); if(activeRow){ activeRow.scrollIntoView({ behavior: 'smooth', block: 'center' }); } }">
+            <summary style="cursor: pointer; color: var(--secondary); font-weight: 600;">▼ View 52-Week Full Roster Timeline</summary>
             <div style="max-height: 250px; overflow-y: auto; margin-top: 8px;">
               <table>
                 <thead>
@@ -1784,9 +1786,9 @@ const deptSchedules = [
                     const post = getPostingForSubdivision(student.batch, w.wk);
                     const isSelected = w.wk === weekInfo.wk;
                     return `
-                      <tr ${isSelected ? 'style="background: #e0f2fe; font-weight: bold;"' : ''}>
+                      <tr ${isSelected ? 'class="selected-week-row" style="background: #e0f2fe; font-weight: bold;"' : ''}>
                         <td>W${w.wk}</td>
-                        <td>${w.start} to ${w.end}</td>
+                        <td>${formatDateShort(w.start)} to ${formatDateShort(w.end)}</td>
                         <td>${post}</td>
                       </tr>
                     `;

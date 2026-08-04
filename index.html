@@ -843,7 +843,7 @@
 
     const isNightDuty = userDept && userDept.toLowerCase().includes("night");
 
-    // Filter co-interns for this specific record
+// Filter co-interns for this specific record
     const filteredCo = coSnos
       .filter(sno => {
         if (Number(sno) > 50) return false;
@@ -855,7 +855,16 @@
       })
       .map(sno => {
         const intern = interns.find(i => Number(i.sno) === Number(sno));
-        return intern ? `${intern.name} (S.No ${sno})` : `S.No ${sno}`;
+        const nameStr = intern ? `${intern.name} (S.No ${sno})` : `S.No ${sno}`;
+        
+        // Check if this co-intern is the currently viewed/searched student
+        const isCurrent = Number(sno) === Number(student.sno);
+        
+        if (isCurrent) {
+          // Highlight style for the active student
+          return `<span style="background-color: #fef08a; padding: 2px 6px; border-radius: 4px; font-weight: bold; border: 1px solid #eab308;">${nameStr}</span>`;
+        }
+        return nameStr;
       })
       .join(", ") || "None";
 

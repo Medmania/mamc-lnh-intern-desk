@@ -1923,15 +1923,65 @@
                 <thead>
                   <tr><th>Wk</th><th>Date Range</th><th>Department Posting</th></tr>
                 </thead>
-                <tbody>
+             <tbody>
                   ${weeksData.map(w => {
                     const post = getPostingForSubdivision(student.batch, w.wk);
                     const isSelected = w.wk === weekInfo.wk;
+
+                    // Generate daily breakdown if week is within Burari / PSM range (Weeks 1 to 13)
+                    let timelineDisplay = post;
+                    if (post === "PSM" && w.wk >= 1 && w.wk <= 13) {
+                      // Loop through days of this week to summarize daily Burari shifts
+                      const startD = new Date(w.start);
+                      const endD = new Date(w.end);
+                      const dailySummaries = [];
+
+                      let curr = new Date(startD);
+                      while (curr <= endD) {
+                        const dStr = curr.toISOString().split('T')[0];
+                        let dutyTitle = "";
+
+                        // Check Burari daily roster
+                        if (typeof burariDailyRoster !== 'undefined' && burariDailyRoster[dStr]) {
+                          const studentSno = Number(student.sno);
+                          if (burariDailyRoster[dStr][studentSno]) {
+                            dutyTitle = burariDailyRoster[dStr][studentSno].dept;
+                          } else {
+                            // Check PDO
+                            const prevD = new Date(curr);
+                            prevD.setDate(prevD.getDate() - 1);
+                            const prevStr = prevD.toISOString().split('T')[0];
+                            if (burariDailyRoster[prevStr]?.[studentSno]?.dept?.toLowerCase().includes("night")) {
+                              dutyTitle = "PDO";
+                            }
+                          }
+                        }
+
+                        // Check Periphery
+                        if (!dutyTitle && typeof peripheryRosterMap !== 'undefined' && peripheryRosterMap[student.batch]) {
+                          const pMatch = peripheryRosterMap[student.batch].find(p => dStr >= p.start && dStr <= p.end);
+                          if (pMatch) {
+                            dutyTitle = `Periphery (${pMatch.center.split(" ")[0]})`;
+                          }
+                        }
+
+                        if (dutyTitle) {
+                          const shortDate = `${curr.getDate()}/${curr.getMonth()+1}`;
+                          dailySummaries.append ? null : dailySummaries.push(`<span style="font-size:11.5px; color:#475569;"><strong>${shortDate}:</strong> ${dutyTitle}</span>`);
+                        }
+                        curr.setDate(curr.getDate() + 1);
+                      }
+
+                      if (dailySummaries.length > 0) {
+                        timelineDisplay = `<div style="display:flex; flex-direction:column; gap:2px; padding: 4px 0;">${dailySummaries.join('')}</div>`;
+                      }
+                    }
+
                     return `
                       <tr ${isSelected ? 'class="selected-week-row" style="background: #e0f2fe; font-weight: bold;"' : ''}>
                         <td>W${w.wk}</td>
                         <td>${formatDateShort(w.start)} to ${formatDateShort(w.end)}</td>
-                        <td>${post}</td>
+                        <td>${timelineDisplay}</td>
                       </tr>
                     `;
                   }).join('')}

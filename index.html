@@ -1516,7 +1516,7 @@ const deptSchedules = [
     { test: "CBC (Complete Blood Count), ESR, Peripheral Smear", tube: "EDTA (Purple)", window: "Window 1 (Pathology)", days: "Daily (Routine)", report: "Online / Dispatch Room 96", notes: "Low platelets -> MPC can be sent in Blue Citrate vial if specified." },
     { test: "URM (Urine Routine Microscopy)", tube: "Speci-can (Urine)", window: "Window 1 (Pathology)", days: "Daily (Routine)", report: "Online / Counter", notes: "Collect clean catch urine in speci-can." },
 
-      // WINDOW 2E - BIOCHEMISTRY
+      // WINDOW 2E - BIOCHEMISTRY (ROUTINE)
     { test: "LFT (Liver Function Test)", tube: "Red (Serum)", window: "Window 2E (Biochemistry)", days: "Daily (Routine)", report: "Online Portal / Window 2E", notes: "Includes T. Bilirubin, D. Bilirubin, ALT, AST, ALP, Total Protein, Albumin, GGT." },
     { test: "KFT (Kidney Function Test)", tube: "Red (Serum)", window: "Window 2E (Biochemistry)", days: "Daily (Routine)", report: "Online Portal / Window 2E", notes: "Includes Urea, Creatinine, Uric Acid." },
     { test: "Serum Electrolytes", tube: "Red (Serum)", window: "Window 2E (Biochemistry)", days: "Daily (Routine)", report: "Online Portal / Window 2E", notes: "Sodium (Na), Potassium (K), Chloride (Cl)." },
@@ -1530,11 +1530,16 @@ const deptSchedules = [
     { test: "Friday Special Tests (RA Factor, ADA, CRP - OPD Samples)", tube: "Red (Serum)", window: "Window 2E (Biochemistry)", days: "Friday Only", report: "Window 2E", notes: "RA Factor, ADA, and OPD CRP run on Fridays only." },
     { test: "Coagulation Assay (PT-INR, APTT, D-Dimer, FDP, Fibrinogen, Antithrombin III, Protein C, Protein S)", tube: "Citrate (Blue)", window: "Window 2E (Biochemistry)", days: "Daily (Routine)", report: "Window 2E", notes: "STRICT: Fill the blue vial EXACTLY up to the black mark." },
     { test: "Blood Sugar (Fasting / PP / Random)", tube: "Fluoride-Grey (Sugar)", window: "Window 2E (Biochemistry)", days: "Daily (Routine)", report: "Online Portal", notes: "Mention Fasting, PP, or Random explicitly on the requisition form." },
-    { test: "Glycated Hemoglobin (HbA1c)", tube: "EDTA (Purple)", window: "Window 2E (Biochemistry)", days: "Daily (Routine)", report: "Online Portal", notes: "Minimum 3 ml blood required." },
-    { test: "ABG / VBG (Arterial / Venous Blood Gas)", tube: "Heparinized Syringe", window: "Window 2 (Biochemistry)", days: "Daily (Routine / Emergency)", report: "Hand-to-Hand", notes: "Send attendant immediately; report handed over on the spot." },
+    { test: "Glycated Hemoglobin (HbA1c)", tube: "EDTA (Purple)", window: "Window 2E (Biochemistry)", days: "Daily (Routine)", report: "Online Portal", notes: "Minimum 3 ml blood required." },   
     { test: "DIPSI (GDM Screening)", tube: "Fluoride-Grey (Sugar)", window: "Window 2E (Biochemistry)", days: "Daily (Routine)", report: "Online / Window 2E", notes: "75g glucose dissolved in 1 glass water drunk over 20 mins. Test 2-hr capillary blood. If deranged (>140), send venous sample in grey vial." },
     { test: "Molecular Tests (AML, ALL, BCR-ABL, JAK-2, BRAF, EGFR, HER 2/NEU, KRAS, MTHFR, Factor V, FSH-R, BRCA, VMA, Metanephrine, Oxalate, Citrate, Urinary Copper)", tube: "EDTA (Purple) / Special Container", window: "Window 2E (Biochemistry - Room No. 255)", days: "As per department schedule", report: "Room No. 255", notes: "Molecular Diagnostics Lab (Room No. 255)." },
-
+    
+    // WINDOW 2 - BIOCHEMISTRY (EMERGENCY)
+    { test: "ABG / VBG (Arterial / Venous Blood Gas)", tube: "Heparinized Syringe", window: "Window 2 (Biochemistry)", days: "Daily (Routine / Emergency)", report: "Hand-to-Hand", notes: "Send attendant immediately; report handed over on the spot." },
+    { test: "LFT (Liver Function Test)", tube: "Red (Serum)", window: "Window 2 (Biochemistry)", days: "Daily (Emergency)", report: "Window 2", notes: "Includes T. Bilirubin, D. Bilirubin, ALT, AST, ALP, Total Protein, Albumin, GGT." },
+    { test: "KFT (Kidney Function Test)", tube: "Red (Serum)", window: "Window 2 (Biochemistry)", days: "Daily (Emergency)", report: "Window 2", notes: "Includes Urea, Creatinine, Uric Acid." },
+    { test: "UPCR (Urine protein creatinine ratio)", tube: "Speci-can (Urine)", window: "Window 2 (Biochemistry)", days: "Daily", report: "Window 2 (Biochemistry)", notes: "Collect clean catch urine in speci-can." },
+ 
     // WINDOW 3 - MICROBIOLOGY
     { test: "NS1 Antigen, IgM Antibodies (Dengue)", tube: "Red (Serum)", window: "Window 3 (Microbiology)", days: "Daily (Routine)", report: "Room 277", notes: "Mandatory: Write patient address and phone number on form." },
     { test: "Widal, Typhidot", tube: "Red (Serum)", window: "Window 3 (Microbiology)", days: "Daily (Routine)", report: "Room 126", notes: "Mandatory: Write patient address and phone number on form." },
@@ -1554,7 +1559,8 @@ const deptSchedules = [
     { test: "Karyotyping / Genetic Testing", tube: "Green (Heparin)", window: "Genetic Medicine (In front of Ward 13A)", days: "Routine Days", report: "Genetic Department", notes: "Write a Clinical Referral Note instead of a standard investigation form." },
     { test: "ANA, APLA, Autoimmune Profile", tube: "Red (Serum)", window: "College Microbiology (Immuno lab, 1st Floor)", days: "Routine Days", report: "College Microbiology (Immuno lab, 1st Floor", notes: "Special form for Autoimmune prof" },
     { test: "Sputum AFB, Sputum CBNAAT", tube: "Speci-can", window: "TB Centre (Gate No. 2)", days: "Daily", report: "TB Centre Gate 2", notes: "Early morning deep cough sputum sample." },
-
+    { test: "URM (Urine Routine Microscopy) (OPD)", tube: "Speci-can (Urine)", window: "Gate 4 (behind fountain)", days: "Daily (Routine)", report: "Gate 4 (behind fountain)", notes: "Collect clean catch urine in speci-can." },
+  
     // PATHOLOGY DEPARTMENT ROOM DIRECTORY
     { test: "Bone Marrow Aspirate / Biopsy / Flow Cytometry", tube: "Special / Slides", window: "Room 52 & 62 (Pathology Dept)", days: "Routine Days", report: "Room 52 (Presence of Hemat PG)", notes: "Enquire in Room 52 for bone marrow aspirate and biopsy." },
     { test: "Fluid Cytology / LBC", tube: "Fluid Container", window: "Room 63 (Cytopath Lab)", days: "Daily", report: "Room 63 (After 12:00 PM - 1:00 PM)", notes: "Send fluid samples for cytopathology." },

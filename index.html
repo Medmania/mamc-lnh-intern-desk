@@ -857,8 +857,9 @@
         const intern = interns.find(i => Number(i.sno) === Number(sno));
         const nameStr = intern ? `${intern.name} (S.No ${sno})` : `S.No ${sno}`;
         
-        // Check if this co-intern is the currently viewed/searched student
-        const isCurrent = Number(sno) === Number(student.sno);
+       // Fallback safely if 'student' is not defined in this scope
+    const currentSearchedSno = typeof student !== 'undefined' ? student.sno : null;
+    const isCurrent = Number(sno) === Number(currentSearchedSno);
         
         if (isCurrent) {
           // Highlight style for the active student

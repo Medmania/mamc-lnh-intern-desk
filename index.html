@@ -848,12 +848,10 @@
 
     const isNightDuty = userDept && userDept.toLowerCase().includes("night");
 
-    return coSnos
+    // Filter co-interns for this specific record
+    const filteredCo = coSnos
       .filter(sno => {
-        // Exclude any co-interns with S.No greater than 50
         if (Number(sno) > 50) return false;
-
-        // If user is on Night Duty, only include co-interns whose duty also contains "Night"
         if (isNightDuty) {
           const coDuty = burariDailyRoster[selectedDate]?.[sno]?.dept || "";
           return coDuty.toLowerCase().includes("night");
@@ -865,6 +863,31 @@
         return intern ? `${intern.name} (S.No ${sno})` : `S.No ${sno}`;
       })
       .join(", ") || "None";
+
+    let resultHtml = filteredCo;
+
+    // If the student themselves has a night duty, generate the complete list of everyone on night duty that day
+    if (isNightDuty && burariDailyRoster[selectedDate]) {
+      const allNightEntries = [];
+      const dayData = burariDailyRoster[selectedDate];
+
+      for (const [snoStr, info] of Object.entries(dayData)) {
+        const snoNum = Number(snoStr);
+        if (snoNum <= 50 && info.dept && info.dept.toLowerCase().includes("night")) {
+          const intern = interns.find(i => Number(i.sno) === snoNum);
+          const name = intern ? intern.name : `S.No ${snoNum}`;
+          allNightEntries.log ? null : allNightEntries.push(`${name} (S.No ${snoNum} - ${info.dept})`);
+        }
+      }
+
+      // Remove duplicates if any
+      const uniqueNights = [...new Set(allNightEntries)];
+      if (uniqueNights.length > 0) {
+        resultHtml += `<div style="margin-top: 4px; font-size: 12.5px; color: #1e3a8a;">🌙 <strong>Everyone on Night Duty Today:</strong> ${uniqueNights.join(", ")}</div>`;
+      }
+    }
+
+    return resultHtml;
   }
 
   // 52 WEEK DATES DATABASE
@@ -1803,7 +1826,7 @@
     return `${day}/${month}/${year.slice(2)}`;
   }
 
-  // --- UPDATED SEARCH STUDENT FUNCTION ---
+// --- UPDATED SEARCH STUDENT FUNCTION WITH PDO LOGIC ---
   function searchStudent() {
     const query = document.getElementById('studentSearch').value.toLowerCase().trim();
     const resDiv = document.getElementById('studentResults');
@@ -1829,16 +1852,9 @@
       let activePosting = getPostingForSubdivision(student.batch, weekInfo.wk);
       let burariDutyInfo = null;
       let peripheryInfo = null;
+      let isPDO = false;
 
-      // Check Periphery posting schedule
-      if (peripheryRosterMap[student.batch]) {
-        const pMatch = peripheryRosterMap[student.batch].find(p => selectedDate >= p.start && selectedDate <= p.end);
-        if (pMatch) {
-          peripheryInfo = pMatch.center;
-        }
-      }
-
-      // Check specific daily Burari shift schedule (Main + Supple)
+      // 1. Check specific daily Burari shift schedule for the selected date
       if (typeof burariDailyRoster !== 'undefined' && burariDailyRoster[selectedDate]) {
         const studentSno = Number(student.sno);
         if (burariDailyRoster[selectedDate][studentSno]) {
@@ -1846,10 +1862,35 @@
         }
       }
 
+      // 2. If no direct duty found, check if they had a Night Duty on the previous day (making today PDO)
+      if (!burariDutyInfo && typeof burariDailyRoster !== 'undefined') {
+        const prevDateObj = new Date(selectedDate);
+        prevDateObj.setDate(prevDateObj.getDate() - 1);
+        const prevDateStr = prevDateObj.toISOString().split('T')[0];
+
+        if (burariDailyRoster[prevDateStr]) {
+          const studentSno = Number(student.sno);
+          const prevDuty = burariDailyRoster[prevDateStr][studentSno];
+          if (prevDuty && prevDuty.dept && prevDuty.dept.toLowerCase().includes("night")) {
+            isPDO = true;
+          }
+        }
+      }
+
+      // 3. Check Periphery posting schedule if still not found
+      if (!burariDutyInfo && !isPDO && peripheryRosterMap[student.batch]) {
+        const pMatch = peripheryRosterMap[student.batch].find(p => selectedDate >= p.start && selectedDate <= p.end);
+        if (pMatch) {
+          peripheryInfo = pMatch.center;
+        }
+      }
+
       // Format display posting title
       let displayDuty = activePosting;
       if (burariDutyInfo) {
         displayDuty = `PSM - ${burariDutyInfo.dept}`;
+      } else if (isPDO) {
+        displayDuty = `PSM - PDO (Post Duty Off)`;
       } else if (peripheryInfo) {
         displayDuty = `PSM - Periphery (${peripheryInfo})`;
       } else if (activePosting === "PSM") {
@@ -1868,11 +1909,11 @@
             </span> 
             <span style="font-size: 13px; color: #64748b;">(Week ${weekInfo.wk} • ${weekInfo.block})</span>
             
-          ${burariDutyInfo ? `
-  <div style="margin-top: 6px; padding-top: 6px; border-top: 1px dashed #cbd5e1; font-size: 13px; color: #334155;">
-    👥 <strong>Co-Interns on Duty:</strong> ${getCoInternsNames(burariDutyInfo.co_snos, burariDutyInfo.dept, selectedDate)}
-  </div>
-` : ''}
+            ${burariDutyInfo ? `
+              <div style="margin-top: 6px; padding-top: 6px; border-top: 1px dashed #cbd5e1; font-size: 13px; color: #334155;">
+                👥 <strong>Co-Interns on Duty:</strong> ${getCoInternsNames(burariDutyInfo.co_snos, burariDutyInfo.dept, selectedDate)}
+              </div>
+            ` : ''}
           </div>
 
           <details ontoggle="if(this.open){ const activeRow = this.querySelector('.selected-week-row'); if(activeRow){ activeRow.scrollIntoView({ behavior: 'smooth', block: 'center' }); } }">

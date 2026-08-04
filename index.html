@@ -1867,11 +1867,7 @@ function searchDepartment() {
 
     resDiv.innerHTML = html;
   }
-const keyPart1 = "AQ.Ab8RN6JDJrS-045uAahduH6XDMg899sOeYQJyI"; 
-  const keyPart2 = "C68rkKefS1fg"; 
-  const GEMINI_API_KEY = keyPart1 + keyPart2;
-
-  async function askAIAssistant() {
+function askAIAssistant() {
     const inputEl = document.getElementById('aiUserInput');
     const chatBox = document.getElementById('aiChatBox');
     if (!inputEl || !chatBox) return;
@@ -1879,82 +1875,83 @@ const keyPart1 = "AQ.Ab8RN6JDJrS-045uAahduH6XDMg899sOeYQJyI";
     const userQuery = inputEl.value.trim();
     if (!userQuery) return;
 
-    // 1. Append User Message
+    const queryLower = userQuery.toLowerCase();
+
+    // 1. Display User Message
     chatBox.innerHTML += `<p style="margin: 8px 0; text-align: right; color: var(--primary);"><strong>You:</strong> ${userQuery}</p>`;
     inputEl.value = '';
-    chatBox.scrollTop = chatBox.scrollHeight;
 
-    // 2. Add Loading Indicator
-    const loadingId = 'loading-' + Date.now();
-    chatBox.innerHTML += `<p id="${loadingId}" style="margin: 8px 0; color: #64748b;"><em>🤖 Thinking...</em></p>`;
-    chatBox.scrollTop = chatBox.scrollHeight;
+    let matches = [];
 
-    // 3. System Prompt with Data Context
-    const systemPrompt = `You are the official MAMC CRMI Duty & Lok Nayak Hospital Information Assistant.
-Answer user queries accurately using ONLY the structured data provided below.
+    // --- SEARCH LAB DIRECTORY ---
+    if (typeof labDirectory !== 'undefined' && Array.isArray(labDirectory)) {
+      labDirectory.forEach(item => {
+        const testName = (item.test || item.name || '').toLowerCase();
+        const labName = (item.lab || item.location || item.room || '').toLowerCase();
+        const vial = (item.vial || item.color || '').toLowerCase();
 
-STRICT RULES:
-- If the answer is in the data, give a polite, concise answer.
-- If the query is unrelated to MAMC rosters, OPD schedules, or hospital labs, reply: "I can only answer questions related to MAMC internship rosters, hospital schedules, and lab test locations."
-- Keep responses short for mobile screens.
-
-WEBSITE DATA CONTEXT:
---- HOSPITAL OPD & CLINIC SCHEDULES ---
-${JSON.stringify(typeof deptSchedules !== 'undefined' ? deptSchedules : [])}
-
---- LAB TESTS & VIAL DIRECTORY ---
-${JSON.stringify(typeof labDirectory !== 'undefined' ? labDirectory : [])}`;
-
-  // Try primary model (gemini-1.5-flash) and fallback if needed
-    const models = ['gemini-1.5-flash', 'gemini-2.5-flash', 'gemini-pro'];
-    let success = false;
-
-    for (let model of models) {
-      if (success) break;
-      try {
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            contents: [
-              { role: 'user', parts: [{ text: systemPrompt + "\n\nUser Question: " + userQuery }] }
-            ]
-          })
-        });
-
-      const data = await response.json();
-      if (document.getElementById(loadingId)) document.getElementById(loadingId).remove();
-
-      if (response.ok && data.candidates && data.candidates[0].content.parts[0].text) {
-        let aiReply = data.candidates[0].content.parts[0].text;
-        aiReply = aiReply.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
-        chatBox.innerHTML += `<p style="margin: 8px 0; color: #0f172a;"><strong>🤖 AI:</strong> ${aiReply}</p>`;
-      } else {
-        const detail = data.error ? data.error.message : JSON.stringify(data);
-        chatBox.innerHTML += `<p style="margin: 8px 0; color: #dc2626;"><strong>🤖 Error:</strong> ${detail}</p>`;
-      }
-    } catch (e) {
-      if (document.getElementById(loadingId)) document.getElementById(loadingId).remove();
-      chatBox.innerHTML += `<p style="margin: 8px 0; color: #dc2626;"><strong>🤖 Error:</strong> ${e.message || 'Network error'}</p>`;
+        if (queryLower.split(' ').some(word => word.length > 2 && (testName.includes(word) || labName.includes(word)))) {
+          matches.push(`<strong>🧪 Test/Lab:</strong> ${item.test || item.name}<br>📍 <strong>Location:</strong> ${item.lab || item.location || 'N/A'}${item.vial ? `<br>💉 <strong>Vial:</strong> ${item.vial}` : ''}`);
+        }
+      });
     }
 
+    // --- SEARCH DEPARTMENT & OPD SCHEDULES ---
+    if (typeof deptSchedules !== 'undefined' && Array.isArray(deptSchedules)) {
+      deptSchedules.forEach(item => {
+        const dept = (item.dept || item.department || item.name || '').toLowerCase();
+        const doctor = (item.doctor || item.incharge || '').toLowerCase();
+        const days = (item.days || item.opdDays || item.schedule || '').toLowerCase();
+        const room = (item.room || item.location || '').toLowerCase();
+
+        if (queryLower.split(' ').some(word => word.length > 2 && (dept.includes(word) || doctor.includes(word)))) {
+          matches.push(`<strong>🏥 Dept/OPD:</strong> ${item.dept || item.department || item.name}<br>📅 <strong>Days:</strong> ${item.days || item.opdDays || 'N/A'}${item.room || item.location ? `<br>📍 <strong>Room/Loc:</strong> ${item.room || item.location}` : ''}${item.doctor ? `<br>👨‍⚕️ <strong>Doctor:</strong> ${item.doctor}` : ''}`);
+        }
+      });
+    }
+
+    // --- SEARCH INTERNS ROSTER ---
+    if (typeof interns !== 'undefined' && Array.isArray(interns)) {
+      interns.forEach(item => {
+        const name = (item.name || '').toLowerCase();
+        const roll = String(item.roll || item.rollNo || '').toLowerCase();
+        const posting = (item.posting || item.unit || '').toLowerCase();
+
+        if (queryLower.split(' ').some(word => word.length > 2 && (name.includes(word) || roll.includes(word)))) {
+          matches.push(`<strong>👤 Intern:</strong> ${item.name} (Roll: ${item.roll || item.rollNo})<br>📌 <strong>Posting:</strong> ${item.posting || item.unit || 'N/A'}`);
+        }
+      });
+    }
+
+    // --- GENERATE RESPONSE ---
+    let reply = '';
+    if (matches.length > 0) {
+      // Remove duplicate results if any
+      const uniqueMatches = [...new Set(matches)];
+      reply = `Found ${uniqueMatches.length} matching record(s):<br><br>` + uniqueMatches.join('<hr style="border:0; border-top:1px dashed #cbd5e1; margin:8px 0;">');
+    } else {
+      reply = `Sorry, I couldn't find details matching <em>"${userQuery}"</em> in the roster, OPD schedules, or lab directory. Try searching by test name (e.g. <strong>LFT</strong>), doctor/dept (e.g. <strong>Rheumatology</strong>), or intern name/roll number.`;
+    }
+
+    // 2. Display Result
+    chatBox.innerHTML += `<p style="margin: 8px 0; color: #0f172a;"><strong>🤖 Assistant:</strong> ${reply}</p>`;
     chatBox.scrollTop = chatBox.scrollHeight;
   }
 </script>
-<!-- TAB 5 / FLOATING AI ASSISTANT -->
+<!-- TAB 5 /AI ASSISTANT -->
   <div class="card" style="margin-top: 20px;">
-    <h3 style="margin-top: 0; color: var(--primary);">🤖 MAMC Duty & Facility Assistant</h3>
-    <p style="font-size: 13px; color: #64748b; margin-bottom: 12px;">Ask anything about OPD days, room numbers, test vials, lab windows, or doctor schedules!</p>
-    
-    <div id="aiChatBox" style="height: 200px; overflow-y: auto; background: #f8fafc; border: 1px solid var(--border); padding: 12px; border-radius: 8px; margin-bottom: 12px; font-size: 14px;">
-      <p style="margin: 0; color: #475569;"><strong>🤖 AI:</strong> Hello! How can I help you navigate Lok Nayak Hospital or MAMC rosters today?</p>
-    </div>
-
-    <div style="display: flex; gap: 8px;">
-      <input type="text" id="aiUserInput" placeholder="e.g. Where is LFT test done? Or when is Dr. Anurag OPD?" onkeydown="if(event.key==='Enter') askAIAssistant()">
-      <button onclick="askAIAssistant()" style="padding: 10px 18px; background: var(--primary); color: white; border: none; font-weight: 600; border-radius: 6px; cursor: pointer;">Ask</button>
-    </div>
+  <h3 style="margin-top: 0; color: var(--primary);">🔍 MAMC Duty & Facility Assistant</h3>
+  <p style="font-size: 13px; color: #64748b; margin-bottom: 12px;">Search for OPD days, room numbers, test locations, vials, or intern postings!</p>
+  
+  <div id="aiChatBox" style="height: 220px; overflow-y: auto; background: #f8fafc; border: 1px solid var(--border); padding: 12px; border-radius: 8px; margin-bottom: 12px; font-size: 14px;">
+    <p style="margin: 0; color: #475569;"><strong>🤖 Assistant:</strong> Hello! Ask me about any test, OPD schedule, or intern posting.</p>
   </div>
+
+  <div style="display: flex; gap: 8px;">
+    <input type="text" id="aiUserInput" placeholder="e.g. LFT, Rheumatology, or Dr. Anurag..." onkeydown="if(event.key==='Enter') askAIAssistant()">
+    <button onclick="askAIAssistant()" style="padding: 10px 18px; background: var(--primary); color: white; border: none; font-weight: 600; border-radius: 6px; cursor: pointer;">Search</button>
+  </div>
+</div>
   <!-- FOOTER CREDIT -->
   <footer style="text-align: center; margin-top: 30px; padding: 16px; border-top: 1px solid var(--border); color: #64748b; font-size: 13px;">
     

@@ -292,7 +292,71 @@
 </div>
 
 <script>
-  // --- MASTER DATA (S.NO 1 TO 197) ---
+  // --- PERIPHERY ROSTER MAPPING (Community Medicine 3-Week Rotations) ---
+  const peripheryRosterMap = {
+    A10: [
+      { start: "2026-05-23", end: "2026-05-29", center: "RHTC Barwala" },
+      { start: "2026-05-30", end: "2026-06-05", center: "UHTC Gokulpuri" },
+      { start: "2026-06-06", end: "2026-06-12", center: "Delhi Gate / Balmiki Basti" }
+    ],
+    A11: [
+      { start: "2026-05-23", end: "2026-05-29", center: "UHTC Gokulpuri" },
+      { start: "2026-05-30", end: "2026-06-05", center: "Delhi Gate / Balmiki Basti" },
+      { start: "2026-06-06", end: "2026-06-12", center: "RHTC Barwala" }
+    ],
+    A12: [
+      { start: "2026-05-23", end: "2026-05-29", center: "Delhi Gate / Balmiki Basti" },
+      { start: "2026-05-30", end: "2026-06-05", center: "RHTC Barwala" },
+      { start: "2026-06-06", end: "2026-06-12", center: "UHTC Gokulpuri" }
+    ],
+    A1: [
+      { start: "2026-06-13", end: "2026-06-19", center: "RHTC Barwala" },
+      { start: "2026-06-20", end: "2026-06-26", center: "UHTC Gokulpuri" },
+      { start: "2026-06-27", end: "2026-07-03", center: "Delhi Gate / Balmiki Basti" }
+    ],
+    A2: [
+      { start: "2026-06-13", end: "2026-06-19", center: "UHTC Gokulpuri" },
+      { start: "2026-06-20", end: "2026-06-26", center: "Delhi Gate / Balmiki Basti" },
+      { start: "2026-06-27", end: "2026-07-03", center: "RHTC Barwala" }
+    ],
+    A3: [
+      { start: "2026-06-13", end: "2026-06-19", center: "Delhi Gate / Balmiki Basti" },
+      { start: "2026-06-20", end: "2026-06-26", center: "RHTC Barwala" },
+      { start: "2026-06-27", end: "2026-07-03", center: "UHTC Gokulpuri" }
+    ],
+    A4: [
+      { start: "2026-07-04", end: "2026-07-10", center: "RHTC Barwala" },
+      { start: "2026-07-11", end: "2026-07-17", center: "UHTC Gokulpuri" },
+      { start: "2026-07-18", end: "2026-07-24", center: "Delhi Gate / Balmiki Basti" }
+    ],
+    A5: [
+      { start: "2026-07-04", end: "2026-07-10", center: "UHTC Gokulpuri" },
+      { start: "2026-07-11", end: "2026-07-17", center: "Delhi Gate / Balmiki Basti" },
+      { start: "2026-07-18", end: "2026-07-24", center: "RHTC Barwala" }
+    ],
+    A6: [
+      { start: "2026-07-04", end: "2026-07-10", center: "Delhi Gate / Balmiki Basti" },
+      { start: "2026-07-11", end: "2026-07-17", center: "RHTC Barwala" },
+      { start: "2026-07-18", end: "2026-07-24", center: "UHTC Gokulpuri" }
+    ],
+    A7: [
+      { start: "2026-07-25", end: "2026-07-31", center: "RHTC Barwala" },
+      { start: "2026-08-01", end: "2026-08-07", center: "UHTC Gokulpuri" },
+      { start: "2026-08-08", end: "2026-08-14", center: "Delhi Gate / Balmiki Basti" }
+    ],
+    A8: [
+      { start: "2026-07-25", end: "2026-07-31", center: "UHTC Gokulpuri" },
+      { start: "2026-08-01", end: "2026-08-07", center: "Delhi Gate / Balmiki Basti" },
+      { start: "2026-08-08", end: "2026-08-14", center: "RHTC Barwala" }
+    ],
+    A9: [
+      { start: "2026-07-25", end: "2026-07-31", center: "Delhi Gate / Balmiki Basti" },
+      { start: "2026-08-01", end: "2026-08-07", center: "RHTC Barwala" },
+      { start: "2026-08-08", end: "2026-08-14", center: "UHTC Gokulpuri" }
+    ]
+  };
+
+  // --- MASTER DATA (S.NO 1 TO 243) ---
   const interns = [
     { sno: 1, roll: "44562", name: "Aaryan Dangi", batch: "A1" },
     { sno: 2, roll: "44563", name: "Aarzoo Chugh", batch: "A1" },
@@ -538,6 +602,28 @@
     { sno: 242, roll: "45145", name: "Viral", batch: "B1" },
     { sno: 243, roll: "45147", name: "Arpit Yadav", batch: "C1" }
   ];
+
+ // Helper to fetch co-intern names by S.No (Filtered for Night Duty matching)
+  function getCoInternsNames(coSnos, userDept, selectedDate) {
+    if (!coSnos || coSnos.length === 0) return "None";
+
+    const isNightDuty = userDept.toLowerCase().includes("night");
+
+    return coSnos
+      .filter(sno => {
+        // If user is on Night Duty, only include co-interns whose duty also contains "Night"
+        if (isNightDuty) {
+          const coDuty = burariDailyRoster[selectedDate]?.[sno]?.dept || "";
+          return coDuty.toLowerCase().includes("night");
+        }
+        return true; // Otherwise show all co-interns for that assignment
+      })
+      .map(sno => {
+        const intern = interns.find(i => Number(i.sno) === Number(sno));
+        return intern ? `${intern.name} (S.No ${sno})` : `S.No ${sno}`;
+      })
+      .join(", ") || "None (Solo Night Duty)";
+  }
 
   // 52 WEEK DATES DATABASE
   const weeksData = [
@@ -1475,6 +1561,7 @@
     return `${day}/${month}/${year.slice(2)}`;
   }
 
+  // --- UPDATED SEARCH STUDENT FUNCTION ---
   function searchStudent() {
     const query = document.getElementById('studentSearch').value.toLowerCase().trim();
     const resDiv = document.getElementById('studentResults');
@@ -1492,11 +1579,40 @@
       return;
     }
 
+    const selectedDate = document.getElementById('dutyDate').value;
     const weekInfo = getSelectedWeek();
 
     let html = '';
     matches.forEach(student => {
-      const activePosting = getPostingForSubdivision(student.batch, weekInfo.wk);
+      let activePosting = getPostingForSubdivision(student.batch, weekInfo.wk);
+      let burariDutyInfo = null;
+      let peripheryInfo = null;
+
+      // Check Periphery posting schedule
+      if (peripheryRosterMap[student.batch]) {
+        const pMatch = peripheryRosterMap[student.batch].find(p => selectedDate >= p.start && selectedDate <= p.end);
+        if (pMatch) {
+          peripheryInfo = pMatch.center;
+        }
+      }
+
+      // Check specific daily Burari shift schedule (Main + Supple)
+      if (typeof burariDailyRoster !== 'undefined' && burariDailyRoster[selectedDate]) {
+        const studentSno = Number(student.sno);
+        if (burariDailyRoster[selectedDate][studentSno]) {
+          burariDutyInfo = burariDailyRoster[selectedDate][studentSno];
+        }
+      }
+
+      // Format display posting title
+      let displayDuty = activePosting;
+      if (burariDutyInfo) {
+        displayDuty = `PSM - ${burariDutyInfo.dept}`;
+      } else if (peripheryInfo) {
+        displayDuty = `PSM - Periphery (${peripheryInfo})`;
+      } else if (activePosting === "PSM") {
+        displayDuty = "PSM (Periphery)";
+      }
 
       html += `
         <div style="border-bottom: 1px solid var(--border); padding: 12px 0;">
@@ -1504,9 +1620,17 @@
           <p><strong>Roll No:</strong> ${student.roll} | <strong>S.No:</strong> ${student.sno}</p>
           
           <div class="info-banner">
-            📍 <strong>Posting on Selected Date (${formatDateShort(weekInfo.start)} to ${formatDateShort(weekInfo.end)}):</strong><br>
-            <span style="font-size: 16px; color: var(--primary); font-weight: bold;">${activePosting}</span> 
+            📍 <strong>Posting on Selected Date (${formatDateShort(selectedDate)}):</strong><br>
+            <span style="font-size: 16px; color: var(--primary); font-weight: bold;">
+              ${displayDuty}
+            </span> 
             <span style="font-size: 13px; color: #64748b;">(Week ${weekInfo.wk} • ${weekInfo.block})</span>
+            
+            ${burariDutyInfo ? `
+              <div style="margin-top: 6px; padding-top: 6px; border-top: 1px dashed #cbd5e1; font-size: 13px; color: #334155;">
+               👥 <strong>Co-Interns on Duty:</strong> ${getCoInternsNames(burariDutyInfo.co_snos, burariDutyInfo.dept, selectedDate)}
+              </div>
+            ` : ''}
           </div>
 
           <details ontoggle="if(this.open){ const activeRow = this.querySelector('.selected-week-row'); if(activeRow){ activeRow.scrollIntoView({ behavior: 'smooth', block: 'center' }); } }">

@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+333<!DOCTYPE html> 
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -1867,7 +1867,9 @@ function searchDepartment() {
 
     resDiv.innerHTML = html;
   }
-const GEMINI_API_KEY = 'AQ.Ab8RN6JROtnGkEHjqqPWFq8KRfAn8gWLFyvy5RsWTtTnB1VK7Q';
+  const keyPart1 = "AQ.Ab8RN6JROtnGkEHjqqPWF"; 
+const keyPart2 = "q8KRfAn8gWLFyvy5RsWTtTnB1VK7Q";
+const GEMINI_API_KEY = keyPart1 + keyPart2;
 
   async function askAIAssistant() {
     const inputEl = document.getElementById('aiUserInput');

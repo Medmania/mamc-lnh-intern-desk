@@ -1872,68 +1872,76 @@ function askAIAssistant() {
     const chatBox = document.getElementById('aiChatBox');
     if (!inputEl || !chatBox) return;
 
-    const userQuery = inputEl.value.trim();
-    if (!userQuery) return;
+    const rawQuery = inputEl.value.trim();
+    if (!rawQuery) return;
 
-    const queryLower = userQuery.toLowerCase();
+    const queryLower = rawQuery.toLowerCase();
 
-    // 1. Display User Message
-    chatBox.innerHTML += `<p style="margin: 8px 0; text-align: right; color: var(--primary);"><strong>You:</strong> ${userQuery}</p>`;
+    // 1. Display User Query
+    chatBox.innerHTML += `<p style="margin: 8px 0; text-align: right; color: var(--primary);"><strong>You:</strong> ${rawQuery}</p>`;
     inputEl.value = '';
 
     let matches = [];
 
-    // --- SEARCH LAB DIRECTORY ---
+    // Helper to format object properties dynamically into clean HTML
+    function formatObject(obj, titleEmoji, titleText) {
+      let fields = [];
+      for (const [key, val] of Object.entries(obj)) {
+        if (val && String(val).trim() !== '' && String(val).trim() !== 'N/A') {
+          // Format keys cleanly (e.g. opdDays -> OPD Days)
+          const cleanKey = key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
+          fields.push(`<strong>${cleanKey}:</strong> ${val}`);
+        }
+      }
+      return `<strong>${titleEmoji} ${titleText}:</strong><br>${fields.join('<br>')}`;
+    }
+
+    // Helper to check partial keyword matches anywhere in the item string/JSON
+    function itemMatches(item) {
+      const itemString = JSON.stringify(item).toLowerCase();
+      return itemString.includes(queryLower);
+    }
+
+    // --- 1. SEARCH LAB DIRECTORY ---
     if (typeof labDirectory !== 'undefined' && Array.isArray(labDirectory)) {
       labDirectory.forEach(item => {
-        const testName = (item.test || item.name || '').toLowerCase();
-        const labName = (item.lab || item.location || item.room || '').toLowerCase();
-        const vial = (item.vial || item.color || '').toLowerCase();
-
-        if (queryLower.split(' ').some(word => word.length > 2 && (testName.includes(word) || labName.includes(word)))) {
-          matches.push(`<strong>🧪 Test/Lab:</strong> ${item.test || item.name}<br>📍 <strong>Location:</strong> ${item.lab || item.location || 'N/A'}${item.vial ? `<br>💉 <strong>Vial:</strong> ${item.vial}` : ''}`);
+        if (itemMatches(item)) {
+          const name = item.test || item.name || item.lab || 'Lab Item';
+          matches.push(formatObject(item, '🧪', name));
         }
       });
     }
 
-    // --- SEARCH DEPARTMENT & OPD SCHEDULES ---
+    // --- 2. SEARCH DEPARTMENT & OPD SCHEDULES ---
     if (typeof deptSchedules !== 'undefined' && Array.isArray(deptSchedules)) {
       deptSchedules.forEach(item => {
-        const dept = (item.dept || item.department || item.name || '').toLowerCase();
-        const doctor = (item.doctor || item.incharge || '').toLowerCase();
-        const days = (item.days || item.opdDays || item.schedule || '').toLowerCase();
-        const room = (item.room || item.location || '').toLowerCase();
-
-        if (queryLower.split(' ').some(word => word.length > 2 && (dept.includes(word) || doctor.includes(word)))) {
-          matches.push(`<strong>🏥 Dept/OPD:</strong> ${item.dept || item.department || item.name}<br>📅 <strong>Days:</strong> ${item.days || item.opdDays || 'N/A'}${item.room || item.location ? `<br>📍 <strong>Room/Loc:</strong> ${item.room || item.location}` : ''}${item.doctor ? `<br>👨‍⚕️ <strong>Doctor:</strong> ${item.doctor}` : ''}`);
+        if (itemMatches(item)) {
+          const name = item.dept || item.department || item.name || 'Department/OPD';
+          matches.push(formatObject(item, '🏥', name));
         }
       });
     }
 
-    // --- SEARCH INTERNS ROSTER ---
+    // --- 3. SEARCH INTERNS ROSTER ---
     if (typeof interns !== 'undefined' && Array.isArray(interns)) {
       interns.forEach(item => {
-        const name = (item.name || '').toLowerCase();
-        const roll = String(item.roll || item.rollNo || '').toLowerCase();
-        const posting = (item.posting || item.unit || '').toLowerCase();
-
-        if (queryLower.split(' ').some(word => word.length > 2 && (name.includes(word) || roll.includes(word)))) {
-          matches.push(`<strong>👤 Intern:</strong> ${item.name} (Roll: ${item.roll || item.rollNo})<br>📌 <strong>Posting:</strong> ${item.posting || item.unit || 'N/A'}`);
+        if (itemMatches(item)) {
+          const name = item.name || `Roll: ${item.roll || item.rollNo || 'Intern'}`;
+          matches.push(formatObject(item, '👤', name));
         }
       });
     }
 
-    // --- GENERATE RESPONSE ---
+    // --- 4. DISPLAY RESULTS ---
     let reply = '';
     if (matches.length > 0) {
-      // Remove duplicate results if any
       const uniqueMatches = [...new Set(matches)];
-      reply = `Found ${uniqueMatches.length} matching record(s):<br><br>` + uniqueMatches.join('<hr style="border:0; border-top:1px dashed #cbd5e1; margin:8px 0;">');
+      reply = `Found ${uniqueMatches.length} matching record(s):<br><br>` + 
+              uniqueMatches.join('<hr style="border:0; border-top:1px dashed #cbd5e1; margin:10px 0;">');
     } else {
-      reply = `Sorry, I couldn't find details matching <em>"${userQuery}"</em> in the roster, OPD schedules, or lab directory. Try searching by test name (e.g. <strong>LFT</strong>), doctor/dept (e.g. <strong>Rheumatology</strong>), or intern name/roll number.`;
+      reply = `No matching records found for <em>"${rawQuery}"</em>. Try a shorter keyword like <strong>rheumat</strong>, <strong>lft</strong>, <strong>kft</strong>, or a doctor's name.`;
     }
 
-    // 2. Display Result
     chatBox.innerHTML += `<p style="margin: 8px 0; color: #0f172a;"><strong>🤖 Assistant:</strong> ${reply}</p>`;
     chatBox.scrollTop = chatBox.scrollHeight;
   }

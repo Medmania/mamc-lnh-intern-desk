@@ -837,13 +837,16 @@
     { sno: 243, roll: "45147", name: "Arpit Yadav", batch: "C1" }
   ];
 
-// Helper to fetch co-intern names by S.No (Filtered for Night Duty & S.No <= 50)
+  // Helper to fetch co-intern names by S.No (Filtered for Night Duty & S.No <= 50)
   function getCoInternsNames(coSnos, userDept, selectedDate) {
     if (!coSnos || coSnos.length === 0) return "None";
 
     const isNightDuty = userDept && userDept.toLowerCase().includes("night");
+    
+    // Fallback safely if 'student' is not defined in this scope
+    const currentSearchedSno = typeof student !== 'undefined' ? student.sno : null;
 
-// Filter co-interns for this specific record
+    // Filter co-interns for this specific record
     const filteredCo = coSnos
       .filter(sno => {
         if (Number(sno) > 50) return false;
@@ -857,9 +860,7 @@
         const intern = interns.find(i => Number(i.sno) === Number(sno));
         const nameStr = intern ? `${intern.name} (S.No ${sno})` : `S.No ${sno}`;
         
-       // Fallback safely if 'student' is not defined in this scope
-    const currentSearchedSno = typeof student !== 'undefined' ? student.sno : null;
-    const isCurrent = Number(sno) === Number(currentSearchedSno);
+        const isCurrent = Number(sno) === Number(currentSearchedSno);
         
         if (isCurrent) {
           // Highlight style for the active student
@@ -881,7 +882,16 @@
         if (snoNum <= 50 && info.dept && info.dept.toLowerCase().includes("night")) {
           const intern = interns.find(i => Number(i.sno) === snoNum);
           const name = intern ? intern.name : `S.No ${snoNum}`;
-          allNightEntries.log ? null : allNightEntries.push(`${name} (S.No ${snoNum} - ${info.dept})`);
+          const entryStr = `${name} (S.No ${snoNum} - ${info.dept})`;
+          
+          // Check if this night duty entry is the currently searched student
+          const isCurrentNight = Number(snoNum) === Number(currentSearchedSno);
+
+          if (isCurrentNight) {
+            allNightEntries.push(`<span style="background-color: #fef08a; padding: 2px 6px; border-radius: 4px; font-weight: bold; border: 1px solid #eab308;">${entryStr}</span>`);
+          } else {
+            allNightEntries.push(entryStr);
+          }
         }
       }
 
@@ -894,7 +904,6 @@
 
     return resultHtml;
   }
-
   // 52 WEEK DATES DATABASE
   const weeksData = [
     { wk: 1, start: "2026-05-23", end: "2026-05-29", block: "Block 1" },

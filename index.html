@@ -184,18 +184,17 @@
           <option value="clinic_ent">ENT Special Clinics</option>
           <option value="neurosurgery">Neurosurgery OPD</option>
           <option value="clinic_other">Other Clinics (PAC, Pain, Rabies, Senior Citizen)</option>
-          
         </optgroup>
-        <optgroup label="GB Pant Hospital OPDs & Specialty Clinics">
-  <option value="gbp_cardio">GB Pant Cardiology & Pacemaker</option>
-  <option value="gbp_ctvs">GB Pant CTVS & Aorta/Heart Failure</option>
-  <option value="gbp_gastro">GB Pant Gastroenterology & Liver</option>
-  <option value="gbp_gisurg">GB Pant GI Surgery</option>
-  <option value="gbp_neuro">GB Pant Neurology & Epilepsy/Stroke</option>
-  <option value="gbp_neurosurg">GB Pant Neurosurgery</option>
-  <option value="gbp_psychiatry">GB Pant Psychiatry & Child Psych</option>
-  <option value="gbp_pain">GB Pant Pain Clinic</option>
-</optgroup>
+      <optgroup label="GB Pant Hospital OPDs & Specialty Clinics">
+          <option value="gbp_cardio">GB Pant Cardiology & Pacemaker</option>
+          <option value="gbp_ctvs">GB Pant CTVS & Aorta/Heart Failure</option>
+          <option value="gbp_gastro">GB Pant Gastroenterology & Liver</option>
+          <option value="gbp_gisurg">GB Pant GI Surgery</option>
+          <option value="gbp_neuro">GB Pant Neurology & Epilepsy/Stroke</option>
+          <option value="gbp_neurosurg">GB Pant Neurosurgery</option>
+          <option value="gbp_psychiatry">GB Pant Psychiatry & Child Psych</option>
+          <option value="gbp_pain">GB Pant Pain Clinic</option>
+        </optgroup>
       </select>
     </div>
 
@@ -1279,7 +1278,126 @@
   }
 
   // OPD & CLINIC SCHEDULE DATABASE
+  // OPD & CLINIC SCHEDULE DATABASE (Includes GB Pant)
   const deptSchedules = [
+    // --- GB PANT HOSPITAL OPDs ---
+    {
+      id: "gbp_cardio",
+      name: "GB Pant Cardiology OPD & Special Clinics (Rooms 431, 433, 434, 435)",
+      units: [
+        { title: "Cardiology OPD <span style='font-weight:normal;'>(Dr. Jamal Yusuf)</span>", days: "Mon & Thu", location: "Room 431 & 433" },
+        { title: "Cardiology OPD <span style='font-weight:normal;'>(Dr. Sumod Kurian)</span>", days: "Tue & Fri", location: "Room 431" },
+        { title: "Cardiology OPD <span style='font-weight:normal;'>(Dr. Vimal Mehta)</span>", days: "Wed & Sat", location: "Room 431" },
+        { title: "Cardiology OPD <span style='font-weight:normal;'>(Dr. Subrat Kumar Muduli)</span>", days: "Tue & Fri", location: "Room 433" },
+        { title: "Cardiology OPD <span style='font-weight:normal;'>(Dr. Sanjeev Kathuria)</span>", days: "Wed & Sat", location: "Room 433" },
+        { title: "Cardiology OPD <span style='font-weight:normal;'>(Dr. Ankur Gautam)</span>", days: "Thursday", location: "Room 433" },
+        { title: "Cardiology OPD <span style='font-weight:normal;'>(Dr. Vishal Batra)</span>", days: "Mon & Thu", location: "Room 434" },
+        { title: "Cardiology OPD <span style='font-weight:normal;'>(Dr. Ankit Bansal)</span>", days: "Tue & Fri", location: "Room 434" },
+        { title: "Cardiology OPD <span style='font-weight:normal;'>(Dr. Safal)</span>", days: "Wed & Sat", location: "Room 434" },
+        { title: "Cardiology OPD <span style='font-weight:normal;'>(Dr. Girish M.P.)</span>", days: "Mon & Thu", location: "Room 435" },
+        { title: "Cardiology OPD <span style='font-weight:normal;'>(Dr. Arima Nigam)</span>", days: "Tue & Fri", location: "Room 435" },
+        { title: "Cardiology OPD <span style='font-weight:normal;'>(Dr. Mohit D. Gupta)</span>", days: "Wed & Sat", location: "Room 435" },
+        { title: "Pacemaker Clinic <span style='font-weight:normal;'>(Dr. Ankit Bansal / Dr. Subrat Muduli)</span>", days: "Tuesday", location: "Room 431" },
+        { title: "Pediatric Cardiology Clinic <span style='font-weight:normal;'>(Dr. Sumod Kurian)</span>", days: "Friday", location: "Room 431" },
+        { title: "Pacemaker Clinic <span style='font-weight:normal;'>(Dr. Sanjeev Kathuria)</span>", days: "Tuesday", location: "Room 433" },
+        { title: "Pediatric Cardiology Clinic <span style='font-weight:normal;'>(Dr. Safal)</span>", days: "Friday", location: "Room 433" },
+        { title: "Pediatric Cardiology Clinic <span style='font-weight:normal;'>(Dr. Arima Nigam)</span>", days: "Friday", location: "Room 435" }
+      ]
+    },
+    {
+      id: "gbp_ctvs",
+      name: "GB Pant CTVS OPD & Special Clinics (Rooms 409-410, 412)",
+      units: [
+        { title: "CTVS OPD <span style='font-weight:normal;'>(Dr. Subodh Satyarthi)</span>", days: "Mon & Fri", location: "Rooms 409-410" },
+        { title: "CTVS OPD <span style='font-weight:normal;'>(Dr. Vithal M. Betigeri)</span>", days: "Tue & Wed", location: "Rooms 409-410" },
+        { title: "CTVS OPD <span style='font-weight:normal;'>(Dr. Harpreet Singh)</span>", days: "Thu & Sat", location: "Rooms 409-410" },
+        { title: "CTVS OPD <span style='font-weight:normal;'>(Dr. Harpreet Singh)</span>", days: "Mon & Thu", location: "Room 412" },
+        { title: "CTVS OPD <span style='font-weight:normal;'>(Dr. Saket Agarwal)</span>", days: "Tue & Fri", location: "Room 412" },
+        { title: "CTVS OPD <span style='font-weight:normal;'>(Dr. Karthik P.)</span>", days: "Wednesday", location: "Room 412" },
+        { title: "CTVS OPD <span style='font-weight:normal;'>(Dr. Sayyed Ehtesham Hussain Naqvi)</span>", days: "Saturday", location: "Room 412" },
+        { title: "Aorta Clinic (08:00 AM - 11:00 AM)", days: "Friday", location: "Room 410" },
+        { title: "Heart Failure Clinic (08:00 AM - 11:00 AM)", days: "Saturday", location: "Room 410" }
+      ]
+    },
+    {
+      id: "gbp_gastro",
+      name: "GB Pant Gastroenterology OPD & Liver Clinic (Rooms 238, 239, 240)",
+      units: [
+        { title: "Gastroenterology OPD <span style='font-weight:normal;'>(Dr. Ujjwal Sonika)</span>", days: "Mon & Thu", location: "Rooms 238, 239, 240" },
+        { title: "Gastroenterology OPD <span style='font-weight:normal;'>(Dr. Sanjeev Sachdeva)</span>", days: "Tue & Fri", location: "Rooms 238, 239, 240" },
+        { title: "Gastroenterology OPD <span style='font-weight:normal;'>(Dr. Siddharth Srivastava)</span>", days: "Wed & Sat", location: "Rooms 238, 239, 240" },
+        { title: "Gastroenterology OPD <span style='font-weight:normal;'>(Dr. Ajay Kumar)</span>", days: "Tuesday", location: "Rooms 238, 239, 240" },
+        { title: "Gastroenterology OPD <span style='font-weight:normal;'>(Dr. Ashok Dalal)</span>", days: "Wed & Sat", location: "Rooms 238, 239, 240" },
+        { title: "Liver Special Clinic <span style='font-weight:normal;'>(Dr. Ajay Kumar / Dr. Ujjwal Sonika)</span>", days: "Tuesday", location: "Room 240" }
+      ]
+    },
+    {
+      id: "gbp_gisurg",
+      name: "GB Pant GI Surgery OPD & Specialty Clinics (Rooms 211, 212, 214, 215)",
+      units: [
+        { title: "GI Surgery OPD <span style='font-weight:normal;'>(Dr. H.H. Nag)</span>", days: "Mon, Wed, Fri", location: "Rooms 211-212" },
+        { title: "GI Surgery OPD <span style='font-weight:normal;'>(Dr. S.S. Saluja)</span>", days: "Tue, Thu, Sat", location: "Rooms 211-212" },
+        { title: "Minimally Invasive Surgery Clinic <span style='font-weight:normal;'>(Dr. H.H. Nag)</span>", days: "Monday & Saturday", location: "Rooms 214-215" },
+        { title: "Hepatobiliary Cancer & Pancreas Surgery Clinic <span style='font-weight:normal;'>(Dr. S.S. Saluja)</span>", days: "Tuesday", location: "Rooms 214-215" },
+        { title: "Portal Hypertension Clinic <span style='font-weight:normal;'>(Dr. S.S. Saluja)</span>", days: "Thursday", location: "Rooms 214-215" },
+        { title: "Liver Transplant Clinic <span style='font-weight:normal;'>(Dr. H.H. Nag)</span>", days: "Friday", location: "Rooms 214-215" }
+      ]
+    },
+    {
+      id: "gbp_neuro",
+      name: "GB Pant Neurology OPD & Special Clinics (Rooms 326, 327, 328)",
+      units: [
+        { title: "Neurology OPD <span style='font-weight:normal;'>(Dr. Saman Fatima)</span>", days: "Mon & Fri", location: "Room 326" },
+        { title: "Neurology OPD <span style='font-weight:normal;'>(Dr. Agam Jain)</span>", days: "Tue & Sat", location: "Room 326" },
+        { title: "Neurology OPD <span style='font-weight:normal;'>(Dr. Cankatika Choudhary)</span>", days: "Thu & Sat", location: "Room 326" },
+        { title: "Neurology OPD <span style='font-weight:normal;'>(Dr. Sujata Roshan)</span>", days: "Tue & Thu", location: "Room 327" },
+        { title: "Neurology OPD <span style='font-weight:normal;'>(Dr. Arun Koul)</span>", days: "Wed & Fri", location: "Room 327" },
+        { title: "Neurology OPD <span style='font-weight:normal;'>(Dr. Swapan Gupta)</span>", days: "Mon & Wed", location: "Room 328" },
+        { title: "Neurology OPD <span style='font-weight:normal;'>(Dr. Neera Chaudhary)</span>", days: "Tue & Thu", location: "Room 328" },
+        { title: "Neuro-Immunology Clinic <span style='font-weight:normal;'>(Dr. Arun Koul / Dr. Saman Fatima)</span>", days: "Tuesday", location: "Room 327" },
+        { title: "Stroke Clinic (01:00 PM - 02:00 PM) <span style='font-weight:normal;'>(Dr. Arun Koul)</span>", days: "Thursday", location: "Room 327" },
+        { title: "Epilepsy Clinic (01:00 PM - 02:00 PM) <span style='font-weight:normal;'>(Dr. Swapan Gupta)</span>", days: "Monday", location: "Room 328" },
+        { title: "Intractable Epilepsy Clinic <span style='font-weight:normal;'>(Dr. Swapan Gupta)</span>", days: "Tuesday", location: "Room 328" },
+        { title: "MDC Movement Disorder Clinic (01:00 PM - 02:00 PM) <span style='font-weight:normal;'>(Dr. Sujata Roshan / Dr. Neera Chaudhary)</span>", days: "Wednesday", location: "Room 328" },
+        { title: "Functional Neurological & Paediatric Neurology Clinic <span style='font-weight:normal;'>(Dr. Swapan Gupta / Dr. Cankatika)</span>", days: "Thursday", location: "Room 328" },
+        { title: "Headache Clinic (10:00 AM) <span style='font-weight:normal;'>(Dr. Sujata Roshan / Dr. Agam Jain)</span>", days: "Friday", location: "Room 328" }
+      ]
+    },
+    {
+      id: "gbp_neurosurg",
+      name: "GB Pant Neurosurgery OPD (Rooms 309-310)",
+      units: [
+        { title: "Neurosurgery Unit NS-1 <span style='font-weight:normal;'>(Dr. Wajid Nazir)</span>", days: "Monday", location: "Rooms 309-310" },
+        { title: "Neurosurgery Unit NS-2 <span style='font-weight:normal;'>(Dr. Anita Jagetia)</span>", days: "Tuesday", location: "Rooms 309-310" },
+        { title: "Neurosurgery NS-1 Unit Head <span style='font-weight:normal;'>(Dr. Hukum Singh / Dr. Binita Dholakia)</span>", days: "Wednesday", location: "Rooms 309-310" },
+        { title: "Neurosurgery OPD <span style='font-weight:normal;'>(Dr. G.D. Singhal)</span>", days: "Thursday", location: "Rooms 309-310" },
+        { title: "Neurosurgery Unit NS-1 <span style='font-weight:normal;'>(Dr. Shaam Bodeliwala)</span>", days: "Friday", location: "Rooms 309-310" },
+        { title: "Neurosurgery Unit NS-2 <span style='font-weight:normal;'>(Dr. Pragyan Sarma)</span>", days: "Saturday", location: "Rooms 309-310" }
+      ]
+    },
+    {
+      id: "gbp_psychiatry",
+      name: "GB Pant Psychiatry OPD & Special Clinics (Rooms 04A, 4, 6, 8, 15)",
+      units: [
+        { title: "Psychiatry Morning OPD <span style='font-weight:normal;'>(Dr. Mahima Malhotra)</span>", days: "Mon, Wed, Fri (09:00 AM)", location: "Room 4" },
+        { title: "Psychiatry Morning OPD <span style='font-weight:normal;'>(Dr. S. Jena)</span>", days: "Tue, Thu, Sat (09:00 AM)", location: "Room 4" },
+        { title: "Psychiatry OPD <span style='font-weight:normal;'>(Dr. P.S. Biswas)</span>", days: "Mon, Wed, Fri", location: "Room 6" },
+        { title: "Psychiatry OPD <span style='font-weight:normal;'>(Dr. Anurag Jhangee)</span>", days: "Tue, Thu, Sat", location: "Room 6" },
+        { title: "Psychiatry OPD <span style='font-weight:normal;'>(Dr. Arunlata Agarwal)</span>", days: "Mon, Wed, Fri", location: "Room 15" },
+        { title: "Psychiatry OPD <span style='font-weight:normal;'>(Dr. Amandeep Goyal)</span>", days: "Tue, Thu, Sat", location: "Room 8" },
+        { title: "Child Psychiatry Clinic <span style='font-weight:normal;'>(Dr. S. Jena / Dr. Anurag Jhangee / Dr. Amandeep Goyal)</span>", days: "Tuesday", location: "Room 04A" },
+        { title: "De-addiction Clinic <span style='font-weight:normal;'>(Dr. P.S. Biswas / Dr. Mahima Malhotra)</span>", days: "Wednesday", location: "Room 6" }
+      ]
+    },
+    {
+      id: "gbp_pain",
+      name: "GB Pant Pain Clinic (Room 419)",
+      units: [
+        { title: "Pain Clinic <span style='font-weight:normal;'>(Dr. Monica S. Tandon)</span>", days: "Thursday", location: "Room 419" },
+        { title: "Pain Clinic <span style='font-weight:normal;'>(Dr. Som Chandra)</span>", days: "Friday", location: "Room 419" }
+      ]
+    },
+ 
     {
       id: "medicine",
       name: "Medicine Morning OPD (09:00 AM - 01:00 PM)",
@@ -1542,125 +1660,7 @@
       ]
     }
   ];
-  // --- GB PANT HOSPITAL OPD & SPECIAL CLINICS SCHEDULE ---
-const gbpantSchedules = [
-  {
-    id: "gbp_cardio",
-    name: "GB Pant Cardiology OPD & Special Clinics (Rooms 431, 433, 434, 435)",
-    units: [
-      { title: "Cardiology OPD <span style='font-weight:normal;'>(Dr. Jamal Yusuf)</span>", days: "Mon & Thu", location: "Room 431 & 433" },
-      { title: "Cardiology OPD <span style='font-weight:normal;'>(Dr. Sumod Kurian)</span>", days: "Tue & Fri", location: "Room 431" },
-      { title: "Cardiology OPD <span style='font-weight:normal;'>(Dr. Vimal Mehta)</span>", days: "Wed & Sat", location: "Room 431" },
-      { title: "Cardiology OPD <span style='font-weight:normal;'>(Dr. Subrat Kumar Muduli)</span>", days: "Tue & Fri", location: "Room 433" },
-      { title: "Cardiology OPD <span style='font-weight:normal;'>(Dr. Sanjeev Kathuria)</span>", days: "Wed & Sat", location: "Room 433" },
-      { title: "Cardiology OPD <span style='font-weight:normal;'>(Dr. Ankur Gautam)</span>", days: "Thursday", location: "Room 433" },
-      { title: "Cardiology OPD <span style='font-weight:normal;'>(Dr. Vishal Batra)</span>", days: "Mon & Thu", location: "Room 434" },
-      { title: "Cardiology OPD <span style='font-weight:normal;'>(Dr. Ankit Bansal)</span>", days: "Tue & Fri", location: "Room 434" },
-      { title: "Cardiology OPD <span style='font-weight:normal;'>(Dr. Safal)</span>", days: "Wed & Sat", location: "Room 434" },
-      { title: "Cardiology OPD <span style='font-weight:normal;'>(Dr. Girish M.P.)</span>", days: "Mon & Thu", location: "Room 435" },
-      { title: "Cardiology OPD <span style='font-weight:normal;'>(Dr. Arima Nigam)</span>", days: "Tue & Fri", location: "Room 435" },
-      { title: "Cardiology OPD <span style='font-weight:normal;'>(Dr. Mohit D. Gupta)</span>", days: "Wed & Sat", location: "Room 435" },
-      { title: "Pacemaker Clinic <span style='font-weight:normal;'>(Dr. Ankit Bansal / Dr. Subrat Muduli)</span>", days: "Tuesday", location: "Room 431" },
-      { title: "Pediatric Cardiology Clinic <span style='font-weight:normal;'>(Dr. Sumod Kurian)</span>", days: "Friday", location: "Room 431" },
-      { title: "Pacemaker Clinic <span style='font-weight:normal;'>(Dr. Sanjeev Kathuria)</span>", days: "Tuesday", location: "Room 433" },
-      { title: "Pediatric Cardiology Clinic <span style='font-weight:normal;'>(Dr. Safal)</span>", days: "Friday", location: "Room 433" },
-      { title: "Pediatric Cardiology Clinic <span style='font-weight:normal;'>(Dr. Arima Nigam)</span>", days: "Friday", location: "Room 435" }
-    ]
-  },
-  {
-    id: "gbp_ctvs",
-    name: "GB Pant CTVS OPD & Special Clinics (Rooms 409-410, 412)",
-    units: [
-      { title: "CTVS OPD <span style='font-weight:normal;'>(Dr. Subodh Satyarthi)</span>", days: "Mon & Fri", location: "Rooms 409-410" },
-      { title: "CTVS OPD <span style='font-weight:normal;'>(Dr. Vithal M. Betigeri)</span>", days: "Tue & Wed", location: "Rooms 409-410" },
-      { title: "CTVS OPD <span style='font-weight:normal;'>(Dr. Harpreet Singh)</span>", days: "Thu & Sat", location: "Rooms 409-410" },
-      { title: "CTVS OPD <span style='font-weight:normal;'>(Dr. Harpreet Singh)</span>", days: "Mon & Thu", location: "Room 412" },
-      { title: "CTVS OPD <span style='font-weight:normal;'>(Dr. Saket Agarwal)</span>", days: "Tue & Fri", location: "Room 412" },
-      { title: "CTVS OPD <span style='font-weight:normal;'>(Dr. Karthik P.)</span>", days: "Wednesday", location: "Room 412" },
-      { title: "CTVS OPD <span style='font-weight:normal;'>(Dr. Sayyed Ehtesham Hussain Naqvi)</span>", days: "Saturday", location: "Room 412" },
-      { title: "Aorta Clinic (08:00 AM - 11:00 AM)", days: "Friday", location: "Room 410" },
-      { title: "Heart Failure Clinic (08:00 AM - 11:00 AM)", days: "Saturday", location: "Room 410" }
-    ]
-  },
-  {
-    id: "gbp_gastro",
-    name: "GB Pant Gastroenterology OPD & Liver Clinic (Rooms 238, 239, 240)",
-    units: [
-      { title: "Gastroenterology OPD <span style='font-weight:normal;'>(Dr. Ujjwal Sonika)</span>", days: "Mon & Thu", location: "Rooms 238, 239, 240" },
-      { title: "Gastroenterology OPD <span style='font-weight:normal;'>(Dr. Sanjeev Sachdeva)</span>", days: "Tue & Fri", location: "Rooms 238, 239, 240" },
-      { title: "Gastroenterology OPD <span style='font-weight:normal;'>(Dr. Siddharth Srivastava)</span>", days: "Wed & Sat", location: "Rooms 238, 239, 240" },
-      { title: "Gastroenterology OPD <span style='font-weight:normal;'>(Dr. Ajay Kumar)</span>", days: "Tuesday", location: "Rooms 238, 239, 240" },
-      { title: "Gastroenterology OPD <span style='font-weight:normal;'>(Dr. Ashok Dalal)</span>", days: "Wed & Sat", location: "Rooms 238, 239, 240" },
-      { title: "Liver Special Clinic <span style='font-weight:normal;'>(Dr. Ajay Kumar / Dr. Ujjwal Sonika)</span>", days: "Tuesday", location: "Room 240" }
-    ]
-  },
-  {
-    id: "gbp_gisurg",
-    name: "GB Pant GI Surgery OPD & Specialty Clinics (Rooms 211, 212, 214, 215)",
-    units: [
-      { title: "GI Surgery OPD <span style='font-weight:normal;'>(Dr. H.H. Nag)</span>", days: "Mon, Wed, Fri", location: "Rooms 211-212" },
-      { title: "GI Surgery OPD <span style='font-weight:normal;'>(Dr. S.S. Saluja)</span>", days: "Tue, Thu, Sat", location: "Rooms 211-212" },
-      { title: "Minimally Invasive Surgery Clinic <span style='font-weight:normal;'>(Dr. H.H. Nag)</span>", days: "Monday & Saturday", location: "Rooms 214-215" },
-      { title: "Hepatobiliary Cancer & Pancreas Surgery Clinic <span style="font-weight:normal;">(Dr. S.S. Saluja)</span>", days: "Tuesday", location: "Rooms 214-215" },
-      { title: "Portal Hypertension Clinic <span style='font-weight:normal;'>(Dr. S.S. Saluja)</span>", days: "Thursday", location: "Rooms 214-215" },
-      { title: "Liver Transplant Clinic <span style='font-weight:normal;'>(Dr. H.H. Nag)</span>", days: "Friday", location: "Rooms 214-215" }
-    ]
-  },
-  {
-    id: "gbp_neuro",
-    name: "GB Pant Neurology OPD & Special Clinics (Rooms 326, 327, 328)",
-    units: [
-      { title: "Neurology OPD <span style='font-weight:normal;'>(Dr. Saman Fatima)</span>", days: "Mon & Fri", location: "Room 326" },
-      { title: "Neurology OPD <span style='font-weight:normal;'>(Dr. Agam Jain)</span>", days: "Tue & Sat", location: "Room 326" },
-      { title: "Neurology OPD <span style='font-weight:normal;'>(Dr. Cankatika Choudhary)</span>", days: "Thu & Sat", location: "Room 326" },
-      { title: "Neurology OPD <span style='font-weight:normal;'>(Dr. Sujata Roshan)</span>", days: "Tue & Thu", location: "Room 327" },
-      { title: "Neurology OPD <span style='font-weight:normal;'>(Dr. Arun Koul)</span>", days: "Wed & Fri", location: "Room 327" },
-      { title: "Neurology OPD <span style='font-weight:normal;'>(Dr. Swapan Gupta)</span>", days: "Mon & Wed", location: "Room 328" },
-      { title: "Neurology OPD <span style='font-weight:normal;'>(Dr. Neera Chaudhary)</span>", days: "Tue & Thu", location: "Room 328" },
-      { title: "Neuro-Immunology Clinic <span style='font-weight:normal;'>(Dr. Arun Koul / Dr. Saman Fatima)</span>", days: "Tuesday", location: "Room 327" },
-      { title: "Stroke Clinic (01:00 PM - 02:00 PM) <span style='font-weight:normal;'>(Dr. Arun Koul)</span>", days: "Thursday", location: "Room 327" },
-      { title: "Epilepsy Clinic (01:00 PM - 02:00 PM) <span style='font-weight:normal;'>(Dr. Swapan Gupta)</span>", days: "Monday", location: "Room 328" },
-      { title: "Intractable Epilepsy Clinic <span style='font-weight:normal;'>(Dr. Swapan Gupta)</span>", days: "Tuesday", location: "Room 328" },
-      { title: "MDC Movement Disorder Clinic (01:00 PM - 02:00 PM) <span style='font-weight:normal;'>(Dr. Sujata Roshan / Dr. Neera Chaudhary)</span>", days: "Wednesday", location: "Room 328" },
-      { title: "Functional Neurological & Paediatric Neurology Clinic <span style='font-weight:normal;'>(Dr. Swapan Gupta / Dr. Cankatika)</span>", days: "Thursday", location: "Room 328" },
-      { title: "Headache Clinic (10:00 AM) <span style='font-weight:normal;'>(Dr. Sujata Roshan / Dr. Agam Jain)</span>", days: "Friday", location: "Room 328" }
-    ]
-  },
-  {
-    id: "gbp_neurosurg",
-    name: "GB Pant Neurosurgery OPD (Rooms 309-310)",
-    units: [
-      { title: "Neurosurgery Unit NS-1 <span style='font-weight:normal;'>(Dr. Wajid Nazir)</span>", days: "Monday", location: "Rooms 309-310" },
-      { title: "Neurosurgery Unit NS-2 <span style='font-weight:normal;'>(Dr. Anita Jagetia)</span>", days: "Tuesday", location: "Rooms 309-310" },
-      { title: "Neurosurgery NS-1 Unit Head <span style='font-weight:normal;'>(Dr. Hukum Singh / Dr. Binita Dholakia)</span>", days: "Wednesday", location: "Rooms 309-310" },
-      { title: "Neurosurgery OPD <span style='font-weight:normal;'>(Dr. G.D. Singhal)</span>", days: "Thursday", location: "Rooms 309-310" },
-      { title: "Neurosurgery Unit NS-1 <span style='font-weight:normal;'>(Dr. Shaam Bodeliwala)</span>", days: "Friday", location: "Rooms 309-310" },
-      { title: "Neurosurgery Unit NS-2 <span style='font-weight:normal;'>(Dr. Pragyan Sarma)</span>", days: "Saturday", location: "Rooms 309-310" }
-    ]
-  },
-  {
-    id: "gbp_psychiatry",
-    name: "GB Pant Psychiatry OPD & Special Clinics (Rooms 04A, 4, 6, 8, 15)",
-    units: [
-      { title: "Psychiatry Morning OPD <span style='font-weight:normal;'>(Dr. Mahima Malhotra)</span>", days: "Mon, Wed, Fri (09:00 AM)", location: "Room 4" },
-      { title: "Psychiatry Morning OPD <span style='font-weight:normal;'>(Dr. S. Jena)</span>", days: "Tue, Thu, Sat (09:00 AM)", location: "Room 4" },
-      { title: "Psychiatry OPD <span style='font-weight:normal;'>(Dr. P.S. Biswas)</span>", days: "Mon, Wed, Fri", location: "Room 6" },
-      { title: "Psychiatry OPD <span style='font-weight:normal;'>(Dr. Anurag Jhangee)</span>", days: "Tue, Thu, Sat", location: "Room 6" },
-      { title: "Psychiatry OPD <span style='font-weight:normal;'>(Dr. Arunlata Agarwal)</span>", days: "Mon, Wed, Fri", location: "Room 15" },
-      { title: "Psychiatry OPD <span style='font-weight:normal;'>(Dr. Amandeep Goyal)</span>", days: "Tue, Thu, Sat", location: "Room 8" },
-      { title: "Child Psychiatry Clinic <span style='font-weight:normal;'>(Dr. S. Jena / Dr. Anurag Jhangee / Dr. Amandeep Goyal)</span>", days: "Tuesday", location: "Room 04A" },
-      { title: "De-addiction Clinic <span style='font-weight:normal;'>(Dr. P.S. Biswas / Dr. Mahima Malhotra)</span>", days: "Wednesday", location: "Room 6" }
-    ]
-  },
-  {
-    id: "gbp_pain",
-    name: "GB Pant Pain Clinic (Room 419)",
-    units: [
-      { title: "Pain Clinic <span style='font-weight:normal;'>(Dr. Monica S. Tandon)</span>", days: "Thursday", location: "Room 419" },
-      { title: "Pain Clinic <span style='font-weight:normal;'>(Dr. Som Chandra)</span>", days: "Friday", location: "Room 419" }
-    ]
-  }
-];
+
 
 // Append GB Pant schedules into main deptSchedules array so both work in search and dropdown
 if (typeof deptSchedules !== 'undefined') {

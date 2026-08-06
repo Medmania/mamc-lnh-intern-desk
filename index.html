@@ -141,17 +141,20 @@
   </div>
 
 <!-- TAB 4: TESTS & LABS UI (Dropdown + Search) -->
-<div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 14px;">
-  <!-- Dropdown Filter -->
-  <select id="labHospitalSelect" onchange="searchLabTests()" style="padding: 10px 14px; border-radius: 8px; border: 1px solid var(--border); font-size: 14px; background: white; font-weight: 600; color: #1e293b; min-width: 220px; cursor: pointer;">
-    <option value="all">🏥 All Hospitals & Labs</option>
-    <option value="LNJP Hospital Labs">🏥 LNJP Hospital Labs</option>
-    <option value="GB Pant Hospital Labs">🏥 GB Pant Hospital Diagnostics</option>
-  </select>
+  <div id="lab-tab" class="card hidden">
+    <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 14px;">
+      <!-- Dropdown Filter -->
+      <select id="labHospitalSelect" onchange="searchLabTests()" style="padding: 10px 14px; border-radius: 8px; border: 1px solid var(--border); font-size: 14px; background: white; font-weight: 600; color: #1e293b; min-width: 220px; cursor: pointer;">
+        <option value="all">🏥 All Hospitals & Labs</option>
+        <option value="LNJP Hospital Labs">🏥 LNJP Hospital Labs</option>
+        <option value="GB Pant Hospital Labs">🏥 GB Pant Hospital Diagnostics</option>
+      </select>
 
-  <!-- Search Input -->
-  <input type="text" id="labSearch" oninput="searchLabTests()" placeholder="Type test name, vial color, room, location..." style="flex: 1; min-width: 250px; padding: 10px 14px; border-radius: 8px; border: 1px solid var(--border); font-size: 14px;">
-</div>
+      <!-- Search Input -->
+      <input type="text" id="labSearch" oninput="searchLabTests()" placeholder="Type test name, vial color, room, location..." style="flex: 1; min-width: 250px; padding: 10px 14px; border-radius: 8px; border: 1px solid var(--border); font-size: 14px;">
+    </div>
+    <div id="labResults"></div>
+  </div>
 
 <div id="labResults"></div>
 
@@ -857,9 +860,10 @@
   ];
 
   // Helper to fetch co-intern names by S.No (Filtered for Night Duty & S.No <= 50)
-  function getCoInternsNames(coSnos, userDept, selectedDate) {
+ function getCoInternsNames(coSnos, userDept, selectedDate, currentSearchedSno) {
     if (!coSnos || coSnos.length === 0) return "None";
 
+    const isNightDuty = userDept && userDept.toLowerCase().includes("night");
     const isNightDuty = userDept && userDept.toLowerCase().includes("night");
     
     // Fallback safely if 'student' is not defined in this scope
@@ -2146,7 +2150,7 @@ if (typeof deptSchedules !== 'undefined') {
             
             ${burariDutyInfo ? `
               <div style="margin-top: 6px; padding-top: 6px; border-top: 1px dashed #cbd5e1; font-size: 13px; color: #334155;">
-                👥 <strong>Co-Interns on Duty:</strong> ${getCoInternsNames(burariDutyInfo.co_snos, burariDutyInfo.dept, selectedDate)}
+               👥 <strong>Co-Interns on Duty:</strong> ${getCoInternsNames(burariDutyInfo.co_snos, burariDutyInfo.dept, selectedDate, student.sno)}
               </div>
             ` : ''}
           </div>

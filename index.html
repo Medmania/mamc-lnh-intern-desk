@@ -140,14 +140,13 @@
     <button class="tab-btn" onclick="switchTab('lab')">🧪 Tests & Labs</button>
   </div>
 
-<!-- TAB 4: TESTS & LABS UI -->
-<div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px;">
-  <!-- Hospital Filter Dropdown -->
+<!-- TAB 4: TESTS & LABS UI (Dropdown + Search) -->
+<div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 14px;">
+  <!-- Dropdown Filter -->
   <select id="labHospitalSelect" onchange="searchLabTests()" style="padding: 10px 14px; border-radius: 8px; border: 1px solid var(--border); font-size: 14px; background: white; font-weight: 600; color: #1e293b; min-width: 220px; cursor: pointer;">
     <option value="all">🏥 All Hospitals & Labs</option>
     <option value="LNJP Hospital Labs">🏥 LNJP Hospital Labs</option>
     <option value="GB Pant Hospital Labs">🏥 GB Pant Hospital Diagnostics</option>
-    <!-- Future hospitals can be added here, e.g. <option value="MAIDS Dental Labs">🏥 MAIDS Dental Labs</option> -->
   </select>
 
   <!-- Search Input -->

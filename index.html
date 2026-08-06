@@ -195,6 +195,9 @@
           <option value="gbp_psychiatry">GB Pant Psychiatry & Child Psych</option>
           <option value="gbp_pain">GB Pant Pain Clinic</option>
         </optgroup>
+        <optgroup label="MAIDS Dental Hospital">
+          <option value="maids_opd">MAIDS Dental OPD & Specialty Clinics</option>
+        </optgroup>
       </select>
     </div>
 
@@ -1397,7 +1400,22 @@
         { title: "Pain Clinic <span style='font-weight:normal;'>(Dr. Som Chandra)</span>", days: "Friday", location: "Room 419" }
       ]
     },
- 
+ // --- MAIDS DENTAL HOSPITAL OPD SCHEDULE ---
+    {
+      id: "maids_opd",
+      name: "MAIDS Dental OPD Schedule (Reg: Mon-Sat 08:30 AM - 10:30 AM | Ground Floor)",
+      units: [
+        { title: "Oral Medicine and Radiology <span style='font-weight:normal;'>(Dr. Sunita Gupta)</span>", days: "Mon to Sat (09:00 AM - 01:00 PM)", location: "Ground Floor" },
+        { title: "Oral and Maxillofacial Surgery <span style='font-weight:normal;'>(Dr. Sujata Mohanty)</span>", days: "Mon to Sat (09:00 AM - 01:00 PM)", location: "1st Floor" },
+        { title: "Prosthodontics <span style='font-weight:normal;'>(Dr. Rekha Gupta)</span>", days: "Mon to Sat (09:00 AM - 01:00 PM)", location: "2nd Floor" },
+        { title: "Conservative Dentistry and Endodontics <span style='font-weight:normal;'>(Dr. Ruchika Roongta Nawal)</span>", days: "Mon to Sat (09:00 AM - 01:00 PM)", location: "3rd Floor" },
+        { title: "Orthodontics <span style='font-weight:normal;'>(Dr. Priyank Rai)</span>", days: "Mon to Sat (09:00 AM - 01:00 PM)", location: "4th Floor" },
+        { title: "Pediatric & Preventive Dentistry <span style='font-weight:normal;'>(Dr. Mridula Goswami)</span>", days: "Mon to Sat (09:00 AM - 01:00 PM)", location: "5th Floor" },
+        { title: "Periodontology <span style='font-weight:normal;'>(Dr. Arundeep Kaur)</span>", days: "Mon to Sat (09:00 AM - 01:00 PM)", location: "6th Floor" },
+        { title: "Oral Pathology & Microbiology <span style='font-weight:normal;'>(Dr. Aadithya B Urs)</span>", days: "Mon to Sat (09:00 AM - 01:00 PM)", location: "7th Floor" },
+        { title: "Public Health Dentistry <span style='font-weight:normal;'>(Dr. Vikrant Ranjan Mohanty)</span>", days: "Mon to Sat (09:00 AM - 01:00 PM)", location: "5th Floor" }
+      ]
+    },
     {
       id: "medicine",
       name: "Medicine Morning OPD (09:00 AM - 01:00 PM)",
@@ -1410,16 +1428,40 @@
         { title: 'Unit 6 <span style="font-weight: normal;">(Dr. Sumeet Singla)</span>', days: "🔹 <b>OPD:</b> Wed & Sat<br>🚨 <b>Em:</b> Saturday", location: "<b>OPD</b> (Rooms 316, 322, 323, 324, 325)<br><b>Ward:</b> Ward 27" }
       ]
     },
-    {
+  {
       id: "ophtha",
-      name: "Ophthalmology OPD & OT Schedule (Guru Nanak Eye Centre)",
+      name: "Ophthalmology OPD, OT & Round Schedule (Guru Nanak Eye Centre)",
       units: [
-        { title: 'Unit 1A <span style="font-weight: normal;">(Dr. Paromita Dutta, Dr. Meenakshi Wadhwani)</span>', days: "Mon & Thu (OPD) / Tue & Fri (Round) / Wed & Sat (OT)", location: "GNEC OPD" },
-        { title: 'Unit 1B <span style="font-weight: normal;">(Dr. Parul Jain, Dr. Siddharth Madan)</span>', days: "Mon & Thu (OPD) / Tue & Fri (Round) / Wed & Sat (OT)", location: "GNEC OPD" },
-        { title: 'Unit 2A <span style="font-weight: normal;">(Dr. Kirti Singh, Dr. Anna Joon)</span>', days: "Tue & Fri (OPD) / Wed & Sat (Round) / Mon & Thu (OT)", location: "GNEC OPD" },
-        { title: 'Unit 2B <span style="font-weight: normal;">(Dr. Punita Sodhi, Dr. Aastha Singh)</span>', days: "Tue & Fri (OPD) / Wed & Sat (Round) / Mon & Thu (OT)", location: "GNEC OPD" },
-        { title: 'Unit 3A <span style="font-weight: normal;">(Dr. Meenakshi Thakar, Dr. Bhumika Sharma)</span>', days: "Wed & Sat (OPD) / Mon & Thu (Round) / Tue & Fri (OT)", location: "GNEC OPD" },
-        { title: 'Unit 3B <span style="font-weight: normal;">(Dr. Subhash Dadeya, Dr. Pranita Sahay)</span>', days: "Wed & Sat (OPD) / Mon & Thu (Round) / Tue & Fri (OT)", location: "GNEC OPD" }
+        { 
+          title: 'Unit 1A <span style="font-weight: normal;">(Dr. Paromita Dutta, Dr. Meenakshi Wadhwani)</span>', 
+          days: "🔹 <b>OPD:</b> Mon & Thu<br>🔴 <b>OT:</b> Wed & Sat<br>🟡 <b>Round:</b> Tue & Fri", 
+          location: "GNEC OPD (Rooms 06, 07, 19, 20, 21)" 
+        },
+        { 
+          title: 'Unit 1B <span style="font-weight: normal;">(Dr. Parul Jain, Dr. Siddharth Madan)</span>', 
+          days: "🔹 <b>OPD:</b> Mon & Thu<br>🔴 <b>OT:</b> Wed & Sat<br>🟡 <b>Round:</b> Tue & Fri", 
+          location: "GNEC OPD (Rooms 10, 12, 16, 17, 18)" 
+        },
+        { 
+          title: 'Unit 2A <span style="font-weight: normal;">(Dr. Kirti Singh, Dr. Annu Joon, Dr. Arshi Singh)</span>', 
+          days: "🔹 <b>OPD:</b> Tue & Fri<br>🔴 <b>OT:</b> Mon & Thu<br>🟡 <b>Round:</b> Wed & Sat", 
+          location: "GNEC OPD (Rooms 06, 07, 19, 20, 21)" 
+        },
+        { 
+          title: 'Unit 2B <span style="font-weight: normal;">(Dr. Punita K. Sodhi, Dr. Aastha Singh)</span>', 
+          days: "🔹 <b>OPD:</b> Tue & Fri<br>🔴 <b>OT:</b> Mon & Thu<br>🟡 <b>Round:</b> Wed & Sat", 
+          location: "GNEC OPD (Rooms 10, 12, 16, 17, 18)" 
+        },
+        { 
+          title: 'Unit 3A <span style="font-weight: normal;">(Dr. Meenakshi Thakar, Dr. Bhumika Sharma, Dr. Isha Sharma)</span>', 
+          days: "🔹 <b>OPD:</b> Wed & Sat<br>🔴 <b>OT:</b> Tue & Fri<br>🟡 <b>Round:</b> Mon & Thu", 
+          location: "GNEC OPD (Rooms 06, 07, 19, 20, 21)" 
+        },
+        { 
+          title: 'Unit 3B <span style="font-weight: normal;">(Dr. Subhash C. Dadeya, Dr. Ishita Bajaj, Dr. Vaishali Tomar)</span>', 
+          days: "🔹 <b>OPD:</b> Wed & Sat<br>🔴 <b>OT:</b> Tue & Fri<br>🟡 <b>Round:</b> Mon & Thu", 
+          location: "GNEC OPD (Rooms 10, 12, 16, 17, 18)" 
+        }
       ]
     },
     {

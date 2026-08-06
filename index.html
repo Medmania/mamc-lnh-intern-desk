@@ -140,14 +140,21 @@
     <button class="tab-btn" onclick="switchTab('lab')">🧪 Tests & Labs</button>
   </div>
 
-  <!-- TAB 4: LAB TESTS, VIALS & LOCATIONS -->
-  <div id="lab-tab" class="card hidden">
-    <div class="input-group">
-      <label for="labSearch">Search Test, Vial Color, Window, Room, or Day (e.g., CBC, Red, Window 2, Wednesday, Room 52):</label>
-      <input type="text" id="labSearch" placeholder="Type test name, vial color, location..." oninput="searchLabTests()">
-    </div>
-    <div id="labResults" class="results"></div>
-  </div>
+<!-- TAB 4: TESTS & LABS UI -->
+<div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px;">
+  <!-- Hospital Filter Dropdown -->
+  <select id="labHospitalSelect" onchange="searchLabTests()" style="padding: 10px 14px; border-radius: 8px; border: 1px solid var(--border); font-size: 14px; background: white; font-weight: 600; color: #1e293b; min-width: 220px; cursor: pointer;">
+    <option value="all">🏥 All Hospitals & Labs</option>
+    <option value="LNJP Hospital Labs">🏥 LNJP Hospital Labs</option>
+    <option value="GB Pant Hospital Labs">🏥 GB Pant Hospital Diagnostics</option>
+    <!-- Future hospitals can be added here, e.g. <option value="MAIDS Dental Labs">🏥 MAIDS Dental Labs</option> -->
+  </select>
+
+  <!-- Search Input -->
+  <input type="text" id="labSearch" oninput="searchLabTests()" placeholder="Type test name, vial color, room, location..." style="flex: 1; min-width: 250px; padding: 10px 14px; border-radius: 8px; border: 1px solid var(--border); font-size: 14px;">
+</div>
+
+<div id="labResults"></div>
 
   <!-- TAB 3: DEPARTMENT SCHEDULE & WARDS -->
   <div id="schedule-tab" class="card hidden">
@@ -1847,103 +1854,113 @@ if (typeof deptSchedules !== 'undefined') {
     renderScheduleResults();
   }
 
-  // LAB DIRECTORY DATABASE
+ // LAB & DIAGNOSTIC DIRECTORY DATABASE (LNJP + GB PANT)
   const labDirectory = [
-    { test: "CBC (Complete Blood Count), ESR, Peripheral Smear", tube: "EDTA (Purple)", window: "Window 1 (Pathology)", days: "Daily (Routine)", report: "Online / Dispatch Room 96", notes: "Low platelets -> MPC can be sent in Blue Citrate vial if specified." },
-    { test: "URM (Urine Routine Microscopy)", tube: "Speci-can (Urine)", window: "Window 1 (Pathology)", days: "Daily (Routine)", report: "Online / Counter", notes: "Collect clean catch urine in speci-can." },
-    { test: "LFT (Liver Function Test)", tube: "Red (Serum)", window: "Window 2E (Biochemistry)", days: "Daily (Routine)", report: "Online Portal / Window 2E", notes: "Includes T. Bilirubin, D. Bilirubin, ALT, AST, ALP, Total Protein, Albumin, GGT." },
-    { test: "KFT (Kidney Function Test)", tube: "Red (Serum)", window: "Window 2E (Biochemistry)", days: "Daily (Routine)", report: "Online Portal / Window 2E", notes: "Includes Urea, Creatinine, Uric Acid." },
-    { test: "Serum Electrolytes", tube: "Red (Serum)", window: "Window 2E (Biochemistry)", days: "Daily (Routine)", report: "Online Portal / Window 2E", notes: "Sodium (Na), Potassium (K), Chloride (Cl)." },
-    { test: "Lipid Profile & Bone Profile", tube: "Red (Serum)", window: "Window 2E (Biochemistry)", days: "Daily (Routine)", report: "Online Portal / Window 2E", notes: "Includes T. Cholesterol, Triglyceride, LDL, HDL, Total Calcium, Ionized Phosphorus, PTH, Vitamin D." },
-    { test: "Enzymes, Cardiac & Special Markers (CK Total, CKMB, Amylase, Lipase, LDH, Troponin I, CRP, PCT, NT ProBNP)", tube: "Red (Serum)", window: "Window 2E (Biochemistry)", days: "Daily (Routine)", report: "Online Portal / Window 2E", notes: "Includes Procalcitonin (PCT), NT-proBNP, Troponin I, Amylase, Lipase, LDH." },
-    { test: "Immunoassay & Fertility Profile (TFT, LH, FSH, Prolactin, E2, Progesterone, Testosterone, AMH)", tube: "Red (Serum)", window: "Window 2E (Biochemistry)", days: "Not done on Saturday", report: "Online Portal / Window 2E", notes: "TFT (TSH, FT3, FT4), Fertility profile (LH, FSH, Prolactin, E2, Progesterone, Testosterone)." },
-    { test: "Tumour Markers (AFP, CEA, CA19.9, CA125, PSA, Beta HCG)", tube: "Red (Serum)", window: "Window 2E (Biochemistry)", days: "Not done on Saturday", report: "Online Portal / Window 2E", notes: "Immunoassay section for oncology screening." },
-    { test: "Anemia & Vitamin Profile (Ferritin, Iron, TIBC, Vitamin B12, Folate)", tube: "Red (Serum)", window: "Window 2E (Biochemistry)", days: "Daily (Routine)", report: "Online Portal / Window 2E", notes: "Fasting sample preferred." },
-    { test: "Routine Special Tests (Bile Acids, Ammonia, Cortisol, Magnesium)", tube: "Red (Serum) / EDTA (Ammonia)", window: "Window 2E (Biochemistry)", days: "Daily (Routine)", report: "Online Portal / Window 2E", notes: "Ammonia MUST be sent on ice pack immediately." },
-    { test: "Wednesday Special Tests (IgG, IgA, IgM, IgE, Light Chains, Cystatin C, Ceruloplasmin, DHEAS, Anti-TPO, Anti-TG, Insulin, C-Peptide, C3, C4, B2-Microglobulin, ACE)", tube: "Red (Serum)", window: "Window 2E (Biochemistry)", days: "Wednesday Only", report: "Window 2E", notes: "Special immunology run on Wednesdays only." },
-    { test: "Friday Special Tests (RA Factor, ADA, CRP - OPD Samples)", tube: "Red (Serum)", window: "Window 2E (Biochemistry)", days: "Friday Only", report: "Window 2E", notes: "RA Factor, ADA, and OPD CRP run on Fridays only." },
-    { test: "Coagulation Assay (PT-INR, APTT, D-Dimer, FDP, Fibrinogen, Antithrombin III, Protein C, Protein S)", tube: "Citrate (Blue)", window: "Window 2E (Biochemistry)", days: "Daily (Routine)", report: "Window 2E", notes: "STRICT: Fill the blue vial EXACTLY up to the black mark." },
-    { test: "Blood Sugar (Fasting / PP / Random)", tube: "Fluoride-Grey (Sugar)", window: "Window 2E (Biochemistry)", days: "Daily (Routine)", report: "Online Portal", notes: "Mention Fasting, PP, or Random explicitly on the requisition form." },
-    { test: "Glycated Hemoglobin (HbA1c)", tube: "EDTA (Purple)", window: "Window 2E (Biochemistry)", days: "Daily (Routine)", report: "Online Portal", notes: "Minimum 3 ml blood required." },   
-    { test: "DIPSI (GDM Screening)", tube: "Fluoride-Grey (Sugar)", window: "Window 2E (Biochemistry)", days: "Daily (Routine)", report: "Online / Window 2E", notes: "75g glucose dissolved in 1 glass water drunk over 20 mins. Test 2-hr capillary blood. If deranged (>140), send venous sample in grey vial." },
-    { test: "Molecular Tests (AML, ALL, BCR-ABL, JAK-2, BRAF, EGFR, HER 2/NEU, KRAS, MTHFR, Factor V, FSH-R, BRCA, VMA, Metanephrine, Oxalate, Citrate, Urinary Copper)", tube: "EDTA (Purple) / Special Container", window: "Window 2E (Biochemistry - Room No. 255)", days: "As per department schedule", report: "Room No. 255", notes: "Molecular Diagnostics Lab (Room No. 255)." },
-    { test: "ABG / VBG (Arterial / Venous Blood Gas)", tube: "Heparinized Syringe", window: "Window 2 (Biochemistry)", days: "Daily (Routine / Emergency)", report: "Hand-to-Hand", notes: "Send attendant immediately; report handed over on the spot." },
-    { test: "LFT (Liver Function Test)", tube: "Red (Serum)", window: "Window 2 (Biochemistry)", days: "Daily (Emergency)", report: "Window 2", notes: "Includes T. Bilirubin, D. Bilirubin, ALT, AST, ALP, Total Protein, Albumin, GGT." },
-    { test: "KFT (Kidney Function Test)", tube: "Red (Serum)", window: "Window 2 (Biochemistry)", days: "Daily (Emergency)", report: "Window 2", notes: "Includes Urea, Creatinine, Uric Acid." },
-    { test: "UPCR (Urine protein creatinine ratio)", tube: "Speci-can (Urine)", window: "Window 2 (Biochemistry)", days: "Daily", report: "Window 2 (Biochemistry)", notes: "Collect clean catch urine in speci-can." },
-    { test: "NS1 Antigen, IgM Antibodies (Dengue)", tube: "Red (Serum)", window: "Window 3 (Microbiology)", days: "Daily (Routine)", report: "Room 277", notes: "Mandatory: Write patient address and phone number on form." },
-    { test: "Widal, Typhidot", tube: "Red (Serum)", window: "Window 3 (Microbiology)", days: "Daily (Routine)", report: "Room 126", notes: "Mandatory: Write patient address and phone number on form." },
-    { test: "PSMP (Peripheral Smear for Malarial Parasite)", tube: "EDTA (Purple)", window: "Window 3 (Microbiology)", days: "Daily (Routine)", report: "Room 128", notes: "Mandatory: Write patient address and phone number on form." },
-    { test: "Blood Culture & Sensitivity (BCS)", tube: "Blood Culture Bottle", window: "Window 3 (Microbiology)", days: "Daily (Routine)", report: "Room 34", notes: "Maintain strict sterile precautions while drawing sample." },
-    { test: "Urine Culture & Sensitivity (UCS)", tube: "Speci-can (Urine)", window: "Window 3 (Microbiology)", days: "Daily (Routine)", report: "Room 34", notes: "Clean catch midstream sample." },
-    { test: "BGCM (Blood Group & Cross Match)", tube: "EDTA (Purple)", window: "Blood Bank", days: "Daily (24x7)", report: "Blood Bank Counter", notes: "Requires BGCM Form + Release Form. If donation required, attach donor form." },
-    { test: "Direct Coombs Test (DCT)", tube: "EDTA (Purple)", window: "Blood Bank", days: "Daily", report: "Blood Bank Counter", notes: "Autoimmune hemolytic anemia workup." },
-    { test: "Indirect Coombs Test (ICT)", tube: "Red (Serum)", window: "Blood Bank", days: "Daily", report: "Blood Bank Counter", notes: "Antenatal / transfusion antibody screening." },
-    { test: "HIV Screening / TRIDOT", tube: "Red (Serum)", window: "College / Front of Mortuary", days: "Daily", report: "HIV Room (In front of Mortuary)", notes: "Attendant must submit form with address and phone number." },
-    { test: "HBsAg, Anti-HCV, VDRL (Tridot)", tube: "Red (Serum)", window: "College Building / Window 3(for em)", days: "Daily / Em", report: "College Lab Counter / Window 3(Em)", notes: "Emergency sample only in case of Needle prick. Take a Tridot/Needle prick form from Casualty CMO." },
-    { test: "College Hemogram, HPLC", tube: "EDTA (Purple)", window: "Room 76 (Pathology Dept)", days: "Daily", report: "Room 96 (Dispatch)", notes: "College Hemogram Form required." },
-    { test: "Karyotyping / Genetic Testing", tube: "Green (Heparin)", window: "Genetic Medicine (In front of Ward 13A)", days: "Routine Days", report: "Genetic Department", notes: "Write a Clinical Referral Note instead of a standard investigation form." },
-    { test: "ANA, APLA, Autoimmune Profile", tube: "Red (Serum)", window: "College Microbiology (Immuno lab, 1st Floor)", days: "Routine Days", report: "College Microbiology (Immuno lab, 1st Floor)", notes: "Special form for Autoimmune prof" },
-    { test: "Sputum AFB, Sputum CBNAAT", tube: "Speci-can", window: "TB Centre (Gate No. 2)", days: "Daily", report: "TB Centre Gate 2", notes: "Early morning deep cough sputum sample." },
-    { test: "URM (Urine Routine Microscopy) (OPD)", tube: "Speci-can (Urine)", window: "Gate 4 (behind fountain)", days: "Daily (Routine)", report: "Gate 4 (behind fountain)", notes: "Collect clean catch urine in speci-can." },
-    { test: "Bone Marrow Aspirate / Biopsy / Flow Cytometry", tube: "Special / Slides", window: "Room 52 & 62 (Pathology Dept)", days: "Routine Days", report: "Room 52 (Presence of Hemat PG)", notes: "Enquire in Room 52 for bone marrow aspirate and biopsy." },
-    { test: "Fluid Cytology / LBC", tube: "Fluid Container", window: "Room 63 (Cytopath Lab)", days: "Daily", report: "Room 63 (After 12:00 PM - 1:00 PM)", notes: "Send fluid samples for cytopathology." },
-    { test: "HPE (Histopathology) / Tissue Biopsy / Frozen Section", tube: "Formalin Container / Fresh", window: "Room 70 (Grossing Room)", days: "Daily", report: "Room 90 (Dispatch)", notes: "Frozen section: Inform resident room first, then submit tissue in Room 70." },
-    { test: "FNAC (Fine Needle Aspiration Cytology)", tube: "Patient Direct", window: "Room 93 & 94 (FNAC Rooms)", days: "Daily", report: "Room 98 (Dispatch)", notes: "Send patient directly to Room 93/94 opposite Room 90." }
-  ];
+    // --- LNJP HOSPITAL LABS ---
+    { hospital: "LNJP Hospital Labs", test: "CBC (Complete Blood Count), ESR, Peripheral Smear", tube: "EDTA (Purple)", window: "Window 1 (Pathology)", days: "Daily (Routine)", report: "Online / Dispatch Room 96", notes: "Low platelets -> MPC can be sent in Blue Citrate vial if specified." },
+    { hospital: "LNJP Hospital Labs", test: "URM (Urine Routine Microscopy)", tube: "Speci-can (Urine)", window: "Window 1 (Pathology)", days: "Daily (Routine)", report: "Online / Counter", notes: "Collect clean catch urine in speci-can." },
+    { hospital: "LNJP Hospital Labs", test: "LFT (Liver Function Test)", tube: "Red (Serum)", window: "Window 2E (Biochemistry)", days: "Daily (Routine)", report: "Online Portal / Window 2E", notes: "Includes T. Bilirubin, D. Bilirubin, ALT, AST, ALP, Total Protein, Albumin, GGT." },
+    { hospital: "LNJP Hospital Labs", test: "KFT (Kidney Function Test)", tube: "Red (Serum)", window: "Window 2E (Biochemistry)", days: "Daily (Routine)", report: "Online Portal / Window 2E", notes: "Includes Urea, Creatinine, Uric Acid." },
+    { hospital: "LNJP Hospital Labs", test: "Serum Electrolytes", tube: "Red (Serum)", window: "Window 2E (Biochemistry)", days: "Daily (Routine)", report: "Online Portal / Window 2E", notes: "Sodium (Na), Potassium (K), Chloride (Cl)." },
+    { hospital: "LNJP Hospital Labs", test: "Lipid Profile & Bone Profile", tube: "Red (Serum)", window: "Window 2E (Biochemistry)", days: "Daily (Routine)", report: "Online Portal / Window 2E", notes: "Includes T. Cholesterol, Triglyceride, LDL, HDL, Total Calcium, Ionized Phosphorus, PTH, Vitamin D." },
+    { hospital: "LNJP Hospital Labs", test: "Enzymes, Cardiac & Special Markers (CK Total, CKMB, Amylase, Lipase, LDH, Troponin I, CRP, PCT, NT ProBNP)", tube: "Red (Serum)", window: "Window 2E (Biochemistry)", days: "Daily (Routine)", report: "Online Portal / Window 2E", notes: "Includes Procalcitonin (PCT), NT-proBNP, Troponin I, Amylase, Lipase, LDH." },
+    { hospital: "LNJP Hospital Labs", test: "Immunoassay & Fertility Profile (TFT, LH, FSH, Prolactin, E2, Progesterone, Testosterone, AMH)", tube: "Red (Serum)", window: "Window 2E (Biochemistry)", days: "Not done on Saturday", report: "Online Portal / Window 2E", notes: "TFT (TSH, FT3, FT4), Fertility profile (LH, FSH, Prolactin, E2, Progesterone, Testosterone)." },
+    { hospital: "LNJP Hospital Labs", test: "Tumour Markers (AFP, CEA, CA19.9, CA125, PSA, Beta HCG)", tube: "Red (Serum)", window: "Window 2E (Biochemistry)", days: "Not done on Saturday", report: "Online Portal / Window 2E", notes: "Immunoassay section for oncology screening." },
+    { hospital: "LNJP Hospital Labs", test: "Anemia & Vitamin Profile (Ferritin, Iron, TIBC, Vitamin B12, Folate)", tube: "Red (Serum)", window: "Window 2E (Biochemistry)", days: "Daily (Routine)", report: "Online Portal / Window 2E", notes: "Fasting sample preferred." },
+    { hospital: "LNJP Hospital Labs", test: "Routine Special Tests (Bile Acids, Ammonia, Cortisol, Magnesium)", tube: "Red (Serum) / EDTA (Ammonia)", window: "Window 2E (Biochemistry)", days: "Daily (Routine)", report: "Online Portal / Window 2E", notes: "Ammonia MUST be sent on ice pack immediately." },
+    { hospital: "LNJP Hospital Labs", test: "Wednesday Special Tests (IgG, IgA, IgM, IgE, Light Chains, Cystatin C, Ceruloplasmin, DHEAS, Anti-TPO, Anti-TG, Insulin, C-Peptide, C3, C4, B2-Microglobulin, ACE)", tube: "Red (Serum)", window: "Window 2E (Biochemistry)", days: "Wednesday Only", report: "Window 2E", notes: "Special immunology run on Wednesdays only." },
+    { hospital: "LNJP Hospital Labs", test: "Friday Special Tests (RA Factor, ADA, CRP - OPD Samples)", tube: "Red (Serum)", window: "Window 2E (Biochemistry)", days: "Friday Only", report: "Window 2E", notes: "RA Factor, ADA, and OPD CRP run on Fridays only." },
+    { hospital: "LNJP Hospital Labs", test: "Coagulation Assay (PT-INR, APTT, D-Dimer, FDP, Fibrinogen, Antithrombin III, Protein C, Protein S)", tube: "Citrate (Blue)", window: "Window 2E (Biochemistry)", days: "Daily (Routine)", report: "Window 2E", notes: "STRICT: Fill the blue vial EXACTLY up to the black mark." },
+    { hospital: "LNJP Hospital Labs", test: "Blood Sugar (Fasting / PP / Random)", tube: "Fluoride-Grey (Sugar)", window: "Window 2E (Biochemistry)", days: "Daily (Routine)", report: "Online Portal", notes: "Mention Fasting, PP, or Random explicitly on requisition form." },
+    { hospital: "LNJP Hospital Labs", test: "Glycated Hemoglobin (HbA1c)", tube: "EDTA (Purple)", window: "Window 2E (Biochemistry)", days: "Daily (Routine)", report: "Online Portal", notes: "Minimum 3 ml blood required." },
+    { hospital: "LNJP Hospital Labs", test: "DIPSI (GDM Screening)", tube: "Fluoride-Grey (Sugar)", window: "Window 2E (Biochemistry)", days: "Daily (Routine)", report: "Online / Window 2E", notes: "75g glucose dissolved in 1 glass water over 20 mins. Test 2-hr capillary blood. If >140, send venous sample." },
+    { hospital: "LNJP Hospital Labs", test: "Molecular Tests (AML, ALL, BCR-ABL, JAK-2, BRAF, EGFR, HER 2/NEU, KRAS, MTHFR, Factor V, BRCA)", tube: "EDTA (Purple) / Special Container", window: "Window 2E (Biochemistry - Room 255)", days: "As per department schedule", report: "Room No. 255", notes: "Molecular Diagnostics Lab (Room No. 255)." },
+    { hospital: "LNJP Hospital Labs", test: "ABG / VBG (Arterial / Venous Blood Gas)", tube: "Heparinized Syringe", window: "Window 2 (Biochemistry)", days: "Daily (Routine / Emergency)", report: "Hand-to-Hand", notes: "Send attendant immediately; report handed over on the spot." },
+    { hospital: "LNJP Hospital Labs", test: "LFT (Emergency Liver Function Test)", tube: "Red (Serum)", window: "Window 2 (Biochemistry)", days: "Daily (Emergency)", report: "Window 2", notes: "Includes T. Bilirubin, D. Bilirubin, ALT, AST, ALP, Total Protein, Albumin, GGT." },
+    { hospital: "LNJP Hospital Labs", test: "KFT (Emergency Kidney Function Test)", tube: "Red (Serum)", window: "Window 2 (Biochemistry)", days: "Daily (Emergency)", report: "Window 2", notes: "Includes Urea, Creatinine, Uric Acid." },
+    { hospital: "LNJP Hospital Labs", test: "UPCR (Urine protein creatinine ratio)", tube: "Speci-can (Urine)", window: "Window 2 (Biochemistry)", days: "Daily", report: "Window 2 (Biochemistry)", notes: "Collect clean catch urine in speci-can." },
+    { hospital: "LNJP Hospital Labs", test: "NS1 Antigen, IgM Antibodies (Dengue)", tube: "Red (Serum)", window: "Window 3 (Microbiology)", days: "Daily (Routine)", report: "Room 277", notes: "Mandatory: Write patient address and phone number on form." },
+    { hospital: "LNJP Hospital Labs", test: "Widal, Typhidot", tube: "Red (Serum)", window: "Window 3 (Microbiology)", days: "Daily (Routine)", report: "Room 126", notes: "Mandatory: Write patient address and phone number on form." },
+    { hospital: "LNJP Hospital Labs", test: "PSMP (Peripheral Smear for Malarial Parasite)", tube: "EDTA (Purple)", window: "Window 3 (Microbiology)", days: "Daily (Routine)", report: "Room 128", notes: "Mandatory: Write patient address and phone number on form." },
+    { hospital: "LNJP Hospital Labs", test: "Blood Culture & Sensitivity (BCS)", tube: "Blood Culture Bottle", window: "Window 3 (Microbiology)", days: "Daily (Routine)", report: "Room 34", notes: "Maintain strict sterile precautions while drawing sample." },
+    { hospital: "LNJP Hospital Labs", test: "Urine Culture & Sensitivity (UCS)", tube: "Speci-can (Urine)", window: "Window 3 (Microbiology)", days: "Daily (Routine)", report: "Room 34", notes: "Clean catch midstream sample." },
+    { hospital: "LNJP Hospital Labs", test: "BGCM (Blood Group & Cross Match)", tube: "EDTA (Purple)", window: "Blood Bank", days: "Daily (24x7)", report: "Blood Bank Counter", notes: "Requires BGCM Form + Release Form. Attach donor form if required." },
+    { hospital: "LNJP Hospital Labs", test: "Direct Coombs Test (DCT)", tube: "EDTA (Purple)", window: "Blood Bank", days: "Daily", report: "Blood Bank Counter", notes: "Autoimmune hemolytic anemia workup." },
+    { hospital: "LNJP Hospital Labs", test: "Indirect Coombs Test (ICT)", tube: "Red (Serum)", window: "Blood Bank", days: "Daily", report: "Blood Bank Counter", notes: "Antenatal / transfusion antibody screening." },
+    { hospital: "LNJP Hospital Labs", test: "HIV Screening / TRIDOT", tube: "Red (Serum)", window: "College / Front of Mortuary", days: "Daily", report: "HIV Room (In front of Mortuary)", notes: "Attendant must submit form with address and phone number." },
+    { hospital: "LNJP Hospital Labs", test: "HBsAg, Anti-HCV, VDRL (Tridot)", tube: "Red (Serum)", window: "College Building / Window 3(Em)", days: "Daily / Emergency", report: "College Lab Counter / Window 3(Em)", notes: "Emergency sample only in case of Needle prick." },
+    { hospital: "LNJP Hospital Labs", test: "College Hemogram, HPLC", tube: "EDTA (Purple)", window: "Room 76 (Pathology Dept)", days: "Daily", report: "Room 96 (Dispatch)", notes: "College Hemogram Form required." },
+    { hospital: "LNJP Hospital Labs", test: "Karyotyping / Genetic Testing", tube: "Green (Heparin)", window: "Genetic Medicine (In front of Ward 13A)", days: "Routine Days", report: "Genetic Department", notes: "Write Clinical Referral Note instead of standard form." },
+    { hospital: "LNJP Hospital Labs", test: "ANA, APLA, Autoimmune Profile", tube: "Red (Serum)", window: "College Microbiology (Immuno lab, 1st Floor)", days: "Routine Days", report: "College Microbiology (Immuno lab, 1st Floor)", notes: "Special form for Autoimmune profile." },
+    { hospital: "LNJP Hospital Labs", test: "Sputum AFB, Sputum CBNAAT", tube: "Speci-can", window: "TB Centre (Gate No. 2)", days: "Daily", report: "TB Centre Gate 2", notes: "Early morning deep cough sputum sample." },
+    { hospital: "LNJP Hospital Labs", test: "URM (Urine Routine Microscopy) (OPD)", tube: "Speci-can (Urine)", window: "Gate 4 (behind fountain)", days: "Daily (Routine)", report: "Gate 4 (behind fountain)", notes: "Collect clean catch urine in speci-can." },
+    { hospital: "LNJP Hospital Labs", test: "Bone Marrow Aspirate / Biopsy / Flow Cytometry", tube: "Special / Slides", window: "Room 52 & 62 (Pathology Dept)", days: "Routine Days", report: "Room 52 (Presence of Hemat PG)", notes: "Enquire in Room 52 for bone marrow aspirate." },
+    { hospital: "LNJP Hospital Labs", test: "Fluid Cytology / LBC", tube: "Fluid Container", window: "Room 63 (Cytopath Lab)", days: "Daily", report: "Room 63 (After 12:00 PM)", notes: "Send fluid samples for cytopathology." },
+    { hospital: "LNJP Hospital Labs", test: "HPE (Histopathology) / Tissue Biopsy / Frozen Section", tube: "Formalin Container / Fresh", window: "Room 70 (Grossing Room)", days: "Daily", report: "Room 90 (Dispatch)", notes: "Frozen section: Inform resident room first, then submit in Room 70." },
+    { hospital: "LNJP Hospital Labs", test: "FNAC (Fine Needle Aspiration Cytology)", tube: "Patient Direct", window: "Room 93 & 94 (FNAC Rooms)", days: "Daily", report: "Room 98 (Dispatch)", notes: "Send patient directly to Room 93/94 opposite Room 90." },
 
+    // --- GB PANT HOSPITAL DIAGNOSTICS & LABS ---
+    { hospital: "GB Pant Hospital Labs", test: "Blood Investigations (Biochemistry, Microbiology & Pathology)", tube: "Red / EDTA / Citrate", window: "Sample Collection Centre (Room D-129), Near Block D", days: "Mon-Fri (8:00 AM - 12:00 PM) | Sat (8:00 AM - 11:00 AM)", report: "Dispatched to OPD Record Section", notes: "Appointments required for special investigations only." },
+    { hospital: "GB Pant Hospital Labs", test: "X-Rays (Department of Radiology)", tube: "N/A", window: "Radiology Department", days: "Daily (8:00 AM - 12:00 PM)", report: "Dispatched to OPD Record Section", notes: "Free. Appointments required for special radiological procedures only." },
+    { hospital: "GB Pant Hospital Labs", test: "Ultrasound / USG (Department of Radiology)", tube: "N/A", window: "Room No. 40, Block A / D-25", days: "Daily (8:00 AM - 4:00 PM)", report: "Radiology Reception", notes: "Appointments given for all cases." },
+    { hospital: "GB Pant Hospital Labs", test: "CT Scan (Department of Radiology)", tube: "N/A", window: "Room No. B-40", days: "Daily (9:00 AM - 4:00 PM)", report: "Available next day from CT Reception", notes: "Charges: ₹750 to ₹2,000 depending upon region. Appointments given for each case." },
+    { hospital: "GB Pant Hospital Labs", test: "MRI (Department of Radiology)", tube: "N/A", window: "Ground Floor, Block C (Appointments: Room 9, Block C)", days: "Daily (9:00 AM - 4:00 PM)", report: "Available next day from MRI Reception", notes: "Charges: ₹3,000 for one region (Contrast extra)." },
+    { hospital: "GB Pant Hospital Labs", test: "Echocardiography / Echo (Department of Cardiology)", tube: "N/A", window: "Block B, 3rd Floor, Room 326 / New Echo Room (Ph: 5155)", days: "Daily (9:00 AM - 4:00 PM)", report: "Cardiology Department", notes: "Free for OPD Patients. Appointments given from Echo room (Wait period: 2–3 months)." },
+    { hospital: "GB Pant Hospital Labs", test: "TMT & Holter Study (Department of Cardiology)", tube: "N/A", window: "Ground Floor, Arrhythmia Block (Ph: 5154)", days: "Daily (9:00 AM - 4:00 PM)", report: "Same/Next Day from Room concerned (Holter: 1 Week)", notes: "Free for OPD Patients. Wait period: 1–2 weeks for TMT, ~1 month for Holter." },
+    { hospital: "GB Pant Hospital Labs", test: "HUTT Study (Head Up Tilt Test - Cardiology)", tube: "N/A", window: "Ground Floor, Arrhythmia Block", days: "Daily (9:00 AM - 4:00 PM)", report: "Same / Next Day from Room concerned", notes: "Free for OPD Patients. Waiting period: Same Day." }
+  ];
+ // DUAL SEARCH & FILTER FUNCTION FOR TAB 4 (TESTS & LABS)
   function searchLabTests() {
     const query = document.getElementById('labSearch').value.toLowerCase().trim();
+    const selectedHospital = document.getElementById('labHospitalSelect').value;
     const resDiv = document.getElementById('labResults');
-    if (!query) { resDiv.innerHTML = ''; return; }
 
-    const matches = labDirectory.filter(item => 
-      item.test.toLowerCase().includes(query) ||
-      item.tube.toLowerCase().includes(query) ||
-      item.window.toLowerCase().includes(query) ||
-      item.days.toLowerCase().includes(query) ||
-      item.report.toLowerCase().includes(query) ||
-      item.notes.toLowerCase().includes(query)
-    );
+    // 1. Filter by Hospital/Lab Dropdown
+    let filtered = labDirectory;
+    if (selectedHospital !== "all") {
+      filtered = filtered.filter(item => item.hospital === selectedHospital);
+    }
 
-    if (matches.length === 0) {
-      resDiv.innerHTML = '<p>No matching tests, vials, or locations found.</p>';
+    // 2. Filter by Search Box text query
+    if (query) {
+      filtered = filtered.filter(item => 
+        item.test.toLowerCase().includes(query) ||
+        item.tube.toLowerCase().includes(query) ||
+        item.window.toLowerCase().includes(query) ||
+        item.days.toLowerCase().includes(query) ||
+        item.report.toLowerCase().includes(query) ||
+        item.notes.toLowerCase().includes(query) ||
+        (item.hospital && item.hospital.toLowerCase().includes(query))
+      );
+    }
+
+    if (filtered.length === 0) {
+      resDiv.innerHTML = '<p style="padding: 12px; color: #64748b;">No matching lab tests or diagnostic services found.</p>';
       return;
     }
 
-    let html = `
-      <p style="color: #64748b; font-size: 13px; margin-bottom: 10px;">Found <strong>${matches.length}</strong> matching entries:</p>
-      <div style="overflow-x: auto;">
-        <table>
-          <thead>
-            <tr>
-              <th>Test Name</th>
-              <th>Vial / Tube</th>
-              <th>Sample Window / Room</th>
-              <th>Days</th>
-              <th>Report Collection</th>
-              <th>Key Notes</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${matches.map(m => `
-              <tr>
-                <td><b>${m.test}</b></td>
-                <td><span class="badge" style="background: #fef3c7; color: #92400e;">${m.tube}</span></td>
-                <td><span class="badge" style="background: #e0f2fe; color: #0369a1;">${m.window}</span></td>
-                <td>${m.days}</td>
-                <td>${m.report}</td>
-                <td style="font-size: 12px; color: #475569;">${m.notes}</td>
-              </tr>
-            `).join('')}
-          </tbody>
-        </table>
-      </div>
-    `;
+    // 3. Render Results Card Format
+    let html = '';
+    filtered.forEach(item => {
+      html += `
+        <div style="border-bottom: 1px solid var(--border); padding: 12px 0;">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:6px;">
+            <h4 style="margin:0; color:#0f172a; font-size:15px;">🧪 ${item.test}</h4>
+            <span style="background:#e0f2fe; color:#0369a1; font-size:11px; padding:3px 8px; border-radius:12px; font-weight:bold;">${item.hospital}</span>
+          </div>
+          <p style="margin:6px 0 2px 0; font-size:13px; color:#334155;">
+            💉 <strong>Vial/Container:</strong> ${item.tube} | 📍 <strong>Location/Window:</strong> ${item.window}
+          </p>
+          <p style="margin:2px 0 2px 0; font-size:13px; color:#334155;">
+            ⏰ <strong>Days/Timings:</strong> ${item.days} | 📄 <strong>Report:</strong> ${item.report}
+          </p>
+          ${item.notes ? `<p style="margin:4px 0 0 0; font-size:12.5px; color:#64748b; font-style:italic;">💡 <strong>Notes & Charges:</strong> ${item.notes}</p>` : ''}
+        </div>
+      `;
+    });
 
     resDiv.innerHTML = html;
   }
-
   window.onload = function() {
     setTodayDate();
   };

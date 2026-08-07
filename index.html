@@ -158,6 +158,7 @@
         <option value="College">📍 College Building / Depts</option>
         <option value="TB Centre">📍 TB Centre (Gate 2)</option>
         <option value="Pathology Dept">📍 Cytology / Histopath / FNAC</option>
+        <option value="Radiology">📷 Radiology & Imaging (CT, MRI, USG, X-Ray)</option>
       </optgroup>
 
       <!-- LNJP MICROBIOLOGY SUBSECTIONS -->
@@ -2506,7 +2507,14 @@ const labDirectory = [
   { hospital: "LNJP Hospital Labs", test: "FNAC (Fine Needle Aspiration Cytology)", tube: "Patient Direct", window: "Room 93 & 94 (FNAC Rooms)", days: "Daily", report: "Room 98 (Dispatch)", notes: "Send patient directly to Room 93/94 opposite Room 90." },
   { hospital: "LNJP Hospital Labs", test: "HPE (Histopathology) / FNAC", tube: "Formalin Container / Direct", window: "Pathology Dept", days: "Daily", report: "Room 90 / 98 Dispatch", notes: "Room 70 (Grossing) / Room 93 (FNAC)." },
 
-  // --- GB PANT HOSPITAL LABS ---
+// --- LNJP HOSPITAL RADIOLOGY ---
+  { hospital: "LNJP Hospital Labs", test: "CT Scan (128-Slice & 6-Slice MDCT)", tube: "N/A", window: "Radiology (Main Dept & Emergency)", days: "Daily / 24x7 Emergency", report: "Radiology Dept", notes: "<b>Equipment:</b> 128-Slice MDCT & 6-Slice CT Scanners. <b>Facilities:</b> Whole body CT, CT Angiography, CT-guided biopsy & interventions." },
+{ hospital: "LNJP Hospital Labs", test: "MRI Scan (3T MR Scanner)", tube: "N/A", window: "Radiology (Main Dept)", days: "Daily (Routine)", report: "Radiology Dept", notes: "<b>Equipment:</b> State-of-the-art 3T MR Scanner. <b>Facilities:</b> Whole body MRI, MR Angiography, MRS & functional MR imaging." },
+{ hospital: "LNJP Hospital Labs", test: "Ultrasound (USG) & Colour Doppler", tube: "N/A", window: "Radiology (Main Dept)", days: "Daily (Routine & Emergency)", report: "Radiology Dept", notes: "<b>Equipment:</b> 6 High-end Colour Doppler units (1 with Elastography). <b>Facilities:</b> USG, Doppler studies & USG-guided interventions." },
+{ hospital: "LNJP Hospital Labs", test: "X-Ray, Mammography & Fluoroscopy", tube: "N/A", window: "Radiology (Main Dept)", days: "Daily (Routine & Emergency)", report: "Radiology Dept", notes: "<b>Equipment:</b> 2 Digital Radiography (DR) units, 5 Conventional X-ray units, 2 CR systems, 1 Mammography unit, 1 Fluoroscopy unit & 9 Portable X-ray units for ICU/Ward bedsides." },
+{ hospital: "LNJP Hospital Labs", test: "Sushruta Trauma Centre Radiology (CT, DR, USG)", tube: "N/A", window: "Radiology (Sushruta Trauma Centre)", days: "Daily / 24x7 Emergency", report: "Trauma Centre Radiology", notes: "<b>Equipment:</b> 16-slice MDCT, 1 DR unit, 1 USG Colour Doppler & 1 Portable X-ray unit. <b>Facilities:</b> Emergency CT, DR & USG for trauma & emergency care." },
+ 
+// --- GB PANT HOSPITAL LABS ---
   { hospital: "GB Pant Hospital Labs", test: "Routine Blood Investigations", tube: "Red / EDTA / Citrate", window: "Room D-129", days: "Mon-Sat (8:00 AM - 12:00 PM)", report: "OPD Record Section", notes: "Sample Collection Centre (Room D-129), Near Block D." },
   { hospital: "GB Pant Hospital Labs", test: "X-Rays", tube: "N/A", window: "Radiology Department", days: "Daily (8:00 AM - 12:00 PM)", report: "OPD Record Section", notes: "Free of charge." },
   { hospital: "GB Pant Hospital Labs", test: "Ultrasound (USG)", tube: "N/A", window: "Radiology Department", days: "Daily (8:00 AM - 4:00 PM)", report: "Radiology Reception", notes: "Room No. 40, Block A / D-25." },

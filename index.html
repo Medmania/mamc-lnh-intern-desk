@@ -2417,8 +2417,7 @@ const labDirectory = [
   // ==========================================
   { hospital: "LNJP Hospital Labs", test: "Urine Routine Microscopy", tube: "Universal container", window: "Microbiology (Bacteriology - Room 34)", days: "All working days", report: "Rec: Room 30 | TAT: 1 day", notes: "Sample: 4 mL Urine. Direct microscopic examination." }, //[cite: 1]
   { hospital: "LNJP Hospital Labs", test: "Urine Culture & Sensitivity", tube: "Universal container", window: "Microbiology (Bacteriology - Room 34)", days: "All working days", report: "Rec: Room 30 | TAT: 2-3 days", notes: "Sample: 4 mL Urine. 2 days if sterile, 3 days if organism isolated with AST." }, //[cite: 1]
-  { hospital: "LNJP Hospital Labs", test: "Blood Culture & Sensitivity (Conventional & BacT/Alert)", tube: "Conventional / BacT/Alert Bottle", window: "Microbiology (Bacteriology - Room 34)", days: "All working days", report: "Rec: Room 30 | TAT: 3-4 days", notes: "Volume: 5-10 mL (Adult) / 2-5 mL (Pediatric). Automated flag alert & AST." }, //[cite: 1]
-  { hospital: "LNJP Hospital Labs", test: "CSF Microscopy & Culture", tube: "Sterile Universal container", window: "Microbiology (Bacteriology - Room 34)", days: "All working days", report: "Rec: Room 30 | TAT: 3-4 days", notes: "Volume: 2 mL CSF. 3 days if sterile, 4 days with AST." }, //[cite: 1]
+  { hospital: "LNJP Hospital Labs", test: "Blood Culture & Sensitivity (Conventional & BacT/Alert)", tube: "Conventional (BHI) / BacT/Alert Bottle", window: "Microbiology (Bacteriology - Room 34)", days: "All working days", report: "Rec: Room 30 | TAT: 3-4 days", notes: "VOLUMES — <b>Conventional:</b> Adults: Put 5 mL blood per bottle (contains 50 mL BHI broth); collect 2 separate draws from different sites (total 20-40 mL blood required). Peds: ~1 mL/yr of age across 2 bottles (Neonates: 0.5-1 mL, 1-2 yrs: 1-2 mL, 2-5 yrs: 8 mL, 6-10 yrs: 12 mL, >10 yrs: 20 mL). <b>BacT/Alert:</b> Aerobic 8-10 mL, Anaerobic 5-7 mL, Peds Plus 1-3 mL." },  { hospital: "LNJP Hospital Labs", test: "CSF Microscopy & Culture", tube: "Sterile Universal container", window: "Microbiology (Bacteriology - Room 34)", days: "All working days", report: "Rec: Room 30 | TAT: 3-4 days", notes: "Volume: 2 mL CSF. 3 days if sterile, 4 days with AST." }, //[cite: 1]
   { hospital: "LNJP Hospital Labs", test: "Aerobic Culture (Pus, Fluids, Tissue, Swabs, Corneal)", tube: "Sterile container / Paired Swabs", window: "Microbiology (Bacteriology - Room 34)", days: "All working days", report: "Rec: Room 30 | TAT: 5 days", notes: "Sample: 1-3 mL fluids / 3-4 mm tissue / paired swabs. 2 days TAT for sterile samples." }, //[cite: 1]
   { hospital: "LNJP Hospital Labs", test: "MRSA Screening (Nasal Swab)", tube: "Sterile container", window: "Microbiology (Bacteriology - Room 34)", days: "All working days", report: "Rec: Room 30 | TAT: 5 days", notes: "Sample: Nasal paired swab." }, //[cite: 1]
   { hospital: "LNJP Hospital Labs", test: "Tip Culture (IV Line / Arterial / DJ Stent)", tube: "Sterile container", window: "Microbiology (Bacteriology - Room 34)", days: "All working days", report: "Rec: Room 30 | TAT: 5 days", notes: "Sample: Distal 5 cm segment of catheter tip or stent." }, //[cite: 1]
@@ -2597,7 +2596,11 @@ function searchLabTests() {
         <p style="margin:2px 0 2px 0; font-size:13px; color:#334155;">
           ⏰ <strong>Days/Timings:</strong> ${item.days} | 📄 <strong>Report:</strong> ${item.report}
         </p>
-        ${item.notes ? `<p style="margin:4px 0 0 0; font-size:12.5px; color:#64748b; font-style:italic;">💡 <strong>Notes & Charges:</strong> ${item.notes}</p>` : ''}
+        ${item.notes ? `
+          <div style="margin-top:6px; padding:6px 10px; background:#fffbeb; border-left:3px solid #f59e0b; border-radius:4px; font-size:12.5px; color:#78350f; line-height:1.4;">
+            💡 <strong>Notes & Charges:</strong> ${item.notes}
+          </div>
+        ` : ''}
       </div>
     `;
   });

@@ -145,20 +145,33 @@
   <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; margin-bottom: 12px;">
     
     <!-- 1. Dropdown Menu -->
-    <select id="labHospitalSelect" onchange="searchLabTests()" style="padding: 10px 14px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 14px; background: white; font-weight: 600; color: #1e293b; min-width: 260px; cursor: pointer;">
+    <select id="labHospitalSelect" onchange="searchLabTests()" style="padding: 10px 14px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 14px; background: white; font-weight: 600; color: #1e293b; min-width: 280px; cursor: pointer;">
       <option value="all">🏥 All Hospitals & Labs</option>
       
-      <!-- LNJP HEADER & OPTIONS -->
-      <optgroup label="── LNJP HOSPITAL LABS ──">
-        <option value="lnjp_all">🏥 LNJP Labs (All Windows)</option>
-        <option value="Window 1">📍 Window 1 (Pathology)</option>
-        <option value="Window 2E">📍 Window 2E (Biochemistry)</option>
-        <option value="Window 2">📍 Window 2 (Biochemistry Emergency)</option>
-        <option value="Window 3">📍 Window 3 (Microbiology)</option>
+      <!-- LNJP ROUTINE LABS -->
+      <optgroup label="── LNJP GENERAL & SPECIALTY LABS ──">
+        <option value="lnjp_all">🏥 LNJP Labs (All Windows & Depts)</option>
+        <option value="Window 1">📍 Window 1 (Pathology Routine)</option>
+        <option value="Window 2E">📍 Window 2E (Biochemistry Routine & Specials)</option>
+        <option value="Window 2">📍 Window 2 (Biochemistry Emergency / ABG)</option>
         <option value="Blood Bank">📍 Blood Bank</option>
         <option value="College">📍 College Building / Depts</option>
         <option value="TB Centre">📍 TB Centre (Gate 2)</option>
         <option value="Pathology Dept">📍 Cytology / Histopath / FNAC</option>
+      </optgroup>
+
+      <!-- LNJP MICROBIOLOGY SUBSECTIONS -->
+      <optgroup label="── LNJP MICROBIOLOGY DEPT ──">
+        <option value="Microbiology">🧪 All Microbiology Labs</option>
+        <option value="Serology">🔬 Serology & Latex Tests (Room 126)</option>
+        <option value="Bacteriology">🧫 Routine Bacteriology, Pus & Cultures (Room 34)</option>
+        <option value="Virology 277B">🦠 Virology & Vector Borne Diseases (Room 277B)</option>
+        <option value="Advanced Virology">🧬 Advanced Virology & Molecular PCR (Room 279)</option>
+        <option value="Diarrhea">🧫 Diarrhea & Stool Lab (Room 124)</option>
+        <option value="Parasitology">🩸 Parasitology & Anaerobic Lab (Room 128)</option>
+        <option value="Mycology">🍄 Mycology / Fungal Lab (Room 253)</option>
+        <option value="Mycobacteriology">🫁 Mycobacteriology / TB ZN & Culture (Room 330)</option>
+        <option value="HIV & CD4">🩸 HIV & CD4 Cytometry (Room 278 / 31A)</option>
       </optgroup>
 
       <!-- GB PANT HEADER & OPTIONS -->
@@ -2358,7 +2371,100 @@ function switchTab(tab) {
 // ==========================================
 
 const labDirectory = [
-  // --- LNJP HOSPITAL LABS ---
+  // ==========================================
+  // --- LNJP MICROBIOLOGY: SEROLOGY (ROOM 126) ---
+  // ==========================================
+  { hospital: "LNJP Hospital Labs", test: "RA Factor", tube: "Red top vacutainer", window: "Microbiology (Serology - Room 126)", days: "All working days", report: "Rec: Room 30 | TAT: 1 day", notes: "Volume: 2-3 mL Blood. Method: Latex agglutination." }, //[cite: 1]
+  { hospital: "LNJP Hospital Labs", test: "C-Reactive Protein (CRP)", tube: "Red top vacutainer", window: "Microbiology (Serology - Room 126)", days: "All working days", report: "Rec: Room 30 | TAT: 1 day", notes: "Volume: 2-3 mL Blood. Method: Latex agglutination." }, //[cite: 1]
+  { hospital: "LNJP Hospital Labs", test: "ASO Titre", tube: "Red top vacutainer", window: "Microbiology (Serology - Room 126)", days: "All working days", report: "Rec: Room 30 | TAT: 1 day", notes: "Volume: 2-3 mL Blood. Method: Latex agglutination." }, //[cite: 1]
+  { hospital: "LNJP Hospital Labs", test: "WIDAL (Enteric Fever)", tube: "Red top vacutainer", window: "Microbiology (Serology - Room 126)", days: "All working days", report: "Rec: Room 30 | TAT: 1 day", notes: "Volume: 2-3 mL Blood. Method: Tube agglutination." }, //[cite: 1]
+  { hospital: "LNJP Hospital Labs", test: "VDRL (Syphilis)", tube: "Red top vacutainer", window: "Microbiology (Serology - Room 126)", days: "Every 4 days", report: "Rec: Room 30 | TAT: 4 days", notes: "Volume: 2-3 mL Blood. Method: Slide flocculation." }, //[cite: 1]
+  { hospital: "LNJP Hospital Labs", test: "TPHA (Syphilis)", tube: "Red top vacutainer", window: "Microbiology (Serology - Room 126)", days: "Every 4 days", report: "Rec: Room 30 | TAT: 4 days", notes: "Volume: 2-3 mL Blood. Method: Haemagglutination Assay." }, //[cite: 1]
+  { hospital: "LNJP Hospital Labs", test: "Leptospira IgM ELISA", tube: "Red top vacutainer", window: "Microbiology (Serology - Room 126)", days: "Once in 10 days", report: "Rec: Room 30 | TAT: 10 days", notes: "Volume: 2-3 mL Blood. Method: ELISA." }, //[cite: 1]
+  { hospital: "LNJP Hospital Labs", test: "Scrub Typhus IgM ELISA", tube: "Red top vacutainer", window: "Microbiology (Serology - Room 126)", days: "Once in 10 days", report: "Rec: Room 30 | TAT: 10 days", notes: "Volume: 2-3 mL Blood. Method: ELISA." }, //[cite: 1]
+
+  // ==========================================
+  // --- LNJP MICROBIOLOGY: VIROLOGY (ROOM 277B) ---
+  // ==========================================
+  { hospital: "LNJP Hospital Labs", test: "HBsAg / Anti-HCV (Rapid)", tube: "Red cap vacutainer", window: "Microbiology (Virology 277B)", days: "All working days", report: "Rec: Room 30 | TAT: 1 day", notes: "Volume: 2-3 mL Blood. Method: Immunochromatographic rapid test." }, //[cite: 1]
+  { hospital: "LNJP Hospital Labs", test: "Dengue NS1 Antigen ELISA", tube: "Red cap vacutainer", window: "Microbiology (Virology 277B)", days: "Twice a week", report: "Rec: Room 30 | TAT: 3 days", notes: "Volume: 2-3 mL Blood. Method: ELISA. Testing schedule depends on sample load." }, //[cite: 1]
+  { hospital: "LNJP Hospital Labs", test: "Dengue IgM Antibodies", tube: "Red cap vacutainer", window: "Microbiology (Virology 277B)", days: "Twice a week", report: "Rec: Room 30 | TAT: 3 days", notes: "Volume: 2-3 mL Blood. Method: ELISA. Testing schedule depends on sample load." }, //[cite: 1]
+  { hospital: "LNJP Hospital Labs", test: "Chikungunya IgM Antibodies", tube: "Red cap vacutainer", window: "Microbiology (Virology 277B)", days: "Twice a week", report: "Rec: Room 30 | TAT: 3 days", notes: "Volume: 2-3 mL Blood. Method: ELISA. Testing schedule depends on sample load." }, //[cite: 1]
+  { hospital: "LNJP Hospital Labs", test: "Hepatitis A IgM Antibodies", tube: "Red cap vacutainer", window: "Microbiology (Virology 277B)", days: "Once a week", report: "Rec: Room 30 | TAT: 7 days", notes: "Volume: 2-3 mL Blood. Method: ELISA. Testing schedule depends on sample load." }, //[cite: 1]
+  { hospital: "LNJP Hospital Labs", test: "Hepatitis E IgM Antibodies", tube: "Red cap vacutainer", window: "Microbiology (Virology 277B)", days: "Once a week", report: "Rec: Room 30 | TAT: 7 days", notes: "Volume: 2-3 mL Blood. Method: ELISA. Testing schedule depends on sample load." }, //[cite: 1]
+  { hospital: "LNJP Hospital Labs", test: "Rubella IgM / IgG Antibodies", tube: "Red cap vacutainer", window: "Microbiology (Virology 277B)", days: "Once a week", report: "Rec: Room 30 | TAT: 7 days", notes: "Volume: 2-3 mL Blood. Method: ELISA." }, //[cite: 1]
+  { hospital: "LNJP Hospital Labs", test: "HSV 1&2 IgM Antibodies", tube: "Red cap vacutainer", window: "Microbiology (Virology 277B)", days: "Once a week", report: "Rec: Room 30 | TAT: 7 days", notes: "Volume: 2-3 mL Blood. Method: ELISA." }, //[cite: 1]
+  { hospital: "LNJP Hospital Labs", test: "Covid Antibodies / Hepatitis B Titre", tube: "Red cap vacutainer", window: "Microbiology (Virology 277B)", days: "As per schedule", report: "Rec: Room 30", notes: "Volume: 2-3 mL Blood. Method: ELISA." }, //[cite: 1]
+
+  // ==========================================
+  // --- LNJP MICROBIOLOGY: ADVANCED VIROLOGY & PCR (ROOM 279) ---
+  // ==========================================
+  { hospital: "LNJP Hospital Labs", test: "HCV RNA Quantitative (RT-PCR)", tube: "EDTA Vial", window: "Microbiology (Advanced Virology - Room 279)", days: "Tuesday, Friday", report: "Rec: Room 275 | TAT: 3 days", notes: "Sample: 2-3 mL Plasma. Method: RT-PCR." }, //[cite: 1]
+  { hospital: "LNJP Hospital Labs", test: "HBV DNA Quantitative (RT-PCR)", tube: "EDTA Vial", window: "Microbiology (Advanced Virology - Room 279)", days: "Tuesday, Friday", report: "Rec: Room 275 | TAT: 3 days", notes: "Sample: 2-3 mL Plasma. Method: RT-PCR." }, //[cite: 1]
+  { hospital: "LNJP Hospital Labs", test: "Cytomegalovirus (CMV) RT-PCR", tube: "Sterile Container / EDTA Vial", window: "Microbiology (Advanced Virology - Room 279)", days: "Monday, Wednesday", report: "Rec: Room 275 | TAT: 3 days", notes: "Sample: Urine 10 mL / Blood 3-4 mL. Method: RT-PCR." }, //[cite: 1]
+  { hospital: "LNJP Hospital Labs", test: "Respiratory Pathogens Panel (29 Targets Multiplex PCR)", tube: "VTM in cold chain / EDTA / Sterile", window: "Microbiology (Advanced Virology - Room 279)", days: "Wednesday, Saturday", report: "Rec: Room 275 | TAT: 3 days", notes: "Sample: NP/OP Swab, BAL, CSF, Blood. Targets: Coronaviruses, Parainfluenza 1-4, Influenza A/B/C, RSV, Adenovirus, Enterovirus, Mycoplasma, Pneumocystis, S. pneumoniae, H. influenzae, Klebsiella, Legionella, Bordetella pertussis, etc." }, //[cite: 1]
+  { hospital: "LNJP Hospital Labs", test: "Viral Meningitis Panel (Multiplex PCR)", tube: "EDTA Vial", window: "Microbiology (Advanced Virology - Room 279)", days: "Wednesday, Saturday", report: "Rec: Room 275 | TAT: 3 days", notes: "Sample: 2-3 mL Plasma. Targets: Adenovirus, EBV, HSV 1&2, VZV, Enterovirus, Parechovirus, HHV 6&7, Parvovirus B19." }, //[cite: 1]
+  { hospital: "LNJP Hospital Labs", test: "Acute Undifferentiated Fever Panel (Multiplex PCR)", tube: "EDTA Vial", window: "Microbiology (Advanced Virology - Room 279)", days: "Tuesday, Friday", report: "Rec: Room 275 | TAT: 3 days", notes: "Sample: 2-3 mL Plasma. Targets: Dengue, Chikungunya, Salmonella, West Nile Virus, Rickettsia, Leptospira, Zika." }, //[cite: 1]
+  { hospital: "LNJP Hospital Labs", test: "HSV 1&2 IgM (Advanced)", tube: "Plain vial / Sterile Container", window: "Microbiology (Advanced Virology - Room 279)", days: "Wednesday, Saturday", report: "Rec: Room 275 | TAT: 3 days", notes: "Sample: Blood/Serum 2-3 mL / CSF 1 mL. Method: ELISA." }, //[cite: 1]
+  { hospital: "LNJP Hospital Labs", test: "EBV Profile (VCA IgM, VCA IgG, IgG-Avidity)", tube: "Plain vial", window: "Microbiology (Advanced Virology - Room 279)", days: "Friday Only", report: "Rec: Room 275 | TAT: 7 days", notes: "Sample: 2-3 mL Blood/Serum. Method: ELISA." }, //[cite: 1]
+  { hospital: "LNJP Hospital Labs", test: "JE Detect (Japanese Encephalitis)", tube: "Plain vial / Sterile Container", window: "Microbiology (Advanced Virology - Room 279)", days: "Tuesday Only", report: "Rec: Room 275 | TAT: 7 days", notes: "Sample: Blood/Serum 2-3 mL / CSF 1 mL. Method: ELISA." }, //[cite: 1]
+  { hospital: "LNJP Hospital Labs", test: "VZV IgM, Measles IgG, Mumps IgG, Rubella IgG, Anti-HBsAb, Zika IgM, WNV IgG, CMV IgG Avidity", tube: "Plain vial / Sterile Container", window: "Microbiology (Advanced Virology - Room 279)", days: "Thursday Only", report: "Rec: Room 275 | TAT: 7 days", notes: "Sample: 2-3 mL Blood/Serum or CSF. Method: Quantitative ELISA." }, //[cite: 1]
+  { hospital: "LNJP Hospital Labs", test: "Surveillance PCR (Influenza H275Y, Dengue Serotyping, Zika)", tube: "VTM / EDTA Vial", window: "Microbiology (Advanced Virology - Room 279)", days: "2nd/3rd Monday & Fridays", report: "Rec: Room 275 | TAT: 1-7 days", notes: "NP/OP Swab or Blood. Surveillance for viral mutation and serotyping." }, //[cite: 1]
+  { hospital: "LNJP Hospital Labs", test: "Covid-19 RT-PCR", tube: "VTM Container", window: "Microbiology (Advanced Virology - Room 279)", days: "All working days", report: "Rec: Room 275 | TAT: 1 day", notes: "Sample: 2-3 mL NP Swab. Method: RT-PCR." }, //[cite: 1]
+
+  // ==========================================
+  // --- LNJP MICROBIOLOGY: ROUTINE BACTERIOLOGY & CULTURES (ROOM 34) ---
+  // ==========================================
+  { hospital: "LNJP Hospital Labs", test: "Urine Routine Microscopy", tube: "Universal container", window: "Microbiology (Bacteriology - Room 34)", days: "All working days", report: "Rec: Room 30 | TAT: 1 day", notes: "Sample: 4 mL Urine. Direct microscopic examination." }, //[cite: 1]
+  { hospital: "LNJP Hospital Labs", test: "Urine Culture & Sensitivity", tube: "Universal container", window: "Microbiology (Bacteriology - Room 34)", days: "All working days", report: "Rec: Room 30 | TAT: 2-3 days", notes: "Sample: 4 mL Urine. 2 days if sterile, 3 days if organism isolated with AST." }, //[cite: 1]
+  { hospital: "LNJP Hospital Labs", test: "Blood Culture & Sensitivity (Conventional & BacT/Alert)", tube: "Conventional / BacT/Alert Bottle", window: "Microbiology (Bacteriology - Room 34)", days: "All working days", report: "Rec: Room 30 | TAT: 3-4 days", notes: "Volume: 5-10 mL (Adult) / 2-5 mL (Pediatric). Automated flag alert & AST." }, //[cite: 1]
+  { hospital: "LNJP Hospital Labs", test: "CSF Microscopy & Culture", tube: "Sterile Universal container", window: "Microbiology (Bacteriology - Room 34)", days: "All working days", report: "Rec: Room 30 | TAT: 3-4 days", notes: "Volume: 2 mL CSF. 3 days if sterile, 4 days with AST." }, //[cite: 1]
+  { hospital: "LNJP Hospital Labs", test: "Aerobic Culture (Pus, Fluids, Tissue, Swabs, Corneal)", tube: "Sterile container / Paired Swabs", window: "Microbiology (Bacteriology - Room 34)", days: "All working days", report: "Rec: Room 30 | TAT: 5 days", notes: "Sample: 1-3 mL fluids / 3-4 mm tissue / paired swabs. 2 days TAT for sterile samples." }, //[cite: 1]
+  { hospital: "LNJP Hospital Labs", test: "MRSA Screening (Nasal Swab)", tube: "Sterile container", window: "Microbiology (Bacteriology - Room 34)", days: "All working days", report: "Rec: Room 30 | TAT: 5 days", notes: "Sample: Nasal paired swab." }, //[cite: 1]
+  { hospital: "LNJP Hospital Labs", test: "Tip Culture (IV Line / Arterial / DJ Stent)", tube: "Sterile container", window: "Microbiology (Bacteriology - Room 34)", days: "All working days", report: "Rec: Room 30 | TAT: 5 days", notes: "Sample: Distal 5 cm segment of catheter tip or stent." }, //[cite: 1]
+
+  // ==========================================
+  // --- LNJP MICROBIOLOGY: DIARRHEA & STOOL LAB (ROOM 124) ---
+  // ==========================================
+  { hospital: "LNJP Hospital Labs", test: "Stool Routine & Microscopy", tube: "Screw-capped wide-mouthed leak proof container", window: "Microbiology (Diarrhea - Room 124)", days: "All working days", report: "Rec: Room 30 | TAT: 1 day", notes: "Sample: 5g Stool. Microscopic examination." }, //[cite: 1]
+  { hospital: "LNJP Hospital Labs", test: "Stool Culture & Sensitivity", tube: "Screw-capped wide-mouthed leak proof container", window: "Microbiology (Diarrhea - Room 124)", days: "All working days", report: "Rec: Room 30 | TAT: 3-4 days", notes: "Sample: 5g Stool. Culture & identification." }, //[cite: 1]
+  { hospital: "LNJP Hospital Labs", test: "Stool Occult Blood / H. pylori Antigen", tube: "Screw-capped wide-mouthed leak proof container", window: "Microbiology (Diarrhea - Room 124)", days: "All working days", report: "Rec: Room 30 | TAT: 1 day", notes: "Sample: 5g Stool. Rapid immunoassay." }, //[cite: 1]
+  { hospital: "LNJP Hospital Labs", test: "Water Bacteriology", tube: "Water Container", window: "Microbiology (Diarrhea - Room 124)", days: "All working days", report: "Rec: Room 30 | TAT: 3 days", notes: "Volume: 50 mL Water. Pour plate method." }, //[cite: 1]
+
+  // ==========================================
+  // --- LNJP MICROBIOLOGY: PARASITOLOGY & ANAEROBIC (ROOM 128) ---
+  // ==========================================
+  { hospital: "LNJP Hospital Labs", test: "Malaria Smear & Rapid Antigen Test", tube: "EDTA Vial", window: "Microbiology (Parasitology - Room 128)", days: "All working days", report: "Rec: Room 30 | TAT: 1 day", notes: "Sample: 2-5 mL Blood/Serum. Rapid card & peripheral smear microscopy." }, //[cite: 1]
+  { hospital: "LNJP Hospital Labs", test: "rk39 Rapid Antigen (Kala-azar / Leishmania)", tube: "EDTA Vial", window: "Microbiology (Parasitology - Room 128)", days: "All working days", report: "Rec: Room 30 | TAT: 1 day", notes: "Sample: 2-5 mL Serum. Rapid immunochromatography." }, //[cite: 1]
+  { hospital: "LNJP Hospital Labs", test: "Toxoplasma IgM ELISA", tube: "Plain vial", window: "Microbiology (Parasitology - Room 128)", days: "Monday Only", report: "Rec: Room 30 | TAT: 7 days", notes: "Sample: 2-5 mL Serum. Method: ELISA." }, //[cite: 1]
+  { hospital: "LNJP Hospital Labs", test: "Toxoplasma IgG ELISA", tube: "Plain vial", window: "Microbiology (Parasitology - Room 128)", days: "Tuesday Only", report: "Rec: Room 30 | TAT: 7 days", notes: "Sample: 2-5 mL Serum. Method: ELISA." }, //[cite: 1]
+  { hospital: "LNJP Hospital Labs", test: "Amoebic Serology (IgG)", tube: "Plain vial", window: "Microbiology (Parasitology - Room 128)", days: "Wednesday Only", report: "Rec: Room 30 | TAT: 7 days", notes: "Sample: 2-5 mL Serum. Method: ELISA." }, //[cite: 1]
+  { hospital: "LNJP Hospital Labs", test: "Hydatid Serology (IgG)", tube: "Plain vial", window: "Microbiology (Parasitology - Room 128)", days: "Thursday Only", report: "Rec: Room 30 | TAT: 7 days", notes: "Sample: 2-5 mL Serum. Method: ELISA." }, //[cite: 1]
+  { hospital: "LNJP Hospital Labs", test: "Neurocysticercosis (IgG)", tube: "Plain vial", window: "Microbiology (Parasitology - Room 128)", days: "Friday Only", report: "Rec: Room 30 | TAT: 7 days", notes: "Sample: 2-5 mL Serum. Method: ELISA." }, //[cite: 1]
+  { hospital: "LNJP Hospital Labs", test: "Anaerobic Culture", tube: "Robertson Cooked Meat Broth / Thioglycollate Tube", window: "Microbiology (Parasitology - Room 128)", days: "All working days", report: "Rec: Room 30 | TAT: 7 days", notes: "Sample: 1-2 mL Purulent fluid aspirate or deep wound swab." }, //[cite: 1]
+
+  // ==========================================
+  // --- LNJP MICROBIOLOGY: MYCOLOGY / FUNGAL LAB (ROOM 253) ---
+  // ==========================================
+  { hospital: "LNJP Hospital Labs", test: "KOH Mount Microscopy", tube: "Sterile container", window: "Microbiology (Mycology - Room 253)", days: "All working days", report: "Rec: Room 30 | TAT: 1 day", notes: "Sample: Body fluids/Sputum/Pus 3-5 mL, Hair stubs, Nail clippings. Direct microscopy." }, //[cite: 1]
+  { hospital: "LNJP Hospital Labs", test: "India Ink Preparation", tube: "Sterile container", window: "Microbiology (Mycology - Room 253)", days: "All working days", report: "Rec: Room 30 | TAT: 1 day", notes: "Sample: 2-3 mL CSF. Cryptococcal capsular antigen screening." }, //[cite: 1]
+  { hospital: "LNJP Hospital Labs", test: "Fungal Culture", tube: "Biphasic bottle / BacT Alert / Sterile container", window: "Microbiology (Mycology - Room 253)", days: "All working days", report: "Rec: Room 30 | TAT: 6 weeks", notes: "Sample: Blood (5-10 mL), Fluids, Sputum, Tissue, Nails, Hair." }, //[cite: 1]
+  { hospital: "LNJP Hospital Labs", test: "Cryptococcal Antigen Testing", tube: "Sterile container", window: "Microbiology (Mycology - Room 253)", days: "All working days", report: "Rec: Room 30 | TAT: 1 day", notes: "Sample: 2-3 mL CSF. Latex Agglutination Test." }, //[cite: 1]
+
+  // ==========================================
+  // --- LNJP MICROBIOLOGY: MYCOBACTERIOLOGY / TB (ROOM 330) ---
+  // ==========================================
+  { hospital: "LNJP Hospital Labs", test: "ZN Staining (AFB Smear)", tube: "Sterile wide-mouthed leak proof container", window: "Microbiology (Mycobacteriology - Room 330)", days: "All working days", report: "Rec: Room 30 | TAT: 1 day", notes: "Sample: Sputum/BAL/Pus/Fluids (3-5 mL), Urine (20-50 mL)." }, //[cite: 1]
+  { hospital: "LNJP Hospital Labs", test: "AFB Culture (Tuberculosis)", tube: "Sterile wide-mouthed leak proof container", window: "Microbiology (Mycobacteriology - Room 330)", days: "All working days", report: "Rec: Room 30 | TAT: 8 weeks", notes: "Sample: Sputum/BAL/Pus/Fluids (3-5 mL), Urine (20-50 mL), Endometrial biopsy." }, //[cite: 1]
+
+  // ==========================================
+  // --- LNJP MICROBIOLOGY: HIV & CD4 LAB (ROOM 278) ---
+  // ==========================================
+  { hospital: "LNJP Hospital Labs", test: "HIV Rapid Screening", tube: "Red cap vacutainer", window: "Microbiology (HIV & CD4 - Room 278)", days: "All working days", report: "Rec: Room 31A | TAT: 1 day", notes: "Sample: 3 mL Serum. Rapid immunochromatography." }, //[cite: 1]
+  { hospital: "LNJP Hospital Labs", test: "Absolute CD4 Count", tube: "EDTA Vial", window: "Microbiology (HIV & CD4 - Room 278)", days: "All working days", report: "Rec: Room 634 (Lok Nayak ART) | TAT: 3 days", notes: "Sample: 3 mL Plasma. Method: Cytoflowmetry." }, //[cite: 1]
+
+ 
+// --- LNJP HOSPITAL LABS ---
   { hospital: "LNJP Hospital Labs", test: "CBC (Complete Blood Count), ESR, Peripheral Smear", tube: "EDTA (Purple)", window: "Window 1 (Pathology)", days: "Daily (Routine)", report: "Online / Dispatch Room 96", notes: "Low platelets -> MPC can be sent in Blue Citrate vial if specified." },
   { hospital: "LNJP Hospital Labs", test: "URM (Urine Routine Microscopy)", tube: "Speci-can (Urine)", window: "Window 1 (Pathology)", days: "Daily (Routine)", report: "Online / Counter", notes: "Collect clean catch urine in speci-can." },
   { hospital: "LNJP Hospital Labs", test: "LFT (Liver Function Test)", tube: "Red (Serum)", window: "Window 2E (Biochemistry)", days: "Daily (Routine)", report: "Online Portal / Window 2E", notes: "Includes T. Bilirubin, D. Bilirubin, ALT, AST, ALP, Total Protein, Albumin, GGT." },
@@ -2417,7 +2523,7 @@ function searchLabTests() {
   const selectFilter = document.getElementById('labHospitalSelect');
   const resDiv = document.getElementById('labResults');
 
-  // Prevent crashes if element isn't present
+  // Prevent crashes if elements aren't present
   if (!resDiv || !selectFilter) return;
 
   const query = searchInput ? searchInput.value.toLowerCase().trim() : "";
@@ -2435,9 +2541,27 @@ function searchLabTests() {
       const win = item.window.toLowerCase();
       const target = filterVal.toLowerCase();
 
+      // Special handling for Pathology / Cytology / Histopathology
       if (target === "pathology dept") {
-        return win.includes("pathology") || win.includes("cytopath") || win.includes("grossing");
+        return win.includes("pathology") || 
+               win.includes("cytopath") || 
+               win.includes("cytology") || 
+               win.includes("histopath") || 
+               win.includes("fnac") || 
+               win.includes("grossing");
       }
+
+      // Special handling for All Microbiology
+      if (target === "microbiology") {
+        return win.includes("microbiology") || win.includes("window 3");
+      }
+
+      // Prevent "Window 2" from accidentally matching "Window 2E"
+      if (target === "window 2") {
+        return win.includes("window 2") && !win.includes("window 2e");
+      }
+
+      // General matching for all specific rooms & sub-sections
       return win.includes(target);
     });
   }
@@ -2450,7 +2574,7 @@ function searchLabTests() {
       item.window.toLowerCase().includes(query) ||
       item.days.toLowerCase().includes(query) ||
       item.report.toLowerCase().includes(query) ||
-      item.notes.toLowerCase().includes(query)
+      (item.notes || "").toLowerCase().includes(query)
     );
   }
 

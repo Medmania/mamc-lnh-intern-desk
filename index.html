@@ -2831,107 +2831,127 @@ function switchTab(tab) {
 
   // SEARCH & PRINT COMPLETE SCHEDULE
   function askAIAssistant() {
+  // 1. Set your Gemini API Key
+  const GEMINI_API_KEY = "AQ.Ab8RN6Ko3obO5qd2lathS0YBEeVvH_Q1sNCoUwQ3qSqh_XYUgQ";
+
+  // 2. Extract and compile current site state as grounding context
+  function getSystemContext() {
+    return `
+You are the official AI Assistant for the MAMC CRMI (Compulsory Rotatory Medical Internship 2026–2027) Roster & Hospital Facilities portal.
+
+RULES:
+1. ONLY answer queries using the data provided below.
+2. If a query cannot be answered using the provided datasets, strictly reply: "I'm sorry, this information is not available in the hospital roster or facility database."
+3. You can answer multi-variable combinations (e.g., checking who is posted with whom, finding test vial colors + collection rooms, or looking up OPD timings on specific dates).
+4. Keep answers concise, factual, and formatted with clean bullet points or bold markers.
+
+--- DATASETS ---
+
+INTERN LIST & BATCHES:
+${JSON.stringify(interns)}
+
+DAILY BURARI & NIGHT ROSTER:
+${JSON.stringify(burariDailyRoster)}
+
+PERIPHERY ROSTER MAPPING (RHTC, UHTC, BALMIKI BASTI):
+${JSON.stringify(peripheryRosterMap)}
+
+MASTER 52-WEEK ROTATION ROSTER:
+${JSON.stringify(subdivisionRoster)}
+
+52-WEEK CALENDAR DATES:
+${JSON.stringify(weeksData)}
+
+HOSPITAL FACILITIES & OPD SCHEDULES (LNJP, GB PANT, MAIDS):
+${JSON.stringify(deptSchedules)}
+
+LABS, DIAGNOSTICS & RADIOLOGY DIRECTORY (LNJP, GB PANT):
+${JSON.stringify(labDirectory)}
+`;
+  }
+
+  // 3. Query the Gemini 3.5 Flash REST API
+  async function askAIAssistant() {
     const inputEl = document.getElementById('aiUserInput');
     const chatBox = document.getElementById('aiChatBox');
     if (!inputEl || !chatBox) return;
 
-    const rawQuery = inputEl.value.trim();
-    if (!rawQuery) return;
+    const userPrompt = inputEl.value.trim();
+    if (!userPrompt) return;
 
-    const queryLower = rawQuery.toLowerCase();
+    if (!GEMINI_API_KEY || GEMINI_API_KEY === "AQ.Ab8RN6Ko3obO5qd2lathS0YBEeVvH_Q1sNCoUwQ3qSqh_XYUgQ") {
+      chatBox.innerHTML += `
+        <p style="margin: 6px 0; text-align: right; color: var(--primary);"><strong>You:</strong> ${userPrompt}</p>
+        <p style="margin: 6px 0; color: #dc2626;"><strong>⚠️ System:</strong> Please set your <code>GEMINI_API_KEY</code> in the script tag.</p>
+      `;
+      inputEl.value = '';
+      chatBox.scrollTop = chatBox.scrollHeight;
+      return;
+    }
 
-    chatBox.innerHTML += `<p style="margin: 6px 0; text-align: right; color: var(--primary, #2563eb);"><strong>You:</strong> ${rawQuery}</p>`;
+    // Display User Query
+    chatBox.innerHTML += `<p style="margin: 6px 0; text-align: right; color: var(--primary);"><strong>You:</strong> ${userPrompt}</p>`;
     inputEl.value = '';
+    
+    // Loading indicator
+    const loadingId = "loader_" + Date.now();
+    chatBox.innerHTML += `<p id="${loadingId}" style="margin: 6px 0; color: #64748b;"><em>🤖 Thinking...</em></p>`;
+    chatBox.scrollTop = chatBox.scrollHeight;
 
-    let matches = [];
+    // Direct endpoint for Gemini 3.5 Flash
+    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=${GEMINI_API_KEY}`;
 
-    function formatValue(val) {
-      if (!val) return '';
-      
-      if (Array.isArray(val)) {
-        return val.map(subItem => {
-          if (typeof subItem === 'object' && subItem !== null) {
-            let subFields = [];
-            for (const [sKey, sVal] of Object.entries(subItem)) {
-              if (sVal && String(sVal).trim() !== '') {
-                const cleanSKey = sKey.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
-                subFields.push(`<strong>${cleanSKey}:</strong> ${formatValue(sVal)}`);
-              }
-            }
-            return `<div style="margin-left: 8px; margin-top: 3px; padding-left: 6px; border-left: 2px solid var(--primary, #2563eb);">${subFields.join(' | ')}</div>`;
-          }
-          return subItem;
-        }).join('');
+    const requestPayload = {
+      system_instruction: {
+        parts: [{ text: getSystemContext() }]
+      },
+      contents: [
+        {
+          role: "user",
+          parts: [{ text: userPrompt }]
+        }
+      ],
+      generationConfig: {
+        temperature: 0.1,
+        maxOutputTokens: 800
       }
+    };
 
-      if (typeof val === 'object' && val !== null) {
-        let objFields = [];
-        for (const [oKey, oVal] of Object.entries(val)) {
-          if (oVal && String(oVal).trim() !== '') {
-            const cleanOKey = oKey.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
-            objFields.push(`<strong>${cleanOKey}:</strong> ${oVal}`);
-          }
-        }
-        return objFields.join(', ');
+    try {
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(requestPayload)
+      });
+
+      const data = await response.json();
+      const loader = document.getElementById(loadingId);
+      if (loader) loader.remove();
+
+      if (data.candidates && data.candidates[0]?.content?.parts?.[0]?.text) {
+        let aiResponse = data.candidates[0].content.parts[0].text;
+        
+        // Convert Markdown formatting to clean HTML
+        aiResponse = aiResponse
+          .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+          .replace(/\*(.*?)\*/g, '<em>$1</em>')
+          .replace(/\n/g, '<br>');
+
+        chatBox.innerHTML += `<p style="margin: 6px 0; color: #0f172a;"><strong>🤖 Assistant:</strong><br>${aiResponse}</p>`;
+      } else if (data.error) {
+        chatBox.innerHTML += `<p style="margin: 6px 0; color: #dc2626;"><strong>Error:</strong> ${data.error.message}</p>`;
+      } else {
+        chatBox.innerHTML += `<p style="margin: 6px 0; color: #dc2626;"><strong>Error:</strong> Unable to process the response.</p>`;
       }
-
-      return String(val);
+    } catch (err) {
+      const loader = document.getElementById(loadingId);
+      if (loader) loader.remove();
+      chatBox.innerHTML += `<p style="margin: 6px 0; color: #dc2626;"><strong>Network Error:</strong> ${err.message}</p>`;
     }
 
-    function formatObject(obj, titleEmoji, titleText) {
-      let fields = [];
-      for (const [key, val] of Object.entries(obj)) {
-        if (val && String(val).trim() !== '' && key !== 'id') {
-          const cleanKey = key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
-          const formattedVal = formatValue(val);
-          if (formattedVal) {
-            fields.push(`<strong>${cleanKey}:</strong> ${formattedVal}`);
-          }
-        }
-      }
-      return `<strong>${titleEmoji} ${titleText}</strong><br>${fields.join('<br>')}`;
-    }
-
-    if (typeof interns !== 'undefined' && Array.isArray(interns)) {
-      interns.forEach(item => {
-        const itemStr = JSON.stringify(item).toLowerCase();
-        if (itemStr.includes(queryLower)) {
-          const personName = item.name || item.sNo || item.roll || 'Person Record';
-          matches.push(formatObject(item, '👤', personName));
-        }
-      });
-    }
-
-    if (typeof labDirectory !== 'undefined' && Array.isArray(labDirectory)) {
-      labDirectory.forEach(item => {
-        if (JSON.stringify(item).toLowerCase().includes(queryLower)) {
-          const name = item.test || item.name || item.lab || 'Lab Test';
-          matches.push(formatObject(item, '🧪', name));
-        }
-      });
-    }
-
-    if (typeof deptSchedules !== 'undefined' && Array.isArray(deptSchedules)) {
-      deptSchedules.forEach(item => {
-        if (JSON.stringify(item).toLowerCase().includes(queryLower)) {
-          const name = item.name || item.dept || item.department || 'Department/OPD';
-          matches.push(formatObject(item, '🏥', name));
-        }
-      });
-    }
-
-    let reply = '';
-    if (matches.length > 0) {
-      const uniqueMatches = [...new Set(matches)];
-      reply = `Found ${uniqueMatches.length} matching record(s):<br><br>` + 
-              uniqueMatches.join('<hr style="border:0; border-top:1px dashed #cbd5e1; margin:8px 0;">');
-    } else {
-      reply = `No matching records found for <em>"${rawQuery}"</em>. Try entering a full/partial name, S.No, roll number, or department.`;
-    }
-
-    chatBox.innerHTML += `<p style="margin: 6px 0; color: #0f172a;"><strong>🤖 Assistant:</strong> ${reply}</p>`;
     chatBox.scrollTop = chatBox.scrollHeight;
   }
+
 
   function adjustFormResponsive() {
     const formIframe = document.querySelector('.card iframe');

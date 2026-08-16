@@ -2816,27 +2816,25 @@ function switchTab(tab) {
     resDiv.innerHTML = html;
   }
 
-  // TOGGLE FLOATING POPUP VISIBILITY
-  function toggleAIAssistant() {
-    const card = document.getElementById('aiPopupCard');
-    if (card) {
-      if (card.style.display === 'none' || card.style.display === '') {
-        card.style.display = 'block';
-        document.getElementById('aiUserInput').focus();
-      } else {
-        card.style.display = 'none';
-      }
+ // --- 1. TOGGLE FLOATING POPUP VISIBILITY ---
+function toggleAIAssistant() {
+  const card = document.getElementById('aiPopupCard');
+  if (card) {
+    if (card.style.display === 'none' || card.style.display === '') {
+      card.style.display = 'block';
+      document.getElementById('aiUserInput').focus();
+    } else {
+      card.style.display = 'none';
     }
   }
+}
 
-  // SEARCH & PRINT COMPLETE SCHEDULE
- 
-  // 1. Set your Gemini API Key
-  const GEMINI_API_KEY = "AQ.Ab8RN6Ko3obO5qd2lathS0YBEeVvH_Q1sNCoUwQ3qSqh_XYUgQ";
+// --- 2. GEMINI API KEY (Replace with your AI Studio key starting with AIzaSy) ---
+const GEMINI_API_KEY = "YOUR_GEMINI_API_KEY_STARTING_WITH_AIzaSy";
 
-  // 2. Extract and compile current site state as grounding context
-  function getSystemContext() {
-    return `
+// --- 3. EXTRACT KNOWLEDGE BASE AS GROUNDING CONTEXT ---
+function getSystemContext() {
+  return `
 You are the official AI Assistant for the MAMC CRMI (Compulsory Rotatory Medical Internship 2026–2027) Roster & Hospital Facilities portal.
 
 RULES:
@@ -2848,110 +2846,108 @@ RULES:
 --- DATASETS ---
 
 INTERN LIST & BATCHES:
-${JSON.stringify(interns)}
+${typeof interns !== 'undefined' ? JSON.stringify(interns) : '[]'}
 
 DAILY BURARI & NIGHT ROSTER:
-${JSON.stringify(burariDailyRoster)}
+${typeof burariDailyRoster !== 'undefined' ? JSON.stringify(burariDailyRoster) : '{}'}
 
 PERIPHERY ROSTER MAPPING (RHTC, UHTC, BALMIKI BASTI):
-${JSON.stringify(peripheryRosterMap)}
+${typeof peripheryRosterMap !== 'undefined' ? JSON.stringify(peripheryRosterMap) : '{}'}
 
 MASTER 52-WEEK ROTATION ROSTER:
-${JSON.stringify(subdivisionRoster)}
+${typeof subdivisionRoster !== 'undefined' ? JSON.stringify(subdivisionRoster) : '{}'}
 
 52-WEEK CALENDAR DATES:
-${JSON.stringify(weeksData)}
+${typeof weeksData !== 'undefined' ? JSON.stringify(weeksData) : '[]'}
 
 HOSPITAL FACILITIES & OPD SCHEDULES (LNJP, GB PANT, MAIDS):
-${JSON.stringify(deptSchedules)}
+${typeof deptSchedules !== 'undefined' ? JSON.stringify(deptSchedules) : '[]'}
 
 LABS, DIAGNOSTICS & RADIOLOGY DIRECTORY (LNJP, GB PANT):
-${JSON.stringify(labDirectory)}
+${typeof labDirectory !== 'undefined' ? JSON.stringify(labDirectory) : '[]'}
 `;
-  }
+}
 
-  // 3. Query the Gemini 3.5 Flash REST API
-  async function askAIAssistant() {
-    const inputEl = document.getElementById('aiUserInput');
-    const chatBox = document.getElementById('aiChatBox');
-    if (!inputEl || !chatBox) return;
+// --- 4. MAIN GEMINI AI SEARCH FUNCTION ---
+async function askAIAssistant() {
+  const inputEl = document.getElementById('aiUserInput');
+  const chatBox = document.getElementById('aiChatBox');
+  if (!inputEl || !chatBox) return;
 
-    const userPrompt = inputEl.value.trim();
-    if (!userPrompt) return;
+  const userPrompt = inputEl.value.trim();
+  if (!userPrompt) return;
 
-    if (!GEMINI_API_KEY || GEMINI_API_KEY === "YOUR_GEMINI_API_KEY_HERE") {
-      chatBox.innerHTML += `
-        <p style="margin: 6px 0; text-align: right; color: var(--primary);"><strong>You:</strong> ${userPrompt}</p>
-        <p style="margin: 6px 0; color: #dc2626;"><strong>⚠️ System:</strong> Please set your <code>GEMINI_API_KEY</code> in the script tag.</p>
-      `;
-      inputEl.value = '';
-      chatBox.scrollTop = chatBox.scrollHeight;
-      return;
-    }
-
-    // Display User Query
-    chatBox.innerHTML += `<p style="margin: 6px 0; text-align: right; color: var(--primary);"><strong>You:</strong> ${userPrompt}</p>`;
+  if (!GEMINI_API_KEY || GEMINI_API_KEY.includes("YOUR_GEMINI_API_KEY")) {
+    chatBox.innerHTML += `
+      <p style="margin: 6px 0; text-align: right; color: var(--primary);"><strong>You:</strong> ${userPrompt}</p>
+      <p style="margin: 6px 0; color: #dc2626;"><strong>⚠️ System:</strong> Please paste your valid Gemini API Key (starts with <code>AIzaSy...</code>) in <code>GEMINI_API_KEY</code>.</p>
+    `;
     inputEl.value = '';
-    
-    // Loading indicator
-    const loadingId = "loader_" + Date.now();
-    chatBox.innerHTML += `<p id="${loadingId}" style="margin: 6px 0; color: #64748b;"><em>🤖 Thinking...</em></p>`;
     chatBox.scrollTop = chatBox.scrollHeight;
-
-    // Direct endpoint for Gemini 3.5 Flash
-    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=${GEMINI_API_KEY}`;
-
-    const requestPayload = {
-      system_instruction: {
-        parts: [{ text: getSystemContext() }]
-      },
-      contents: [
-        {
-          role: "user",
-          parts: [{ text: userPrompt }]
-        }
-      ],
-      generationConfig: {
-        temperature: 0.1,
-        maxOutputTokens: 800
-      }
-    };
-
-    try {
-      const response = await fetch(endpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(requestPayload)
-      });
-
-      const data = await response.json();
-      const loader = document.getElementById(loadingId);
-      if (loader) loader.remove();
-
-      if (data.candidates && data.candidates[0]?.content?.parts?.[0]?.text) {
-        let aiResponse = data.candidates[0].content.parts[0].text;
-        
-        // Convert Markdown formatting to clean HTML
-        aiResponse = aiResponse
-          .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-          .replace(/\*(.*?)\*/g, '<em>$1</em>')
-          .replace(/\n/g, '<br>');
-
-        chatBox.innerHTML += `<p style="margin: 6px 0; color: #0f172a;"><strong>🤖 Assistant:</strong><br>${aiResponse}</p>`;
-      } else if (data.error) {
-        chatBox.innerHTML += `<p style="margin: 6px 0; color: #dc2626;"><strong>Error:</strong> ${data.error.message}</p>`;
-      } else {
-        chatBox.innerHTML += `<p style="margin: 6px 0; color: #dc2626;"><strong>Error:</strong> Unable to process the response.</p>`;
-      }
-    } catch (err) {
-      const loader = document.getElementById(loadingId);
-      if (loader) loader.remove();
-      chatBox.innerHTML += `<p style="margin: 6px 0; color: #dc2626;"><strong>Network Error:</strong> ${err.message}</p>`;
-    }
-
-    chatBox.scrollTop = chatBox.scrollHeight;
+    return;
   }
 
+  // Display User Query
+  chatBox.innerHTML += `<p style="margin: 6px 0; text-align: right; color: var(--primary);"><strong>You:</strong> ${userPrompt}</p>`;
+  inputEl.value = '';
+
+  // Loading indicator
+  const loadingId = "loader_" + Date.now();
+  chatBox.innerHTML += `<p id="${loadingId}" style="margin: 6px 0; color: #64748b;"><em>🤖 Thinking...</em></p>`;
+  chatBox.scrollTop = chatBox.scrollHeight;
+
+  const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+
+  const requestPayload = {
+    system_instruction: {
+      parts: [{ text: getSystemContext() }]
+    },
+    contents: [
+      {
+        role: "user",
+        parts: [{ text: userPrompt }]
+      }
+    ],
+    generationConfig: {
+      temperature: 0.1,
+      maxOutputTokens: 800
+    }
+  };
+
+  try {
+    const response = await fetch(endpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(requestPayload)
+    });
+
+    const data = await response.json();
+    const loader = document.getElementById(loadingId);
+    if (loader) loader.remove();
+
+    if (data.candidates && data.candidates[0]?.content?.parts?.[0]?.text) {
+      let aiResponse = data.candidates[0].content.parts[0].text;
+
+      // Convert Markdown formatting to clean HTML
+      aiResponse = aiResponse
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+        .replace(/\n/g, '<br>');
+
+      chatBox.innerHTML += `<p style="margin: 6px 0; color: #0f172a;"><strong>🤖 Assistant:</strong><br>${aiResponse}</p>`;
+    } else if (data.error) {
+      chatBox.innerHTML += `<p style="margin: 6px 0; color: #dc2626;"><strong>API Error:</strong> ${data.error.message}</p>`;
+    } else {
+      chatBox.innerHTML += `<p style="margin: 6px 0; color: #dc2626;"><strong>Error:</strong> Unable to process the response.</p>`;
+    }
+  } catch (err) {
+    const loader = document.getElementById(loadingId);
+    if (loader) loader.remove();
+    chatBox.innerHTML += `<p style="margin: 6px 0; color: #dc2626;"><strong>Network Error:</strong> ${err.message}</p>`;
+  }
+
+  chatBox.scrollTop = chatBox.scrollHeight;
+}
 
 
   function adjustFormResponsive() {

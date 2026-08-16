@@ -2879,7 +2879,7 @@ ${JSON.stringify(labDirectory)}
     const userPrompt = inputEl.value.trim();
     if (!userPrompt) return;
 
-    if (!GEMINI_API_KEY || GEMINI_API_KEY === "AQ.Ab8RN6Ko3obO5qd2lathS0YBEeVvH_Q1sNCoUwQ3qSqh_XYUgQ") {
+    if (!GEMINI_API_KEY || GEMINI_API_KEY === "YOUR_GEMINI_API_KEY_HERE") {
       chatBox.innerHTML += `
         <p style="margin: 6px 0; text-align: right; color: var(--primary);"><strong>You:</strong> ${userPrompt}</p>
         <p style="margin: 6px 0; color: #dc2626;"><strong>⚠️ System:</strong> Please set your <code>GEMINI_API_KEY</code> in the script tag.</p>
@@ -2951,6 +2951,7 @@ ${JSON.stringify(labDirectory)}
 
     chatBox.scrollTop = chatBox.scrollHeight;
   }
+
 
 
   function adjustFormResponsive() {

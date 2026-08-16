@@ -699,7 +699,7 @@
   <p style="font-size: 12px; color: #64748b; margin: 0 0 10px 0;">Search OPD days, test locations, or intern/person name & S.No for complete schedule!</p>
   
   <div id="aiChatBox" style="height: 240px; overflow-y: auto; background: #f8fafc; border: 1px solid #e2e8f0; padding: 10px; border-radius: 8px; margin-bottom: 10px; font-size: 13px;">
-    <p style="margin: 0; color: #475569;"><strong>🤖 Assistant:</strong> Hello! Enter a name, S.No, test, or department.</p>
+    <p style="margin: 0; color: #475569;"><strong> JARVIS:</strong> Hello! This is Jarvis, your AI assistant to help you find relevant information here..</p>
   </div>
 
   <div style="display: flex; gap: 6px;">
@@ -2896,7 +2896,7 @@ async function askAIAssistant() {
   chatBox.innerHTML += `<p id="${loadingId}" style="margin: 6px 0; color: #64748b;"><em>🤖 Thinking...</em></p>`;
   chatBox.scrollTop = chatBox.scrollHeight;
 
-  const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+  const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=${GEMINI_API_KEY}`;
 
   const requestPayload = {
     system_instruction: {

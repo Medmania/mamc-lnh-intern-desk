@@ -2896,7 +2896,7 @@ async function askAIAssistant() {
   chatBox.innerHTML += `<p id="${loadingId}" style="margin: 6px 0; color: #64748b;"><em>🤖 Thinking...</em></p>`;
   chatBox.scrollTop = chatBox.scrollHeight;
 
-  const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+  const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key=${GEMINI_API_KEY}`;
 
   const requestPayload = {
     system_instruction: {

@@ -1084,6 +1084,115 @@
     return 'General Duty';
   }
 
+  // ========== SPECIAL UNIT ROSTER (extensible for any department) ==========
+  // Just keep adding objects. No other code changes needed for new depts/units.
+  const specialUnitRoster = [
+    // ================= PERIOD 1: 22/08/2026 to 02/10/2026 (6 Weeks) =================
+    // Unit I (Dr. C B Singh)
+    { sno: 125, start: "2026-08-22", end: "2026-10-02", dept: "Surgery", unit: "Unit I", incharge: "Dr. C B Singh" },
+    { sno: 131, start: "2026-08-22", end: "2026-10-02", dept: "Surgery", unit: "Unit I", incharge: "Dr. C B Singh" },
+    { sno: 137, start: "2026-08-22", end: "2026-10-02", dept: "Surgery", unit: "Unit I", incharge: "Dr. C B Singh" },
+    { sno: 143, start: "2026-08-22", end: "2026-10-02", dept: "Surgery", unit: "Unit I", incharge: "Dr. C B Singh" },
+    // Unit II (Dr. Pawan Lal)
+    { sno: 126, start: "2026-08-22", end: "2026-10-02", dept: "Surgery", unit: "Unit II", incharge: "Dr. Pawan Lal" },
+    { sno: 132, start: "2026-08-22", end: "2026-10-02", dept: "Surgery", unit: "Unit II", incharge: "Dr. Pawan Lal" },
+    { sno: 138, start: "2026-08-22", end: "2026-10-02", dept: "Surgery", unit: "Unit II", incharge: "Dr. Pawan Lal" },
+    { sno: 144, start: "2026-08-22", end: "2026-10-02", dept: "Surgery", unit: "Unit II", incharge: "Dr. Pawan Lal" },
+    // Unit III (Dr. Rajdeep Singh)
+    { sno: 127, start: "2026-08-22", end: "2026-10-02", dept: "Surgery", unit: "Unit III", incharge: "Dr. Rajdeep Singh" },
+    { sno: 133, start: "2026-08-22", end: "2026-10-02", dept: "Surgery", unit: "Unit III", incharge: "Dr. Rajdeep Singh" },
+    { sno: 139, start: "2026-08-22", end: "2026-10-02", dept: "Surgery", unit: "Unit III", incharge: "Dr. Rajdeep Singh" },
+    { sno: 145, start: "2026-08-22", end: "2026-10-02", dept: "Surgery", unit: "Unit III", incharge: "Dr. Rajdeep Singh" },
+    // Unit IV (Dr. Sushanto Neogi)
+    { sno: 128, start: "2026-08-22", end: "2026-10-02", dept: "Surgery", unit: "Unit IV", incharge: "Dr. Sushanto Neogi" },
+    { sno: 134, start: "2026-08-22", end: "2026-10-02", dept: "Surgery", unit: "Unit IV", incharge: "Dr. Sushanto Neogi" },
+    { sno: 140, start: "2026-08-22", end: "2026-10-02", dept: "Surgery", unit: "Unit IV", incharge: "Dr. Sushanto Neogi" },
+    { sno: 146, start: "2026-08-22", end: "2026-10-02", dept: "Surgery", unit: "Unit IV", incharge: "Dr. Sushanto Neogi" },
+    // Unit V (Dr. Anubhav Vindal)
+    { sno: 129, start: "2026-08-22", end: "2026-10-02", dept: "Surgery", unit: "Unit V", incharge: "Dr. Anubhav Vindal" },
+    { sno: 135, start: "2026-08-22", end: "2026-10-02", dept: "Surgery", unit: "Unit V", incharge: "Dr. Anubhav Vindal" },
+    { sno: 141, start: "2026-08-22", end: "2026-10-02", dept: "Surgery", unit: "Unit V", incharge: "Dr. Anubhav Vindal" },
+    { sno: 147, start: "2026-08-22", end: "2026-10-02", dept: "Surgery", unit: "Unit V", incharge: "Dr. Anubhav Vindal" },
+    // Unit VI (Dr. Deepak Ghuliani)
+    { sno: 130, start: "2026-08-22", end: "2026-10-02", dept: "Surgery", unit: "Unit VI", incharge: "Dr. Deepak Ghuliani" },
+    { sno: 136, start: "2026-08-22", end: "2026-10-02", dept: "Surgery", unit: "Unit VI", incharge: "Dr. Deepak Ghuliani" },
+    { sno: 142, start: "2026-08-22", end: "2026-10-02", dept: "Surgery", unit: "Unit VI", incharge: "Dr. Deepak Ghuliani" },
+    { sno: 148, start: "2026-08-22", end: "2026-10-02", dept: "Surgery", unit: "Unit VI", incharge: "Dr. Deepak Ghuliani" },
+
+    // ================= PERIOD 2: 03/10/2026 to 09/10/2026 (1 Week Transition) =================
+    { sno: 137, start: "2026-10-03", end: "2026-10-09", dept: "Surgery", unit: "Unit I", incharge: "Dr. C B Singh" },
+    { sno: 143, start: "2026-10-03", end: "2026-10-09", dept: "Surgery", unit: "Unit I", incharge: "Dr. C B Singh" },
+    { sno: 121, start: "2026-10-03", end: "2026-10-09", dept: "Surgery", unit: "Unit I", incharge: "Dr. C B Singh" },
+    { sno: 138, start: "2026-10-03", end: "2026-10-09", dept: "Surgery", unit: "Unit II", incharge: "Dr. Pawan Lal" },
+    { sno: 144, start: "2026-10-03", end: "2026-10-09", dept: "Surgery", unit: "Unit II", incharge: "Dr. Pawan Lal" },
+    { sno: 122, start: "2026-10-03", end: "2026-10-09", dept: "Surgery", unit: "Unit II", incharge: "Dr. Pawan Lal" },
+    { sno: 139, start: "2026-10-03", end: "2026-10-09", dept: "Surgery", unit: "Unit III", incharge: "Dr. Rajdeep Singh" },
+    { sno: 145, start: "2026-10-03", end: "2026-10-09", dept: "Surgery", unit: "Unit III", incharge: "Dr. Rajdeep Singh" },
+    { sno: 117, start: "2026-10-03", end: "2026-10-09", dept: "Surgery", unit: "Unit III", incharge: "Dr. Rajdeep Singh" },
+    { sno: 123, start: "2026-10-03", end: "2026-10-09", dept: "Surgery", unit: "Unit III", incharge: "Dr. Rajdeep Singh" },
+    { sno: 140, start: "2026-10-03", end: "2026-10-09", dept: "Surgery", unit: "Unit IV", incharge: "Dr. Sushanto Neogi" },
+    { sno: 146, start: "2026-10-03", end: "2026-10-09", dept: "Surgery", unit: "Unit IV", incharge: "Dr. Sushanto Neogi" },
+    { sno: 118, start: "2026-10-03", end: "2026-10-09", dept: "Surgery", unit: "Unit IV", incharge: "Dr. Sushanto Neogi" },
+    { sno: 124, start: "2026-10-03", end: "2026-10-09", dept: "Surgery", unit: "Unit IV", incharge: "Dr. Sushanto Neogi" },
+    { sno: 141, start: "2026-10-03", end: "2026-10-09", dept: "Surgery", unit: "Unit V", incharge: "Dr. Anubhav Vindal" },
+    { sno: 147, start: "2026-10-03", end: "2026-10-09", dept: "Surgery", unit: "Unit V", incharge: "Dr. Anubhav Vindal" },
+    { sno: 119, start: "2026-10-03", end: "2026-10-09", dept: "Surgery", unit: "Unit V", incharge: "Dr. Anubhav Vindal" },
+    { sno: 142, start: "2026-10-03", end: "2026-10-09", dept: "Surgery", unit: "Unit VI", incharge: "Dr. Deepak Ghuliani" },
+    { sno: 148, start: "2026-10-03", end: "2026-10-09", dept: "Surgery", unit: "Unit VI", incharge: "Dr. Deepak Ghuliani" },
+    { sno: 120, start: "2026-10-03", end: "2026-10-09", dept: "Surgery", unit: "Unit VI", incharge: "Dr. Deepak Ghuliani" },
+
+    // ================= PERIOD 3: 10/10/2026 to 20/11/2026 (6 Weeks) =================
+    // Unit I
+    { sno: 121, start: "2026-10-10", end: "2026-11-20", dept: "Surgery", unit: "Unit I", incharge: "Dr. C B Singh" },
+    { sno: 100, start: "2026-10-10", end: "2026-11-20", dept: "Surgery", unit: "Unit I", incharge: "Dr. C B Singh" },
+    { sno: 106, start: "2026-10-10", end: "2026-11-20", dept: "Surgery", unit: "Unit I", incharge: "Dr. C B Singh" },
+    { sno: 111, start: "2026-10-10", end: "2026-11-20", dept: "Surgery", unit: "Unit I", incharge: "Dr. C B Singh" },
+    { sno: 116, start: "2026-10-10", end: "2026-11-20", dept: "Surgery", unit: "Unit I", incharge: "Dr. C B Singh" },
+    // Unit II
+    { sno: 122, start: "2026-10-10", end: "2026-11-20", dept: "Surgery", unit: "Unit II", incharge: "Dr. Pawan Lal" },
+    { sno: 102, start: "2026-10-10", end: "2026-11-20", dept: "Surgery", unit: "Unit II", incharge: "Dr. Pawan Lal" },
+    { sno: 107, start: "2026-10-10", end: "2026-11-20", dept: "Surgery", unit: "Unit II", incharge: "Dr. Pawan Lal" },
+    { sno: 207, start: "2026-10-10", end: "2026-11-20", dept: "Surgery", unit: "Unit II", incharge: "Dr. Pawan Lal" },
+    { sno: 112, start: "2026-10-10", end: "2026-11-20", dept: "Surgery", unit: "Unit II", incharge: "Dr. Pawan Lal" },
+    // Unit III
+    { sno: 103, start: "2026-10-10", end: "2026-11-20", dept: "Surgery", unit: "Unit III", incharge: "Dr. Rajdeep Singh" },
+    { sno: 108, start: "2026-10-10", end: "2026-11-20", dept: "Surgery", unit: "Unit III", incharge: "Dr. Rajdeep Singh" },
+    { sno: 204, start: "2026-10-10", end: "2026-11-20", dept: "Surgery", unit: "Unit III", incharge: "Dr. Rajdeep Singh" },
+    { sno: 117, start: "2026-10-10", end: "2026-11-20", dept: "Surgery", unit: "Unit III", incharge: "Dr. Rajdeep Singh" },
+    // Unit IV
+    { sno: 123, start: "2026-10-10", end: "2026-11-20", dept: "Surgery", unit: "Unit IV", incharge: "Dr. Sushanto Neogi" },
+    { sno: 104, start: "2026-10-10", end: "2026-11-20", dept: "Surgery", unit: "Unit IV", incharge: "Dr. Sushanto Neogi" },
+    { sno: 203, start: "2026-10-10", end: "2026-11-20", dept: "Surgery", unit: "Unit IV", incharge: "Dr. Sushanto Neogi" },
+    { sno: 113, start: "2026-10-10", end: "2026-11-20", dept: "Surgery", unit: "Unit IV", incharge: "Dr. Sushanto Neogi" },
+    { sno: 118, start: "2026-10-10", end: "2026-11-20", dept: "Surgery", unit: "Unit IV", incharge: "Dr. Sushanto Neogi" },
+    // Unit V
+    { sno: 124, start: "2026-10-10", end: "2026-11-20", dept: "Surgery", unit: "Unit V", incharge: "Dr. Anubhav Vindal" },
+    { sno: 101, start: "2026-10-10", end: "2026-11-20", dept: "Surgery", unit: "Unit V", incharge: "Dr. Anubhav Vindal" },
+    { sno: 109, start: "2026-10-10", end: "2026-11-20", dept: "Surgery", unit: "Unit V", incharge: "Dr. Anubhav Vindal" },
+    { sno: 114, start: "2026-10-10", end: "2026-11-20", dept: "Surgery", unit: "Unit V", incharge: "Dr. Anubhav Vindal" },
+    { sno: 119, start: "2026-10-10", end: "2026-11-20", dept: "Surgery", unit: "Unit V", incharge: "Dr. Anubhav Vindal" },
+    // Unit VI
+    { sno: 105, start: "2026-10-10", end: "2026-11-20", dept: "Surgery", unit: "Unit VI", incharge: "Dr. Deepak Ghuliani" },
+    { sno: 110, start: "2026-10-10", end: "2026-11-20", dept: "Surgery", unit: "Unit VI", incharge: "Dr. Deepak Ghuliani" },
+    { sno: 115, start: "2026-10-10", end: "2026-11-20", dept: "Surgery", unit: "Unit VI", incharge: "Dr. Deepak Ghuliani" },
+    { sno: 120, start: "2026-10-10", end: "2026-11-20", dept: "Surgery", unit: "Unit VI", incharge: "Dr. Deepak Ghuliani" }
+  ];
+
+  /**
+   * Returns the special unit assignment for a student on a given date (if any).
+   * Works for ANY department that has entries in specialUnitRoster.
+   * Returns null if no matching entry.
+   */
+  function getSpecialUnitInfo(sno, dateStr) {
+    if (!dateStr || !sno) return null;
+    const entry = specialUnitRoster.find(r =>
+      Number(r.sno) === Number(sno) &&
+      dateStr >= r.start &&
+      dateStr <= r.end
+    );
+    return entry || null;
+  }
+
   // OPD & CLINIC SCHEDULE DATABASE
 
   
@@ -1275,46 +1384,13 @@ function switchTab(tab) {
     }
   }
 
-  const departmentUnitRules = {};
-
-  function getUnitForStudent(dept, studentSno, weekNum) {
-    const rule = departmentUnitRules[dept];
-    if (!rule) return null;
-
-    const activeSubdivisions = [];
-    const groups = ['A', 'B', 'C', 'D'];
-    groups.forEach(g => {
-      for (let i = 1; i <= 12; i++) {
-        const sub = g + i;
-        if (getPostingForSubdivision(sub, weekNum) === dept) {
-          activeSubdivisions.push(sub);
-        }
-      }
-    });
-
-    const deptInterns = interns
-      .filter(x => activeSubdivisions.includes(x.batch))
-      .sort((a, b) => a.sno - b.sno);
-
-    const index = deptInterns.findIndex(x => x.sno === studentSno);
-    if (index === -1) return null;
-
-    if (rule.type === 'cyclic') {
-      return (index % rule.totalUnits) + 1;
-    } else if (rule.type === 'chunk') {
-      return Math.floor(index / rule.perUnit) + 1;
-    }
-
-    return null;
-  }
-
   function formatDateShort(dateStr) {
     if (!dateStr) return "";
     const [year, month, day] = dateStr.split("-");
     return `${day}/${month}/${year.slice(2)}`;
   }
 
-// --- UPDATED SEARCH STUDENT FUNCTION WITH PDO LOGIC ---
+// --- UPDATED SEARCH STUDENT FUNCTION WITH PDO LOGIC + UNIT SUPPORT ---
   function searchStudent() {
     const query = document.getElementById('studentSearch').value.toLowerCase().trim();
     const resDiv = document.getElementById('studentResults');
@@ -1395,6 +1471,13 @@ function switchTab(tab) {
         displayDuty = "PSM";
       }
 
+      // Get special unit info (works for Surgery and any future departments)
+      const unitInfo = getSpecialUnitInfo(student.sno, selectedDate);
+      const unitBadgeHtml = unitInfo
+        ? `<span class="badge badge-unit" style="margin-left:8px;">${unitInfo.unit}</span>
+           <span style="font-size:11.5px; color:#64748b; margin-left:6px;">(${unitInfo.incharge})</span>`
+        : '';
+
       html += `
         <div class="result-card">
           <div class="result-card-header">
@@ -1409,7 +1492,9 @@ function switchTab(tab) {
             <div class="posting-chip">
               📍 <div>
                 <div style="font-size:12px; font-weight:600; opacity:0.85; margin-bottom:2px;">Posting on ${formatDateShort(selectedDate)}</div>
-                <div style="font-size:15.5px; font-weight:800;">${displayDuty}</div>
+                <div style="font-size:15.5px; font-weight:800; display:flex; align-items:center; flex-wrap:wrap; gap:4px;">
+                  ${displayDuty}${unitBadgeHtml}
+                </div>
                 <div style="font-size:12px; font-weight:500; opacity:0.75; margin-top:2px;">Week ${weekInfo.wk} • ${weekInfo.block}</div>
               </div>
             </div>
@@ -1508,6 +1593,7 @@ function switchTab(tab) {
     }
 
     const weekInfo = getSelectedWeek();
+    const selectedDate = document.getElementById('dutyDate').value;
 
     const activeSubdivisions = [];
     const groups = ['A', 'B', 'C', 'D'];
@@ -1524,7 +1610,8 @@ function switchTab(tab) {
       .filter(i => activeSubdivisions.includes(i.batch))
       .sort((a, b) => a.sno - b.sno);
 
-    const hasUnitRule = !!departmentUnitRules[dept];
+    // Check if any intern in this list has a unit assignment for the selected date
+    const hasAnyUnit = activeInterns.some(i => getSpecialUnitInfo(i.sno, selectedDate));
 
     let html = `
       <div class="result-card" style="margin-bottom: 16px;">
@@ -1555,19 +1642,22 @@ function switchTab(tab) {
                 <th>Roll No</th>
                 <th>Name</th>
                 <th>Subdivision</th>
-                ${hasUnitRule ? '<th>Unit</th>' : ''}
+                ${hasAnyUnit ? '<th>Unit</th><th>Incharge</th>' : ''}
               </tr>
             </thead>
             <tbody>
               ${activeInterns.map(i => {
-                const unitNum = getUnitForStudent(dept, i.sno, weekInfo.wk);
+                const unitInfo = getSpecialUnitInfo(i.sno, selectedDate);
                 return `
                   <tr>
                     <td>${i.sno}</td>
                     <td>${i.roll}</td>
                     <td><b>${i.name}</b></td>
                     <td><span class="badge badge-sub">${i.batch}</span></td>
-                    ${hasUnitRule ? `<td><span class="badge badge-unit">Unit ${unitNum}</span></td>` : ''}
+                    ${hasAnyUnit ? `
+                      <td>${unitInfo ? `<span class="badge badge-unit">${unitInfo.unit}</span>` : '—'}</td>
+                      <td style="font-size:12.5px; color:#475569;">${unitInfo ? unitInfo.incharge : '—'}</td>
+                    ` : ''}
                   </tr>
                 `;
               }).join('')}

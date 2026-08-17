@@ -88,9 +88,11 @@
     { sno: 110, start: "2026-10-10", end: "2026-11-20", dept: "Surgery", unit: "Unit VI", incharge: "Dr. Deepak Ghuliani" },
     { sno: 115, start: "2026-10-10", end: "2026-11-20", dept: "Surgery", unit: "Unit VI", incharge: "Dr. Deepak Ghuliani" },
     { sno: 120, start: "2026-10-10", end: "2026-11-20", dept: "Surgery", unit: "Unit VI", incharge: "Dr. Deepak Ghuliani" }
- 
+];
 // ================= D1 to D6 OBS & GYNAE UNITS (22/08/2026 to 09/10/2026 | S.No 149 to 234 Ascending) =================
-  // 1. S.No 149: Sakshi Choudhary (D1) -> Unit 1
+  
+const specialUnitRoster = [
+// 1. S.No 149: Sakshi Choudhary (D1) -> Unit 1
   { sno: 149, start: "2026-08-22", end: "2026-10-09", dept: "Obstetrics & Gynaecology", unit: "Unit 1", incharge: "Dr. Latika Sahu" },
   // 2. S.No 150: Sakshi Singh (D1) -> Unit 2
   { sno: 150, start: "2026-08-22", end: "2026-10-09", dept: "Obstetrics & Gynaecology", unit: "Unit 2", incharge: "Dr. Sangeeta Gupta" },

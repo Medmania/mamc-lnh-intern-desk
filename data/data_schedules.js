@@ -396,7 +396,7 @@ const deptSchedules = [
       id: "clinic_med",
       name: "Medicine Evening Special Clinics (02:00 PM - 04:00 PM)",
       units: [
-        { title: 'Pulmonary Clinic <span style="font-weight: normal;">(Dr. Naresh Kumar)</span>', days: "Tue / Thu / Sat (Morning)", location: "OPD Block 1st Floor (Rooms 111, 113)" },
+        { title: 'Pulmonary Clinic <span style="font-weight: normal;">(Dr. Naresh Kumar)</span>', days: "Tue / Thu / Sat (Morning)", location: "<b>OPD</b> (Rooms 111, 113)<br><b>Ward:</b> Ward 26" },
         { title: 'Hepatology Clinic <span style="font-weight: normal;">(Dr. S. Anuradha)</span>', days: "Mon to Sat (Morning)", location: "OPD Block 1st Floor (Room 139)" },
         { title: 'Diabetes Clinic <span style="font-weight: normal;">(Dr. Sanjay Pandit)</span>', days: "Monday", location: "OPD Block 3rd Floor (Rooms 316, 322, 323, 324, 325)" },
         { title: 'Hematology Clinic <span style="font-weight: normal;">(Dr. Sunita Aggarwal)</span>', days: "Tuesday", location: "OPD Block 3rd Floor (Rooms 310, 311, 312, 313, 315)" },

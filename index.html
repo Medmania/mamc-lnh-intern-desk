@@ -4,16 +4,39 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MAMC CRMI Duty Roster Lookup</title>
- <style>
+  <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
-    :root { --primary: #1e40af;--primary-dark: #1e3a8a;--secondary: #0284c7;--accent: #3b82f6;--bg: #f8fafc;--card: #ffffff;--text: #0f172a;--border: #e2e8f0;--shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);--shadow-md: 0 4px 20px -2px rgba(30, 64, 175, 0.08);--shadow-lg: 0 10px 30px -4px rgba(30, 64, 175, 0.12);
+    :root {
+      --primary: #1e40af;
+      --primary-dark: #1e3a8a;
+      --secondary: #0284c7;
+      --accent: #3b82f6;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #0f172a;
+      --border: #e2e8f0;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 20px -2px rgba(30, 64, 175, 0.08);
+      --shadow-lg: 0 10px 30px -4px rgba(30, 64, 175, 0.12);
     }
 
-    body {font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;background: #f1f5f9;background-image: radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.08) 0px, transparent 50%),radial-gradient(at 100% 100%, rgba(2, 132, 199, 0.08) 0px, transparent 50%);background-attachment: fixed;color: var(--text);margin: 0;padding: 24px 16px;min-height: 100vh;
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #f1f5f9;
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.08) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(2, 132, 199, 0.08) 0px, transparent 50%);
+      background-attachment: fixed;
+      color: var(--text);
+      margin: 0;
+      padding: 24px 16px;
+      min-height: 100vh;
     }
 
-    .container {max-width: 920px;margin: 0 auto;
+    .container {
+      max-width: 920px;
+      margin: 0 auto;
     }
 
     /* HEADER BANNER */
@@ -231,7 +254,7 @@
       background: #f8fafc;
     }
 
-    /* ========== COOL RESULT CARDS & ENHANCEMENTS ========== */
+    /* ========== RESULT CARDS ========== */
     .results {
       display: flex;
       flex-direction: column;
@@ -333,10 +356,6 @@
     }
 
     /* Modern table enhancements */
-    table {
-      box-shadow: 0 2px 12px rgba(30, 64, 175, 0.06);
-    }
-
     th {
       background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%) !important;
       color: #ffffff !important;
@@ -418,7 +437,6 @@
       line-height: 1.45;
     }
 
-    /* Schedule header */
     .schedule-header {
       background: linear-gradient(135deg, #1e3a8a, #2563eb);
       color: white;
@@ -466,69 +484,67 @@
 <body>
 
 <div class="container">
- <div class="header-banner">
+  <div class="header-banner">
     <h1>MAMC-LNH ROSTER</h1>
     <p class="subtitle">Compulsory Rotatory Medical Internship (2026–2027)</p>
   </div>
+
+  <!-- NAVIGATION TABS -->
   <div class="tabs" style="flex-wrap: wrap;">
-    <button class="tab-btn active" onclick="switchTab('person')">🔍 Search Person</button>
-    <button class="tab-btn" onclick="switchTab('department')">🏥 Search Department</button>
+    <button class="tab-btn active" onclick="switchTab('roster')">🔍 Search Roster</button>
     <button class="tab-btn" onclick="switchTab('schedule')">📅 Hospital facilities</button>
     <button class="tab-btn" onclick="switchTab('lab')">🧪 Tests & Labs</button>
   </div>
 
-<!-- TAB 4: TESTS & LABS -->
-<div id="lab-tab" class="hidden">
-  <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; margin-bottom: 12px;">
-    
-    <!-- 1. Dropdown Menu -->
-    <select id="labHospitalSelect" onchange="searchLabTests()" style="padding: 10px 14px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 14px; background: white; font-weight: 600; color: #1e293b; min-width: 280px; cursor: pointer;">
-      <option value="all">🏥 All Hospitals & Labs</option>
-      
-      <!-- LNJP ROUTINE LABS -->
-      <optgroup label="── LNJP GENERAL & SPECIALTY LABS ──">
-        <option value="lnjp_all">🏥 LNJP Labs (All Windows & Depts)</option>
-        <option value="Window 1">📍 Window 1 (Pathology Routine)</option>
-        <option value="Window 2E">📍 Window 2E (Biochemistry Routine & Specials)</option>
-        <option value="Window 2">📍 Window 2 (Biochemistry Emergency / ABG)</option>
-        <option value="Blood Bank">📍 Blood Bank</option>
-        <option value="College">📍 College Building / Depts</option>
-        <option value="TB Centre">📍 TB Centre (Gate 2)</option>
-        <option value="Pathology Dept">📍 Cytology / Histopath / FNAC</option>
-        <option value="Radiology">📷 Radiology & Imaging (CT, MRI, USG, X-Ray)</option>
-      </optgroup>
-
-      <!-- LNJP MICROBIOLOGY SUBSECTIONS -->
-      <optgroup label="── LNJP MICROBIOLOGY DEPT ──">
-        <option value="Microbiology">🧪 All Microbiology Labs</option>
-        <option value="Serology">🔬 Serology & Latex Tests (Room 126)</option>
-        <option value="Bacteriology">🧫 Routine Bacteriology, Pus & Cultures (Room 34)</option>
-        <option value="Virology 277B">🦠 Virology & Vector Borne Diseases (Room 277B)</option>
-        <option value="Advanced Virology">🧬 Advanced Virology & Molecular PCR (Room 279)</option>
-        <option value="Diarrhea">🧫 Diarrhea & Stool Lab (Room 124)</option>
-        <option value="Parasitology">🩸 Parasitology & Anaerobic Lab (Room 128)</option>
-        <option value="Mycology">🍄 Mycology / Fungal Lab (Room 253)</option>
-        <option value="Mycobacteriology">🫁 Mycobacteriology / TB ZN & Culture (Room 330)</option>
-        <option value="HIV & CD4">🩸 HIV & CD4 Cytometry (Room 278 / 31A)</option>
-      </optgroup>
-
-      <!-- GB PANT HEADER & OPTIONS -->
-      <optgroup label="── GB PANT HOSPITAL ──">
-        <option value="gbpant_all">🏥 GB Pant (All Diagnostics)</option>
-        <option value="Room D-129">📍 Sample Collection (Room D-129)</option>
-        <option value="Radiology">📍 Radiology (X-Ray, USG, CT, MRI)</option>
-        <option value="Cardiology">📍 Cardiology (Echo, TMT, Holter, HUTT)</option>
-      </optgroup>
-    </select>
-
-    <!-- 2. Search Bar -->
-    <input type="text" id="labSearch" oninput="searchLabTests()" placeholder="Type test name, vial color, room, location..." style="flex: 1; min-width: 250px; padding: 10px 14px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 14px;">
+  <!-- SHARED DATE SELECTOR -->
+  <div class="card" style="margin-bottom: 16px; padding: 14px;">
+    <div id="date-card" class="date-row" style="margin-bottom: 0;">
+      <div style="flex: 1;">
+        <label for="dutyDate" style="margin-bottom: 4px;">📅 Select Date to Check Posting:</label>
+        <input type="date" id="dutyDate" min="2026-05-23" max="2027-05-22" onchange="onDateOrSelectionChange()">
+      </div>
+      <button onclick="setTodayDate()" style="padding: 10px 12px; border: none; background: var(--secondary); color: white; font-weight: 600; border-radius: 6px; cursor: pointer; margin-top: 18px;">Today</button>
+    </div>
   </div>
 
-  <!-- 3. Results Container -->
-  <div id="labResults"></div>
-</div>
-  <!-- TAB 3: DEPARTMENT SCHEDULE & WARDS -->
+  <!-- UNIFIED TAB: SEARCH ROSTER (PERSON & DEPT) -->
+  <div id="roster-tab" class="card">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin-bottom: 14px;">
+      <!-- Person Search Box -->
+      <div>
+        <label for="universalPersonInput">👤 Search Person (Name, Roll, S.No, Batch):</label>
+        <input type="text" id="universalPersonInput" placeholder="e.g. Ankit, S.No 33, A7, 44591..." oninput="executeSmartSearch()">
+      </div>
+
+      <!-- Department Dropdown -->
+      <div>
+        <label for="universalDeptSelect">🏥 Filter by Department:</label>
+        <select id="universalDeptSelect" onchange="executeSmartSearch()">
+          <option value="">-- All Departments / Any --</option>
+          <option value="PSM">Community Medicine (PSM)</option>
+          <option value="Forensic">Forensic Medicine (FMT)</option>
+          <option value="MED">General Medicine</option>
+          <option value="Surgery">General Surgery</option>
+          <option value="DVL">Dermatology (DVL)</option>
+          <option value="ObsGynae">Obstetrics & Gynaecology</option>
+          <option value="Psychiatry">Psychiatry</option>
+          <option value="Pediatrics">Pediatrics</option>
+          <option value="Casualty">Casualty / Emergency</option>
+          <option value="ENT">ENT</option>
+          <option value="Ophtha">Ophthalmology</option>
+          <option value="Ortho">Orthopedics</option>
+          <option value="Anaesthesia">Anesthesia</option>
+          <option value="Pulm Med">Pulmonary Medicine</option>
+          <option value="Radiology">Radiology</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Smart Results Output -->
+    <div id="smartSearchResults" class="results"></div>
+  </div>
+
+  <!-- TAB 2: HOSPITAL FACILITIES & WARDS -->
   <div id="schedule-tab" class="card hidden">
     <div class="input-group">
       <label for="scheduleSearch">🔍 Search Facility, Clinic, Room or Day:</label>
@@ -564,7 +580,7 @@
           <option value="neurosurgery">Neurosurgery OPD</option>
           <option value="clinic_other">Other Clinics (PAC, Pain, Rabies, Senior Citizen)</option>
         </optgroup>
-        <optgroup label="<strong>GB Pant Hospital OPDs & Specialty Clinics</strong>">
+        <optgroup label="GB Pant Hospital OPDs & Specialty Clinics">
           <option value="gbp_cardio">GB Pant Cardiology & Pacemaker</option>
           <option value="gbp_ctvs">GB Pant CTVS & Aorta/Heart Failure</option>
           <option value="gbp_gastro">GB Pant Gastroenterology & Liver</option>
@@ -583,54 +599,53 @@
     <div id="scheduleResults" class="results"></div>
   </div>
 
-  <!-- SHARED DATE SELECTOR -->
-  <div class="card" style="margin-bottom: 16px; padding: 14px;">
-    <div id="date-card" class="date-row" style="margin-bottom: 0;">
-      <div style="flex: 1;">
-        <label for="dutyDate" style="margin-bottom: 4px;">📅 Select Date to Check Posting:</label>
-        <input type="date" id="dutyDate" min="2026-05-23" max="2027-05-22" onchange="onDateOrSelectionChange()">
-      </div>
-      <button onclick="setTodayDate()" style="padding: 10px 12px; border: none; background: var(--secondary); color: white; font-weight: 600; border-radius: 6px; cursor: pointer; margin-top: 18px;">Today</button>
-    </div>
-  </div>
+  <!-- TAB 3: TESTS & LABS -->
+  <div id="lab-tab" class="hidden">
+    <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; margin-bottom: 12px;">
+      
+      <!-- 1. Dropdown Menu -->
+      <select id="labHospitalSelect" onchange="searchLabTests()" style="padding: 10px 14px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 14px; background: white; font-weight: 600; color: #1e293b; min-width: 280px; cursor: pointer;">
+        <option value="all">🏥 All Hospitals & Labs</option>
+        
+        <optgroup label="── LNJP GENERAL & SPECIALTY LABS ──">
+          <option value="lnjp_all">🏥 LNJP Labs (All Windows & Depts)</option>
+          <option value="Window 1">📍 Window 1 (Pathology Routine)</option>
+          <option value="Window 2E">📍 Window 2E (Biochemistry Routine & Specials)</option>
+          <option value="Window 2">📍 Window 2 (Biochemistry Emergency / ABG)</option>
+          <option value="Blood Bank">📍 Blood Bank</option>
+          <option value="College">📍 College Building / Depts</option>
+          <option value="TB Centre">📍 TB Centre (Gate 2)</option>
+          <option value="Pathology Dept">📍 Cytology / Histopath / FNAC</option>
+          <option value="Radiology">📷 Radiology & Imaging (CT, MRI, USG, X-Ray)</option>
+        </optgroup>
 
-  <!-- TAB 1: SEARCH BY PERSON -->
-  <div id="person-tab" class="card">
-    <div class="input-group">
-      <label for="studentSearch">Search Name, Roll No, S.No, or Batch (e.g., 29, 44591, A7, Ankit Raj):</label>
-      <input type="text" id="studentSearch" placeholder="Type name, roll, or serial number..." oninput="searchStudent()">
-    </div>
-    <div id="studentResults" class="results"></div>
-  </div>
+        <optgroup label="── LNJP MICROBIOLOGY DEPT ──">
+          <option value="Microbiology">🧪 All Microbiology Labs</option>
+          <option value="Serology">🔬 Serology & Latex Tests (Room 126)</option>
+          <option value="Bacteriology">🧫 Routine Bacteriology, Pus & Cultures (Room 34)</option>
+          <option value="Virology 277B">🦠 Virology & Vector Borne Diseases (Room 277B)</option>
+          <option value="Advanced Virology">🧬 Advanced Virology & Molecular PCR (Room 279)</option>
+          <option value="Diarrhea">🧫 Diarrhea & Stool Lab (Room 124)</option>
+          <option value="Parasitology">🩸 Parasitology & Anaerobic Lab (Room 128)</option>
+          <option value="Mycology">🍄 Mycology / Fungal Lab (Room 253)</option>
+          <option value="Mycobacteriology">🫁 Mycobacteriology / TB ZN & Culture (Room 330)</option>
+          <option value="HIV & CD4">🩸 HIV & CD4 Cytometry (Room 278 / 31A)</option>
+        </optgroup>
 
-  <!-- TAB 2: SEARCH BY DEPARTMENT -->
-  <div id="department-tab" class="card hidden">
-    <div class="input-group">
-      <label for="deptSelect">Select Department:</label>
-      <select id="deptSelect" onchange="searchDepartment()">
-        <option value="">-- Choose Department --</option>
-        <option value="PSM">Community Medicine (PSM)</option>
-        <option value="Forensic">Forensic Medicine (FMT)</option>
-        <option value="MED">General Medicine</option>
-        <option value="Surgery">General Surgery</option>
-        <option value="DVL">Dermatology (DVL)</option>
-        <option value="ObsGynae">Obstetrics & Gynaecology</option>
-        <option value="Psychiatry">Psychiatry</option>
-        <option value="Pediatrics">Pediatrics</option>
-        <option value="Casualty">Casualty / Emergency</option>
-        <option value="ENT">ENT</option>
-        <option value="Ophtha">Ophthalmology</option>
-        <option value="Ortho">Orthopedics</option>
-        <option value="Anaesthesia">Anesthesia</option>
-        <option value="Pulm Med">Pulmonary Medicine</option>
-        <option value="Radiology">Radiology</option>
+        <optgroup label="── GB PANT HOSPITAL ──">
+          <option value="gbpant_all">🏥 GB Pant (All Diagnostics)</option>
+          <option value="Room D-129">📍 Sample Collection (Room D-129)</option>
+          <option value="Radiology">📍 Radiology (X-Ray, USG, CT, MRI)</option>
+          <option value="Cardiology">📍 Cardiology (Echo, TMT, Holter, HUTT)</option>
+        </optgroup>
       </select>
-    </div>
-    <div id="deptResults" class="results"></div>
-  </div>
 
-  <!-- SUGGESTION & FEEDBACK BOARD (GOOGLE FORM) -->
-  
+      <!-- 2. Search Bar -->
+      <input type="text" id="labSearch" oninput="searchLabTests()" placeholder="Type test name, vial color, room, location..." style="flex: 1; min-width: 250px; padding: 10px 14px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 14px;">
+    </div>
+
+    <!-- Results Container -->
+    <div id="labResults"></div>
   </div>
 
 </div> <!-- END CONTAINER -->
@@ -640,31 +655,22 @@
   <p style="margin: 4px 0 0 0; font-size: 16px;"><strong>Batch-2021</strong></p>
 </footer>
 
-
+<!-- DATA FILE DEPENDENCIES -->
 <script src="data/data_interns.js"></script>
-  <script src="data/data_burari.js"></script>
-  <script src="data/data_periphery.js"></script>
-  <script src="data/data_labs.js"></script>
-  <script src="data/data_schedules.js"></script>
-  <script src="data/data_units.js"></script>
+<script src="data/data_burari.js"></script>
+<script src="data/data_periphery.js"></script>
+<script src="data/data_labs.js"></script>
+<script src="data/data_schedules.js"></script>
+<script src="data/data_units.js"></script>
+
 <script>
-
-// --- MASTER BURARI & SUPPLEMENTARY DAILY ROSTER (WEEKS 1-13) ---
- 
-// --- COMPLETE PERIPHERY ROSTER MAPPING (BATCHES A, B, C, D | WEEKS 1 - 52) ---
-
-  // --- MASTER DATA (S.NO 1 TO 243) ---
- 
-  // Helper to fetch co-intern names by S.No (Filtered for Night Duty & S.No <= 50)
+  // Helper to fetch co-intern names by S.No
   function getCoInternsNames(coSnos, userDept, selectedDate) {
     if (!coSnos || coSnos.length === 0) return "None";
 
     const isNightDuty = userDept && userDept.toLowerCase().includes("night");
-    
-    // Fallback safely if 'student' is not defined in this scope
     const currentSearchedSno = typeof student !== 'undefined' ? student.sno : null;
 
-    // Filter co-interns for this specific record
     const filteredCo = coSnos
       .filter(sno => {
         if (Number(sno) > 50) return false;
@@ -677,11 +683,9 @@
       .map(sno => {
         const intern = interns.find(i => Number(i.sno) === Number(sno));
         const nameStr = intern ? `${intern.name} (S.No ${sno})` : `S.No ${sno}`;
-        
         const isCurrent = Number(sno) === Number(currentSearchedSno);
         
         if (isCurrent) {
-          // Highlight style for the active student
           return `<span style="background-color: #fef08a; padding: 2px 6px; border-radius: 4px; font-weight: bold; border: 1px solid #eab308;">${nameStr}</span>`;
         }
         return nameStr;
@@ -690,7 +694,6 @@
 
     let resultHtml = filteredCo;
 
-    // If the student themselves has a night duty, generate the complete list of everyone on night duty that day
     if (isNightDuty && burariDailyRoster[selectedDate]) {
       const allNightEntries = [];
       const dayData = burariDailyRoster[selectedDate];
@@ -701,8 +704,6 @@
           const intern = interns.find(i => Number(i.sno) === snoNum);
           const name = intern ? intern.name : `S.No ${snoNum}`;
           const entryStr = `<strong>${name}</strong> (S.No ${snoNum} - ${info.dept})`;
-          
-          // Check if this night duty entry is the currently searched student
           const isCurrentNight = Number(snoNum) === Number(currentSearchedSno);
 
           if (isCurrentNight) {
@@ -713,7 +714,6 @@
         }
       }
 
-      // Remove duplicates if any
       const uniqueNights = [...new Set(allNightEntries)];
       if (uniqueNights.length > 0) {
         resultHtml += `<div style="margin-top: 4px; font-size: 12.5px; color: #1e3a8a;">🌙 <strong>Everyone on Night Duty Today:</strong> ${uniqueNights.join(", ")}</div>`;
@@ -731,16 +731,8 @@
     return 'General Duty';
   }
 
-  // ========== SPECIAL UNIT ROSTER (extensible for any department) ==========
-  // Just keep adding objects. No other code changes needed for new depts/units.
- 
-  /**
-   * Returns the special unit assignment for a student on a given date (if any).
-   * Works for ANY department that has entries in specialUnitRoster.
-   * Returns null if no matching entry.
-   */
   function getSpecialUnitInfo(sno, dateStr) {
-    if (!dateStr || !sno) return null;
+    if (typeof specialUnitRoster === 'undefined' || !specialUnitRoster || !dateStr || !sno) return null;
     const entry = specialUnitRoster.find(r =>
       Number(r.sno) === Number(sno) &&
       dateStr >= r.start &&
@@ -749,23 +741,389 @@
     return entry || null;
   }
 
-  // OPD & CLINIC SCHEDULE DATABASE
+  function formatDateShort(dateStr) {
+    if (!dateStr) return "";
+    const [year, month, day] = dateStr.split("-");
+    return `${day}/${month}/${year.slice(2)}`;
+  }
 
-  
+  function getSelectedWeek() {
+    const selectedDate = document.getElementById('dutyDate').value;
+    for (let w of weeksData) {
+      if (selectedDate >= w.start && selectedDate <= w.end) return w;
+    }
+    return weeksData[0];
+  }
 
+  function setTodayDate() {
+    const today = new Date().toISOString().split('T')[0];
+    const dateInput = document.getElementById('dutyDate');
+    
+    if (today < "2026-05-23" || today > "2027-05-22") {
+      dateInput.value = "2026-05-23";
+    } else {
+      dateInput.value = today;
+    }
+    onDateOrSelectionChange();
+  }
+
+  window.onload = function() {
+    setTodayDate();
+  };
+
+  function onDateOrSelectionChange() {
+    if (!document.getElementById('roster-tab')?.classList.contains('hidden')) {
+      executeSmartSearch();
+    } else if (!document.getElementById('schedule-tab')?.classList.contains('hidden')) {
+      searchDeptSchedule();
+    } else if (!document.getElementById('lab-tab')?.classList.contains('hidden')) {
+      searchLabTests();
+    }
+  }
+
+  function switchTab(tab) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('roster-tab')?.classList.add('hidden');
+    document.getElementById('schedule-tab')?.classList.add('hidden');
+    document.getElementById('lab-tab')?.classList.add('hidden');
+
+    const dateCard = document.getElementById('date-card');
+
+    if (tab === 'roster') {
+      document.querySelectorAll('.tab-btn')[0]?.classList.add('active');
+      document.getElementById('roster-tab')?.classList.remove('hidden');
+      if (dateCard) dateCard.classList.remove('hidden');
+      executeSmartSearch();
+    } else if (tab === 'schedule') {
+      document.querySelectorAll('.tab-btn')[1]?.classList.add('active');
+      document.getElementById('schedule-tab')?.classList.remove('hidden');
+      if (dateCard) dateCard.classList.add('hidden');
+      searchDeptSchedule();
+    } else if (tab === 'lab') {
+      document.querySelectorAll('.tab-btn')[2]?.classList.add('active');
+      document.getElementById('lab-tab')?.classList.remove('hidden');
+      if (dateCard) dateCard.classList.add('hidden');
+      searchLabTests();
+    }
+  }
+
+  // =========================================================
+  // UNIFIED SMART SEARCH (PERSON + DEPARTMENT COMBINATION)
+  // =========================================================
+  function executeSmartSearch() {
+    const personQuery = document.getElementById('universalPersonInput')?.value.toLowerCase().trim() || "";
+    const deptQuery = document.getElementById('universalDeptSelect')?.value || "";
+    const selectedDate = document.getElementById('dutyDate')?.value || "2026-05-23";
+    const resDiv = document.getElementById('smartSearchResults');
+    
+    if (!resDiv) return;
+    const weekInfo = getSelectedWeek();
+
+    // 1. If both are empty
+    if (!personQuery && !deptQuery) {
+      resDiv.innerHTML = '<p style="padding: 16px; color: #64748b; text-align:center;">Type an intern name/S.No or select a department to see postings.</p>';
+      return;
+    }
+
+    // 2. PERSON + DEPARTMENT (Find when person is in dept & co-interns)
+    if (personQuery && deptQuery) {
+      const matchedInterns = interns.filter(i => 
+        i.name.toLowerCase().includes(personQuery) || 
+        i.roll.includes(personQuery) || 
+        i.batch.toLowerCase() === personQuery ||
+        i.sno.toString() === personQuery
+      );
+
+      if (matchedInterns.length === 0) {
+        resDiv.innerHTML = `<p style="padding: 16px; color: #64748b; text-align:center;">No intern matching "<strong>${personQuery}</strong>" found.</p>`;
+        return;
+      }
+
+      let html = '';
+      matchedInterns.forEach(student => {
+        const matchingWeeks = weeksData.filter(w => {
+          const posting = getPostingForSubdivision(student.batch, w.wk);
+          return posting.toLowerCase() === deptQuery.toLowerCase();
+        });
+
+        if (matchingWeeks.length === 0) {
+          html += `
+            <div class="result-card" style="padding: 16px;">
+              <h3>${student.name} (S.No ${student.sno} • Subdivision ${student.batch})</h3>
+              <p style="color: #64748b; margin-top: 6px;">Not posted in <strong>${deptQuery}</strong> during the 2026–2027 internship year.</p>
+            </div>
+          `;
+          return;
+        }
+
+        html += `
+          <div class="result-card">
+            <div class="result-card-header">
+              <h3>👤 ${student.name} ➔ 🏥 ${deptQuery}</h3>
+              <span class="badge badge-sub">Batch ${student.batch} • S.No ${student.sno}</span>
+            </div>
+            <div class="result-card-meta">
+              Found posted in <strong>${deptQuery}</strong> for <strong>${matchingWeeks.length} week(s)</strong>:
+            </div>
+            <div class="result-card-body">
+        `;
+
+        matchingWeeks.forEach(w => {
+          const unitInfo = getSpecialUnitInfo(student.sno, w.start);
+          const unitBadge = unitInfo ? `<span class="badge badge-unit">${unitInfo.unit} (${unitInfo.incharge})</span>` : '';
+
+          const activeSubdivisions = [];
+          ['A', 'B', 'C', 'D'].forEach(g => {
+            for (let i = 1; i <= 12; i++) {
+              const sub = g + i;
+              if (getPostingForSubdivision(sub, w.wk).toLowerCase() === deptQuery.toLowerCase()) {
+                activeSubdivisions.push(sub);
+              }
+            }
+          });
+
+          const coInterns = interns.filter(i => activeSubdivisions.includes(i.batch) && i.sno !== student.sno);
+
+          html += `
+            <div style="background: #f8fafc; border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; margin-bottom: 12px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px;">
+                <span style="font-weight: 800; color: #1e40af; font-size: 14px;">📅 Week ${w.wk} (${formatDateShort(w.start)} to ${formatDateShort(w.end)})</span>
+                ${unitBadge}
+              </div>
+
+              <div style="margin-top: 8px; font-size: 12.5px; color: #334155;">
+                👥 <strong>Co-interns in ${deptQuery} this week (${coInterns.length}):</strong><br>
+                <div style="margin-top: 4px; line-height: 1.6;">
+                  ${coInterns.length > 0 
+                    ? coInterns.map(ci => {
+                        const ciUnit = getSpecialUnitInfo(ci.sno, w.start);
+                        const unitTag = ciUnit ? ` <span style="font-size: 10.5px; color: #b45309; font-weight:700;">[${ciUnit.unit}]</span>` : '';
+                        return `<strong>${ci.name}</strong> (S.No ${ci.sno}, ${ci.batch})${unitTag}`;
+                      }).join(', ')
+                    : '<em>No other interns posted this week.</em>'}
+                </div>
+              </div>
+            </div>
+          `;
+        });
+
+        html += `</div></div>`;
+      });
+
+      resDiv.innerHTML = html;
+      return;
+    }
+
+    // 3. DEPARTMENT ONLY (Show Everyone in that Dept on the Selected Date)
+    if (!personQuery && deptQuery) {
+      const activeSubdivisions = [];
+      ['A', 'B', 'C', 'D'].forEach(g => {
+        for (let i = 1; i <= 12; i++) {
+          const sub = g + i;
+          if (getPostingForSubdivision(sub, weekInfo.wk).toLowerCase() === deptQuery.toLowerCase()) {
+            activeSubdivisions.push(sub);
+          }
+        }
+      });
+
+      const activeInterns = interns
+        .filter(i => activeSubdivisions.includes(i.batch))
+        .sort((a, b) => a.sno - b.sno);
+
+      const hasAnyUnit = activeInterns.some(i => getSpecialUnitInfo(i.sno, selectedDate));
+
+      let html = `
+        <div class="result-card" style="margin-bottom: 16px;">
+          <div class="schedule-header">🏥 ${deptQuery} Roster</div>
+          <div style="padding: 14px 18px;">
+            <div style="font-size: 13.5px; color: #475569; margin-bottom: 8px;">
+              <strong>Week ${weekInfo.wk}</strong> • ${formatDateShort(weekInfo.start)} to ${formatDateShort(weekInfo.end)}
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 6px; align-items: center;">
+              <span style="font-weight: 700; font-size: 13px; color: #334155;">Active Subdivisions:</span>
+              ${activeSubdivisions.length > 0 
+                ? activeSubdivisions.map(s => `<span class="badge badge-sub">${s}</span>`).join('') 
+                : '<span style="color:#94a3b8;">None</span>'}
+            </div>
+          </div>
+        </div>
+      `;
+
+      if (activeInterns.length === 0) {
+        html += `<p style="padding: 16px; color: #64748b; text-align:center;">No interns are posted in ${deptQuery} during Week ${weekInfo.wk}.</p>`;
+      } else {
+        html += `
+          <div class="result-card" style="overflow:hidden;">
+            <table style="margin-top:0; border:none;">
+              <thead>
+                <tr>
+                  <th>S.No</th>
+                  <th>Roll No</th>
+                  <th>Name</th>
+                  <th>Subdivision</th>
+                  ${hasAnyUnit ? '<th>Unit</th><th>Incharge</th>' : ''}
+                </tr>
+              </thead>
+              <tbody>
+                ${activeInterns.map(i => {
+                  const unitInfo = getSpecialUnitInfo(i.sno, selectedDate);
+                  return `
+                    <tr>
+                      <td>${i.sno}</td>
+                      <td>${i.roll}</td>
+                      <td><b>${i.name}</b></td>
+                      <td><span class="badge badge-sub">${i.batch}</span></td>
+                      ${hasAnyUnit ? `
+                        <td>${unitInfo ? `<span class="badge badge-unit">${unitInfo.unit}</span>` : '—'}</td>
+                        <td style="font-size:12.5px; color:#475569;">${unitInfo ? unitInfo.incharge : '—'}</td>
+                      ` : ''}
+                    </tr>
+                  `;
+                }).join('')}
+              </tbody>
+            </table>
+          </div>
+        `;
+      }
+
+      resDiv.innerHTML = html;
+      return;
+    }
+
+    // 4. PERSON ONLY (Standard Detailed Person Card)
+    if (personQuery && !deptQuery) {
+      const matches = interns.filter(i => 
+        i.name.toLowerCase().includes(personQuery) || 
+        i.roll.includes(personQuery) || 
+        i.batch.toLowerCase() === personQuery ||
+        i.sno.toString() === personQuery
+      );
+
+      if (matches.length === 0) {
+        resDiv.innerHTML = '<p style="padding:16px; color:#64748b; text-align:center;">No interns found matching your search.</p>';
+        return;
+      }
+
+      let html = '';
+      matches.forEach(student => {
+        let activePosting = getPostingForSubdivision(student.batch, weekInfo.wk);
+        let burariDutyInfo = null;
+        let peripheryInfo = null;
+        let isPDO = false;
+        const studentSno = Number(student.sno);
+
+        if (typeof burariDailyRoster !== 'undefined' && burariDailyRoster[selectedDate]?.[studentSno]) {
+          burariDutyInfo = burariDailyRoster[selectedDate][studentSno];
+        }
+
+        if (!burariDutyInfo && typeof burariDailyRoster !== 'undefined') {
+          const prevDateObj = new Date(selectedDate);
+          prevDateObj.setDate(prevDateObj.getDate() - 1);
+          const prevDateStr = prevDateObj.toISOString().split('T')[0];
+
+          if (burariDailyRoster[prevDateStr]?.[studentSno]?.dept?.toLowerCase().includes("night")) {
+            isPDO = true;
+          }
+        }
+
+        if (!burariDutyInfo && !isPDO && typeof peripheryRosterMap !== 'undefined' && peripheryRosterMap[student.batch]) {
+          const pMatch = peripheryRosterMap[student.batch].find(p => selectedDate >= p.start && selectedDate <= p.end);
+          if (pMatch) peripheryInfo = pMatch.center;
+        }
+
+        let displayDuty = activePosting;
+        if (burariDutyInfo) displayDuty = `PSM - ${burariDutyInfo.dept}`;
+        else if (isPDO) displayDuty = `PSM - PDO (Post Duty Off)`;
+        else if (peripheryInfo) displayDuty = `PSM (${peripheryInfo.toUpperCase()})`;
+        else if (activePosting === "PSM") displayDuty = "PSM";
+
+        const unitInfo = getSpecialUnitInfo(student.sno, selectedDate);
+        const unitBadgeHtml = unitInfo
+          ? `<span class="badge badge-unit" style="margin-left:8px;">${unitInfo.unit}</span>
+             <span style="font-size:11.5px; color:#64748b; margin-left:6px;">(${unitInfo.incharge})</span>`
+          : '';
+
+        html += `
+          <div class="result-card">
+            <div class="result-card-header">
+              <h3>${student.name}</h3>
+              <span class="badge badge-sub">Subdivision ${student.batch}</span>
+            </div>
+            <div class="result-card-meta">
+              <strong>Roll No:</strong> ${student.roll} &nbsp;•&nbsp; <strong>S.No:</strong> ${student.sno}
+            </div>
+            
+            <div class="result-card-body">
+              <div class="posting-chip">
+                📍 <div>
+                  <div style="font-size:12px; font-weight:600; opacity:0.85; margin-bottom:2px;">Posting on ${formatDateShort(selectedDate)}</div>
+                  <div style="font-size:15.5px; font-weight:800; display:flex; align-items:center; flex-wrap:wrap; gap:4px;">
+                    ${displayDuty}${unitBadgeHtml}
+                  </div>
+                  <div style="font-size:12px; font-weight:500; opacity:0.75; margin-top:2px;">Week ${weekInfo.wk} • ${weekInfo.block}</div>
+                </div>
+              </div>
+              
+              ${burariDutyInfo ? `
+                <div style="margin-top: 10px; padding: 10px 12px; background: #f0fdf4; border-radius: 10px; border: 1px solid #bbf7d0; font-size: 13px; color: #166534;">
+                  👥 <strong>Co-Interns on Duty:</strong> ${getCoInternsNames(burariDutyInfo.co_snos, burariDutyInfo.dept, selectedDate)}
+                </div>
+              ` : ''}
+
+              <details style="margin-top: 12px;">
+                <summary>▶ View 52-Week Full Roster Timeline</summary>
+                <div style="max-height: 260px; overflow-y: auto; margin-top: 6px; border-radius: 10px; border: 1px solid var(--border);">
+                  <table style="margin-top:0; border:none;">
+                    <thead>
+                      <tr><th>Wk</th><th>Date Range</th><th>Department Posting</th></tr>
+                    </thead>
+                    <tbody>
+                      ${weeksData.map(w => {
+                        const post = getPostingForSubdivision(student.batch, w.wk);
+                        const isSelected = w.wk === weekInfo.wk;
+                        let timelineDisplay = post;
+
+                        const weekUnit = getSpecialUnitInfo(studentSno, w.start);
+                        if (weekUnit && weekUnit.dept.toLowerCase() === post.toLowerCase()) {
+                          timelineDisplay = `<b>${post} (${weekUnit.unit})</b><br><span style="font-size:11px; color:#64748b;">${weekUnit.incharge}</span>`;
+                        } else if (post === "PSM" && w.wk >= 1 && w.wk <= 13) {
+                          if (typeof peripheryRosterMap !== 'undefined' && peripheryRosterMap[student.batch]) {
+                            const pMatch = peripheryRosterMap[student.batch].find(p => w.start >= p.start && w.end <= p.end);
+                            if (pMatch) timelineDisplay = `<b>PSM (${pMatch.center.split(" ")[0]})</b>`;
+                          }
+                        }
+
+                        return `
+                          <tr ${isSelected ? 'class="selected-week-row" style="background: #dbeafe !important; font-weight: 700;"' : ''}>
+                            <td>W${w.wk}</td>
+                            <td>${formatDateShort(w.start)} to ${formatDateShort(w.end)}</td>
+                            <td>${timelineDisplay}</td>
+                          </tr>
+                        `;
+                      }).join('')}
+                    </tbody>
+                  </table>
+                </div>
+              </details>
+            </div>
+          </div>
+        `;
+      });
+
+      resDiv.innerHTML = html;
+    }
+  }
+
+  // --- TAB 2: HOSPITAL FACILITIES SCHEDULE ---
   function onScheduleSearchInput() {
     const query = document.getElementById('scheduleSearch').value.toLowerCase().trim();
-    if (query) {
-      document.getElementById('deptScheduleSelect').value = "";
-    }
+    if (query) document.getElementById('deptScheduleSelect').value = "";
     renderScheduleResults();
   }
 
   function onScheduleSelectChange() {
     const selectVal = document.getElementById('deptScheduleSelect').value;
-    if (selectVal) {
-      document.getElementById('scheduleSearch').value = "";
-    }
+    if (selectVal) document.getElementById('scheduleSearch').value = "";
     renderScheduleResults();
   }
 
@@ -870,266 +1228,78 @@
     renderScheduleResults();
   }
 
-  
+  // --- TAB 3: LABS & DIAGNOSTICS ---
+  function searchLabTests() {
+    const searchInput = document.getElementById('labSearch');
+    const selectFilter = document.getElementById('labHospitalSelect');
+    const resDiv = document.getElementById('labResults');
 
-  window.onload = function() {
-    setTodayDate();
-  };
+    if (!resDiv || !selectFilter) return;
 
-  function setTodayDate() {
-    const today = new Date().toISOString().split('T')[0];
-    const dateInput = document.getElementById('dutyDate');
-    
-    if (today < "2026-05-23" || today > "2027-05-22") {
-      dateInput.value = "2026-05-23";
-    } else {
-      dateInput.value = today;
+    const query = searchInput ? searchInput.value.toLowerCase().trim() : "";
+    const filterVal = selectFilter.value;
+
+    let filtered = labDirectory;
+
+    if (filterVal === "lnjp_all") {
+      filtered = filtered.filter(item => item.hospital === "LNJP Hospital Labs");
+    } else if (filterVal === "gbpant_all") {
+      filtered = filtered.filter(item => item.hospital === "GB Pant Hospital Labs");
+    } else if (filterVal !== "all") {
+      filtered = filtered.filter(item => {
+        const win = item.window.toLowerCase();
+        const target = filterVal.toLowerCase();
+
+        if (target === "pathology dept") {
+          return win.includes("pathology") || win.includes("cytopath") || win.includes("cytology") || win.includes("histopath") || win.includes("fnac") || win.includes("grossing");
+        }
+        if (target === "microbiology") {
+          return win.includes("microbiology") || win.includes("window 3");
+        }
+        if (target === "window 2") {
+          return win.includes("window 2") && !win.includes("window 2e");
+        }
+        return win.includes(target);
+      });
     }
-    onDateOrSelectionChange();
-  }
 
- function getSelectedWeek() {
-    const selectedDate = document.getElementById('dutyDate').value;
-    for (let w of weeksData) {
-      if (selectedDate >= w.start && selectedDate <= w.end) return w;
+    if (query) {
+      filtered = filtered.filter(item => 
+        item.test.toLowerCase().includes(query) ||
+        item.tube.toLowerCase().includes(query) ||
+        item.window.toLowerCase().includes(query) ||
+        item.days.toLowerCase().includes(query) ||
+        item.report.toLowerCase().includes(query) ||
+        (item.notes || "").toLowerCase().includes(query)
+      );
     }
-    return weeksData[0];
-  }
 
-  // FIXED: Handles all 4 tabs equally when date or filters change
-  function onDateOrSelectionChange() {
-    if (!document.getElementById('person-tab')?.classList.contains('hidden')) {
-      searchStudent();
-    } else if (!document.getElementById('department-tab')?.classList.contains('hidden')) {
-      searchDepartment();
-    } else if (!document.getElementById('schedule-tab')?.classList.contains('hidden')) {
-      searchDeptSchedule();
-    } else if (!document.getElementById('lab-tab')?.classList.contains('hidden')) {
-      searchLabTests();
-    }
-  }
-function switchTab(tab) {
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    document.getElementById('person-tab')?.classList.add('hidden');
-    document.getElementById('department-tab')?.classList.add('hidden');
-    document.getElementById('schedule-tab')?.classList.add('hidden');
-    document.getElementById('lab-tab')?.classList.add('hidden');
-
-    const dateCard = document.getElementById('date-card');
-
-    if (tab === 'person') {
-      document.querySelectorAll('.tab-btn')[0]?.classList.add('active');
-      document.getElementById('person-tab')?.classList.remove('hidden');
-      if (dateCard) dateCard.classList.remove('hidden');
-      searchStudent();
-    } else if (tab === 'department') {
-      document.querySelectorAll('.tab-btn')[1]?.classList.add('active');
-      document.getElementById('department-tab')?.classList.remove('hidden');
-      if (dateCard) dateCard.classList.remove('hidden');
-      searchDepartment();
-    } else if (tab === 'schedule') {
-      document.querySelectorAll('.tab-btn')[2]?.classList.add('active');
-      document.getElementById('schedule-tab')?.classList.remove('hidden');
-      if (dateCard) dateCard.classList.add('hidden');
-      searchDeptSchedule();
-    } else if (tab === 'lab') {
-      document.querySelectorAll('.tab-btn')[3]?.classList.add('active');
-      document.getElementById('lab-tab')?.classList.remove('hidden');
-      if (dateCard) dateCard.classList.add('hidden');
-      searchLabTests();
-    }
-  }
-
-  function formatDateShort(dateStr) {
-    if (!dateStr) return "";
-    const [year, month, day] = dateStr.split("-");
-    return `${day}/${month}/${year.slice(2)}`;
-  }
-
-// --- UPDATED SEARCH STUDENT FUNCTION WITH PDO LOGIC + UNIT SUPPORT ---
-  function searchStudent() {
-    const query = document.getElementById('studentSearch').value.toLowerCase().trim();
-    const resDiv = document.getElementById('studentResults');
-    if (!query) { resDiv.innerHTML = ''; return; }
-
-    const matches = interns.filter(i => 
-      i.name.toLowerCase().includes(query) || 
-      i.roll.includes(query) || 
-      i.batch.toLowerCase() === query ||
-      i.sno.toString() === query
-    );
-
-    if (matches.length === 0) {
-      resDiv.innerHTML = '<p>No interns found matching your search.</p>';
+    if (filtered.length === 0) {
+      resDiv.innerHTML = '<p style="padding: 16px; color: #64748b; text-align:center;">No matching lab tests found.</p>';
       return;
     }
 
-    const selectedDate = document.getElementById('dutyDate').value;
-    const weekInfo = getSelectedWeek();
-
-    let html = '';
-    matches.forEach(student => {
-      let activePosting = getPostingForSubdivision(student.batch, weekInfo.wk);
-      let burariDutyInfo = null;
-      let peripheryInfo = null;
-      let isPDO = false;
-
-      // 1. Check specific daily Burari shift schedule for the selected date
-      if (typeof burariDailyRoster !== 'undefined' && burariDailyRoster[selectedDate]) {
-        const studentSno = Number(student.sno);
-        if (burariDailyRoster[selectedDate][studentSno]) {
-          burariDutyInfo = burariDailyRoster[selectedDate][studentSno];
-        }
-      }
-
-      // 2. If no direct duty found, check if they had a Night Duty on the previous day (making today PDO)
-      if (!burariDutyInfo && typeof burariDailyRoster !== 'undefined') {
-        const prevDateObj = new Date(selectedDate);
-        prevDateObj.setDate(prevDateObj.getDate() - 1);
-        const prevDateStr = prevDateObj.toISOString().split('T')[0];
-
-        if (burariDailyRoster[prevDateStr]) {
-          const studentSno = Number(student.sno);
-          const prevDuty = burariDailyRoster[prevDateStr][studentSno];
-          if (prevDuty && prevDuty.dept && prevDuty.dept.toLowerCase().includes("night")) {
-            isPDO = true;
-          }
-        }
-      }
-
-      // 3. Check Periphery posting schedule if still not found
-      if (!burariDutyInfo && !isPDO && peripheryRosterMap[student.batch]) {
-        const pMatch = peripheryRosterMap[student.batch].find(p => selectedDate >= p.start && selectedDate <= p.end);
-        if (pMatch) {
-          peripheryInfo = pMatch.center;
-        }
-      }
-
-      // Format display posting title
-      let displayDuty = activePosting;
-      if (burariDutyInfo) {
-        displayDuty = `PSM - ${burariDutyInfo.dept}`;
-      } else if (isPDO) {
-        displayDuty = `PSM - PDO (Post Duty Off)`;
-      } else if (peripheryInfo) {
-        // Formats center name cleanly as PSM (RHTC, BARWALA), PSM (UHTC, GOKULPURI), etc.
-        const centerUpper = peripheryInfo.toUpperCase();
-        if (centerUpper.includes("BARWALA")) {
-          displayDuty = "PSM (RHTC, BARWALA)";
-        } else if (centerUpper.includes("GOKULPURI")) {
-          displayDuty = "PSM (UHTC, GOKULPURI)";
-        } else if (centerUpper.includes("DELHI GATE") || centerUpper.includes("BALMIKI")) {
-          displayDuty = "PSM (DELHI GATE / BALMIKI BASTI)";
-        } else {
-          displayDuty = `PSM (${centerUpper})`;
-        }
-      } else if (activePosting === "PSM") {
-        displayDuty = "PSM";
-      }
-
-      // Get special unit info (works for Surgery and any future departments)
-      const unitInfo = getSpecialUnitInfo(student.sno, selectedDate);
-      const unitBadgeHtml = unitInfo
-        ? `<span class="badge badge-unit" style="margin-left:8px;">${unitInfo.unit}</span>
-           <span style="font-size:11.5px; color:#64748b; margin-left:6px;">(${unitInfo.incharge})</span>`
-        : '';
-
+    let html = `<p style="color:#64748b; font-size:13px; margin:0 0 12px 0;">Showing <strong>${filtered.length}</strong> test${filtered.length > 1 ? 's' : ''}</p>`;
+    filtered.forEach(item => {
       html += `
-        <div class="result-card">
-          <div class="result-card-header">
-            <h3>${student.name}</h3>
-            <span class="badge badge-sub">Subdivision ${student.batch}</span>
+        <div class="lab-card">
+          <h4>
+            🧪 ${item.test}
+            <span class="badge badge-lab">${item.hospital}</span>
+          </h4>
+          <div class="lab-meta">
+            <span>💉 <strong>Vial:</strong> ${item.tube}</span>
+            <span>📍 <strong>Location:</strong> ${item.window}</span>
           </div>
-          <div class="result-card-meta">
-            <strong>Roll No:</strong> ${student.roll} &nbsp;•&nbsp; <strong>S.No:</strong> ${student.sno}
+          <div class="lab-meta">
+            <span>⏰ <strong>Days:</strong> ${item.days}</span>
+            <span>📄 <strong>Report:</strong> ${item.report}</span>
           </div>
-          
-          <div class="result-card-body">
-            <div class="posting-chip">
-              📍 <div>
-                <div style="font-size:12px; font-weight:600; opacity:0.85; margin-bottom:2px;">Posting on ${formatDateShort(selectedDate)}</div>
-                <div style="font-size:15.5px; font-weight:800; display:flex; align-items:center; flex-wrap:wrap; gap:4px;">
-                  ${displayDuty}${unitBadgeHtml}
-                </div>
-                <div style="font-size:12px; font-weight:500; opacity:0.75; margin-top:2px;">Week ${weekInfo.wk} • ${weekInfo.block}</div>
-              </div>
+          ${item.notes ? `
+            <div class="lab-notes">
+              💡 <strong>Notes:</strong> ${item.notes}
             </div>
-            
-            ${burariDutyInfo ? `
-              <div style="margin-top: 10px; padding: 10px 12px; background: #f0fdf4; border-radius: 10px; border: 1px solid #bbf7d0; font-size: 13px; color: #166534;">
-                👥 <strong>Co-Interns on Duty:</strong> ${getCoInternsNames(burariDutyInfo.co_snos, burariDutyInfo.dept, selectedDate)}
-              </div>
-            ` : ''}
-
-            <details style="margin-top: 12px;" ontoggle="if(this.open){ const activeRow = this.querySelector('.selected-week-row'); if(activeRow){ activeRow.scrollIntoView({ behavior: 'smooth', block: 'center' }); } }">
-              <summary>▶ View 52-Week Full Roster Timeline</summary>
-              <div style="max-height: 260px; overflow-y: auto; margin-top: 6px; border-radius: 10px; border: 1px solid var(--border);">
-                <table style="margin-top:0; border:none;">
-                  <thead>
-                    <tr><th>Wk</th><th>Date Range</th><th>Department Posting</th></tr>
-                  </thead>
-                  <tbody>
-                    ${weeksData.map(w => {
-                      const post = getPostingForSubdivision(student.batch, w.wk);
-                      const isSelected = w.wk === weekInfo.wk;
-
-                      let timelineDisplay = post;
-                      if (post === "PSM" && w.wk >= 1 && w.wk <= 13) {
-                        const startD = new Date(w.start);
-                        const endD = new Date(w.end);
-                        const dailySummaries = [];
-
-                        let curr = new Date(startD);
-                        while (curr <= endD) {
-                          const dStr = curr.toISOString().split('T')[0];
-                          let dutyTitle = "";
-
-                          if (typeof burariDailyRoster !== 'undefined' && burariDailyRoster[dStr]) {
-                            const studentSno = Number(student.sno);
-                            if (burariDailyRoster[dStr][studentSno]) {
-                              dutyTitle = burariDailyRoster[dStr][studentSno].dept;
-                            } else {
-                              const prevD = new Date(curr);
-                              prevD.setDate(prevD.getDate() - 1);
-                              const prevStr = prevD.toISOString().split('T')[0];
-                              if (burariDailyRoster[prevStr]?.[studentSno]?.dept?.toLowerCase().includes("night")) {
-                                dutyTitle = "PDO";
-                              }
-                            }
-                          }
-
-                          if (!dutyTitle && typeof peripheryRosterMap !== 'undefined' && peripheryRosterMap[student.batch]) {
-                            const pMatch = peripheryRosterMap[student.batch].find(p => dStr >= p.start && dStr <= p.end);
-                            if (pMatch) {
-                              dutyTitle = `Periphery (${pMatch.center.split(" ")[0]})`;
-                            }
-                          }
-
-                          if (dutyTitle) {
-                            const shortDate = `${curr.getDate()}/${curr.getMonth()+1}`;
-                            dailySummaries.push(`<span style="font-size:11.5px; color:#475569;"><strong>${shortDate}:</strong> ${dutyTitle}</span>`);
-                          }
-                          curr.setDate(curr.getDate() + 1);
-                        }
-
-                        if (dailySummaries.length > 0) {
-                          timelineDisplay = `<div style="display:flex; flex-direction:column; gap:2px; padding: 4px 0;">${dailySummaries.join('')}</div>`;
-                        }
-                      }
-
-                      return `
-                        <tr ${isSelected ? 'class="selected-week-row" style="background: #dbeafe !important; font-weight: 700;"' : ''}>
-                          <td>W${w.wk}</td>
-                          <td>${formatDateShort(w.start)} to ${formatDateShort(w.end)}</td>
-                          <td>${timelineDisplay}</td>
-                        </tr>
-                      `;
-                    }).join('')}
-                  </tbody>
-                </table>
-              </div>
-            </details>
-          </div>
+          ` : ''}
         </div>
       `;
     });
@@ -1137,207 +1307,7 @@ function switchTab(tab) {
     resDiv.innerHTML = html;
   }
 
-  function searchDepartment() {
-    const deptSelect = document.getElementById('deptSelect');
-    if (!deptSelect) return;
-    
-    const dept = deptSelect.value;
-    const resDiv = document.getElementById('deptResults');
-    if (!dept || !resDiv) { 
-      if (resDiv) resDiv.innerHTML = ''; 
-      return; 
-    }
-
-    const weekInfo = getSelectedWeek();
-    const selectedDate = document.getElementById('dutyDate').value;
-
-    const activeSubdivisions = [];
-    const groups = ['A', 'B', 'C', 'D'];
-    groups.forEach(g => {
-      for (let i = 1; i <= 12; i++) {
-        const sub = g + i;
-        if (getPostingForSubdivision(sub, weekInfo.wk) === dept) {
-          activeSubdivisions.push(sub);
-        }
-      }
-    });
-
-    const activeInterns = interns
-      .filter(i => activeSubdivisions.includes(i.batch))
-      .sort((a, b) => a.sno - b.sno);
-
-    // Check if any intern in this list has a unit assignment for the selected date
-    const hasAnyUnit = activeInterns.some(i => getSpecialUnitInfo(i.sno, selectedDate));
-
-    let html = `
-      <div class="result-card" style="margin-bottom: 16px;">
-        <div class="schedule-header">🏥 ${dept} Roster</div>
-        <div style="padding: 14px 18px;">
-          <div style="font-size: 13.5px; color: #475569; margin-bottom: 8px;">
-            <strong>Week ${weekInfo.wk}</strong> • ${formatDateShort(weekInfo.start)} to ${formatDateShort(weekInfo.end)}
-          </div>
-          <div style="display: flex; flex-wrap: wrap; gap: 6px; align-items: center;">
-            <span style="font-weight: 700; font-size: 13px; color: #334155;">Posted Subdivisions:</span>
-            ${activeSubdivisions.length > 0 
-              ? activeSubdivisions.map(s => `<span class="badge badge-sub">${s}</span>`).join('') 
-              : '<span style="color:#94a3b8;">None</span>'}
-          </div>
-        </div>
-      </div>
-    `;
-
-    if (activeInterns.length === 0) {
-      html += '<p style="padding: 16px; color: #64748b; text-align:center;">No interns are posted in this department during the selected week.</p>';
-    } else {
-      html += `
-        <div class="result-card" style="overflow:hidden;">
-          <table style="margin-top:0; border:none;">
-            <thead>
-              <tr>
-                <th>S.No</th>
-                <th>Roll No</th>
-                <th>Name</th>
-                <th>Subdivision</th>
-                ${hasAnyUnit ? '<th>Unit</th><th>Incharge</th>' : ''}
-              </tr>
-            </thead>
-            <tbody>
-              ${activeInterns.map(i => {
-                const unitInfo = getSpecialUnitInfo(i.sno, selectedDate);
-                return `
-                  <tr>
-                    <td>${i.sno}</td>
-                    <td>${i.roll}</td>
-                    <td><b>${i.name}</b></td>
-                    <td><span class="badge badge-sub">${i.batch}</span></td>
-                    ${hasAnyUnit ? `
-                      <td>${unitInfo ? `<span class="badge badge-unit">${unitInfo.unit}</span>` : '—'}</td>
-                      <td style="font-size:12.5px; color:#475569;">${unitInfo ? unitInfo.incharge : '—'}</td>
-                    ` : ''}
-                  </tr>
-                `;
-              }).join('')}
-            </tbody>
-          </table>
-        </div>
-      `;
-    }
-
-    resDiv.innerHTML = html;
-  }
-
-  function adjustFormResponsive() {
-    const formIframe = document.querySelector('.card iframe');
-    if (formIframe) {
-      if (window.innerWidth < 600) {
-        formIframe.style.height = '620px';
-      } else {
-        formIframe.style.height = '562px';
-      }
-    }
-  }
-
-  window.addEventListener('load', adjustFormResponsive);
-  window.addEventListener('resize', adjustFormResponsive);
-// ==========================================
-// TAB 4: LABS & DIAGNOSTICS LOGIC (ISOLATED)
-// ==========================================
-
-
-function searchLabTests() {
-  const searchInput = document.getElementById('labSearch');
-  const selectFilter = document.getElementById('labHospitalSelect');
-  const resDiv = document.getElementById('labResults');
-
-  // Prevent crashes if elements aren't present
-  if (!resDiv || !selectFilter) return;
-
-  const query = searchInput ? searchInput.value.toLowerCase().trim() : "";
-  const filterVal = selectFilter.value;
-
-  let filtered = labDirectory;
-
-  // Filter by Dropdown Selection
-  if (filterVal === "lnjp_all") {
-    filtered = filtered.filter(item => item.hospital === "LNJP Hospital Labs");
-  } else if (filterVal === "gbpant_all") {
-    filtered = filtered.filter(item => item.hospital === "GB Pant Hospital Labs");
-  } else if (filterVal !== "all") {
-    filtered = filtered.filter(item => {
-      const win = item.window.toLowerCase();
-      const target = filterVal.toLowerCase();
-
-      // Special handling for Pathology / Cytology / Histopathology
-      if (target === "pathology dept") {
-        return win.includes("pathology") || 
-               win.includes("cytopath") || 
-               win.includes("cytology") || 
-               win.includes("histopath") || 
-               win.includes("fnac") || 
-               win.includes("grossing");
-      }
-
-      // Special handling for All Microbiology
-      if (target === "microbiology") {
-        return win.includes("microbiology") || win.includes("window 3");
-      }
-
-      // Prevent "Window 2" from accidentally matching "Window 2E"
-      if (target === "window 2") {
-        return win.includes("window 2") && !win.includes("window 2e");
-      }
-
-      // General matching for all specific rooms & sub-sections
-      return win.includes(target);
-    });
-  }
-
-  // Filter by Search Query Text
-  if (query) {
-    filtered = filtered.filter(item => 
-      item.test.toLowerCase().includes(query) ||
-      item.tube.toLowerCase().includes(query) ||
-      item.window.toLowerCase().includes(query) ||
-      item.days.toLowerCase().includes(query) ||
-      item.report.toLowerCase().includes(query) ||
-      (item.notes || "").toLowerCase().includes(query)
-    );
-  }
-
-  if (filtered.length === 0) {
-    resDiv.innerHTML = '<p style="padding: 16px; color: #64748b; text-align:center;">No matching lab tests found.</p>';
-    return;
-  }
-
-  let html = `<p style="color:#64748b; font-size:13px; margin:0 0 12px 0;">Showing <strong>${filtered.length}</strong> test${filtered.length > 1 ? 's' : ''}</p>`;
-  filtered.forEach(item => {
-    html += `
-      <div class="lab-card">
-        <h4>
-          🧪 ${item.test}
-          <span class="badge badge-lab">${item.hospital}</span>
-        </h4>
-        <div class="lab-meta">
-          <span>💉 <strong>Vial:</strong> ${item.tube}</span>
-          <span>📍 <strong>Location:</strong> ${item.window}</span>
-        </div>
-        <div class="lab-meta">
-          <span>⏰ <strong>Days:</strong> ${item.days}</span>
-          <span>📄 <strong>Report:</strong> ${item.report}</span>
-        </div>
-        ${item.notes ? `
-          <div class="lab-notes">
-            💡 <strong>Notes:</strong> ${item.notes}
-          </div>
-        ` : ''}
-      </div>
-    `;
-  });
-
-  resDiv.innerHTML = html;
-}
-
-// TOGGLE SUGGESTION MODAL POPUP
+  // --- SUGGESTION POPUP MODAL ---
   function toggleFeedbackModal() {
     const modal = document.getElementById('feedbackModal');
     if (modal) {
@@ -1348,9 +1318,9 @@ function searchLabTests() {
       }
     }
   }
-  
 </script>
-<!-- FLOATING SUGGESTION BUTTON (BOTTOM LEFT) -->
+
+<!-- FLOATING SUGGESTION BUTTON -->
 <button id="feedbackToggleBtn" onclick="toggleFeedbackModal()" style="position: fixed; bottom: 20px; left: 20px; z-index: 9998; background: #0284c7; color: white; border: none; border-radius: 50px; padding: 12px 20px; font-weight: 700; font-size: 13.5px; box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35); cursor: pointer; display: flex; align-items: center; gap: 8px; font-family: inherit; transition: all 0.25s ease;">
   💡 <span>Suggest Changes</span>
 </button>
@@ -1358,7 +1328,6 @@ function searchLabTests() {
 <!-- SUGGESTION MODAL POPUP -->
 <div id="feedbackModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(15, 23, 42, 0.5); backdrop-filter: blur(6px); z-index: 10000; display: flex; align-items: center; justify-content: center; padding: 16px; box-sizing: border-box;">
   <div style="background: #ffffff; width: 100%; max-width: 640px; border-radius: 20px; box-shadow: 0 20px 40px -8px rgba(0,0,0,0.25); border: 1px solid #e2e8f0; overflow: hidden; animation: popupSlide 0.3s ease;">
-    <!-- Modal Header -->
     <div style="padding: 16px 20px; background: linear-gradient(135deg, #1e3a8a, #2563eb); color: white; display: flex; justify-content: space-between; align-items: center;">
       <h3 style="margin: 0; font-size: 16px; font-weight: 700; display: flex; align-items: center; gap: 8px;">
         💡 Roster Feedback & Corrections
@@ -1366,7 +1335,6 @@ function searchLabTests() {
       <button onclick="toggleFeedbackModal()" style="background: rgba(255,255,255,0.2); border: none; color: white; font-size: 20px; cursor: pointer; border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; line-height: 1;">&times;</button>
     </div>
     
-    <!-- Modal Content / Embedded Form -->
     <div style="padding: 12px;">
       <iframe 
         src="https://docs.google.com/forms/d/e/1FAIpQLSdTHssorcf7rmuzjX7nfiZ1QRddKD1is_rXuyA-NNz28tyQQQ/viewform?embedded=true" 

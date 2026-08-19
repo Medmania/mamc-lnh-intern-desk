@@ -479,6 +479,97 @@
     }
 
     .hidden { display: none !important; }
+    /* ===================================================
+   CLEAN CO-INTERN & WEEK POSTING CARDS
+   =================================================== */
+.week-box {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 14px;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+  transition: all 0.2s ease;
+}
+
+.week-box:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08);
+}
+
+.week-box-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.unit-partner-section {
+  margin-top: 12px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+
+.partner-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.partner-chip {
+  background: #ffffff;
+  border: 1px solid #86efac;
+  color: #166534;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.co-intern-toggle {
+  margin-top: 10px;
+  font-size: 12.5px;
+  color: #0284c7;
+}
+
+.co-intern-toggle summary {
+  cursor: pointer;
+  font-weight: 700;
+  padding: 4px 0;
+  user-select: none;
+}
+
+.co-intern-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+  padding: 10px;
+  background: #f8fafc;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+}
+
+.co-intern-chip {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  font-size: 11.5px;
+  color: #334155;
+  padding: 3px 8px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
   </style>
 </head>
 <body>
@@ -826,6 +917,9 @@
     }
 
     // 2. PERSON + DEPARTMENT (Find when person is in dept & co-interns)
+   // -----------------------------------------------------------------
+    // SCENARIO 2: PERSON + DEPARTMENT (Clean Cards with Unit Partners)
+    // -----------------------------------------------------------------
     if (personQuery && deptQuery) {
       const matchedInterns = interns.filter(i => 
         i.name.toLowerCase().includes(personQuery) || 
@@ -859,19 +953,20 @@
         html += `
           <div class="result-card">
             <div class="result-card-header">
-              <h3>👤 ${student.name} ➔ 🏥 ${deptQuery}</h3>
+              <h3>👤 ${student.name} &nbsp;➔&nbsp; 🏥 ${deptQuery}</h3>
               <span class="badge badge-sub">Batch ${student.batch} • S.No ${student.sno}</span>
             </div>
             <div class="result-card-meta">
-              Found posted in <strong>${deptQuery}</strong> for <strong>${matchingWeeks.length} week(s)</strong>:
+              Posted in <strong>${deptQuery}</strong> for <strong>${matchingWeeks.length} week(s)</strong> across the internship year:
             </div>
             <div class="result-card-body">
         `;
 
         matchingWeeks.forEach(w => {
           const unitInfo = getSpecialUnitInfo(student.sno, w.start);
-          const unitBadge = unitInfo ? `<span class="badge badge-unit">${unitInfo.unit} (${unitInfo.incharge})</span>` : '';
+          const currentUnitName = unitInfo ? unitInfo.unit : null;
 
+          // Find active subdivisions in this dept for this week
           const activeSubdivisions = [];
           ['A', 'B', 'C', 'D'].forEach(g => {
             for (let i = 1; i <= 12; i++) {
@@ -882,27 +977,58 @@
             }
           });
 
-          const coInterns = interns.filter(i => activeSubdivisions.includes(i.batch) && i.sno !== student.sno);
+          // All interns in the department this week
+          const allDeptInterns = interns.filter(i => activeSubdivisions.includes(i.batch));
+
+          // Interns in the exact same unit
+          const sameUnitPartners = currentUnitName
+            ? allDeptInterns.filter(i => {
+                const u = getSpecialUnitInfo(i.sno, w.start);
+                return u && u.unit === currentUnitName;
+              })
+            : [];
 
           html += `
-            <div style="background: #f8fafc; border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; margin-bottom: 12px;">
-              <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px;">
-                <span style="font-weight: 800; color: #1e40af; font-size: 14px;">📅 Week ${w.wk} (${formatDateShort(w.start)} to ${formatDateShort(w.end)})</span>
-                ${unitBadge}
+            <div class="week-box">
+              <div class="week-box-header">
+                <div>
+                  <span style="font-weight: 800; color: #1e40af; font-size: 14.5px;">🗓️ Week ${w.wk}</span>
+                  <span style="font-size: 12.5px; color: #64748b; margin-left: 6px;">(${formatDateShort(w.start)} – ${formatDateShort(w.end)})</span>
+                </div>
+                ${unitInfo ? `<span class="badge badge-unit">${unitInfo.unit} • ${unitInfo.incharge}</span>` : '<span class="badge badge-sub">General Duty</span>'}
               </div>
 
-              <div style="margin-top: 8px; font-size: 12.5px; color: #334155;">
-                👥 <strong>Co-interns in ${deptQuery} this week (${coInterns.length}):</strong><br>
-                <div style="margin-top: 4px; line-height: 1.6;">
-                  ${coInterns.length > 0 
-                    ? coInterns.map(ci => {
-                        const ciUnit = getSpecialUnitInfo(ci.sno, w.start);
-                        const unitTag = ciUnit ? ` <span style="font-size: 10.5px; color: #b45309; font-weight:700;">[${ciUnit.unit}]</span>` : '';
-                        return `<strong>${ci.name}</strong> (S.No ${ci.sno}, ${ci.batch})${unitTag}`;
-                      }).join(', ')
-                    : '<em>No other interns posted this week.</em>'}
+              <!-- SAME UNIT PARTNERS (Primary Focus) -->
+              ${sameUnitPartners.length > 0 ? `
+                <div class="unit-partner-section">
+                  <div style="font-size: 12px; font-weight: 700; color: #15803d;">
+                    🤝 Posted in ${currentUnitName} with ${student.name.split(' ')[0]} (${sameUnitPartners.length}):
+                  </div>
+                  <div class="partner-pills">
+                    ${sameUnitPartners.map(p => `
+                      <span class="partner-chip" ${p.sno === student.sno ? 'style="background:#dcfce7; border-color:#22c55e;"' : ''}>
+                        ${p.name} <span style="font-size: 10.5px; opacity:0.8;">(S.No ${p.sno})</span>
+                      </span>
+                    `).join('')}
+                  </div>
                 </div>
-              </div>
+              ` : ''}
+
+              <!-- ALL DEPARTMENT CO-INTERNS (Collapsible Drawer) -->
+              <details class="co-intern-toggle">
+                <summary>👥 View all ${allDeptInterns.length} interns in ${deptQuery} this week</summary>
+                <div class="co-intern-grid">
+                  ${allDeptInterns.map(ci => {
+                    const ciUnit = getSpecialUnitInfo(ci.sno, w.start);
+                    const isCurrent = ci.sno === student.sno;
+                    return `
+                      <span class="co-intern-chip" ${isCurrent ? 'style="background:#eff6ff; border-color:#3b82f6; font-weight:bold;"' : ''}>
+                        ${ci.name} (${ci.batch})${ciUnit ? ` <strong style="color:#b45309;">[${ciUnit.unit}]</strong>` : ''}
+                      </span>
+                    `;
+                  }).join('')}
+                </div>
+              </details>
             </div>
           `;
         });
@@ -913,7 +1039,6 @@
       resDiv.innerHTML = html;
       return;
     }
-
     // 3. DEPARTMENT ONLY (Show Everyone in that Dept on the Selected Date)
     if (!personQuery && deptQuery) {
       const activeSubdivisions = [];

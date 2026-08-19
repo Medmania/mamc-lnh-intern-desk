@@ -339,7 +339,7 @@ const deptSchedules = [
     name: "Other Special Clinics, Hospital Units & Support Services",
     units: [
       { title: 'Anti-Retroviral Therapy (ART Centre) <span style="font-weight: normal;">(Dr. S. Anuradha)</span>', days: "Mon to Sat (09:00 AM - 04:00 PM)", location: "OPD Block 6th Floor (Room 634)" },
-      { title: 'Chest Clinic (DOTS for T.B.) <span style="font-weight: normal;">(Dr. Vishal Khanna)</span>', days: "Mon to Sat", location: "Chest Clinic, Gate No. 2" },
+      { title: 'Chest Clinic (DOTS for TB / Tuberculosis) <span style="font-weight: normal;">(Dr. Vishal Khanna)</span>', days: "Mon to Sat", location: "Chest Clinic (DOTS Centre), Gate No. 2" },
       { title: 'Radio Diagnosis <span style="font-weight: normal;">(Dr. Gaurav Pradhan)</span>', days: "Mon to Sat", location: "Room 137 (Near Gate No. 2)" },
       { title: 'Treatment / Referral of EWS Patients <span style="font-weight: normal;">(Dr. Shagufta Vij)</span>', days: "Mon to Sat", location: "OPD Block 4th Floor (Room 423)" },
       { title: 'Covid-19 Sample Collection <span style="font-weight: normal;">(Dr. Shagufta Vij)</span>', days: "Daily (24x7)", location: "In front of Main Casualty" },

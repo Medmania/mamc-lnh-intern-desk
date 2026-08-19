@@ -7,569 +7,67 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
-    :root {
-      --primary: #1e40af;
-      --primary-dark: #1e3a8a;
-      --secondary: #0284c7;
-      --accent: #3b82f6;
-      --bg: #f8fafc;
-      --card: #ffffff;
-      --text: #0f172a;
-      --border: #e2e8f0;
-      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
-      --shadow-md: 0 4px 20px -2px rgba(30, 64, 175, 0.08);
-      --shadow-lg: 0 10px 30px -4px rgba(30, 64, 175, 0.12);
-    }
-
-    body {
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: #f1f5f9;
-      background-image: 
-        radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.08) 0px, transparent 50%),
-        radial-gradient(at 100% 100%, rgba(2, 132, 199, 0.08) 0px, transparent 50%);
-      background-attachment: fixed;
-      color: var(--text);
-      margin: 0;
-      padding: 24px 16px;
-      min-height: 100vh;
-    }
-
-    .container {
-      max-width: 920px;
-      margin: 0 auto;
-    }
-
-    /* HEADER BANNER */
-    .header-banner {
-      background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 50%, #0284c7 100%);
-      color: white;
-      padding: 28px 24px;
-      border-radius: 20px;
-      text-align: center;
-      margin-bottom: 24px;
-      box-shadow: var(--shadow-lg);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .header-banner::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 60%);
-      pointer-events: none;
-    }
-
-    h1 {
-      margin: 0 0 6px 0;
-      font-size: 28px;
-      font-weight: 800;
-      letter-spacing: -0.5px;
-      color: #ffffff;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-
-    .subtitle {
-      color: #e0f2fe;
-      margin: 0;
-      font-size: 14px;
-      font-weight: 500;
-      opacity: 0.95;
-    }
-
-    /* NAVIGATION TABS */
-    .tabs {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 20px;
-      background: rgba(255, 255, 255, 0.7);
-      backdrop-filter: blur(10px);
-      padding: 6px;
-      border-radius: 16px;
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow-sm);
-    }
-
-    .tab-btn {
-      flex: 1;
-      padding: 12px 14px;
-      border: none;
-      background: transparent;
-      cursor: pointer;
-      font-weight: 700;
-      border-radius: 12px;
-      color: #64748b;
-      font-size: 13.5px;
-      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-    }
-
-    .tab-btn:hover {
-      color: var(--primary);
-      background: rgba(255, 255, 255, 0.8);
-    }
-
-    .tab-btn.active {
-      background: var(--card);
-      color: var(--primary);
-      box-shadow: 0 4px 12px rgba(30, 64, 175, 0.12);
-      border: 1px solid rgba(226, 232, 240, 0.8);
-    }
-
-    /* CARDS */
-    .card {
-      background: var(--card);
-      padding: 24px;
-      border-radius: 20px;
-      box-shadow: var(--shadow-md);
-      border: 1px solid var(--border);
-      margin-bottom: 20px;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .card:hover {
-      box-shadow: var(--shadow-lg);
-    }
-
-    .input-group {
-      margin-bottom: 18px;
-    }
-
-    label {
-      display: block;
-      font-weight: 700;
-      margin-bottom: 8px;
-      font-size: 13.5px;
-      color: #334155;
-    }
-
-    input, select {
-      width: 100%;
-      padding: 12px 16px;
-      border: 1.5px solid var(--border);
-      border-radius: 12px;
-      box-sizing: border-box;
-      font-size: 14.5px;
-      font-family: inherit;
-      color: var(--text);
-      background: #f8fafc;
-      transition: all 0.2s ease;
-    }
-
-    input:focus, select:focus {
-      outline: none;
-      border-color: var(--accent);
-      background: #ffffff;
-      box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
-    }
-
-    /* DATE SELECTOR ROW */
-    .date-row {
-      display: flex;
-      gap: 12px;
-      align-items: flex-end;
-      background: linear-gradient(to right, #f8fafc, #f1f5f9);
-      padding: 16px;
-      border-radius: 16px;
-      border: 1px solid var(--border);
-    }
-
-    .date-row button {
-      padding: 12px 20px;
-      border: none;
-      background: linear-gradient(135deg, var(--secondary), #0369a1);
-      color: white;
-      font-weight: 700;
-      border-radius: 12px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      box-shadow: 0 2px 8px rgba(2, 132, 199, 0.25);
-    }
-
-    .date-row button:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.35);
-    }
-
-    /* BADGES & BANNERS */
-    .badge {
-      display: inline-block;
-      padding: 4px 10px;
-      border-radius: 20px;
-      background: #e0f2fe;
-      color: #0284c7;
-      font-weight: 700;
-      font-size: 12px;
-      border: 1px solid #bae6fd;
-    }
-
-    .info-banner {
-      background: linear-gradient(135deg, #eff6ff 0%, #e0f2fe 100%);
-      border-left: 4px solid var(--accent);
-      padding: 14px 18px;
-      border-radius: 12px;
-      margin-bottom: 18px;
-      font-size: 14px;
-      box-shadow: var(--shadow-sm);
-    }
-
-    /* TABLES */
-    table {
-      width: 100%;
-      border-collapse: separate;
-      border-spacing: 0;
-      margin-top: 12px;
-      font-size: 13.5px;
-      border-radius: 12px;
-      overflow: hidden;
-      border: 1px solid var(--border);
-    }
-
-    th, td {
-      padding: 12px 14px;
-      text-align: left;
-      border-bottom: 1px solid var(--border);
-    }
-
-    th {
-      background: #f8fafc;
-      color: #475569;
-      font-weight: 700;
-      text-transform: uppercase;
-      font-size: 11.5px;
-      letter-spacing: 0.5px;
-    }
-
-    tr:last-child td {
-      border-bottom: none;
-    }
-
-    tr:hover td {
-      background: #f8fafc;
-    }
-
-    /* ========== RESULT CARDS ========== */
-    .results {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .result-card {
-      background: #ffffff;
-      border-radius: 16px;
-      border: 1px solid var(--border);
-      box-shadow: 0 4px 16px -2px rgba(30, 64, 175, 0.08);
-      overflow: hidden;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      position: relative;
-    }
-
-    .result-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px -4px rgba(30, 64, 175, 0.14);
-    }
-
-    .result-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 5px;
-      height: 100%;
-      background: linear-gradient(180deg, #2563eb, #0284c7);
-    }
-
-    .result-card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 12px;
-      padding: 16px 18px 10px 22px;
-      flex-wrap: wrap;
-    }
-
-    .result-card-header h3 {
-      margin: 0;
-      font-size: 17px;
-      font-weight: 800;
-      color: #0f172a;
-      letter-spacing: -0.3px;
-    }
-
-    .result-card-meta {
-      padding: 0 18px 12px 22px;
-      font-size: 13.5px;
-      color: #475569;
-    }
-
-    .result-card-body {
-      padding: 0 18px 16px 22px;
-    }
-
-    .posting-chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: linear-gradient(135deg, #eff6ff, #dbeafe);
-      color: #1e40af;
-      font-weight: 700;
-      font-size: 14.5px;
-      padding: 10px 14px;
-      border-radius: 12px;
-      border: 1px solid #bfdbfe;
-      margin-top: 6px;
-      line-height: 1.4;
-    }
-
-    .badge-sub {
-      background: linear-gradient(135deg, #e0f2fe, #bae6fd);
-      color: #0369a1;
-      border: 1px solid #7dd3fc;
-    }
-
-    .badge-days {
-      background: linear-gradient(135deg, #dcfce7, #bbf7d0);
-      color: #15803d;
-      border: 1px solid #86efac;
-      font-weight: 700;
-    }
-
-    .badge-unit {
-      background: linear-gradient(135deg, #fef3c7, #fde68a);
-      color: #b45309;
-      border: 1px solid #fcd34d;
-    }
-
-    .badge-lab {
-      background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
-      color: #0369a1;
-      border: 1px solid #bae6fd;
-      font-size: 11px;
-      padding: 3px 9px;
-    }
-
-    /* Modern table enhancements */
-    th {
-      background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%) !important;
-      color: #ffffff !important;
-      font-size: 11px !important;
-      letter-spacing: 0.6px;
-      padding: 14px 14px !important;
-    }
-
-    tr:nth-child(even) td {
-      background: #f8fafc;
-    }
-
-    tr:hover td {
-      background: #eff6ff !important;
-    }
-
-    /* Lab specific cards */
-    .lab-card {
-      background: #ffffff;
-      border-radius: 14px;
-      border: 1px solid var(--border);
-      padding: 16px 18px;
-      margin-bottom: 12px;
-      box-shadow: 0 3px 12px rgba(30, 64, 175, 0.06);
-      transition: all 0.2s ease;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .lab-card:hover {
-      box-shadow: 0 6px 20px rgba(30, 64, 175, 0.12);
-      transform: translateY(-1px);
-    }
-
-    .lab-card::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      width: 4px;
-      background: linear-gradient(180deg, #0284c7, #0ea5e9);
-    }
-
-    .lab-card h4 {
-      margin: 0 0 8px 0;
-      font-size: 15.5px;
-      font-weight: 800;
-      color: #0f172a;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .lab-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px 16px;
-      font-size: 13px;
-      color: #334155;
-      margin-bottom: 8px;
-    }
-
-    .lab-meta span {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .lab-notes {
-      margin-top: 10px;
-      padding: 10px 12px;
-      background: linear-gradient(135deg, #fffbeb, #fef3c7);
-      border-left: 3px solid #f59e0b;
-      border-radius: 8px;
-      font-size: 12.5px;
-      color: #78350f;
-      line-height: 1.45;
-    }
-
-    .schedule-header {
-      background: linear-gradient(135deg, #1e3a8a, #2563eb);
-      color: white;
-      padding: 14px 18px;
-      border-radius: 14px 14px 0 0;
-      margin: -1px -1px 0 -1px;
-      font-size: 16px;
-      font-weight: 800;
-      letter-spacing: -0.3px;
-    }
-
-    details summary {
-      list-style: none;
-      cursor: pointer;
-      color: var(--secondary);
-      font-weight: 700;
-      font-size: 13.5px;
-      padding: 8px 0;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      transition: color 0.2s;
-    }
-
-    details summary:hover {
-      color: var(--primary);
-    }
-
-    details summary::-webkit-details-marker {
-      display: none;
-    }
-
-    details[open] summary {
-      margin-bottom: 8px;
-    }
-
-    @keyframes popupSlide {
-      from { opacity: 0; transform: translateY(20px) scale(0.95); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
-    }
-
+    :root { --primary: #0284c7; --primary-dark: #0369a1; --secondary: #0ea5e9; --accent: #38bdf8; --bg: #f8fafc; --card: #ffffff; --text: #0f172a; --border: #e2e8f0; --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05); --shadow-md: 0 4px 20px -2px rgba(2, 132, 199, 0.08); --shadow-lg: 0 10px 30px -4px rgba(2, 132, 199, 0.12); }
+    body { font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif; background: #f1f5f9; background-image: radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.12) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(14, 165, 233, 0.1) 0px, transparent 50%); background-attachment: fixed; color: var(--text); margin: 0; padding: 24px 16px; min-height: 100vh; }
+    .container { max-width: 920px; margin: 0 auto; }
+    .header-banner { background: linear-gradient(135deg, #0284c7 0%, #0ea5e9 50%, #38bdf8 100%); color: white; padding: 26px 24px; border-radius: 20px; text-align: center; margin-bottom: 24px; box-shadow: 0 10px 25px -5px rgba(2, 132, 199, 0.25); position: relative; overflow: hidden; }
+    .header-banner::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 60%); pointer-events: none; }
+    h1 { margin: 0 0 6px 0; font-size: 28px; font-weight: 800; letter-spacing: -0.5px; color: #ffffff; }
+    .subtitle { color: #f0f9ff; margin: 0; font-size: 14px; font-weight: 500; opacity: 0.95; }
+    .tabs { display: flex; gap: 10px; margin-bottom: 20px; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(10px); padding: 6px; border-radius: 16px; border: 1px solid var(--border); box-shadow: var(--shadow-sm); }
+    .tab-btn { flex: 1; padding: 12px 14px; border: none; background: transparent; cursor: pointer; font-weight: 700; border-radius: 12px; color: #64748b; font-size: 13.5px; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); display: flex; align-items: center; justify-content: center; gap: 6px; }
+    .tab-btn:hover { color: var(--primary); background: rgba(240, 249, 255, 0.8); }
+    .tab-btn.active { background: #ffffff; color: var(--primary); box-shadow: 0 4px 12px rgba(2, 132, 199, 0.15); border: 1px solid #bae6fd; }
+    .card { background: var(--card); padding: 24px; border-radius: 20px; box-shadow: var(--shadow-md); border: 1px solid var(--border); margin-bottom: 20px; }
+    .input-group { margin-bottom: 18px; }
+    label { display: block; font-weight: 700; margin-bottom: 8px; font-size: 13.5px; color: #334155; }
+    input, select { width: 100%; padding: 12px 16px; border: 1.5px solid #cbd5e1; border-radius: 12px; box-sizing: border-box; font-size: 14px; font-family: inherit; color: #0f172a; font-weight: 600; background: #ffffff; transition: all 0.2s ease; cursor: pointer; }
+    select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%230284c7'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2.5' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; background-size: 16px; padding-right: 40px; appearance: none; -webkit-appearance: none; }
+    input:focus, select:focus { outline: none; border-color: #0284c7; background-color: #f0f9ff; box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.2); }
+    optgroup { font-size: 12px; font-weight: 800; color: #0369a1; background: #f0f9ff; padding: 8px 4px; }
+    option { font-size: 14px; font-weight: 500; color: #0f172a; background: #ffffff; padding: 10px; }
+    .date-row { display: flex; gap: 12px; align-items: flex-end; background: #ffffff; padding: 16px; border-radius: 16px; border: 1px solid var(--border); }
+    .date-row button { padding: 12px 20px; border: none; background: linear-gradient(135deg, #0284c7, #0369a1); color: white; font-weight: 700; border-radius: 12px; cursor: pointer; transition: all 0.2s ease; box-shadow: 0 2px 8px rgba(2, 132, 199, 0.25); }
+    .date-row button:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(2, 132, 199, 0.35); }
+    .schedule-header { background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #ede9fe 100%) !important; color: #0f172a !important; padding: 16px 20px !important; border-radius: 16px 16px 0 0 !important; margin: -1px -1px 0 -1px; font-size: 16px !important; font-weight: 800 !important; letter-spacing: -0.3px; border-bottom: 1.5px solid #cbd5e1; display: flex; align-items: center; gap: 8px; }
+    table { width: 100%; border-collapse: separate; border-spacing: 0; margin-top: 12px; font-size: 13.5px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03); }
+    th { background: #f8fafc !important; color: #475569 !important; font-size: 11.5px !important; font-weight: 800 !important; text-transform: uppercase; letter-spacing: 0.6px; padding: 13px 14px !important; border-bottom: 1.5px solid #e2e8f0 !important; }
+    td { padding: 12px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+    tr:last-child td { border-bottom: none; }
+    tr:nth-child(even) td { background: #fbfcfe; }
+    tr:hover td { background: #f0f7ff !important; }
+    .results { display: flex; flex-direction: column; gap: 16px; }
+    .result-card { background: #ffffff; border-radius: 16px; border: 1px solid var(--border); box-shadow: 0 4px 16px -2px rgba(2, 132, 199, 0.08); overflow: hidden; position: relative; }
+    .result-card::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: linear-gradient(180deg, #38bdf8, #818cf8); }
+    .result-card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; padding: 16px 18px 10px 22px; flex-wrap: wrap; }
+    .result-card-header h3 { margin: 0; font-size: 17px; font-weight: 800; color: #0f172a; }
+    .result-card-meta { padding: 0 18px 12px 22px; font-size: 13.5px; color: #475569; }
+    .result-card-body { padding: 0 18px 16px 22px; }
+    .posting-chip { display: inline-flex; align-items: center; gap: 6px; background: linear-gradient(135deg, #f0f9ff, #e0f2fe); color: #0369a1; font-weight: 700; font-size: 14.5px; padding: 10px 14px; border-radius: 12px; border: 1px solid #bae6fd; margin-top: 6px; line-height: 1.4; }
+    .badge { display: inline-block; padding: 4px 10px; border-radius: 20px; background: #e0f2fe; color: #0284c7; font-weight: 700; font-size: 12px; border: 1px solid #bae6fd; }
+    .badge-sub { background: #e0f2fe; color: #0369a1; border: 1px solid #7dd3fc; }
+    .badge-days { background: #dcfce7; color: #15803d; border: 1px solid #86efac; font-weight: 700; }
+    .badge-unit { background: #fef3c7; color: #b45309; border: 1px solid #fcd34d; }
+    .badge-lab { background: #f0f9ff; color: #0369a1; border: 1px solid #bae6fd; font-size: 11px; padding: 3px 9px; }
+    .week-box { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 16px; margin-bottom: 14px; box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04); }
+    .week-box-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; padding-bottom: 10px; border-bottom: 1px solid #f1f5f9; }
+    .unit-partner-section { margin-top: 12px; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px; padding: 10px 12px; }
+    .partner-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+    .partner-chip { background: #ffffff; border: 1px solid #86efac; color: #166534; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 20px; }
+    .co-intern-toggle { margin-top: 10px; font-size: 12.5px; color: #0284c7; }
+    .co-intern-toggle summary { cursor: pointer; font-weight: 700; user-select: none; }
+    .co-intern-grid { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; padding: 10px; background: #f8fafc; border-radius: 10px; border: 1px solid #e2e8f0; }
+    .co-intern-chip { background: #ffffff; border: 1px solid #cbd5e1; font-size: 11.5px; color: #334155; padding: 3px 8px; border-radius: 6px; }
+    .lab-card { background: #ffffff; border-radius: 14px; border: 1px solid var(--border); padding: 16px 18px; margin-bottom: 12px; box-shadow: 0 3px 12px rgba(2, 132, 199, 0.06); position: relative; overflow: hidden; }
+    .lab-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, #0284c7, #38bdf8); }
+    .lab-card h4 { margin: 0 0 8px 0; font-size: 15.5px; font-weight: 800; color: #0f172a; }
+    .lab-meta { display: flex; flex-wrap: wrap; gap: 10px 16px; font-size: 13px; color: #334155; margin-bottom: 8px; }
+    .lab-notes { margin-top: 10px; padding: 10px 12px; background: #fffbeb; border-left: 3px solid #f59e0b; border-radius: 8px; font-size: 12.5px; color: #78350f; }
+    details summary { list-style: none; cursor: pointer; color: var(--secondary); font-weight: 700; font-size: 13.5px; padding: 8px 0; display: flex; align-items: center; gap: 6px; }
+    details summary::-webkit-details-marker { display: none; }
+    details[open] summary { margin-bottom: 8px; }
+    @keyframes popupSlide { from { opacity: 0; transform: translateY(20px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
     .hidden { display: none !important; }
-    /* ===================================================
-   CLEAN CO-INTERN & WEEK POSTING CARDS
-   =================================================== */
-.week-box {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 14px;
-  padding: 16px;
-  margin-bottom: 14px;
-  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
-  transition: all 0.2s ease;
-}
-
-.week-box:hover {
-  border-color: #cbd5e1;
-  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08);
-}
-
-.week-box-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 8px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #f1f5f9;
-}
-
-.unit-partner-section {
-  margin-top: 12px;
-  background: #f0fdf4;
-  border: 1px solid #bbf7d0;
-  border-radius: 10px;
-  padding: 10px 12px;
-}
-
-.partner-pills {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 6px;
-}
-
-.partner-chip {
-  background: #ffffff;
-  border: 1px solid #86efac;
-  color: #166534;
-  font-size: 12px;
-  font-weight: 700;
-  padding: 4px 10px;
-  border-radius: 20px;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.co-intern-toggle {
-  margin-top: 10px;
-  font-size: 12.5px;
-  color: #0284c7;
-}
-
-.co-intern-toggle summary {
-  cursor: pointer;
-  font-weight: 700;
-  padding: 4px 0;
-  user-select: none;
-}
-
-.co-intern-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 8px;
-  padding: 10px;
-  background: #f8fafc;
-  border-radius: 10px;
-  border: 1px solid #e2e8f0;
-}
-
-.co-intern-chip {
-  background: #ffffff;
-  border: 1px solid #cbd5e1;
-  font-size: 11.5px;
-  color: #334155;
-  padding: 3px 8px;
-  border-radius: 6px;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-}
   </style>
 </head>
 <body>
@@ -601,17 +99,14 @@
   <!-- UNIFIED TAB: SEARCH ROSTER (PERSON & DEPT) -->
   <div id="roster-tab" class="card">
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin-bottom: 14px;">
-      <!-- Person Search Box -->
       <div>
         <label for="universalPersonInput">👤 Search Person (Name, Roll, S.No, Batch):</label>
         <input type="text" id="universalPersonInput" placeholder="e.g. Ankit, S.No 33, A7, 44591..." oninput="executeSmartSearch()">
       </div>
-
-      <!-- Department Dropdown -->
       <div>
         <label for="universalDeptSelect">🏥 Filter by Department:</label>
         <select id="universalDeptSelect" onchange="executeSmartSearch()">
-          <option value="">-- All Departments / Any --</option>
+          <option value="">✨ -- All Departments / Any --</option>
           <option value="PSM">Community Medicine (PSM)</option>
           <option value="Forensic">Forensic Medicine (FMT)</option>
           <option value="MED">General Medicine</option>
@@ -630,8 +125,6 @@
         </select>
       </div>
     </div>
-
-    <!-- Smart Results Output -->
     <div id="smartSearchResults" class="results"></div>
   </div>
 
@@ -647,42 +140,42 @@
     <div class="input-group">
       <label for="deptScheduleSelect">Select Department or Special Clinic:</label>
       <select id="deptScheduleSelect" onchange="onScheduleSelectChange()">
-        <option value="">-- Choose Category --</option>
-        <optgroup label="Main OPD Departments">
-          <option value="medicine">Medicine</option>
-          <option value="surgery">Surgery</option>
-          <option value="gynae">Gynecology & ANC</option>
-          <option value="ophtha">Ophthalmology (GNEC)</option>
-          <option value="ent">ENT</option>
-          <option value="ortho">Orthopedics</option>      
-          <option value="derma">Dermatology & STD</option>
-          <option value="peds_med">Pediatric (Medicine)</option>
-          <option value="peds_surg">Pediatric (Surgery)</option>
-          <option value="burns">Burns & Plastic Surgery</option>
+        <option value="">✨ -- Select Department or Specialty --</option>
+        <optgroup label="🏥 MAIN OPD DEPARTMENTS">
+          <option value="medicine">💊 General Medicine OPD</option>
+          <option value="surgery">🔪 General Surgery OPD</option>
+          <option value="gynae">👶 Gynecology & ANC OPD</option>
+          <option value="ophtha">👁️ Ophthalmology (GNEC)</option>
+          <option value="ent">👂 ENT (Ear, Nose, Throat)</option>
+          <option value="ortho">🦴 Orthopedics OPD & Fracture</option>      
+          <option value="derma">🩺 Dermatology & STD OPD</option>
+          <option value="peds_med">🧸 Pediatric Medicine & Daily Clinics</option>
+          <option value="peds_surg">✂️ Pediatric Surgery OPD</option>
+          <option value="burns">🔥 Burns & Plastic Surgery</option>
         </optgroup>
-        <optgroup label="Special Evening Clinics">
-          <option value="clinic_med">Medicine Special Clinics</option>
-          <option value="clinic_surg">Surgery Special Clinics</option>
-          <option value="clinic_peds">Pediatric Special Clinics</option>
-          <option value="clinic_ortho">Ortho Special Clinics</option>
-          <option value="clinic_gynae">Gynae Special Clinics</option>
-          <option value="clinic_ophtha">Ophthalmology Special Clinics</option>
-          <option value="clinic_ent">ENT Special Clinics</option>
-          <option value="neurosurgery">Neurosurgery OPD</option>
-          <option value="clinic_other">Other Clinics (PAC, Pain, Rabies, Senior Citizen)</option>
+        <optgroup label="🌆 EVENING SPECIAL CLINICS (02:00 PM - 04:00 PM)">
+          <option value="clinic_med">🩺 Medicine Evening Clinics (Diabetes, Rheuma, Nephro, etc.)</option>
+          <option value="clinic_surg">🩺 Surgery Evening Clinics (Breast, Bariatric, Proctology, etc.)</option>
+          <option value="clinic_peds">🩺 Pediatric Special Clinics (Neuro, Nephro, Endo, etc.)</option>
+          <option value="clinic_ortho">🩺 Ortho Special Clinics (Spine, Sports, Trauma)</option>
+          <option value="clinic_gynae">🩺 Gynae Special Clinics (Infertility, High-Risk, Cancer)</option>
+          <option value="clinic_ophtha">🩺 Ophthalmology Special Clinics (Retina, Cornea, Glaucoma)</option>
+          <option value="clinic_ent">🩺 ENT Special Clinics (Rhinology, Vertigo, Voice)</option>
+          <option value="neurosurgery">🧠 Neurosurgery & Spine Clinics</option>
+          <option value="clinic_other">🏥 Other Services (ART, TB/DOTS, PAC, Pain, EWS)</option>
         </optgroup>
-        <optgroup label="GB Pant Hospital OPDs & Specialty Clinics">
-          <option value="gbp_cardio">Cardiology & Pacemaker</option>
-          <option value="gbp_ctvs">CTVS & Aorta/Heart Failure</option>
-          <option value="gbp_gastro">Gastroenterology & Liver</option>
-          <option value="gbp_gisurg">GI Surgery</option>
-          <option value="gbp_neuro">Neurology & Epilepsy/Stroke</option>
-          <option value="gbp_neurosurg">Neurosurgery</option>
-          <option value="gbp_psychiatry">Psychiatry & Child Psych</option>
-          <option value="gbp_pain">Pain Clinic</option>
+        <optgroup label="🏛️ GB PANT HOSPITAL SUPER-SPECIALTIES">
+          <option value="gbp_cardio">❤️ GB Pant Cardiology & Pacemaker</option>
+          <option value="gbp_ctvs">🫀 GB Pant CTVS & Heart Failure</option>
+          <option value="gbp_gastro">🧪 GB Pant Gastroenterology & Liver</option>
+          <option value="gbp_gisurg">🔪 GB Pant GI Surgery & Liver Transplant</option>
+          <option value="gbp_neuro">🧠 GB Pant Neurology & Stroke/Epilepsy</option>
+          <option value="gbp_neurosurg">🧠 GB Pant Neurosurgery</option>
+          <option value="gbp_psychiatry">🧘 GB Pant Psychiatry & De-addiction</option>
+          <option value="gbp_pain">💉 GB Pant Pain Clinic</option>
         </optgroup>
-        <optgroup label="MAIDS Dental Hospital">
-          <option value="maids_opd">Dental OPD & Specialty Clinics</option>
+        <optgroup label="🦷 MAIDS DENTAL HOSPITAL">
+          <option value="maids_opd">🦷 MAIDS Dental OPD & Specialty Clinics</option>
         </optgroup>
       </select>
     </div>
@@ -693,11 +186,8 @@
   <!-- TAB 3: TESTS & LABS -->
   <div id="lab-tab" class="hidden">
     <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; margin-bottom: 12px;">
-      
-      <!-- 1. Dropdown Menu -->
       <select id="labHospitalSelect" onchange="searchLabTests()" style="padding: 10px 14px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 14px; background: white; font-weight: 600; color: #1e293b; min-width: 280px; cursor: pointer;">
         <option value="all">🏥 All Hospitals & Labs</option>
-        
         <optgroup label="── LNJP GENERAL & SPECIALTY LABS ──">
           <option value="lnjp_all">🏥 LNJP Labs (All Windows & Depts)</option>
           <option value="Window 1">📍 Window 1 (Pathology Routine)</option>
@@ -709,7 +199,6 @@
           <option value="Pathology Dept">📍 Cytology / Histopath / FNAC</option>
           <option value="Radiology">📷 Radiology & Imaging (CT, MRI, USG, X-Ray)</option>
         </optgroup>
-
         <optgroup label="── LNJP MICROBIOLOGY DEPT ──">
           <option value="Microbiology">🧪 All Microbiology Labs</option>
           <option value="Serology">🔬 Serology & Latex Tests (Room 126)</option>
@@ -722,7 +211,6 @@
           <option value="Mycobacteriology">🫁 Mycobacteriology / TB ZN & Culture (Room 330)</option>
           <option value="HIV & CD4">🩸 HIV & CD4 Cytometry (Room 278 / 31A)</option>
         </optgroup>
-
         <optgroup label="── GB PANT HOSPITAL ──">
           <option value="gbpant_all">🏥 GB Pant (All Diagnostics)</option>
           <option value="Room D-129">📍 Sample Collection (Room D-129)</option>
@@ -730,23 +218,17 @@
           <option value="Cardiology">📍 Cardiology (Echo, TMT, Holter, HUTT)</option>
         </optgroup>
       </select>
-
-      <!-- 2. Search Bar -->
       <input type="text" id="labSearch" oninput="searchLabTests()" placeholder="Type test name, vial color, room, location..." style="flex: 1; min-width: 250px; padding: 10px 14px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 14px;">
     </div>
-
-    <!-- Results Container -->
     <div id="labResults"></div>
   </div>
+</div>
 
-</div> <!-- END CONTAINER -->
-
-<!-- FOOTER CREDIT -->
 <footer style="text-align: center; margin-top: 30px; padding: 16px; border-top: 1px solid var(--border); color: #64748b; font-size: 13px;">
   <p style="margin: 4px 0 0 0; font-size: 16px;"><strong>Batch-2021</strong></p>
 </footer>
 
-<!-- DATA FILE DEPENDENCIES -->
+<!-- DATA SCRIPT DEPENDENCIES -->
 <script src="data/data_interns.js"></script>
 <script src="data/data_burari.js"></script>
 <script src="data/data_periphery.js"></script>
@@ -755,10 +237,8 @@
 <script src="data/data_units.js"></script>
 
 <script>
-  // Helper to fetch co-intern names by S.No
   function getCoInternsNames(coSnos, userDept, selectedDate) {
     if (!coSnos || coSnos.length === 0) return "None";
-
     const isNightDuty = userDept && userDept.toLowerCase().includes("night");
     const currentSearchedSno = typeof student !== 'undefined' ? student.sno : null;
 
@@ -774,12 +254,9 @@
       .map(sno => {
         const intern = interns.find(i => Number(i.sno) === Number(sno));
         const nameStr = intern ? `${intern.name} (S.No ${sno})` : `S.No ${sno}`;
-        const isCurrent = Number(sno) === Number(currentSearchedSno);
-        
-        if (isCurrent) {
-          return `<span style="background-color: #fef08a; padding: 2px 6px; border-radius: 4px; font-weight: bold; border: 1px solid #eab308;">${nameStr}</span>`;
-        }
-        return nameStr;
+        return Number(sno) === Number(currentSearchedSno)
+          ? `<span style="background-color: #fef08a; padding: 2px 6px; border-radius: 4px; font-weight: bold; border: 1px solid #eab308;">${nameStr}</span>`
+          : nameStr;
       })
       .join(", ") || "None";
 
@@ -795,13 +272,9 @@
           const intern = interns.find(i => Number(i.sno) === snoNum);
           const name = intern ? intern.name : `S.No ${snoNum}`;
           const entryStr = `<strong>${name}</strong> (S.No ${snoNum} - ${info.dept})`;
-          const isCurrentNight = Number(snoNum) === Number(currentSearchedSno);
-
-          if (isCurrentNight) {
-            allNightEntries.push(`<span style="background-color: #fef08a; padding: 2px 6px; border-radius: 4px; font-weight: bold; border: 1px solid #eab308;">${entryStr}</span>`);
-          } else {
-            allNightEntries.push(entryStr);
-          }
+          allNightEntries.push(Number(snoNum) === Number(currentSearchedSno)
+            ? `<span style="background-color: #fef08a; padding: 2px 6px; border-radius: 4px; font-weight: bold; border: 1px solid #eab308;">${entryStr}</span>`
+            : entryStr);
         }
       }
 
@@ -810,26 +283,17 @@
         resultHtml += `<div style="margin-top: 4px; font-size: 12.5px; color: #1e3a8a;">🌙 <strong>Everyone on Night Duty Today:</strong> ${uniqueNights.join(", ")}</div>`;
       }
     }
-
     return resultHtml;
   }
 
   function getPostingForSubdivision(subdiv, weekNum) {
     const weekKey = `Week${weekNum}`;
-    if (subdivisionRoster[subdiv] && subdivisionRoster[subdiv][weekKey]) {
-      return subdivisionRoster[subdiv][weekKey];
-    }
-    return 'General Duty';
+    return subdivisionRoster[subdiv]?.[weekKey] || 'General Duty';
   }
 
   function getSpecialUnitInfo(sno, dateStr) {
     if (typeof specialUnitRoster === 'undefined' || !specialUnitRoster || !dateStr || !sno) return null;
-    const entry = specialUnitRoster.find(r =>
-      Number(r.sno) === Number(sno) &&
-      dateStr >= r.start &&
-      dateStr <= r.end
-    );
-    return entry || null;
+    return specialUnitRoster.find(r => Number(r.sno) === Number(sno) && dateStr >= r.start && dateStr <= r.end) || null;
   }
 
   function formatDateShort(dateStr) {
@@ -849,27 +313,16 @@
   function setTodayDate() {
     const today = new Date().toISOString().split('T')[0];
     const dateInput = document.getElementById('dutyDate');
-    
-    if (today < "2026-05-23" || today > "2027-05-22") {
-      dateInput.value = "2026-05-23";
-    } else {
-      dateInput.value = today;
-    }
+    dateInput.value = (today < "2026-05-23" || today > "2027-05-22") ? "2026-05-23" : today;
     onDateOrSelectionChange();
   }
 
-  window.onload = function() {
-    setTodayDate();
-  };
+  window.onload = function() { setTodayDate(); };
 
   function onDateOrSelectionChange() {
-    if (!document.getElementById('roster-tab')?.classList.contains('hidden')) {
-      executeSmartSearch();
-    } else if (!document.getElementById('schedule-tab')?.classList.contains('hidden')) {
-      searchDeptSchedule();
-    } else if (!document.getElementById('lab-tab')?.classList.contains('hidden')) {
-      searchLabTests();
-    }
+    if (!document.getElementById('roster-tab')?.classList.contains('hidden')) executeSmartSearch();
+    else if (!document.getElementById('schedule-tab')?.classList.contains('hidden')) searchDeptSchedule();
+    else if (!document.getElementById('lab-tab')?.classList.contains('hidden')) searchLabTests();
   }
 
   function switchTab(tab) {
@@ -877,7 +330,6 @@
     document.getElementById('roster-tab')?.classList.add('hidden');
     document.getElementById('schedule-tab')?.classList.add('hidden');
     document.getElementById('lab-tab')?.classList.add('hidden');
-
     const dateCard = document.getElementById('date-card');
 
     if (tab === 'roster') {
@@ -898,36 +350,21 @@
     }
   }
 
-  // =========================================================
-  // UNIFIED SMART SEARCH (PERSON + DEPARTMENT COMBINATION)
-  // =========================================================
   function executeSmartSearch() {
     const personQuery = document.getElementById('universalPersonInput')?.value.toLowerCase().trim() || "";
     const deptQuery = document.getElementById('universalDeptSelect')?.value || "";
     const selectedDate = document.getElementById('dutyDate')?.value || "2026-05-23";
     const resDiv = document.getElementById('smartSearchResults');
-    
     if (!resDiv) return;
     const weekInfo = getSelectedWeek();
 
-    // 1. If both are empty
     if (!personQuery && !deptQuery) {
       resDiv.innerHTML = '<p style="padding: 16px; color: #64748b; text-align:center;">Type an intern name/S.No or select a department to see postings.</p>';
       return;
     }
 
-    // 2. PERSON + DEPARTMENT (Find when person is in dept & co-interns)
-   // -----------------------------------------------------------------
-    // SCENARIO 2: PERSON + DEPARTMENT (Clean Cards with Unit Partners)
-    // -----------------------------------------------------------------
     if (personQuery && deptQuery) {
-      const matchedInterns = interns.filter(i => 
-        i.name.toLowerCase().includes(personQuery) || 
-        i.roll.includes(personQuery) || 
-        i.batch.toLowerCase() === personQuery ||
-        i.sno.toString() === personQuery
-      );
-
+      const matchedInterns = interns.filter(i => i.name.toLowerCase().includes(personQuery) || i.roll.includes(personQuery) || i.batch.toLowerCase() === personQuery || i.sno.toString() === personQuery);
       if (matchedInterns.length === 0) {
         resDiv.innerHTML = `<p style="padding: 16px; color: #64748b; text-align:center;">No intern matching "<strong>${personQuery}</strong>" found.</p>`;
         return;
@@ -935,18 +372,9 @@
 
       let html = '';
       matchedInterns.forEach(student => {
-        const matchingWeeks = weeksData.filter(w => {
-          const posting = getPostingForSubdivision(student.batch, w.wk);
-          return posting.toLowerCase() === deptQuery.toLowerCase();
-        });
-
+        const matchingWeeks = weeksData.filter(w => getPostingForSubdivision(student.batch, w.wk).toLowerCase() === deptQuery.toLowerCase());
         if (matchingWeeks.length === 0) {
-          html += `
-            <div class="result-card" style="padding: 16px;">
-              <h3>${student.name} (S.No ${student.sno} • Subdivision ${student.batch})</h3>
-              <p style="color: #64748b; margin-top: 6px;">Not posted in <strong>${deptQuery}</strong> during the 2026–2027 internship year.</p>
-            </div>
-          `;
+          html += `<div class="result-card" style="padding: 16px;"><h3>${student.name} (S.No ${student.sno} • Subdivision ${student.batch})</h3><p style="color: #64748b; margin-top: 6px;">Not posted in <strong>${deptQuery}</strong> during the 2026–2027 internship year.</p></div>`;
           return;
         }
 
@@ -956,119 +384,76 @@
               <h3>👤 ${student.name} &nbsp;➔&nbsp; 🏥 ${deptQuery}</h3>
               <span class="badge badge-sub">Batch ${student.batch} • S.No ${student.sno}</span>
             </div>
-            <div class="result-card-meta">
-              Posted in <strong>${deptQuery}</strong> for <strong>${matchingWeeks.length} week(s)</strong> across the internship year:
-            </div>
+            <div class="result-card-meta">Posted in <strong>${deptQuery}</strong> for <strong>${matchingWeeks.length} week(s)</strong>:</div>
             <div class="result-card-body">
         `;
 
         matchingWeeks.forEach(w => {
           const unitInfo = getSpecialUnitInfo(student.sno, w.start);
           const currentUnitName = unitInfo ? unitInfo.unit : null;
-
-          // Find active subdivisions in this dept for this week
           const activeSubdivisions = [];
           ['A', 'B', 'C', 'D'].forEach(g => {
             for (let i = 1; i <= 12; i++) {
               const sub = g + i;
-              if (getPostingForSubdivision(sub, w.wk).toLowerCase() === deptQuery.toLowerCase()) {
-                activeSubdivisions.push(sub);
-              }
+              if (getPostingForSubdivision(sub, w.wk).toLowerCase() === deptQuery.toLowerCase()) activeSubdivisions.push(sub);
             }
           });
 
-          // All interns in the department this week
           const allDeptInterns = interns.filter(i => activeSubdivisions.includes(i.batch));
-
-          // Interns in the exact same unit
-          const sameUnitPartners = currentUnitName
-            ? allDeptInterns.filter(i => {
-                const u = getSpecialUnitInfo(i.sno, w.start);
-                return u && u.unit === currentUnitName;
-              })
-            : [];
+          const sameUnitPartners = currentUnitName ? allDeptInterns.filter(i => getSpecialUnitInfo(i.sno, w.start)?.unit === currentUnitName) : [];
 
           html += `
             <div class="week-box">
               <div class="week-box-header">
                 <div>
-                  <span style="font-weight: 800; color: #1e40af; font-size: 14.5px;">🗓️ Week ${w.wk}</span>
+                  <span style="font-weight: 800; color: #0284c7; font-size: 14.5px;">🗓️ Week ${w.wk}</span>
                   <span style="font-size: 12.5px; color: #64748b; margin-left: 6px;">(${formatDateShort(w.start)} – ${formatDateShort(w.end)})</span>
                 </div>
                 ${unitInfo ? `<span class="badge badge-unit">${unitInfo.unit} • ${unitInfo.incharge}</span>` : '<span class="badge badge-sub">General Duty</span>'}
               </div>
-
-              <!-- SAME UNIT PARTNERS (Primary Focus) -->
               ${sameUnitPartners.length > 0 ? `
                 <div class="unit-partner-section">
-                  <div style="font-size: 12px; font-weight: 700; color: #15803d;">
-                    🤝 Posted in ${currentUnitName} with ${student.name.split(' ')[0]} (${sameUnitPartners.length}):
-                  </div>
+                  <div style="font-size: 12px; font-weight: 700; color: #15803d;">🤝 Posted in ${currentUnitName} with ${student.name.split(' ')[0]} (${sameUnitPartners.length}):</div>
                   <div class="partner-pills">
-                    ${sameUnitPartners.map(p => `
-                      <span class="partner-chip" ${p.sno === student.sno ? 'style="background:#dcfce7; border-color:#22c55e;"' : ''}>
-                        ${p.name} <span style="font-size: 10.5px; opacity:0.8;">(S.No ${p.sno})</span>
-                      </span>
-                    `).join('')}
+                    ${sameUnitPartners.map(p => `<span class="partner-chip" ${p.sno === student.sno ? 'style="background:#dcfce7; border-color:#22c55e;"' : ''}>${p.name} <span style="font-size: 10.5px; opacity:0.8;">(S.No ${p.sno})</span></span>`).join('')}
                   </div>
                 </div>
               ` : ''}
-
-              <!-- ALL DEPARTMENT CO-INTERNS (Collapsible Drawer) -->
               <details class="co-intern-toggle">
                 <summary>👥 View all ${allDeptInterns.length} interns in ${deptQuery} this week</summary>
                 <div class="co-intern-grid">
-                  ${allDeptInterns.map(ci => {
-                    const ciUnit = getSpecialUnitInfo(ci.sno, w.start);
-                    const isCurrent = ci.sno === student.sno;
-                    return `
-                      <span class="co-intern-chip" ${isCurrent ? 'style="background:#eff6ff; border-color:#3b82f6; font-weight:bold;"' : ''}>
-                        ${ci.name} (${ci.batch})${ciUnit ? ` <strong style="color:#b45309;">[${ciUnit.unit}]</strong>` : ''}
-                      </span>
-                    `;
-                  }).join('')}
+                  ${allDeptInterns.map(ci => `<span class="co-intern-chip" ${ci.sno === student.sno ? 'style="background:#eff6ff; border-color:#38bdf8; font-weight:bold;"' : ''}>${ci.name} (${ci.batch})${getSpecialUnitInfo(ci.sno, w.start) ? ` <strong style="color:#b45309;">[${getSpecialUnitInfo(ci.sno, w.start).unit}]</strong>` : ''}</span>`).join('')}
                 </div>
               </details>
             </div>
           `;
         });
-
         html += `</div></div>`;
       });
-
       resDiv.innerHTML = html;
       return;
     }
-    // 3. DEPARTMENT ONLY (Show Everyone in that Dept on the Selected Date)
+
     if (!personQuery && deptQuery) {
       const activeSubdivisions = [];
       ['A', 'B', 'C', 'D'].forEach(g => {
         for (let i = 1; i <= 12; i++) {
           const sub = g + i;
-          if (getPostingForSubdivision(sub, weekInfo.wk).toLowerCase() === deptQuery.toLowerCase()) {
-            activeSubdivisions.push(sub);
-          }
+          if (getPostingForSubdivision(sub, weekInfo.wk).toLowerCase() === deptQuery.toLowerCase()) activeSubdivisions.push(sub);
         }
       });
 
-      const activeInterns = interns
-        .filter(i => activeSubdivisions.includes(i.batch))
-        .sort((a, b) => a.sno - b.sno);
-
+      const activeInterns = interns.filter(i => activeSubdivisions.includes(i.batch)).sort((a, b) => a.sno - b.sno);
       const hasAnyUnit = activeInterns.some(i => getSpecialUnitInfo(i.sno, selectedDate));
 
       let html = `
         <div class="result-card" style="margin-bottom: 16px;">
           <div class="schedule-header">🏥 ${deptQuery} Roster</div>
           <div style="padding: 14px 18px;">
-            <div style="font-size: 13.5px; color: #475569; margin-bottom: 8px;">
-              <strong>Week ${weekInfo.wk}</strong> • ${formatDateShort(weekInfo.start)} to ${formatDateShort(weekInfo.end)}
-            </div>
+            <div style="font-size: 13.5px; color: #475569; margin-bottom: 8px;"><strong>Week ${weekInfo.wk}</strong> • ${formatDateShort(weekInfo.start)} to ${formatDateShort(weekInfo.end)}</div>
             <div style="display: flex; flex-wrap: wrap; gap: 6px; align-items: center;">
               <span style="font-weight: 700; font-size: 13px; color: #334155;">Active Subdivisions:</span>
-              ${activeSubdivisions.length > 0 
-                ? activeSubdivisions.map(s => `<span class="badge badge-sub">${s}</span>`).join('') 
-                : '<span style="color:#94a3b8;">None</span>'}
+              ${activeSubdivisions.length > 0 ? activeSubdivisions.map(s => `<span class="badge badge-sub">${s}</span>`).join('') : '<span style="color:#94a3b8;">None</span>'}
             </div>
           </div>
         </div>
@@ -1081,27 +466,15 @@
           <div class="result-card" style="overflow:hidden;">
             <table style="margin-top:0; border:none;">
               <thead>
-                <tr>
-                  <th>S.No</th>
-                  <th>Roll No</th>
-                  <th>Name</th>
-                  <th>Subdivision</th>
-                  ${hasAnyUnit ? '<th>Unit</th><th>Incharge</th>' : ''}
-                </tr>
+                <tr><th>S.No</th><th>Roll No</th><th>Name</th><th>Subdivision</th>${hasAnyUnit ? '<th>Unit</th><th>Incharge</th>' : ''}</tr>
               </thead>
               <tbody>
                 ${activeInterns.map(i => {
                   const unitInfo = getSpecialUnitInfo(i.sno, selectedDate);
                   return `
                     <tr>
-                      <td>${i.sno}</td>
-                      <td>${i.roll}</td>
-                      <td><b>${i.name}</b></td>
-                      <td><span class="badge badge-sub">${i.batch}</span></td>
-                      ${hasAnyUnit ? `
-                        <td>${unitInfo ? `<span class="badge badge-unit">${unitInfo.unit}</span>` : '—'}</td>
-                        <td style="font-size:12.5px; color:#475569;">${unitInfo ? unitInfo.incharge : '—'}</td>
-                      ` : ''}
+                      <td>${i.sno}</td><td>${i.roll}</td><td><b>${i.name}</b></td><td><span class="badge badge-sub">${i.batch}</span></td>
+                      ${hasAnyUnit ? `<td>${unitInfo ? `<span class="badge badge-unit">${unitInfo.unit}</span>` : '—'}</td><td style="font-size:12.5px; color:#475569;">${unitInfo ? unitInfo.incharge : '—'}</td>` : ''}
                     </tr>
                   `;
                 }).join('')}
@@ -1110,20 +483,12 @@
           </div>
         `;
       }
-
       resDiv.innerHTML = html;
       return;
     }
 
-    // 4. PERSON ONLY (Standard Detailed Person Card)
     if (personQuery && !deptQuery) {
-      const matches = interns.filter(i => 
-        i.name.toLowerCase().includes(personQuery) || 
-        i.roll.includes(personQuery) || 
-        i.batch.toLowerCase() === personQuery ||
-        i.sno.toString() === personQuery
-      );
-
+      const matches = interns.filter(i => i.name.toLowerCase().includes(personQuery) || i.roll.includes(personQuery) || i.batch.toLowerCase() === personQuery || i.sno.toString() === personQuery);
       if (matches.length === 0) {
         resDiv.innerHTML = '<p style="padding:16px; color:#64748b; text-align:center;">No interns found matching your search.</p>';
         return;
@@ -1132,23 +497,14 @@
       let html = '';
       matches.forEach(student => {
         let activePosting = getPostingForSubdivision(student.batch, weekInfo.wk);
-        let burariDutyInfo = null;
-        let peripheryInfo = null;
-        let isPDO = false;
+        let burariDutyInfo = null, peripheryInfo = null, isPDO = false;
         const studentSno = Number(student.sno);
 
-        if (typeof burariDailyRoster !== 'undefined' && burariDailyRoster[selectedDate]?.[studentSno]) {
-          burariDutyInfo = burariDailyRoster[selectedDate][studentSno];
-        }
-
+        if (typeof burariDailyRoster !== 'undefined' && burariDailyRoster[selectedDate]?.[studentSno]) burariDutyInfo = burariDailyRoster[selectedDate][studentSno];
         if (!burariDutyInfo && typeof burariDailyRoster !== 'undefined') {
-          const prevDateObj = new Date(selectedDate);
-          prevDateObj.setDate(prevDateObj.getDate() - 1);
-          const prevDateStr = prevDateObj.toISOString().split('T')[0];
-
-          if (burariDailyRoster[prevDateStr]?.[studentSno]?.dept?.toLowerCase().includes("night")) {
-            isPDO = true;
-          }
+          const prevDate = new Date(selectedDate);
+          prevDate.setDate(prevDate.getDate() - 1);
+          if (burariDailyRoster[prevDate.toISOString().split('T')[0]]?.[studentSno]?.dept?.toLowerCase().includes("night")) isPDO = true;
         }
 
         if (!burariDutyInfo && !isPDO && typeof peripheryRosterMap !== 'undefined' && peripheryRosterMap[student.batch]) {
@@ -1160,13 +516,9 @@
         if (burariDutyInfo) displayDuty = `PSM - ${burariDutyInfo.dept}`;
         else if (isPDO) displayDuty = `PSM - PDO (Post Duty Off)`;
         else if (peripheryInfo) displayDuty = `PSM (${peripheryInfo.toUpperCase()})`;
-        else if (activePosting === "PSM") displayDuty = "PSM";
 
         const unitInfo = getSpecialUnitInfo(student.sno, selectedDate);
-        const unitBadgeHtml = unitInfo
-          ? `<span class="badge badge-unit" style="margin-left:8px;">${unitInfo.unit}</span>
-             <span style="font-size:11.5px; color:#64748b; margin-left:6px;">(${unitInfo.incharge})</span>`
-          : '';
+        const unitBadgeHtml = unitInfo ? `<span class="badge badge-unit" style="margin-left:8px;">${unitInfo.unit}</span><span style="font-size:11.5px; color:#64748b; margin-left:6px;">(${unitInfo.incharge})</span>` : '';
 
         html += `
           <div class="result-card">
@@ -1174,57 +526,29 @@
               <h3>${student.name}</h3>
               <span class="badge badge-sub">Subdivision ${student.batch}</span>
             </div>
-            <div class="result-card-meta">
-              <strong>Roll No:</strong> ${student.roll} &nbsp;•&nbsp; <strong>S.No:</strong> ${student.sno}
-            </div>
-            
+            <div class="result-card-meta"><strong>Roll No:</strong> ${student.roll} &nbsp;•&nbsp; <strong>S.No:</strong> ${student.sno}</div>
             <div class="result-card-body">
               <div class="posting-chip">
                 📍 <div>
                   <div style="font-size:12px; font-weight:600; opacity:0.85; margin-bottom:2px;">Posting on ${formatDateShort(selectedDate)}</div>
-                  <div style="font-size:15.5px; font-weight:800; display:flex; align-items:center; flex-wrap:wrap; gap:4px;">
-                    ${displayDuty}${unitBadgeHtml}
-                  </div>
+                  <div style="font-size:15.5px; font-weight:800; display:flex; align-items:center; flex-wrap:wrap; gap:4px;">${displayDuty}${unitBadgeHtml}</div>
                   <div style="font-size:12px; font-weight:500; opacity:0.75; margin-top:2px;">Week ${weekInfo.wk} • ${weekInfo.block}</div>
                 </div>
               </div>
-              
-              ${burariDutyInfo ? `
-                <div style="margin-top: 10px; padding: 10px 12px; background: #f0fdf4; border-radius: 10px; border: 1px solid #bbf7d0; font-size: 13px; color: #166534;">
-                  👥 <strong>Co-Interns on Duty:</strong> ${getCoInternsNames(burariDutyInfo.co_snos, burariDutyInfo.dept, selectedDate)}
-                </div>
-              ` : ''}
-
+              ${burariDutyInfo ? `<div style="margin-top: 10px; padding: 10px 12px; background: #f0fdf4; border-radius: 10px; border: 1px solid #bbf7d0; font-size: 13px; color: #166534;">👥 <strong>Co-Interns on Duty:</strong> ${getCoInternsNames(burariDutyInfo.co_snos, burariDutyInfo.dept, selectedDate)}</div>` : ''}
               <details style="margin-top: 12px;">
                 <summary>▶ View 52-Week Full Roster Timeline</summary>
                 <div style="max-height: 260px; overflow-y: auto; margin-top: 6px; border-radius: 10px; border: 1px solid var(--border);">
                   <table style="margin-top:0; border:none;">
-                    <thead>
-                      <tr><th>Wk</th><th>Date Range</th><th>Department Posting</th></tr>
-                    </thead>
+                    <thead><tr><th>Wk</th><th>Date Range</th><th>Department Posting</th></tr></thead>
                     <tbody>
                       ${weeksData.map(w => {
                         const post = getPostingForSubdivision(student.batch, w.wk);
                         const isSelected = w.wk === weekInfo.wk;
                         let timelineDisplay = post;
-
                         const weekUnit = getSpecialUnitInfo(studentSno, w.start);
-                        if (weekUnit && weekUnit.dept.toLowerCase() === post.toLowerCase()) {
-                          timelineDisplay = `<b>${post} (${weekUnit.unit})</b><br><span style="font-size:11px; color:#64748b;">${weekUnit.incharge}</span>`;
-                        } else if (post === "PSM" && w.wk >= 1 && w.wk <= 13) {
-                          if (typeof peripheryRosterMap !== 'undefined' && peripheryRosterMap[student.batch]) {
-                            const pMatch = peripheryRosterMap[student.batch].find(p => w.start >= p.start && w.end <= p.end);
-                            if (pMatch) timelineDisplay = `<b>PSM (${pMatch.center.split(" ")[0]})</b>`;
-                          }
-                        }
-
-                        return `
-                          <tr ${isSelected ? 'class="selected-week-row" style="background: #dbeafe !important; font-weight: 700;"' : ''}>
-                            <td>W${w.wk}</td>
-                            <td>${formatDateShort(w.start)} to ${formatDateShort(w.end)}</td>
-                            <td>${timelineDisplay}</td>
-                          </tr>
-                        `;
+                        if (weekUnit && weekUnit.dept.toLowerCase() === post.toLowerCase()) timelineDisplay = `<b>${post} (${weekUnit.unit})</b><br><span style="font-size:11px; color:#64748b;">${weekUnit.incharge}</span>`;
+                        return `<tr ${isSelected ? 'class="selected-week-row" style="background: #dbeafe !important; font-weight: 700;"' : ''}><td>W${w.wk}</td><td>${formatDateShort(w.start)} to ${formatDateShort(w.end)}</td><td>${timelineDisplay}</td></tr>`;
                       }).join('')}
                     </tbody>
                   </table>
@@ -1234,12 +558,10 @@
           </div>
         `;
       });
-
       resDiv.innerHTML = html;
     }
   }
 
-  // --- TAB 2: HOSPITAL FACILITIES SCHEDULE ---
   function onScheduleSearchInput() {
     const query = document.getElementById('scheduleSearch').value.toLowerCase().trim();
     if (query) document.getElementById('deptScheduleSelect').value = "";
@@ -1256,25 +578,14 @@
     const query = document.getElementById('scheduleSearch').value.toLowerCase().trim();
     const categoryId = document.getElementById('deptScheduleSelect').value;
     const resDiv = document.getElementById('scheduleResults');
-
     if (!resDiv) return;
 
     if (query) {
       const matches = [];
       deptSchedules.forEach(category => {
         category.units.forEach(unit => {
-          if (
-            unit.title.toLowerCase().includes(query) ||
-            unit.days.toLowerCase().includes(query) ||
-            unit.location.toLowerCase().includes(query) ||
-            category.name.toLowerCase().includes(query)
-          ) {
-            matches.push({
-              deptCategory: category.name,
-              title: unit.title,
-              days: unit.days,
-              location: unit.location
-            });
+          if (unit.title.toLowerCase().includes(query) || unit.days.toLowerCase().includes(query) || unit.location.toLowerCase().includes(query) || category.name.toLowerCase().includes(query)) {
+            matches.push({ deptCategory: category.name, title: unit.title, days: unit.days, location: unit.location });
           }
         });
       });
@@ -1288,24 +599,9 @@
         <p style="color: #64748b; font-size: 13px; margin-bottom: 12px;">Found <strong>${matches.length}</strong> matching entries</p>
         <div class="result-card" style="overflow:hidden;">
           <table style="margin-top:0; border:none;">
-            <thead>
-              <tr>
-                <th>Unit / Specialty</th>
-                <th>OPD / Duty Days</th>
-                <th>Location (Room No.)</th>
-              </tr>
-            </thead>
+            <thead><tr><th>Unit / Specialty</th><th>OPD / Duty Days</th><th>Location (Room No.)</th></tr></thead>
             <tbody>
-              ${matches.map(m => `
-                <tr>
-                  <td>
-                    <b style="font-size:14px;">${m.title}</b><br>
-                    <span style="font-size: 11.5px; color: #64748b;">${m.deptCategory}</span>
-                  </td>
-                  <td><span class="badge badge-days">${m.days}</span></td>
-                  <td style="font-size:13px;">${m.location}</td>
-                </tr>
-              `).join('')}
+              ${matches.map(m => `<tr><td><b style="font-size:14px;">${m.title}</b><br><span style="font-size: 11.5px; color: #64748b;">${m.deptCategory}</span></td><td><span class="badge badge-days">${m.days}</span></td><td style="font-size:13px;">${m.location}</td></tr>`).join('')}
             </tbody>
           </table>
         </div>
@@ -1324,79 +620,44 @@
         <div class="result-card" style="overflow:hidden; margin-bottom: 0;">
           <div class="schedule-header">${category.name}</div>
           <table style="margin-top:0; border:none;">
-            <thead>
-              <tr>
-                <th>Unit / Special Clinic</th>
-                <th>OPD Days</th>
-                <th>Location (Room No.)</th>
-              </tr>
-            </thead>
+            <thead><tr><th>Unit / Special Clinic</th><th>OPD Days</th><th>Location (Room No.)</th></tr></thead>
             <tbody>
-              ${category.units.map(u => `
-                <tr>
-                  <td><b style="font-size:14px;">${u.title}</b></td>
-                  <td><span class="badge badge-days">${u.days}</span></td>
-                  <td style="font-size:13px;">${u.location}</td>
-                </tr>
-              `).join('')}
+              ${category.units.map(u => `<tr><td><b style="font-size:14px;">${u.title}</b></td><td><span class="badge badge-days">${u.days}</span></td><td style="font-size:13px;">${u.location}</td></tr>`).join('')}
             </tbody>
           </table>
         </div>
       `;
       return;
     }
-
     resDiv.innerHTML = '';
   }
 
-  function searchDeptSchedule() {
-    renderScheduleResults();
-  }
+  function searchDeptSchedule() { renderScheduleResults(); }
 
-  // --- TAB 3: LABS & DIAGNOSTICS ---
   function searchLabTests() {
     const searchInput = document.getElementById('labSearch');
     const selectFilter = document.getElementById('labHospitalSelect');
     const resDiv = document.getElementById('labResults');
-
     if (!resDiv || !selectFilter) return;
 
     const query = searchInput ? searchInput.value.toLowerCase().trim() : "";
     const filterVal = selectFilter.value;
-
     let filtered = labDirectory;
 
-    if (filterVal === "lnjp_all") {
-      filtered = filtered.filter(item => item.hospital === "LNJP Hospital Labs");
-    } else if (filterVal === "gbpant_all") {
-      filtered = filtered.filter(item => item.hospital === "GB Pant Hospital Labs");
-    } else if (filterVal !== "all") {
+    if (filterVal === "lnjp_all") filtered = filtered.filter(item => item.hospital === "LNJP Hospital Labs");
+    else if (filterVal === "gbpant_all") filtered = filtered.filter(item => item.hospital === "GB Pant Hospital Labs");
+    else if (filterVal !== "all") {
       filtered = filtered.filter(item => {
-        const win = item.window.toLowerCase();
-        const target = filterVal.toLowerCase();
-
-        if (target === "pathology dept") {
-          return win.includes("pathology") || win.includes("cytopath") || win.includes("cytology") || win.includes("histopath") || win.includes("fnac") || win.includes("grossing");
-        }
-        if (target === "microbiology") {
-          return win.includes("microbiology") || win.includes("window 3");
-        }
-        if (target === "window 2") {
-          return win.includes("window 2") && !win.includes("window 2e");
-        }
+        const win = item.window.toLowerCase(), target = filterVal.toLowerCase();
+        if (target === "pathology dept") return win.includes("pathology") || win.includes("cytopath") || win.includes("cytology") || win.includes("histopath") || win.includes("fnac") || win.includes("grossing");
+        if (target === "microbiology") return win.includes("microbiology") || win.includes("window 3");
+        if (target === "window 2") return win.includes("window 2") && !win.includes("window 2e");
         return win.includes(target);
       });
     }
 
     if (query) {
-      filtered = filtered.filter(item => 
-        item.test.toLowerCase().includes(query) ||
-        item.tube.toLowerCase().includes(query) ||
-        item.window.toLowerCase().includes(query) ||
-        item.days.toLowerCase().includes(query) ||
-        item.report.toLowerCase().includes(query) ||
-        (item.notes || "").toLowerCase().includes(query)
-      );
+      filtered = filtered.filter(item => item.test.toLowerCase().includes(query) || item.tube.toLowerCase().includes(query) || item.window.toLowerCase().includes(query) || item.days.toLowerCase().includes(query) || item.report.toLowerCase().includes(query) || (item.notes || "").toLowerCase().includes(query));
     }
 
     if (filtered.length === 0) {
@@ -1408,40 +669,19 @@
     filtered.forEach(item => {
       html += `
         <div class="lab-card">
-          <h4>
-            🧪 ${item.test}
-            <span class="badge badge-lab">${item.hospital}</span>
-          </h4>
-          <div class="lab-meta">
-            <span>💉 <strong>Vial:</strong> ${item.tube}</span>
-            <span>📍 <strong>Location:</strong> ${item.window}</span>
-          </div>
-          <div class="lab-meta">
-            <span>⏰ <strong>Days:</strong> ${item.days}</span>
-            <span>📄 <strong>Report:</strong> ${item.report}</span>
-          </div>
-          ${item.notes ? `
-            <div class="lab-notes">
-              💡 <strong>Notes:</strong> ${item.notes}
-            </div>
-          ` : ''}
+          <h4>🧪 ${item.test} <span class="badge badge-lab">${item.hospital}</span></h4>
+          <div class="lab-meta"><span>💉 <strong>Vial:</strong> ${item.tube}</span><span>📍 <strong>Location:</strong> ${item.window}</span></div>
+          <div class="lab-meta"><span>⏰ <strong>Days:</strong> ${item.days}</span><span>📄 <strong>Report:</strong> ${item.report}</span></div>
+          ${item.notes ? `<div class="lab-notes">💡 <strong>Notes:</strong> ${item.notes}</div>` : ''}
         </div>
       `;
     });
-
     resDiv.innerHTML = html;
   }
 
-  // --- SUGGESTION POPUP MODAL ---
   function toggleFeedbackModal() {
     const modal = document.getElementById('feedbackModal');
-    if (modal) {
-      if (modal.classList.contains('hidden')) {
-        modal.classList.remove('hidden');
-      } else {
-        modal.classList.add('hidden');
-      }
-    }
+    if (modal) modal.classList.toggle('hidden');
   }
 </script>
 
@@ -1453,23 +693,12 @@
 <!-- SUGGESTION MODAL POPUP -->
 <div id="feedbackModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(15, 23, 42, 0.5); backdrop-filter: blur(6px); z-index: 10000; display: flex; align-items: center; justify-content: center; padding: 16px; box-sizing: border-box;">
   <div style="background: #ffffff; width: 100%; max-width: 640px; border-radius: 20px; box-shadow: 0 20px 40px -8px rgba(0,0,0,0.25); border: 1px solid #e2e8f0; overflow: hidden; animation: popupSlide 0.3s ease;">
-    <div style="padding: 16px 20px; background: linear-gradient(135deg, #1e3a8a, #2563eb); color: white; display: flex; justify-content: space-between; align-items: center;">
-      <h3 style="margin: 0; font-size: 16px; font-weight: 700; display: flex; align-items: center; gap: 8px;">
-        💡 Roster Feedback & Corrections
-      </h3>
+    <div style="padding: 16px 20px; background: linear-gradient(135deg, #0284c7, #38bdf8); color: white; display: flex; justify-content: space-between; align-items: center;">
+      <h3 style="margin: 0; font-size: 16px; font-weight: 700; display: flex; align-items: center; gap: 8px;">💡 Roster Feedback & Corrections</h3>
       <button onclick="toggleFeedbackModal()" style="background: rgba(255,255,255,0.2); border: none; color: white; font-size: 20px; cursor: pointer; border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; line-height: 1;">&times;</button>
     </div>
-    
     <div style="padding: 12px;">
-      <iframe 
-        src="https://docs.google.com/forms/d/e/1FAIpQLSdTHssorcf7rmuzjX7nfiZ1QRddKD1is_rXuyA-NNz28tyQQQ/viewform?embedded=true" 
-        width="100%" 
-        height="500" 
-        frameborder="0" 
-        marginheight="0" 
-        marginwidth="0" 
-        style="border: none; display: block; border-radius: 12px;"
-      >Loading…</iframe>
+      <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdTHssorcf7rmuzjX7nfiZ1QRddKD1is_rXuyA-NNz28tyQQQ/viewform?embedded=true" width="100%" height="500" frameborder="0" marginheight="0" marginwidth="0" style="border: none; display: block; border-radius: 12px;">Loading…</iframe>
     </div>
   </div>
 </div>

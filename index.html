@@ -718,8 +718,8 @@
       const matches = [];
       deptSchedules.forEach(category => {
         category.units.forEach(unit => {
-          if (unit.title.toLowerCase().includes(query) || unit.days.toLowerCase().includes(query) || unit.location.toLowerCase().includes(query) || category.name.toLowerCase().includes(query)) {
-            matches.push({ deptCategory: category.name, title: unit.title, days: unit.days, location: unit.location });
+          if (unit.title.toLowerCase().includes(query) || unit.days.toLowerCase().includes(query) || unit.window.toLowerCase().includes(query) || category.name.toLowerCase().includes(query)) {
+            matches.push({ deptCategory: category.name, title: unit.title, days: unit.days, location: unit.window });
           }
         });
       });
@@ -735,7 +735,7 @@
           <table style="margin-top:0; border:none;">
             <thead><tr><th>Unit / Specialty</th><th>OPD / Duty Days</th><th>Location (Room No.)</th></tr></thead>
             <tbody>
-              ${matches.map(m => `<tr><td><b style="font-size:14px;">${m.title}</b><br><span style="font-size: 11.5px; color: var(--text-muted);">${m.deptCategory}</span></td><td><span class="badge badge-days">${m.days}</span></td><td style="font-size:13px;">${m.location}</td></tr>`).join('')}
+              ${matches.map(m => `<tr><td><b style="font-size:14px;">${m.title}</b><br><span style="font-size: 11.5px; color: var(--text-muted);">${m.deptCategory}</span></td><td><span class="badge badge-days">${m.days}</span></td><td style="font-size:13px;">${m.window}</td></tr>`).join('')}
             </tbody>
           </table>
         </div>
@@ -756,7 +756,7 @@
           <table style="margin-top:0; border:none;">
             <thead><tr><th>Unit / Special Clinic</th><th>OPD Days</th><th>Location (Room No.)</th></tr></thead>
             <tbody>
-              ${category.units.map(u => `<tr><td><b style="font-size:14px;">${u.title}</b></td><td><span class="badge badge-days">${u.days}</span></td><td style="font-size:13px;">${u.location}</td></tr>`).join('')}
+              ${category.units.map(u => `<tr><td><b style="font-size:14px;">${u.title}</b></td><td><span class="badge badge-days">${u.days}</span></td><td style="font-size:13px;">${u.window}</td></tr>`).join('')}
             </tbody>
           </table>
         </div>

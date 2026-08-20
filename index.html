@@ -1,5 +1,5 @@
 <!DOCTYPE html> 
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,62 +7,65 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
-    :root { --primary: #0284c7; --primary-dark: #0369a1; --secondary: #0ea5e9; --accent: #38bdf8; --bg: #f8fafc; --card: #ffffff; --text: #0f172a; --border: #e2e8f0; --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05); --shadow-md: 0 4px 20px -2px rgba(2, 132, 199, 0.08); --shadow-lg: 0 10px 30px -4px rgba(2, 132, 199, 0.12); }
-    body { font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif; background: #f1f5f9; background-image: radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.12) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(14, 165, 233, 0.1) 0px, transparent 50%); background-attachment: fixed; color: var(--text); margin: 0; padding: 24px 16px; min-height: 100vh; }
+    :root { --primary: #0284c7; --primary-dark: #0369a1; --secondary: #0ea5e9; --accent: #38bdf8; --bg: #f1f5f9; --card: #ffffff; --text: #0f172a; --text-muted: #64748b; --border: #e2e8f0; --input-bg: #ffffff; --tab-bg: rgba(255, 255, 255, 0.85); --table-header: #f8fafc; --table-hover: #f0f7ff; --table-alt: #fbfcfe; --box-bg: #f8fafc; --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05); --shadow-md: 0 4px 20px -2px rgba(2, 132, 199, 0.08); --shadow-lg: 0 10px 30px -4px rgba(2, 132, 199, 0.12); }
+    [data-theme="dark"] { --primary: #38bdf8; --primary-dark: #0284c7; --secondary: #0ea5e9; --accent: #7dd3fc; --bg: #0b1120; --card: #131d31; --text: #f1f5f9; --text-muted: #94a3b8; --border: #1e293b; --input-bg: #0f172a; --tab-bg: rgba(19, 29, 49, 0.85); --table-header: #1e293b; --table-hover: #1e2e4a; --table-alt: #162238; --box-bg: #0f172a; --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4); --shadow-md: 0 4px 20px -2px rgba(0, 0, 0, 0.5); --shadow-lg: 0 10px 30px -4px rgba(0, 0, 0, 0.7); }
+    body { font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); background-image: radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.08) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(14, 165, 233, 0.06) 0px, transparent 50%); background-attachment: fixed; color: var(--text); margin: 0; padding: 24px 16px; min-height: 100vh; transition: background-color 0.3s ease, color 0.3s ease; }
     .container { max-width: 920px; margin: 0 auto; }
     .header-banner { background: linear-gradient(135deg, #0284c7 0%, #0ea5e9 50%, #38bdf8 100%); color: white; padding: 26px 24px; border-radius: 20px; text-align: center; margin-bottom: 24px; box-shadow: 0 10px 25px -5px rgba(2, 132, 199, 0.25); position: relative; overflow: hidden; }
     .header-banner::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 60%); pointer-events: none; }
     h1 { margin: 0 0 6px 0; font-size: 28px; font-weight: 800; letter-spacing: -0.5px; color: #ffffff; }
     .subtitle { color: #f0f9ff; margin: 0; font-size: 14px; font-weight: 500; opacity: 0.95; }
-    .tabs { display: flex; gap: 10px; margin-bottom: 20px; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(10px); padding: 6px; border-radius: 16px; border: 1px solid var(--border); box-shadow: var(--shadow-sm); }
-    .tab-btn { flex: 1; padding: 12px 14px; border: none; background: transparent; cursor: pointer; font-weight: 700; border-radius: 12px; color: #64748b; font-size: 13.5px; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); display: flex; align-items: center; justify-content: center; gap: 6px; }
-    .tab-btn:hover { color: var(--primary); background: rgba(240, 249, 255, 0.8); }
-    .tab-btn.active { background: #ffffff; color: var(--primary); box-shadow: 0 4px 12px rgba(2, 132, 199, 0.15); border: 1px solid #bae6fd; }
-    .card { background: var(--card); padding: 24px; border-radius: 20px; box-shadow: var(--shadow-md); border: 1px solid var(--border); margin-bottom: 20px; }
+    .theme-toggle-btn { position: absolute; top: 18px; right: 18px; background: rgba(255, 255, 255, 0.25); backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.4); color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; cursor: pointer; transition: all 0.25s ease; z-index: 10; }
+    .theme-toggle-btn:hover { transform: scale(1.1) rotate(15deg); background: rgba(255, 255, 255, 0.4); }
+    .tabs { display: flex; gap: 10px; margin-bottom: 20px; background: var(--tab-bg); backdrop-filter: blur(10px); padding: 6px; border-radius: 16px; border: 1px solid var(--border); box-shadow: var(--shadow-sm); }
+    .tab-btn { flex: 1; padding: 12px 14px; border: none; background: transparent; cursor: pointer; font-weight: 700; border-radius: 12px; color: var(--text-muted); font-size: 13.5px; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); display: flex; align-items: center; justify-content: center; gap: 6px; }
+    .tab-btn:hover { color: var(--primary); background: rgba(56, 189, 248, 0.1); }
+    .tab-btn.active { background: var(--card); color: var(--primary); box-shadow: 0 4px 12px rgba(2, 132, 199, 0.15); border: 1px solid var(--border); }
+    .card { background: var(--card); padding: 24px; border-radius: 20px; box-shadow: var(--shadow-md); border: 1px solid var(--border); margin-bottom: 20px; transition: background-color 0.3s, border-color 0.3s; }
     .input-group { margin-bottom: 18px; }
-    label { display: block; font-weight: 700; margin-bottom: 8px; font-size: 13.5px; color: #334155; }
-    input, select { width: 100%; padding: 12px 16px; border: 1.5px solid #cbd5e1; border-radius: 12px; box-sizing: border-box; font-size: 14px; font-family: inherit; color: #0f172a; font-weight: 600; background: #ffffff; transition: all 0.2s ease; cursor: pointer; }
-    select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%230284c7'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2.5' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; background-size: 16px; padding-right: 40px; appearance: none; -webkit-appearance: none; }
-    input:focus, select:focus { outline: none; border-color: #0284c7; background-color: #f0f9ff; box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.2); }
-    optgroup { font-size: 12px; font-weight: 800; color: #0369a1; background: #f0f9ff; padding: 8px 4px; }
-    option { font-size: 14px; font-weight: 500; color: #0f172a; background: #ffffff; padding: 10px; }
-    .date-row { display: flex; gap: 12px; align-items: flex-end; background: #ffffff; padding: 16px; border-radius: 16px; border: 1px solid var(--border); }
+    label { display: block; font-weight: 700; margin-bottom: 8px; font-size: 13.5px; color: var(--text); }
+    input, select { width: 100%; padding: 12px 16px; border: 1.5px solid var(--border); border-radius: 12px; box-sizing: border-box; font-size: 14px; font-family: inherit; color: var(--text); font-weight: 600; background-color: var(--input-bg); transition: all 0.2s ease; cursor: pointer; }
+    select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2338bdf8'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2.5' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; background-size: 16px; padding-right: 40px; appearance: none; -webkit-appearance: none; }
+    input:focus, select:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.2); }
+    optgroup { font-size: 12px; font-weight: 800; color: var(--primary); background: var(--card); padding: 8px 4px; }
+    option { font-size: 14px; font-weight: 500; color: var(--text); background: var(--card); padding: 10px; }
+    .date-row { display: flex; gap: 12px; align-items: flex-end; background: var(--card); padding: 16px; border-radius: 16px; border: 1px solid var(--border); }
     .date-row button { padding: 12px 20px; border: none; background: linear-gradient(135deg, #0284c7, #0369a1); color: white; font-weight: 700; border-radius: 12px; cursor: pointer; transition: all 0.2s ease; box-shadow: 0 2px 8px rgba(2, 132, 199, 0.25); }
     .date-row button:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(2, 132, 199, 0.35); }
-    .schedule-header { background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #ede9fe 100%) !important; color: #0f172a !important; padding: 16px 20px !important; border-radius: 16px 16px 0 0 !important; margin: -1px -1px 0 -1px; font-size: 16px !important; font-weight: 800 !important; letter-spacing: -0.3px; border-bottom: 1.5px solid #cbd5e1; display: flex; align-items: center; gap: 8px; }
-    table { width: 100%; border-collapse: separate; border-spacing: 0; margin-top: 12px; font-size: 13.5px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03); }
-    th { background: #f8fafc !important; color: #475569 !important; font-size: 11.5px !important; font-weight: 800 !important; text-transform: uppercase; letter-spacing: 0.6px; padding: 13px 14px !important; border-bottom: 1.5px solid #e2e8f0 !important; }
-    td { padding: 12px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+    .schedule-header { background: linear-gradient(135deg, rgba(56, 189, 248, 0.15), rgba(14, 165, 233, 0.08)) !important; color: var(--text) !important; padding: 16px 20px !important; border-radius: 16px 16px 0 0 !important; margin: -1px -1px 0 -1px; font-size: 16px !important; font-weight: 800 !important; letter-spacing: -0.3px; border-bottom: 1.5px solid var(--border); display: flex; align-items: center; gap: 8px; }
+    table { width: 100%; border-collapse: separate; border-spacing: 0; margin-top: 12px; font-size: 13.5px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03); }
+    th { background: var(--table-header) !important; color: var(--text-muted) !important; font-size: 11.5px !important; font-weight: 800 !important; text-transform: uppercase; letter-spacing: 0.6px; padding: 13px 14px !important; border-bottom: 1.5px solid var(--border) !important; }
+    td { padding: 12px 14px; text-align: left; border-bottom: 1px solid var(--border); color: var(--text); }
     tr:last-child td { border-bottom: none; }
-    tr:nth-child(even) td { background: #fbfcfe; }
-    tr:hover td { background: #f0f7ff !important; }
+    tr:nth-child(even) td { background: var(--table-alt); }
+    tr:hover td { background: var(--table-hover) !important; }
     .results { display: flex; flex-direction: column; gap: 16px; }
-    .result-card { background: #ffffff; border-radius: 16px; border: 1px solid var(--border); box-shadow: 0 4px 16px -2px rgba(2, 132, 199, 0.08); overflow: hidden; position: relative; }
+    .result-card { background: var(--card); border-radius: 16px; border: 1px solid var(--border); box-shadow: var(--shadow-md); overflow: hidden; position: relative; }
     .result-card::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: linear-gradient(180deg, #38bdf8, #818cf8); }
     .result-card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; padding: 16px 18px 10px 22px; flex-wrap: wrap; }
-    .result-card-header h3 { margin: 0; font-size: 17px; font-weight: 800; color: #0f172a; }
-    .result-card-meta { padding: 0 18px 12px 22px; font-size: 13.5px; color: #475569; }
+    .result-card-header h3 { margin: 0; font-size: 17px; font-weight: 800; color: var(--text); }
+    .result-card-meta { padding: 0 18px 12px 22px; font-size: 13.5px; color: var(--text-muted); }
     .result-card-body { padding: 0 18px 16px 22px; }
-    .posting-chip { display: inline-flex; align-items: center; gap: 6px; background: linear-gradient(135deg, #f0f9ff, #e0f2fe); color: #0369a1; font-weight: 700; font-size: 14.5px; padding: 10px 14px; border-radius: 12px; border: 1px solid #bae6fd; margin-top: 6px; line-height: 1.4; }
-    .badge { display: inline-block; padding: 4px 10px; border-radius: 20px; background: #e0f2fe; color: #0284c7; font-weight: 700; font-size: 12px; border: 1px solid #bae6fd; }
-    .badge-sub { background: #e0f2fe; color: #0369a1; border: 1px solid #7dd3fc; }
-    .badge-days { background: #dcfce7; color: #15803d; border: 1px solid #86efac; font-weight: 700; }
-    .badge-unit { background: #fef3c7; color: #b45309; border: 1px solid #fcd34d; }
-    .badge-lab { background: #f0f9ff; color: #0369a1; border: 1px solid #bae6fd; font-size: 11px; padding: 3px 9px; }
-    .week-box { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 16px; margin-bottom: 14px; box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04); }
-    .week-box-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; padding-bottom: 10px; border-bottom: 1px solid #f1f5f9; }
-    .unit-partner-section { margin-top: 12px; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px; padding: 10px 12px; }
+    .posting-chip { display: inline-flex; align-items: center; gap: 6px; background: rgba(56, 189, 248, 0.12); color: var(--primary); font-weight: 700; font-size: 14.5px; padding: 10px 14px; border-radius: 12px; border: 1px solid rgba(56, 189, 248, 0.25); margin-top: 6px; line-height: 1.4; }
+    .badge { display: inline-block; padding: 4px 10px; border-radius: 20px; background: rgba(56, 189, 248, 0.15); color: var(--primary); font-weight: 700; font-size: 12px; border: 1px solid rgba(56, 189, 248, 0.3); }
+    .badge-sub { background: rgba(56, 189, 248, 0.15); color: var(--primary); border: 1px solid rgba(56, 189, 248, 0.3); }
+    .badge-days { background: rgba(34, 197, 94, 0.15); color: #16a34a; border: 1px solid rgba(34, 197, 94, 0.3); font-weight: 700; }
+    .badge-unit { background: rgba(245, 158, 11, 0.15); color: #d97706; border: 1px solid rgba(245, 158, 11, 0.3); }
+    .badge-lab { background: rgba(56, 189, 248, 0.12); color: var(--primary); border: 1px solid rgba(56, 189, 248, 0.3); font-size: 11px; padding: 3px 9px; }
+    .week-box { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 16px; margin-bottom: 14px; box-shadow: var(--shadow-sm); }
+    .week-box-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+    .unit-partner-section { margin-top: 12px; background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.25); border-radius: 10px; padding: 10px 12px; }
     .partner-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
-    .partner-chip { background: #ffffff; border: 1px solid #86efac; color: #166534; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 20px; }
-    .co-intern-toggle { margin-top: 10px; font-size: 12.5px; color: #0284c7; }
+    .partner-chip { background: var(--card); border: 1px solid rgba(34, 197, 94, 0.4); color: #16a34a; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 20px; }
+    .co-intern-toggle { margin-top: 10px; font-size: 12.5px; color: var(--primary); }
     .co-intern-toggle summary { cursor: pointer; font-weight: 700; user-select: none; }
-    .co-intern-grid { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; padding: 10px; background: #f8fafc; border-radius: 10px; border: 1px solid #e2e8f0; }
-    .co-intern-chip { background: #ffffff; border: 1px solid #cbd5e1; font-size: 11.5px; color: #334155; padding: 3px 8px; border-radius: 6px; }
-    .lab-card { background: #ffffff; border-radius: 14px; border: 1px solid var(--border); padding: 16px 18px; margin-bottom: 12px; box-shadow: 0 3px 12px rgba(2, 132, 199, 0.06); position: relative; overflow: hidden; }
+    .co-intern-grid { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; padding: 10px; background: var(--box-bg); border-radius: 10px; border: 1px solid var(--border); }
+    .co-intern-chip { background: var(--card); border: 1px solid var(--border); font-size: 11.5px; color: var(--text); padding: 3px 8px; border-radius: 6px; }
+    .lab-card { background: var(--card); border-radius: 14px; border: 1px solid var(--border); padding: 16px 18px; margin-bottom: 12px; box-shadow: var(--shadow-sm); position: relative; overflow: hidden; }
     .lab-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, #0284c7, #38bdf8); }
-    .lab-card h4 { margin: 0 0 8px 0; font-size: 15.5px; font-weight: 800; color: #0f172a; }
-    .lab-meta { display: flex; flex-wrap: wrap; gap: 10px 16px; font-size: 13px; color: #334155; margin-bottom: 8px; }
-    .lab-notes { margin-top: 10px; padding: 10px 12px; background: #fffbeb; border-left: 3px solid #f59e0b; border-radius: 8px; font-size: 12.5px; color: #78350f; }
+    .lab-card h4 { margin: 0 0 8px 0; font-size: 15.5px; font-weight: 800; color: var(--text); }
+    .lab-meta { display: flex; flex-wrap: wrap; gap: 10px 16px; font-size: 13px; color: var(--text-muted); margin-bottom: 8px; }
+    .lab-notes { margin-top: 10px; padding: 10px 12px; background: rgba(245, 158, 11, 0.12); border-left: 3px solid #f59e0b; border-radius: 8px; font-size: 12.5px; color: #d97706; }
     details summary { list-style: none; cursor: pointer; color: var(--secondary); font-weight: 700; font-size: 13.5px; padding: 8px 0; display: flex; align-items: center; gap: 6px; }
     details summary::-webkit-details-marker { display: none; }
     details[open] summary { margin-bottom: 8px; }
@@ -74,6 +77,7 @@
 
 <div class="container">
   <div class="header-banner">
+    <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()" title="Toggle Dark/Light Mode">🌙</button>
     <h1>MAMC-LNH ROSTER</h1>
     <p class="subtitle">Compulsory Rotatory Medical Internship (2026–2027)</p>
   </div>
@@ -135,7 +139,7 @@
       <input type="text" id="scheduleSearch" placeholder="Type e.g., Diabetes, Room 310, Monday, Unit 1..." oninput="onScheduleSearchInput()">
     </div>
 
-    <div style="text-align: center; color: #94a3b8; font-size: 12px; margin: -6px 0 10px 0;">— OR SELECT CATEGORY —</div>
+    <div style="text-align: center; color: var(--text-muted); font-size: 12px; margin: -6px 0 10px 0;">— OR SELECT CATEGORY —</div>
 
     <div class="input-group">
       <label for="deptScheduleSelect">Select Department or Special Clinic:</label>
@@ -175,7 +179,7 @@
           <option value="gbp_pain">💉 Pain Clinic</option>
         </optgroup>
         <optgroup label="🦷 MAIDS DENTAL HOSPITAL">
-          <option value="maids_opd">🦷 Dental OPD & Specialty Clinics</option>
+          <option value="maids_opd">🦷 MAIDS Dental OPD & Specialty Clinics</option>
         </optgroup>
       </select>
     </div>
@@ -186,7 +190,7 @@
   <!-- TAB 3: TESTS & LABS -->
   <div id="lab-tab" class="hidden">
     <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; margin-bottom: 12px;">
-      <select id="labHospitalSelect" onchange="searchLabTests()" style="padding: 10px 14px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 14px; background: white; font-weight: 600; color: #1e293b; min-width: 280px; cursor: pointer;">
+      <select id="labHospitalSelect" onchange="searchLabTests()" style="padding: 10px 14px; border-radius: 8px; border: 1px solid var(--border); font-size: 14px; background-color: var(--input-bg); font-weight: 600; color: var(--text); min-width: 280px; cursor: pointer;">
         <option value="all">🏥 All Hospitals & Labs</option>
         <optgroup label="── LNJP GENERAL & SPECIALTY LABS ──">
           <option value="lnjp_all">🏥 LNJP Labs (All Windows & Depts)</option>
@@ -218,13 +222,13 @@
           <option value="Cardiology">📍 Cardiology (Echo, TMT, Holter, HUTT)</option>
         </optgroup>
       </select>
-      <input type="text" id="labSearch" oninput="searchLabTests()" placeholder="Type test name, vial color, room, location..." style="flex: 1; min-width: 250px; padding: 10px 14px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 14px;">
+      <input type="text" id="labSearch" oninput="searchLabTests()" placeholder="Type test name, vial color, room, location..." style="flex: 1; min-width: 250px; padding: 10px 14px; border-radius: 8px; border: 1px solid var(--border); font-size: 14px;">
     </div>
     <div id="labResults"></div>
   </div>
 </div>
 
-<footer style="text-align: center; margin-top: 30px; padding: 16px; border-top: 1px solid var(--border); color: #64748b; font-size: 13px;">
+<footer style="text-align: center; margin-top: 30px; padding: 16px; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 13px;">
   <p style="margin: 4px 0 0 0; font-size: 16px;"><strong>Batch-2021</strong></p>
 </footer>
 
@@ -237,6 +241,29 @@
 <script src="data/data_units.js"></script>
 
 <script>
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('mamc_theme', theme);
+    const btn = document.getElementById('themeToggleBtn');
+    if (btn) btn.textContent = (theme === 'dark') ? '☀️' : '🌙';
+  }
+
+  function toggleTheme() {
+    const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+    applyTheme(currentTheme === 'light' ? 'dark' : 'light');
+  }
+
+  (function initTheme() {
+    const saved = localStorage.getItem('mamc_theme');
+    if (saved) {
+      applyTheme(saved);
+    } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      applyTheme('dark');
+    } else {
+      applyTheme('light');
+    }
+  })();
+
   function getCoInternsNames(coSnos, userDept, selectedDate) {
     if (!coSnos || coSnos.length === 0) return "None";
     const isNightDuty = userDept && userDept.toLowerCase().includes("night");
@@ -255,7 +282,7 @@
         const intern = interns.find(i => Number(i.sno) === Number(sno));
         const nameStr = intern ? `${intern.name} (S.No ${sno})` : `S.No ${sno}`;
         return Number(sno) === Number(currentSearchedSno)
-          ? `<span style="background-color: #fef08a; padding: 2px 6px; border-radius: 4px; font-weight: bold; border: 1px solid #eab308;">${nameStr}</span>`
+          ? `<span style="background-color: #fef08a; color: #0f172a; padding: 2px 6px; border-radius: 4px; font-weight: bold; border: 1px solid #eab308;">${nameStr}</span>`
           : nameStr;
       })
       .join(", ") || "None";
@@ -273,14 +300,14 @@
           const name = intern ? intern.name : `S.No ${snoNum}`;
           const entryStr = `<strong>${name}</strong> (S.No ${snoNum} - ${info.dept})`;
           allNightEntries.push(Number(snoNum) === Number(currentSearchedSno)
-            ? `<span style="background-color: #fef08a; padding: 2px 6px; border-radius: 4px; font-weight: bold; border: 1px solid #eab308;">${entryStr}</span>`
+            ? `<span style="background-color: #fef08a; color: #0f172a; padding: 2px 6px; border-radius: 4px; font-weight: bold; border: 1px solid #eab308;">${entryStr}</span>`
             : entryStr);
         }
       }
 
       const uniqueNights = [...new Set(allNightEntries)];
       if (uniqueNights.length > 0) {
-        resultHtml += `<div style="margin-top: 4px; font-size: 12.5px; color: #1e3a8a;">🌙 <strong>Everyone on Night Duty Today:</strong> ${uniqueNights.join(", ")}</div>`;
+        resultHtml += `<div style="margin-top: 4px; font-size: 12.5px; color: var(--primary);">🌙 <strong>Everyone on Night Duty Today:</strong> ${uniqueNights.join(", ")}</div>`;
       }
     }
     return resultHtml;
@@ -359,14 +386,14 @@
     const weekInfo = getSelectedWeek();
 
     if (!personQuery && !deptQuery) {
-      resDiv.innerHTML = '<p style="padding: 16px; color: #64748b; text-align:center;">Type an intern name/S.No or select a department to see postings.</p>';
+      resDiv.innerHTML = '<p style="padding: 16px; color: var(--text-muted); text-align:center;">Type an intern name/S.No or select a department to see postings.</p>';
       return;
     }
 
     if (personQuery && deptQuery) {
       const matchedInterns = interns.filter(i => i.name.toLowerCase().includes(personQuery) || i.roll.includes(personQuery) || i.batch.toLowerCase() === personQuery || i.sno.toString() === personQuery);
       if (matchedInterns.length === 0) {
-        resDiv.innerHTML = `<p style="padding: 16px; color: #64748b; text-align:center;">No intern matching "<strong>${personQuery}</strong>" found.</p>`;
+        resDiv.innerHTML = `<p style="padding: 16px; color: var(--text-muted); text-align:center;">No intern matching "<strong>${personQuery}</strong>" found.</p>`;
         return;
       }
 
@@ -374,7 +401,7 @@
       matchedInterns.forEach(student => {
         const matchingWeeks = weeksData.filter(w => getPostingForSubdivision(student.batch, w.wk).toLowerCase() === deptQuery.toLowerCase());
         if (matchingWeeks.length === 0) {
-          html += `<div class="result-card" style="padding: 16px;"><h3>${student.name} (S.No ${student.sno} • Subdivision ${student.batch})</h3><p style="color: #64748b; margin-top: 6px;">Not posted in <strong>${deptQuery}</strong> during the 2026–2027 internship year.</p></div>`;
+          html += `<div class="result-card" style="padding: 16px;"><h3>${student.name} (S.No ${student.sno} • Subdivision ${student.batch})</h3><p style="color: var(--text-muted); margin-top: 6px;">Not posted in <strong>${deptQuery}</strong> during the 2026–2027 internship year.</p></div>`;
           return;
         }
 
@@ -406,23 +433,23 @@
             <div class="week-box">
               <div class="week-box-header">
                 <div>
-                  <span style="font-weight: 800; color: #0284c7; font-size: 14.5px;">🗓️ Week ${w.wk}</span>
-                  <span style="font-size: 12.5px; color: #64748b; margin-left: 6px;">(${formatDateShort(w.start)} – ${formatDateShort(w.end)})</span>
+                  <span style="font-weight: 800; color: var(--primary); font-size: 14.5px;">🗓️ Week ${w.wk}</span>
+                  <span style="font-size: 12.5px; color: var(--text-muted); margin-left: 6px;">(${formatDateShort(w.start)} – ${formatDateShort(w.end)})</span>
                 </div>
                 ${unitInfo ? `<span class="badge badge-unit">${unitInfo.unit} • ${unitInfo.incharge}</span>` : '<span class="badge badge-sub">General Duty</span>'}
               </div>
               ${sameUnitPartners.length > 0 ? `
                 <div class="unit-partner-section">
-                  <div style="font-size: 12px; font-weight: 700; color: #15803d;">🤝 Posted in ${currentUnitName} with ${student.name.split(' ')[0]} (${sameUnitPartners.length}):</div>
+                  <div style="font-size: 12px; font-weight: 700; color: #16a34a;">🤝 Posted in ${currentUnitName} with ${student.name.split(' ')[0]} (${sameUnitPartners.length}):</div>
                   <div class="partner-pills">
-                    ${sameUnitPartners.map(p => `<span class="partner-chip" ${p.sno === student.sno ? 'style="background:#dcfce7; border-color:#22c55e;"' : ''}>${p.name} <span style="font-size: 10.5px; opacity:0.8;">(S.No ${p.sno})</span></span>`).join('')}
+                    ${sameUnitPartners.map(p => `<span class="partner-chip" ${p.sno === student.sno ? 'style="background:rgba(34,197,94,0.25); border-color:#22c55e;"' : ''}>${p.name} <span style="font-size: 10.5px; opacity:0.8;">(S.No ${p.sno})</span></span>`).join('')}
                   </div>
                 </div>
               ` : ''}
               <details class="co-intern-toggle">
                 <summary>👥 View all ${allDeptInterns.length} interns in ${deptQuery} this week</summary>
                 <div class="co-intern-grid">
-                  ${allDeptInterns.map(ci => `<span class="co-intern-chip" ${ci.sno === student.sno ? 'style="background:#eff6ff; border-color:#38bdf8; font-weight:bold;"' : ''}>${ci.name} (${ci.batch})${getSpecialUnitInfo(ci.sno, w.start) ? ` <strong style="color:#b45309;">[${getSpecialUnitInfo(ci.sno, w.start).unit}]</strong>` : ''}</span>`).join('')}
+                  ${allDeptInterns.map(ci => `<span class="co-intern-chip" ${ci.sno === student.sno ? 'style="background:rgba(56,189,248,0.2); border-color:#38bdf8; font-weight:bold;"' : ''}>${ci.name} (${ci.batch})${getSpecialUnitInfo(ci.sno, w.start) ? ` <strong style="color:#d97706;">[${getSpecialUnitInfo(ci.sno, w.start).unit}]</strong>` : ''}</span>`).join('')}
                 </div>
               </details>
             </div>
@@ -450,17 +477,17 @@
         <div class="result-card" style="margin-bottom: 16px;">
           <div class="schedule-header">🏥 ${deptQuery} Roster</div>
           <div style="padding: 14px 18px;">
-            <div style="font-size: 13.5px; color: #475569; margin-bottom: 8px;"><strong>Week ${weekInfo.wk}</strong> • ${formatDateShort(weekInfo.start)} to ${formatDateShort(weekInfo.end)}</div>
+            <div style="font-size: 13.5px; color: var(--text-muted); margin-bottom: 8px;"><strong>Week ${weekInfo.wk}</strong> • ${formatDateShort(weekInfo.start)} to ${formatDateShort(weekInfo.end)}</div>
             <div style="display: flex; flex-wrap: wrap; gap: 6px; align-items: center;">
-              <span style="font-weight: 700; font-size: 13px; color: #334155;">Active Subdivisions:</span>
-              ${activeSubdivisions.length > 0 ? activeSubdivisions.map(s => `<span class="badge badge-sub">${s}</span>`).join('') : '<span style="color:#94a3b8;">None</span>'}
+              <span style="font-weight: 700; font-size: 13px; color: var(--text);">Active Subdivisions:</span>
+              ${activeSubdivisions.length > 0 ? activeSubdivisions.map(s => `<span class="badge badge-sub">${s}</span>`).join('') : '<span style="color:var(--text-muted);">None</span>'}
             </div>
           </div>
         </div>
       `;
 
       if (activeInterns.length === 0) {
-        html += `<p style="padding: 16px; color: #64748b; text-align:center;">No interns are posted in ${deptQuery} during Week ${weekInfo.wk}.</p>`;
+        html += `<p style="padding: 16px; color: var(--text-muted); text-align:center;">No interns are posted in ${deptQuery} during Week ${weekInfo.wk}.</p>`;
       } else {
         html += `
           <div class="result-card" style="overflow:hidden;">
@@ -474,7 +501,7 @@
                   return `
                     <tr>
                       <td>${i.sno}</td><td>${i.roll}</td><td><b>${i.name}</b></td><td><span class="badge badge-sub">${i.batch}</span></td>
-                      ${hasAnyUnit ? `<td>${unitInfo ? `<span class="badge badge-unit">${unitInfo.unit}</span>` : '—'}</td><td style="font-size:12.5px; color:#475569;">${unitInfo ? unitInfo.incharge : '—'}</td>` : ''}
+                      ${hasAnyUnit ? `<td>${unitInfo ? `<span class="badge badge-unit">${unitInfo.unit}</span>` : '—'}</td><td style="font-size:12.5px; color:var(--text-muted);">${unitInfo ? unitInfo.incharge : '—'}</td>` : ''}
                     </tr>
                   `;
                 }).join('')}
@@ -490,7 +517,7 @@
     if (personQuery && !deptQuery) {
       const matches = interns.filter(i => i.name.toLowerCase().includes(personQuery) || i.roll.includes(personQuery) || i.batch.toLowerCase() === personQuery || i.sno.toString() === personQuery);
       if (matches.length === 0) {
-        resDiv.innerHTML = '<p style="padding:16px; color:#64748b; text-align:center;">No interns found matching your search.</p>';
+        resDiv.innerHTML = '<p style="padding:16px; color:var(--text-muted); text-align:center;">No interns found matching your search.</p>';
         return;
       }
 
@@ -518,7 +545,7 @@
         else if (peripheryInfo) displayDuty = `PSM (${peripheryInfo.toUpperCase()})`;
 
         const unitInfo = getSpecialUnitInfo(student.sno, selectedDate);
-        const unitBadgeHtml = unitInfo ? `<span class="badge badge-unit" style="margin-left:8px;">${unitInfo.unit}</span><span style="font-size:11.5px; color:#64748b; margin-left:6px;">(${unitInfo.incharge})</span>` : '';
+        const unitBadgeHtml = unitInfo ? `<span class="badge badge-unit" style="margin-left:8px;">${unitInfo.unit}</span><span style="font-size:11.5px; color:var(--text-muted); margin-left:6px;">(${unitInfo.incharge})</span>` : '';
 
         html += `
           <div class="result-card">
@@ -535,7 +562,7 @@
                   <div style="font-size:12px; font-weight:500; opacity:0.75; margin-top:2px;">Week ${weekInfo.wk} • ${weekInfo.block}</div>
                 </div>
               </div>
-              ${burariDutyInfo ? `<div style="margin-top: 10px; padding: 10px 12px; background: #f0fdf4; border-radius: 10px; border: 1px solid #bbf7d0; font-size: 13px; color: #166534;">👥 <strong>Co-Interns on Duty:</strong> ${getCoInternsNames(burariDutyInfo.co_snos, burariDutyInfo.dept, selectedDate)}</div>` : ''}
+              ${burariDutyInfo ? `<div style="margin-top: 10px; padding: 10px 12px; background: rgba(34,197,94,0.12); border-radius: 10px; border: 1px solid rgba(34,197,94,0.3); font-size: 13px; color: #16a34a;">👥 <strong>Co-Interns on Duty:</strong> ${getCoInternsNames(burariDutyInfo.co_snos, burariDutyInfo.dept, selectedDate)}</div>` : ''}
               <details style="margin-top: 12px;">
                 <summary>▶ View 52-Week Full Roster Timeline</summary>
                 <div style="max-height: 260px; overflow-y: auto; margin-top: 6px; border-radius: 10px; border: 1px solid var(--border);">
@@ -547,8 +574,8 @@
                         const isSelected = w.wk === weekInfo.wk;
                         let timelineDisplay = post;
                         const weekUnit = getSpecialUnitInfo(studentSno, w.start);
-                        if (weekUnit && weekUnit.dept.toLowerCase() === post.toLowerCase()) timelineDisplay = `<b>${post} (${weekUnit.unit})</b><br><span style="font-size:11px; color:#64748b;">${weekUnit.incharge}</span>`;
-                        return `<tr ${isSelected ? 'class="selected-week-row" style="background: #dbeafe !important; font-weight: 700;"' : ''}><td>W${w.wk}</td><td>${formatDateShort(w.start)} to ${formatDateShort(w.end)}</td><td>${timelineDisplay}</td></tr>`;
+                        if (weekUnit && weekUnit.dept.toLowerCase() === post.toLowerCase()) timelineDisplay = `<b>${post} (${weekUnit.unit})</b><br><span style="font-size:11px; color:var(--text-muted);">${weekUnit.incharge}</span>`;
+                        return `<tr ${isSelected ? 'class="selected-week-row" style="background: rgba(56, 189, 248, 0.2) !important; font-weight: 700;"' : ''}><td>W${w.wk}</td><td>${formatDateShort(w.start)} to ${formatDateShort(w.end)}</td><td>${timelineDisplay}</td></tr>`;
                       }).join('')}
                     </tbody>
                   </table>
@@ -591,17 +618,17 @@
       });
 
       if (matches.length === 0) {
-        resDiv.innerHTML = '<p style="padding: 16px; color: #64748b; text-align:center;">No matching facility, room, or clinic found.</p>';
+        resDiv.innerHTML = '<p style="padding: 16px; color: var(--text-muted); text-align:center;">No matching facility, room, or clinic found.</p>';
         return;
       }
 
       resDiv.innerHTML = `
-        <p style="color: #64748b; font-size: 13px; margin-bottom: 12px;">Found <strong>${matches.length}</strong> matching entries</p>
+        <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 12px;">Found <strong>${matches.length}</strong> matching entries</p>
         <div class="result-card" style="overflow:hidden;">
           <table style="margin-top:0; border:none;">
             <thead><tr><th>Unit / Specialty</th><th>OPD / Duty Days</th><th>Location (Room No.)</th></tr></thead>
             <tbody>
-              ${matches.map(m => `<tr><td><b style="font-size:14px;">${m.title}</b><br><span style="font-size: 11.5px; color: #64748b;">${m.deptCategory}</span></td><td><span class="badge badge-days">${m.days}</span></td><td style="font-size:13px;">${m.location}</td></tr>`).join('')}
+              ${matches.map(m => `<tr><td><b style="font-size:14px;">${m.title}</b><br><span style="font-size: 11.5px; color: var(--text-muted);">${m.deptCategory}</span></td><td><span class="badge badge-days">${m.days}</span></td><td style="font-size:13px;">${m.location}</td></tr>`).join('')}
             </tbody>
           </table>
         </div>
@@ -612,7 +639,7 @@
     if (categoryId) {
       const category = deptSchedules.find(c => c.id === categoryId);
       if (!category) {
-        resDiv.innerHTML = '<p style="padding:16px; color:#64748b;">Details for this category will be updated soon.</p>';
+        resDiv.innerHTML = '<p style="padding:16px; color:var(--text-muted);">Details for this category will be updated soon.</p>';
         return;
       }
 
@@ -661,11 +688,11 @@
     }
 
     if (filtered.length === 0) {
-      resDiv.innerHTML = '<p style="padding: 16px; color: #64748b; text-align:center;">No matching lab tests found.</p>';
+      resDiv.innerHTML = '<p style="padding: 16px; color: var(--text-muted); text-align:center;">No matching lab tests found.</p>';
       return;
     }
 
-    let html = `<p style="color:#64748b; font-size:13px; margin:0 0 12px 0;">Showing <strong>${filtered.length}</strong> test${filtered.length > 1 ? 's' : ''}</p>`;
+    let html = `<p style="color:var(--text-muted); font-size:13px; margin:0 0 12px 0;">Showing <strong>${filtered.length}</strong> test${filtered.length > 1 ? 's' : ''}</p>`;
     filtered.forEach(item => {
       html += `
         <div class="lab-card">
@@ -686,13 +713,13 @@
 </script>
 
 <!-- FLOATING SUGGESTION BUTTON -->
-<button id="feedbackToggleBtn" onclick="toggleFeedbackModal()" style="position: fixed; bottom: 20px; left: 20px; z-index: 9998; background: #0284c7; color: white; border: none; border-radius: 50px; padding: 12px 20px; font-weight: 700; font-size: 13.5px; box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35); cursor: pointer; display: flex; align-items: center; gap: 8px; font-family: inherit; transition: all 0.25s ease;">
+<button id="feedbackToggleBtn" onclick="toggleFeedbackModal()" style="position: fixed; bottom: 20px; left: 20px; z-index: 9998; background: var(--primary); color: white; border: none; border-radius: 50px; padding: 12px 20px; font-weight: 700; font-size: 13.5px; box-shadow: var(--shadow-lg); cursor: pointer; display: flex; align-items: center; gap: 8px; font-family: inherit; transition: all 0.25s ease;">
   💡 <span>Suggest Changes</span>
 </button>
 
 <!-- SUGGESTION MODAL POPUP -->
-<div id="feedbackModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(15, 23, 42, 0.5); backdrop-filter: blur(6px); z-index: 10000; display: flex; align-items: center; justify-content: center; padding: 16px; box-sizing: border-box;">
-  <div style="background: #ffffff; width: 100%; max-width: 640px; border-radius: 20px; box-shadow: 0 20px 40px -8px rgba(0,0,0,0.25); border: 1px solid #e2e8f0; overflow: hidden; animation: popupSlide 0.3s ease;">
+<div id="feedbackModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(6px); z-index: 10000; display: flex; align-items: center; justify-content: center; padding: 16px; box-sizing: border-box;">
+  <div style="background: var(--card); width: 100%; max-width: 640px; border-radius: 20px; box-shadow: var(--shadow-lg); border: 1px solid var(--border); overflow: hidden; animation: popupSlide 0.3s ease;">
     <div style="padding: 16px 20px; background: linear-gradient(135deg, #0284c7, #38bdf8); color: white; display: flex; justify-content: space-between; align-items: center;">
       <h3 style="margin: 0; font-size: 16px; font-weight: 700; display: flex; align-items: center; gap: 8px;">💡 Roster Feedback & Corrections</h3>
       <button onclick="toggleFeedbackModal()" style="background: rgba(255,255,255,0.2); border: none; color: white; font-size: 20px; cursor: pointer; border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; line-height: 1;">&times;</button>

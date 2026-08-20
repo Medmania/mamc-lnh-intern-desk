@@ -15,8 +15,9 @@
     .header-banner::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 60%); pointer-events: none; }
     h1 { margin: 0 0 6px 0; font-size: 28px; font-weight: 800; letter-spacing: -0.5px; color: #ffffff; }
     .subtitle { color: #f0f9ff; margin: 0; font-size: 14px; font-weight: 500; opacity: 0.95; }
-    .theme-toggle-btn { position: absolute; top: 18px; right: 18px; background: rgba(255, 255, 255, 0.25); backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.4); color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; cursor: pointer; transition: all 0.25s ease; z-index: 10; }
-    .theme-toggle-btn:hover { transform: scale(1.1) rotate(15deg); background: rgba(255, 255, 255, 0.4); }
+   .theme-toggle-btn { position: absolute; top: 18px; right: 18px; background: rgba(255, 255, 255, 0.9); border: 1px solid rgba(255, 255, 255, 0.6); color: #0369a1; padding: 6px 12px; border-radius: 20px; display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.25s ease; z-index: 10; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12); }
+[data-theme="dark"] .theme-toggle-btn { background: rgba(19, 29, 49, 0.85); border-color: #1e293b; color: #38bdf8; }
+.theme-toggle-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18); }
     .tabs { display: flex; gap: 10px; margin-bottom: 20px; background: var(--tab-bg); backdrop-filter: blur(10px); padding: 6px; border-radius: 16px; border: 1px solid var(--border); box-shadow: var(--shadow-sm); }
     .tab-btn { flex: 1; padding: 12px 14px; border: none; background: transparent; cursor: pointer; font-weight: 700; border-radius: 12px; color: var(--text-muted); font-size: 13.5px; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); display: flex; align-items: center; justify-content: center; gap: 6px; }
     .tab-btn:hover { color: var(--primary); background: rgba(56, 189, 248, 0.1); }
@@ -76,8 +77,12 @@
 <body>
 
 <div class="container">
-  <div class="header-banner">
-    <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()" title="Toggle Dark/Light Mode">🌙</button>
+ <div class="header-banner">
+    <!-- Visible Theme Toggle with Label -->
+    <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()" title="Toggle Dark/Light Mode">
+      <span id="themeIcon">🌙</span> <span>Theme</span>
+    </button>
+    
     <h1>MAMC-LNH ROSTER</h1>
     <p class="subtitle">Compulsory Rotatory Medical Internship (2026–2027)</p>
   </div>
@@ -241,11 +246,11 @@
 <script src="data/data_units.js"></script>
 
 <script>
-  function applyTheme(theme) {
+ function applyTheme(theme) {
     document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem('mamc_theme', theme);
-    const btn = document.getElementById('themeToggleBtn');
-    if (btn) btn.textContent = (theme === 'dark') ? '☀️' : '🌙';
+    const iconSpan = document.getElementById('themeIcon');
+    if (iconSpan) iconSpan.textContent = (theme === 'dark') ? '☀️' : '🌙';
   }
 
   function toggleTheme() {

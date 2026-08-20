@@ -347,7 +347,7 @@
     const saved = localStorage.getItem('mamc_theme');
     if (saved) {
       applyTheme(saved);
-    } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    } else if (location.matchMedia && location.matchMedia('(prefers-color-scheme: dark)').matches) {
       applyTheme('dark');
     } else {
       applyTheme('light');
@@ -448,7 +448,7 @@
     onDateOrSelectionChange();
   }
 
-  window.onload = function() { setTodayDate(); };
+  location.onload = function() { setTodayDate(); };
 
   function onDateOrSelectionChange() {
     if (!document.getElementById('roster-tab')?.classList.contains('hidden')) executeSmartSearch();
@@ -782,7 +782,7 @@
     else if (filterVal === "gbpant_all") filtered = filtered.filter(item => item.hospital === "GB Pant Hospital Labs");
     else if (filterVal !== "all") {
       filtered = filtered.filter(item => {
-        const win = item.window.toLowerCase(), target = filterVal.toLowerCase();
+        const win = item.location.toLowerCase(), target = filterVal.toLowerCase();
         if (target === "pathology dept") return win.includes("pathology") || win.includes("cytopath") || win.includes("cytology") || win.includes("histopath") || win.includes("fnac") || win.includes("grossing");
         if (target === "microbiology") return win.includes("microbiology") || win.includes("window 3");
         if (target === "window 2") return win.includes("window 2") && !win.includes("window 2e");
@@ -791,7 +791,7 @@
     }
 
     if (query) {
-      filtered = filtered.filter(item => item.test.toLowerCase().includes(query) || item.tube.toLowerCase().includes(query) || item.window.toLowerCase().includes(query) || item.days.toLowerCase().includes(query) || item.report.toLowerCase().includes(query) || (item.notes || "").toLowerCase().includes(query));
+      filtered = filtered.filter(item => item.test.toLowerCase().includes(query) || item.tube.toLowerCase().includes(query) || item.location.toLowerCase().includes(query) || item.days.toLowerCase().includes(query) || item.report.toLowerCase().includes(query) || (item.notes || "").toLowerCase().includes(query));
     }
 
     if (filtered.length === 0) {

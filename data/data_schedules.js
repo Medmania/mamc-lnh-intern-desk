@@ -180,8 +180,8 @@ const deptSchedules = [
       { title: 'Surgery Unit 2 <span style="font-weight: normal;">(Dr. Pawan Lal)</span>', days: "🔹 <b>OPD:</b> Wed (New, Em) / Sat (Follow-up)<br>🔴 <b>OT:</b> Fri (A,B) / Mon (C,D)<br>🟡 <b>Uro OT:</b> Tuesday", location: "<b>OPD</b> (Rooms 409, 410, 412, 414, 416)<br><b>Ward:</b> Ward 3A" },
       { title: 'Surgery Unit 3 <span style="font-weight: normal;">(Dr. Rajdeep Singh)</span>', days: "🔹 <b>OPD:</b> Fri (New, Em) / Tue (Follow-up)<br>🔴 <b>OT:</b> Mon (A,B) / Wed (C,D)<br>🟡 <b>Uro OT:</b> Thursday", location: "<b>OPD</b> (Rooms 409, 410, 412, 414, 416)<br><b>Ward:</b> Ward 4A" },
       { title: 'Surgery Unit 4 <span style="font-weight: normal;">(Dr. Sushanto Neogi)</span>', days: "🔹 <b>OPD:</b> Tue (New, Em) / Fri (Follow-up)<br>🔴 <b>OT:</b> Thu (A,B) / Sat (C,D)<br>🟡 <b>Uro OT:</b> Monday", location: "<b>OPD</b> (Rooms 417, 431, 433, 435)<br><b>Ward:</b> Ward 3B" },
-      { title: 'Surgery Unit 5 <span style="font-weight: normal;">(Dr. Anubhav Vindal)</span>', days: "🔹 <b>OPD:</b> Thu (New, Em) / Mon (Follow-up)<br>🔴 <b>OT:</b> Sat (A,B) / Tue (C,D)<br>🟡 <b>Uro OT:</b> Wednesday", location: "<b>OPD</b> (Rooms 417, 431, 433, 435)<br><b>Ward:</b> Ward 4B" },
-      { title: 'Surgery Unit 6 <span style="font-weight: normal;">(Dr. Deepak Ghuliani)</span>', days: "🔹 <b>OPD:</b> Sat (New, Em) / Wed (Follow-up)<br>🔴 <b>OT:</b> Tue (A,B) / Thu (C,D)<br>🟡 <b>Uro OT:</b> Friday", location: "<b>OPD</b> (Rooms 417, 431, 433, 435)<br><b>Ward:</b> Ward 2B" }
+      { title: 'Surgery Unit 5 <span style="font-weight: normal;">(Dr. Anubhav Vindal)</span>', days: "🔹 <b>OPD:</b> Thu (New, Em) / Mon (Follow-up)<br>🔴 <b>OT:</b> Sat (A,B) / Tue (C,D)<br>🟡 <b>Uro OT:</b> Wednesday", location: "<b>OPD</b> (Rooms 417, 431, 433, 435)<br><b>Ward:</b> Ward 2B" },
+      { title: 'Surgery Unit 6 <span style="font-weight: normal;">(Dr. Deepak Ghuliani)</span>', days: "🔹 <b>OPD:</b> Sat (New, Em) / Wed (Follow-up)<br>🔴 <b>OT:</b> Tue (A,B) / Thu (C,D)<br>🟡 <b>Uro OT:</b> Friday", location: "<b>OPD</b> (Rooms 417, 431, 433, 435)<br><b>Ward:</b> Ward 4B" }
     ]
   },
   {
@@ -238,9 +238,10 @@ const deptSchedules = [
     id: "ent",
     name: "ENT Morning OPD (09:00 AM - 01:00 PM)",
     units: [
-      { title: 'Unit 1 <span style="font-weight: normal;">(Dr. Ravi Meher)</span>', days: "🔹 <b>OPD:</b> Wed / Sat<br>🔴 <b>OT:</b> Mon / Thu<br>🟡 <b>Ward:</b> Tue / Fri", location: "<b>OPD</b> (Rooms 609-617, 6th Fl)" },
-      { title: 'Unit 2 <span style="font-weight: normal;">(Dr. Ishwar Singh)</span>', days: "🔹 <b>OPD:</b> Mon / Thu<br>🔴 <b>OT:</b> Tue / Fri<br>🟡 <b>Ward:</b> Wed / Sat", location: "<b>OPD</b> (Rooms 609-617, 6th Fl)" },
-      { title: 'Unit 3 <span style="font-weight: normal;">(Dr. H.C. Taneja)</span>', days: "🔹 <b>OPD:</b> Tue / Fri<br>🔴 <b>OT:</b> Wed / Sat<br>🟡 <b>Ward:</b> Mon / Thu", location: "<b>OPD</b> (Rooms 609-617, 6th Fl)" }
+         { title: 'Unit 1 <span style="font-weight: normal;">(Dr. Ishwar Singh)</span>', days: "🔹 <b>OPD:</b> Mon / Thu<br>🔴 <b>OT:</b> Tue / Fri<br>🟡 <b>Ward:</b> Wed / Sat", location: "<b>OPD</b> (Rooms 609-617, 6th Fl)" },
+      { title: 'Unit 2 <span style="font-weight: normal;">(Dr. H.C. Taneja)</span>', days: "🔹 <b>OPD:</b> Tue / Fri<br>🔴 <b>OT:</b> Wed / Sat<br>🟡 <b>Ward:</b> Mon / Thu", location: "<b>OPD</b> (Rooms 609-617, 6th Fl)" },
+      { title: 'Unit 3 <span style="font-weight: normal;">(Dr. Ravi Meher)</span>', days: "🔹 <b>OPD:</b> Wed / Sat<br>🔴 <b>OT:</b> Mon / Thu<br>🟡 <b>Ward:</b> Tue / Fri", location: "<b>OPD</b> (Rooms 609-617, 6th Fl)" }
+   
     ]
   },
   {

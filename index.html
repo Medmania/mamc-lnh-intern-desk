@@ -82,6 +82,36 @@
     details summary { list-style: none; cursor: pointer; color: var(--secondary); font-weight: 800; font-size: 13.5px; padding: 8px 0; display: flex; align-items: center; gap: 6px; }
     details summary::-webkit-details-marker { display: none; }
     details[open] summary { margin-bottom: 8px; }
+    .timeline-scroll {
+      max-height: 320px;
+      overflow-y: auto;
+      margin-top: 6px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+    }
+    .timeline-scroll table { margin-top: 0; border: none; }
+    .timeline-scroll thead th {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      background: var(--table-header) !important;
+      box-shadow: 0 1px 0 var(--border);
+    }
+    .selected-week-row td {
+      background: rgba(56, 189, 248, 0.22) !important;
+      font-weight: 800;
+    }
+    [data-theme="dark"] .selected-week-row td {
+      background: rgba(56, 189, 248, 0.28) !important;
+    }
+    .timeline-hint {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      margin: 4px 0 0 0;
+      font-weight: 600;
+    }
     @keyframes popupSlide { from { opacity: 0; transform: translateY(20px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
     .hidden { display: none !important; }
   </style>
@@ -714,10 +744,11 @@
               <!-- Clean Modular Duty & Night Team Layout -->
               ${burariDutyInfo ? getCoInternsNames(burariDutyInfo.co_snos, burariDutyInfo.dept, selectedDate, studentSno) : ''}
 
-              <details style="margin-top: 14px;">
+              <details class="roster-timeline-details" style="margin-top: 14px;" data-focus-week="${weekInfo.wk}">
                 <summary>▶ View 52-Week Full Roster Timeline</summary>
-                <div style="max-height: 260px; overflow-y: auto; margin-top: 6px; border-radius: 12px; border: 1px solid var(--border);">
-                  <table style="margin-top:0; border:none;">
+                <p class="timeline-hint">Showing from Week ${weekInfo.wk} (selected date). Scroll up/down for other weeks.</p>
+                <div class="timeline-scroll">
+                  <table>
                     <thead><tr><th>Wk</th><th>Date Range</th><th>Department Posting</th></tr></thead>
                     <tbody>
                       ${weeksData.map(w => {
@@ -726,7 +757,7 @@
                         let timelineDisplay = post;
                         const weekUnit = getSpecialUnitInfo(studentSno, w.start);
                         if (weekUnit && weekUnit.dept.toLowerCase() === post.toLowerCase()) timelineDisplay = `<b>${post} (${weekUnit.unit})</b><br><span style="font-size:11px; color:var(--text-muted);">${weekUnit.incharge}</span>`;
-                        return `<tr ${isSelected ? 'class="selected-week-row" style="background: rgba(56, 189, 248, 0.22) !important; font-weight: 800;"' : ''}><td>W${w.wk}</td><td>${formatDateShort(w.start)} to ${formatDateShort(w.end)}</td><td>${timelineDisplay}</td></tr>`;
+                        return `<tr class="${isSelected ? 'selected-week-row' : ''}" data-week="${w.wk}"><td>W${w.wk}</td><td>${formatDateShort(w.start)} to ${formatDateShort(w.end)}</td><td>${timelineDisplay}</td></tr>`;
                       }).join('')}
                     </tbody>
                   </table>
@@ -737,6 +768,22 @@
         `;
       });
       resDiv.innerHTML = html;
+      // Auto-scroll each 52-week timeline to the selected week when opened
+      resDiv.querySelectorAll('details.roster-timeline-details').forEach(det => {
+        det.addEventListener('toggle', function onTimelineToggle() {
+          if (!det.open) return;
+          // Wait for expand layout, then smoothly place selected week near top
+          const scrollToSelected = () => {
+            const scrollBox = det.querySelector('.timeline-scroll');
+            const row = det.querySelector('tr.selected-week-row');
+            if (!scrollBox || !row) return;
+            const headerH = scrollBox.querySelector('thead')?.offsetHeight || 40;
+            const target = Math.max(0, row.offsetTop - headerH - 6);
+            scrollBox.scrollTo({ top: target, behavior: 'smooth' });
+          };
+          requestAnimationFrame(() => setTimeout(scrollToSelected, 40));
+        });
+      });
     }
   }
 

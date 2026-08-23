@@ -376,67 +376,84 @@
   })();
 
   function getCoInternsNames(coSnos, userDept, selectedDate, currentSearchedSno) {
-    if (!coSnos || coSnos.length === 0) return "";
-    const isNightDuty = userDept && userDept.toLowerCase().includes("night");
-    const currentSnoNum = Number(currentSearchedSno);
+  if (!coSnos || coSnos.length === 0) return "";
+  const isNightDuty = userDept && userDept.toLowerCase().includes("night");
+  const currentSnoNum = Number(currentSearchedSno);
 
-    const wardPartners = coSnos
-      .filter(sno => Number(sno) <= 50)
-      .map(sno => {
+  // 1. Same-ward / exact shift partners (Supports S.No > 50 and named strings)
+  const wardPartners = coSnos
+    .map(sno => {
+      let displayName = "";
+      const isNum = !isNaN(sno);
+
+      if (isNum) {
         const intern = interns.find(i => Number(i.sno) === Number(sno));
-        const name = intern ? intern.name : `S.No ${sno}`;
-        const isCurrent = Number(sno) === currentSnoNum;
-        return `
-          <span class="partner-chip" ${isCurrent ? 'style="background:rgba(34,197,94,0.3); border-color:#22c55e;"' : ''}>
-            ${name} <span style="font-size:10.5px; opacity:0.8;">(S.No ${sno})</span>
-          </span>
-        `;
-      }).join('');
-
-    let resultHtml = `
-      <div class="duty-roster-box">
-        <div class="ward-team-card">
-          <div class="ward-team-header">👥 Co-Interns on Duty (${coSnos.length}):</div>
-          <div class="partner-pills">${wardPartners}</div>
-        </div>
-    `;
-
-    if (isNightDuty && typeof burariDailyRoster !== 'undefined' && burariDailyRoster[selectedDate]) {
-      const dayData = burariDailyRoster[selectedDate];
-      const nightInterns = [];
-
-      for (const [snoStr, info] of Object.entries(dayData)) {
-        const snoNum = Number(snoStr);
-        if (snoNum <= 50 && info.dept && info.dept.toLowerCase().includes("night")) {
-          const intern = interns.find(i => Number(i.sno) === snoNum);
-          nightInterns.push({
-            sno: snoNum,
-            name: intern ? intern.name : `S.No ${snoNum}`,
-            dept: info.dept
-          });
-        }
+        displayName = intern ? `${intern.name} (S.No ${sno})` : `S.No ${sno}`;
+      } else {
+        displayName = sno; // Handles repeater/named strings
       }
 
-      if (nightInterns.length > 0) {
-        resultHtml += `
-          <div class="night-roster-card">
-            <div class="night-roster-header">🌙 Everyone on Night Duty Today (${nightInterns.length}):</div>
-            <div class="duty-grid">
-              ${nightInterns.map(item => `
-                <div class="duty-item ${item.sno === currentSnoNum ? 'active-user' : ''}">
-                  <span><strong>${item.name}</strong> <span style="font-size:11px; opacity:0.75;">(#${item.sno})</span></span>
-                  <span class="duty-dept-tag">${item.dept.replace(/night/i, '').trim()}</span>
-                </div>
-              `).join('')}
-            </div>
-          </div>
-        `;
+      const isCurrent = isNum && Number(sno) === currentSnoNum;
+      return `
+        <span class="partner-chip" ${isCurrent ? 'style="background:rgba(34,197,94,0.3); border-color:#22c55e;"' : ''}>
+          ${displayName}
+        </span>
+      `;
+    }).join('');
+
+  let resultHtml = `
+    <div class="duty-roster-box">
+      <div class="ward-team-card">
+        <div class="ward-team-header">👥 Co-Interns on Duty (${coSnos.length}):</div>
+        <div class="partner-pills">${wardPartners}</div>
+      </div>
+  `;
+
+  // 2. Full Hospital Night Duty Roster (Supports S.No > 50 and named strings)
+  if (isNightDuty && typeof burariDailyRoster !== 'undefined' && burariDailyRoster[selectedDate]) {
+    const dayData = burariDailyRoster[selectedDate];
+    const nightInterns = [];
+
+    for (const [snoStr, info] of Object.entries(dayData)) {
+      if (info.dept && info.dept.toLowerCase().includes("night")) {
+        const isNum = !isNaN(snoStr);
+        const snoNum = isNum ? Number(snoStr) : null;
+        let internName = snoStr;
+
+        if (isNum) {
+          const intern = interns.find(i => Number(i.sno) === snoNum);
+          internName = intern ? `${intern.name} (#${snoNum})` : `S.No ${snoNum}`;
+        }
+
+        nightInterns.push({
+          sno: isNum ? snoNum : snoStr,
+          displayName: internName,
+          dept: info.dept,
+          isCurrent: isNum && snoNum === currentSnoNum
+        });
       }
     }
 
-    resultHtml += `</div>`;
-    return resultHtml;
+    if (nightInterns.length > 0) {
+      resultHtml += `
+        <div class="night-roster-card">
+          <div class="night-roster-header">🌙 Everyone on Night Duty Today (${nightInterns.length}):</div>
+          <div class="duty-grid">
+            ${nightInterns.map(item => `
+              <div class="duty-item ${item.isCurrent ? 'active-user' : ''}">
+                <span><strong>${item.displayName}</strong></span>
+                <span class="duty-dept-tag">${item.dept.replace(/night/i, '').trim()}</span>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
   }
+
+  resultHtml += `</div>`;
+  return resultHtml;
+}
 
   function getPostingForSubdivision(subdiv, weekNum) {
     const weekKey = `Week${weekNum}`;

@@ -112,6 +112,47 @@
       margin: 4px 0 0 0;
       font-weight: 600;
     }
+    .timeline-burari-days {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 6px;
+    }
+    .timeline-day-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 8px;
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      color: var(--primary);
+      white-space: nowrap;
+    }
+    .timeline-day-chip .dlabel {
+      opacity: 0.75;
+      font-weight: 600;
+    }
+    .timeline-day-chip.night {
+      background: rgba(99, 102, 241, 0.14);
+      border-color: rgba(99, 102, 241, 0.4);
+      color: #6366f1;
+    }
+    [data-theme="dark"] .timeline-day-chip.night { color: #a5b4fc; }
+    .timeline-day-chip.pdo {
+      background: rgba(148, 163, 184, 0.18);
+      border-color: rgba(148, 163, 184, 0.4);
+      color: var(--text-muted);
+    }
+    .timeline-burari-empty {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 4px;
+      font-weight: 600;
+      font-style: italic;
+    }
     @keyframes popupSlide { from { opacity: 0; transform: translateY(20px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
     .hidden { display: none !important; }
   </style>
@@ -501,6 +542,46 @@
     return `${day}/${month}/${year.slice(2)}`;
   }
 
+  /** Daily Burari duties for a student across a week range (inclusive). */
+  function getBurariDutiesForWeek(sno, weekStart, weekEnd) {
+    if (typeof burariDailyRoster === 'undefined' || !burariDailyRoster || !sno || !weekStart || !weekEnd) return [];
+    const duties = [];
+    const cur = new Date(weekStart + 'T00:00:00');
+    const end = new Date(weekEnd + 'T00:00:00');
+    const snoKey = String(sno);
+    const snoNum = Number(sno);
+    while (cur <= end) {
+      const y = cur.getFullYear();
+      const m = String(cur.getMonth() + 1).padStart(2, '0');
+      const d = String(cur.getDate()).padStart(2, '0');
+      const dateStr = `${y}-${m}-${d}`;
+      const dayMap = burariDailyRoster[dateStr];
+      if (dayMap) {
+        const info = dayMap[snoKey] || dayMap[snoNum] || dayMap[sno];
+        if (info && info.dept) {
+          duties.push({ date: dateStr, dept: info.dept, co_snos: info.co_snos || [] });
+        }
+      }
+      cur.setDate(cur.getDate() + 1);
+    }
+    return duties;
+  }
+
+  function renderBurariWeekBreakdown(sno, weekStart, weekEnd) {
+    const duties = getBurariDutiesForWeek(sno, weekStart, weekEnd);
+    if (!duties.length) {
+      return '<div class="timeline-burari-empty">Daily Burari roster not yet updated for this week</div>';
+    }
+    const chips = duties.map(du => {
+      const low = (du.dept || '').toLowerCase();
+      let cls = 'timeline-day-chip';
+      if (low.includes('night')) cls += ' night';
+      else if (low.includes('pdo')) cls += ' pdo';
+      return `<span class="${cls}"><span class="dlabel">${formatDateShort(du.date)}</span> ${du.dept}</span>`;
+    }).join('');
+    return `<div class="timeline-burari-days">${chips}</div>`;
+  }
+
   function getSelectedWeek() {
     const selectedDate = document.getElementById('dutyDate').value;
     for (let w of weeksData) {
@@ -757,6 +838,11 @@
                         let timelineDisplay = post;
                         const weekUnit = getSpecialUnitInfo(studentSno, w.start);
                         if (weekUnit && weekUnit.dept.toLowerCase() === post.toLowerCase()) timelineDisplay = `<b>${post} (${weekUnit.unit})</b><br><span style="font-size:11px; color:var(--text-muted);">${weekUnit.incharge}</span>`;
+                        // Extra: for PSM / Burari weeks, show daily duties when roster exists
+                        const isPsmWeek = (post || '').toLowerCase().includes('psm') || (post || '').toLowerCase().includes('community');
+                        if (isPsmWeek) {
+                          timelineDisplay = `<div style="font-weight:800;">${timelineDisplay}</div>` + renderBurariWeekBreakdown(studentSno, w.start, w.end);
+                        }
                         return `<tr class="${isSelected ? 'selected-week-row' : ''}" data-week="${w.wk}"><td>W${w.wk}</td><td>${formatDateShort(w.start)} to ${formatDateShort(w.end)}</td><td>${timelineDisplay}</td></tr>`;
                       }).join('')}
                     </tbody>

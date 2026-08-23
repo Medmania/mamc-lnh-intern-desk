@@ -7,85 +7,17 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
-    :root {
-      --primary: #0284c7;
-      --primary-gradient: linear-gradient(135deg, #0284c7 0%, #2563eb 50%, #38bdf8 100%);
-      --bg: #f0f6ff;
-      --bg-gradient: radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.18) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(37, 99, 235, 0.12) 0px, transparent 50%);
-      --card: #ffffff;
-      --text: #0f172a;
-      --text-muted: #475569;
-      --border: #cbd5e1;
-      --input-bg: #ffffff;
-      --tab-bg: rgba(255, 255, 255, 0.9);
-      --table-header: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-      --table-hover: #e0f2fe;
-      --table-alt: #f8fafc;
-      --box-bg: #f8fafc;
-      --header-glass: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 60%, #ede9fe 100%);
-      --header-text: #0f172a;
-      --chip-bg: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
-      --chip-text: #0369a1;
-      --chip-border: #7dd3fc;
-      --sub-bg: linear-gradient(135deg, #e0f2fe, #bae6fd);
-      --sub-text: #0284c7;
-      --sub-border: #7dd3fc;
-      --days-bg: linear-gradient(135deg, #dcfce7, #bbf7d0);
-      --days-text: #15803d;
-      --days-border: #86efac;
-      --unit-bg: linear-gradient(135deg, #fef3c7, #fde68a);
-      --unit-text: #b45309;
-      --unit-border: #fcd34d;
-      --shadow-sm: 0 2px 6px rgba(15, 23, 42, 0.05);
-      --shadow-md: 0 6px 24px -4px rgba(2, 132, 199, 0.12);
-      --shadow-lg: 0 14px 34px -6px rgba(2, 132, 199, 0.2);
-    }
-
-    [data-theme="dark"] {
-      --primary: #38bdf8;
-      --primary-gradient: linear-gradient(135deg, #0369a1 0%, #0284c7 50%, #38bdf8 100%);
-      --bg: #070d18;
-      --bg-gradient: radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.14) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(14, 165, 233, 0.1) 0px, transparent 50%);
-      --card: #0f172a;
-      --text: #f8fafc;
-      --text-muted: #94a3b8;
-      --border: #1e293b;
-      --input-bg: #131e33;
-      --tab-bg: rgba(15, 23, 42, 0.9);
-      --table-header: linear-gradient(135deg, #17253d 0%, #1e293b 100%);
-      --table-hover: #1e2e4a;
-      --table-alt: #111a2e;
-      --box-bg: #131e33;
-      --header-glass: linear-gradient(135deg, #17253d 0%, #1e2e4a 60%, #1e293b 100%);
-      --header-text: #f8fafc;
-      --chip-bg: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(2, 132, 199, 0.3));
-      --chip-text: #38bdf8;
-      --chip-border: rgba(56, 189, 248, 0.4);
-      --sub-bg: rgba(56, 189, 248, 0.18);
-      --sub-text: #7dd3fc;
-      --sub-border: rgba(56, 189, 248, 0.35);
-      --days-bg: rgba(34, 197, 94, 0.18);
-      --days-text: #4ade80;
-      --days-border: rgba(34, 197, 94, 0.35);
-      --unit-bg: rgba(245, 158, 11, 0.2);
-      --unit-text: #fbbf24;
-      --unit-border: rgba(245, 158, 11, 0.4);
-      --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.4);
-      --shadow-md: 0 6px 24px -4px rgba(0, 0, 0, 0.6);
-      --shadow-lg: 0 14px 34px -6px rgba(0, 0, 0, 0.8);
-    }
-
+    :root { --primary: #0284c7; --primary-gradient: linear-gradient(135deg, #0284c7 0%, #2563eb 50%, #38bdf8 100%); --bg: #f0f6ff; --bg-gradient: radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.18) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(37, 99, 235, 0.12) 0px, transparent 50%); --card: #ffffff; --text: #0f172a; --text-muted: #475569; --border: #cbd5e1; --input-bg: #ffffff; --tab-bg: rgba(255, 255, 255, 0.9); --table-header: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); --table-hover: #e0f2fe; --table-alt: #f8fafc; --box-bg: #f8fafc; --header-glass: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 60%, #ede9fe 100%); --header-text: #0f172a; --chip-bg: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%); --chip-text: #0369a1; --chip-border: #7dd3fc; --sub-bg: linear-gradient(135deg, #e0f2fe, #bae6fd); --sub-text: #0284c7; --sub-border: #7dd3fc; --days-bg: linear-gradient(135deg, #dcfce7, #bbf7d0); --days-text: #15803d; --days-border: #86efac; --unit-bg: linear-gradient(135deg, #fef3c7, #fde68a); --unit-text: #b45309; --unit-border: #fcd34d; --shadow-sm: 0 2px 6px rgba(15, 23, 42, 0.05); --shadow-md: 0 6px 24px -4px rgba(2, 132, 199, 0.12); --shadow-lg: 0 14px 34px -6px rgba(2, 132, 199, 0.2); }
+    [data-theme="dark"] { --primary: #38bdf8; --primary-gradient: linear-gradient(135deg, #0369a1 0%, #0284c7 50%, #38bdf8 100%); --bg: #070d18; --bg-gradient: radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.14) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(14, 165, 233, 0.1) 0px, transparent 50%); --card: #0f172a; --text: #f8fafc; --text-muted: #94a3b8; --border: #1e293b; --input-bg: #131e33; --tab-bg: rgba(15, 23, 42, 0.9); --table-header: linear-gradient(135deg, #17253d 0%, #1e293b 100%); --table-hover: #1e2e4a; --table-alt: #111a2e; --box-bg: #131e33; --header-glass: linear-gradient(135deg, #17253d 0%, #1e2e4a 60%, #1e293b 100%); --header-text: #f8fafc; --chip-bg: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(2, 132, 199, 0.3)); --chip-text: #38bdf8; --chip-border: rgba(56, 189, 248, 0.4); --sub-bg: rgba(56, 189, 248, 0.18); --sub-text: #7dd3fc; --sub-border: rgba(56, 189, 248, 0.35); --days-bg: rgba(34, 197, 94, 0.18); --days-text: #4ade80; --days-border: rgba(34, 197, 94, 0.35); --unit-bg: rgba(245, 158, 11, 0.2); --unit-text: #fbbf24; --unit-border: rgba(245, 158, 11, 0.4); --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.4); --shadow-md: 0 6px 24px -4px rgba(0, 0, 0, 0.6); --shadow-lg: 0 14px 34px -6px rgba(0, 0, 0, 0.8); }
     body { font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); background-image: var(--bg-gradient); background-attachment: fixed; color: var(--text); margin: 0; padding: 24px 16px; min-height: 100vh; transition: background 0.3s ease, color 0.3s ease; }
     .container { max-width: 920px; margin: 0 auto; }
     .header-banner { background: var(--primary-gradient); color: white; padding: 28px 24px; border-radius: 22px; text-align: center; margin-bottom: 24px; box-shadow: var(--shadow-lg); position: relative; overflow: hidden; }
     .header-banner::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255,255,255,0.22) 0%, transparent 60%); pointer-events: none; }
     h1 { margin: 0 0 6px 0; font-size: 28px; font-weight: 800; letter-spacing: -0.5px; color: #ffffff; text-shadow: 0 2px 8px rgba(0,0,0,0.15); }
     .subtitle { color: #f0f9ff; margin: 0; font-size: 14px; font-weight: 500; opacity: 0.95; }
-    
     .theme-toggle-btn { position: absolute; top: 18px; right: 18px; background: rgba(255, 255, 255, 0.95); border: 1.5px solid rgba(255, 255, 255, 0.8); color: #0369a1; padding: 6px 14px; border-radius: 20px; display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 800; cursor: pointer; transition: all 0.25s ease; z-index: 10; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); }
     [data-theme="dark"] .theme-toggle-btn { background: #1e293b; border-color: #38bdf8; color: #38bdf8; }
     .theme-toggle-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25); }
-
     .tabs { display: flex; gap: 10px; margin-bottom: 20px; background: var(--tab-bg); backdrop-filter: blur(12px); padding: 6px; border-radius: 18px; border: 1px solid var(--border); box-shadow: var(--shadow-sm); }
     .tab-btn { flex: 1; padding: 12px 14px; border: none; background: transparent; cursor: pointer; font-weight: 800; border-radius: 14px; color: var(--text-muted); font-size: 13.5px; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); display: flex; align-items: center; justify-content: center; gap: 6px; }
     .tab-btn:hover { color: var(--primary); background: rgba(56, 189, 248, 0.12); }
@@ -93,15 +25,14 @@
     .card { background: var(--card); padding: 24px; border-radius: 22px; box-shadow: var(--shadow-md); border: 1px solid var(--border); margin-bottom: 20px; transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s; }
     .input-group { margin-bottom: 18px; }
     label { display: block; font-weight: 700; margin-bottom: 8px; font-size: 13.5px; color: var(--text); }
-    input, select { width: 100%; padding: 13px 16px; border: 1.5px solid var(--border); border-radius: 14px; box-sizing: border-box; font-size: 14px; font-family: inherit; color: var(--text); font-weight: 600; background-color: var(--input-bg); transition: all 0.2s ease; cursor: pointer; }
+    input, select, textarea { width: 100%; padding: 13px 16px; border: 1.5px solid var(--border); border-radius: 14px; box-sizing: border-box; font-size: 14px; font-family: inherit; color: var(--text); font-weight: 600; background-color: var(--input-bg); transition: all 0.2s ease; cursor: pointer; }
     select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%230284c7'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2.5' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; background-size: 16px; padding-right: 40px; appearance: none; -webkit-appearance: none; }
-    input:focus, select:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.25); }
+    input:focus, select:focus, textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.25); }
     optgroup { font-size: 12px; font-weight: 800; color: var(--primary); background: var(--card); padding: 8px 4px; }
     option { font-size: 14px; font-weight: 600; color: var(--text); background: var(--card); padding: 10px; }
     .date-row { display: flex; gap: 12px; align-items: flex-end; background: var(--card); padding: 16px; border-radius: 16px; border: 1px solid var(--border); }
     .date-row button { padding: 12px 20px; border: none; background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important; color: #ffffff !important; font-weight: 800; font-size: 13.5px; border-radius: 12px; cursor: pointer; transition: all 0.2s ease; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.35); flex-shrink: 0; min-height: 44px; }
-.date-row button:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(2, 132, 199, 0.45); }
-    
+    .date-row button:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(2, 132, 199, 0.45); }
     .schedule-header { background: var(--header-glass) !important; color: var(--header-text) !important; padding: 16px 20px !important; border-radius: 18px 18px 0 0 !important; margin: -1px -1px 0 -1px; font-size: 16.5px !important; font-weight: 800 !important; letter-spacing: -0.3px; border-bottom: 1.5px solid var(--border); display: flex; align-items: center; gap: 8px; }
     table { width: 100%; border-collapse: separate; border-spacing: 0; margin-top: 12px; font-size: 13.5px; border-radius: 14px; overflow: hidden; border: 1px solid var(--border); box-shadow: var(--shadow-sm); }
     th { background: var(--table-header) !important; color: var(--text-muted) !important; font-size: 12px !important; font-weight: 800 !important; text-transform: uppercase; letter-spacing: 0.6px; padding: 14px 16px !important; border-bottom: 1.5px solid var(--border) !important; }
@@ -116,14 +47,12 @@
     .result-card-header h3 { margin: 0; font-size: 18px; font-weight: 800; color: var(--text); }
     .result-card-meta { padding: 0 20px 12px 24px; font-size: 13.5px; color: var(--text-muted); }
     .result-card-body { padding: 0 20px 18px 24px; }
-    
     .posting-chip { display: inline-flex; align-items: center; gap: 8px; background: var(--chip-bg); color: var(--chip-text); font-weight: 800; font-size: 14.5px; padding: 12px 16px; border-radius: 14px; border: 1px solid var(--chip-border); margin-top: 6px; line-height: 1.4; box-shadow: 0 2px 8px rgba(56, 189, 248, 0.15); }
     .badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-weight: 800; font-size: 12px; }
     .badge-sub { background: var(--sub-bg); color: var(--sub-text); border: 1px solid var(--sub-border); }
     .badge-days { background: var(--days-bg); color: var(--days-text); border: 1px solid var(--days-border); }
     .badge-unit { background: var(--unit-bg); color: var(--unit-text); border: 1px solid var(--unit-border); }
     .badge-lab { background: var(--sub-bg); color: var(--sub-text); border: 1px solid var(--sub-border); font-size: 11px; padding: 3px 9px; }
-    
     .duty-roster-box { margin-top: 14px; display: flex; flex-direction: column; gap: 10px; }
     .ward-team-card { background: rgba(34, 197, 94, 0.09); border: 1px solid rgba(34, 197, 94, 0.35); border-radius: 14px; padding: 12px 16px; }
     .ward-team-header { font-size: 13px; font-weight: 800; color: #16a34a; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
@@ -134,26 +63,22 @@
     .duty-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 8px 12px; font-size: 12.5px; display: flex; justify-content: space-between; align-items: center; gap: 6px; box-shadow: var(--shadow-sm); }
     .duty-item.active-user { border-color: var(--primary); background: rgba(56, 189, 248, 0.18); font-weight: 800; }
     .duty-dept-tag { font-size: 11px; font-weight: 800; color: var(--primary); background: rgba(56, 189, 248, 0.15); padding: 3px 8px; border-radius: 6px; white-space: nowrap; }
-
     .week-box { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 16px; margin-bottom: 14px; box-shadow: var(--shadow-sm); }
     .week-box-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
     .unit-partner-section { margin-top: 12px; background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 12px; padding: 12px 14px; }
     .partner-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
     .partner-chip { background: var(--card); border: 1.5px solid rgba(34, 197, 94, 0.5); color: #16a34a; font-size: 12px; font-weight: 800; padding: 4px 12px; border-radius: 20px; box-shadow: var(--shadow-sm); }
     [data-theme="dark"] .partner-chip { color: #4ade80; border-color: rgba(74, 222, 128, 0.4); }
-    
     .co-intern-toggle { margin-top: 10px; font-size: 12.5px; color: var(--primary); }
     .co-intern-toggle summary { cursor: pointer; font-weight: 800; user-select: none; }
     .co-intern-grid { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; padding: 12px; background: var(--box-bg); border-radius: 12px; border: 1px solid var(--border); }
     .co-intern-chip { background: var(--card); border: 1px solid var(--border); font-size: 11.5px; color: var(--text); padding: 4px 10px; border-radius: 8px; font-weight: 600; }
-    
     .lab-card { background: var(--card); border-radius: 16px; border: 1px solid var(--border); padding: 18px 20px; margin-bottom: 12px; box-shadow: var(--shadow-sm); position: relative; overflow: hidden; }
     .lab-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, #0284c7, #38bdf8); }
     .lab-card h4 { margin: 0 0 8px 0; font-size: 16px; font-weight: 800; color: var(--text); }
     .lab-meta { display: flex; flex-wrap: wrap; gap: 10px 18px; font-size: 13px; color: var(--text-muted); margin-bottom: 8px; }
     .lab-notes { margin-top: 10px; padding: 10px 14px; background: rgba(245, 158, 11, 0.14); border-left: 3.5px solid #f59e0b; border-radius: 10px; font-size: 12.5px; color: #d97706; font-weight: 500; }
     [data-theme="dark"] .lab-notes { color: #fbbf24; }
-    
     details summary { list-style: none; cursor: pointer; color: var(--secondary); font-weight: 800; font-size: 13.5px; padding: 8px 0; display: flex; align-items: center; gap: 6px; }
     details summary::-webkit-details-marker { display: none; }
     details[open] summary { margin-bottom: 8px; }
@@ -177,6 +102,7 @@
     <button class="tab-btn active" onclick="switchTab('roster')">🔍 Search Roster</button>
     <button class="tab-btn" onclick="switchTab('schedule')">📅 Hospital facilities</button>
     <button class="tab-btn" onclick="switchTab('lab')">🧪 Tests & Labs</button>
+    <button class="tab-btn" onclick="switchTab('guides')">📁 Clinical Guides</button>
   </div>
 
   <!-- SHARED DATE SELECTOR -->
@@ -186,11 +112,11 @@
         <label for="dutyDate" style="margin-bottom: 4px;">📅 Select Date to Check Posting:</label>
         <input type="date" id="dutyDate" min="2026-05-23" max="2027-05-22" onchange="onDateOrSelectionChange()">
       </div>
-      <button onclick="setTodayDate()" style="padding: 10px 12px; border: none; background: var(--secondary); color: white; font-weight: 600; border-radius: 6px; cursor: pointer; margin-top: 18px;">Today</button>
+      <button onclick="setTodayDate()">Today</button>
     </div>
   </div>
 
-  <!-- UNIFIED TAB: SEARCH ROSTER (PERSON & DEPT) -->
+  <!-- TAB 1: SEARCH ROSTER (PERSON & DEPT) -->
   <div id="roster-tab" class="card">
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin-bottom: 14px;">
       <div>
@@ -316,11 +242,94 @@
     </div>
     <div id="labResults"></div>
   </div>
+
+  <!-- TAB 4: CLINICAL GUIDES & REFERRAL FORMATS -->
+  <div id="guides-tab" class="card hidden">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 16px;">
+      <div>
+        <h3 style="margin: 0; font-size: 18px; font-weight: 800; color: var(--text);">📁 Intern Clinical & Documentation Hub</h3>
+        <p style="margin: 4px 0 0 0; font-size: 13px; color: var(--text-muted);">Standard department referral formats, file ordering & clinical memos</p>
+      </div>
+      <button onclick="openAdminModal()" style="padding: 8px 14px; border: none; background: var(--primary-gradient); color: white; font-weight: 800; font-size: 12.5px; border-radius: 12px; cursor: pointer; box-shadow: var(--shadow-sm);">
+        ⚙️ Admin Upload
+      </button>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-bottom: 16px;">
+      <input type="text" id="guideSearchInput" placeholder="🔍 Search guide (e.g. Nephro consult, Death memo...)" oninput="renderClinicalGuides()">
+      <select id="guideDeptSelect" onchange="renderClinicalGuides()">
+        <option value="all">🏥 All Departments</option>
+        <option value="Medicine">Medicine & Specialties</option>
+        <option value="Surgery">General Surgery</option>
+        <option value="Pediatrics">Pediatrics</option>
+        <option value="Obs & Gynae">Obs & Gynae</option>
+        <option value="Orthopedics">Orthopedics</option>
+        <option value="Casualty">Casualty & Emergency</option>
+        <option value="Administrative">Paperwork & MLC</option>
+      </select>
+    </div>
+
+    <div id="guidesResultsGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 16px;">
+      <p style="color: var(--text-muted); font-size: 13px;">Loading documentation formats...</p>
+    </div>
+  </div>
+
 </div>
 
 <footer style="text-align: center; margin-top: 30px; padding: 16px; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 13px;">
   <p style="margin: 4px 0 0 0; font-size: 16px;"><strong>Batch-2021</strong></p>
 </footer>
+
+<!-- LIGHTBOX IMAGE VIEWER MODAL -->
+<div id="imageLightboxModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); z-index: 10002; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box;" onclick="closeLightbox()">
+  <span style="position: absolute; top: 20px; right: 24px; color: white; font-size: 32px; font-weight: 800; cursor: pointer;">&times;</span>
+  <img id="lightboxImg" src="" style="max-width: 95%; max-height: 85vh; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); object-fit: contain;" onclick="event.stopPropagation()">
+  <a id="lightboxDownloadBtn" href="" target="_blank" download style="margin-top: 14px; background: white; color: #0f172a; padding: 8px 16px; border-radius: 20px; font-weight: 800; font-size: 13px; text-decoration: none;" onclick="event.stopPropagation()">⬇️ Open Full Resolution</a>
+</div>
+
+<!-- ADMIN UPLOAD MODAL -->
+<div id="adminGuideModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(6px); z-index: 10001; display: flex; align-items: center; justify-content: center; padding: 16px; box-sizing: border-box;">
+  <div style="background: var(--card); width: 100%; max-width: 520px; border-radius: 20px; box-shadow: var(--shadow-lg); border: 1px solid var(--border); overflow: hidden; padding: 20px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+      <h3 style="margin: 0; font-size: 16.5px; font-weight: 800; color: var(--text);">📤 Upload Format or Referral Guide</h3>
+      <span onclick="closeAdminModal()" style="font-size: 22px; cursor: pointer; color: var(--text-muted);">&times;</span>
+    </div>
+
+    <form id="guideUploadForm" onsubmit="submitGuideUpload(event)" style="display: flex; flex-direction: column; gap: 12px;">
+      <input type="password" id="adminPinInput" placeholder="Enter Admin PIN" required>
+      <input type="text" id="guideTitleInput" placeholder="Format Title (e.g. Cardiology Fitness Referral)" required>
+      
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+        <select id="guideDeptFormSelect">
+          <option value="Medicine">Medicine & Specialties</option>
+          <option value="Surgery">General Surgery</option>
+          <option value="Pediatrics">Pediatrics</option>
+          <option value="Obs & Gynae">Obs & Gynae</option>
+          <option value="Orthopedics">Orthopedics</option>
+          <option value="Casualty">Casualty & Emergency</option>
+          <option value="Administrative">Paperwork & MLC</option>
+        </select>
+        <select id="guideCategorySelect">
+          <option value="Referral">Referral / Consult</option>
+          <option value="File Ordering">File Ordering</option>
+          <option value="Clinical Memo">Death / Leave Memo</option>
+          <option value="Protocol">Emergency Protocol</option>
+        </select>
+      </div>
+
+      <textarea id="guideTemplateInput" placeholder="Optional raw text template (interns can 1-tap copy this text)..." style="width: 100%; height: 75px; padding: 10px; border-radius: 12px; border: 1.5px solid var(--border); font-family: inherit; font-size: 13px; background: var(--input-bg); color: var(--text); box-sizing: border-box;"></textarea>
+
+      <div>
+        <label style="font-size: 12px; margin-bottom: 4px;">Photo of Format / Paperwork (Optional):</label>
+        <input type="file" id="guideFileInput" accept="image/*">
+      </div>
+
+      <button type="submit" id="uploadSubmitBtn" style="padding: 12px; border: none; background: var(--primary-gradient); color: white; font-weight: 800; border-radius: 12px; cursor: pointer; margin-top: 4px;">
+        Publish Live
+      </button>
+    </form>
+  </div>
+</div>
 
 <!-- DATA SCRIPT DEPENDENCIES -->
 <script src="data/data_interns.js"></script>
@@ -331,6 +340,10 @@
 <script src="data/data_units.js"></script>
 
 <script>
+  // PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL HERE:
+  const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz_YOUR_ACTUAL_DEPLOYED_URL_HERE/exec";
+  let clinicalGuidesData = [];
+
   function applyTheme(theme) {
     document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem('mamc_theme', theme);
@@ -461,6 +474,7 @@
     document.getElementById('roster-tab')?.classList.add('hidden');
     document.getElementById('schedule-tab')?.classList.add('hidden');
     document.getElementById('lab-tab')?.classList.add('hidden');
+    document.getElementById('guides-tab')?.classList.add('hidden');
     const dateCard = document.getElementById('date-card');
 
     if (tab === 'roster') {
@@ -478,6 +492,11 @@
       document.getElementById('lab-tab')?.classList.remove('hidden');
       if (dateCard) dateCard.classList.add('hidden');
       searchLabTests();
+    } else if (tab === 'guides') {
+      document.querySelectorAll('.tab-btn')[3]?.classList.add('active');
+      document.getElementById('guides-tab')?.classList.remove('hidden');
+      if (dateCard) dateCard.classList.add('hidden');
+      if (clinicalGuidesData.length === 0) fetchClinicalGuides();
     }
   }
 
@@ -811,6 +830,176 @@
       `;
     });
     resDiv.innerHTML = html;
+  }
+
+  // --- CLINICAL GUIDES API & RENDER LOGIC ---
+  async function fetchClinicalGuides() {
+    const container = document.getElementById("guidesResultsGrid");
+    try {
+      const res = await fetch(APPS_SCRIPT_URL);
+      const data = await res.json();
+      if (data.status === "success") {
+        clinicalGuidesData = data.guides || [];
+        renderClinicalGuides();
+      }
+    } catch (err) {
+      if (container) container.innerHTML = `<p style="color: var(--text-muted); font-size: 13px;">Failed to load guides. Check Apps Script URL or connection.</p>`;
+    }
+  }
+
+  function renderClinicalGuides() {
+    const query = document.getElementById("guideSearchInput")?.value.toLowerCase().trim() || "";
+    const deptFilter = document.getElementById("guideDeptSelect")?.value || "all";
+    const container = document.getElementById("guidesResultsGrid");
+    if (!container) return;
+
+    let filtered = clinicalGuidesData;
+    if (deptFilter !== "all") {
+      filtered = filtered.filter(g => g.dept.toLowerCase() === deptFilter.toLowerCase());
+    }
+    if (query) {
+      filtered = filtered.filter(g => g.title.toLowerCase().includes(query) || (g.templateText || "").toLowerCase().includes(query) || g.category.toLowerCase().includes(query));
+    }
+
+    if (filtered.length === 0) {
+      container.innerHTML = `<p style="grid-column: 1/-1; text-align:center; padding: 20px; color: var(--text-muted);">No guides found matching criteria.</p>`;
+      return;
+    }
+
+    container.innerHTML = filtered.map(g => `
+      <div class="result-card" style="padding: 16px; display: flex; flex-direction: column; justify-content: space-between;">
+        <div>
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 8px;">
+            <span class="badge badge-sub" style="font-size: 11px;">${g.dept}</span>
+            <span class="badge badge-unit" style="font-size: 11px;">${g.category}</span>
+          </div>
+          <h4 style="margin: 0 0 8px 0; font-size: 15px; font-weight: 800; color: var(--text);">${g.title}</h4>
+
+          ${g.imageUrl ? `
+            <div style="border-radius: 10px; overflow: hidden; height: 140px; margin-bottom: 10px; background: var(--box-bg); cursor: pointer; border: 1px solid var(--border);" onclick="openLightbox('${g.imageUrl}')">
+              <img src="${g.imageUrl}" style="width: 100%; height: 100%; object-fit: cover;" loading="lazy">
+            </div>
+          ` : ''}
+
+          ${g.templateText ? `
+            <div style="background: var(--box-bg); padding: 8px 10px; border-radius: 8px; font-size: 12px; color: var(--text); border: 1px dashed var(--border); max-height: 80px; overflow-y: auto; white-space: pre-wrap; margin-bottom: 10px; font-family: monospace;">${g.templateText}</div>
+          ` : ''}
+        </div>
+
+        <div style="display: flex; gap: 8px; margin-top: 10px;">
+          ${g.templateText ? `
+            <button onclick="copyTemplateText('${encodeURIComponent(g.templateText)}', this)" style="flex: 1; padding: 7px; border: 1px solid var(--border); background: var(--card); color: var(--text); font-weight: 800; font-size: 11.5px; border-radius: 8px; cursor: pointer;">📋 Copy Text</button>
+          ` : ''}
+          ${g.imageUrl ? `
+            <button onclick="openLightbox('${g.imageUrl}')" style="flex: 1; padding: 7px; border: 1px solid var(--border); background: var(--card); color: var(--primary); font-weight: 800; font-size: 11.5px; border-radius: 8px; cursor: pointer;">🔍 View Photo</button>
+          ` : ''}
+          <button onclick="promptDeleteGuide('${g.id}')" style="padding: 7px 10px; border: none; background: rgba(239, 68, 68, 0.15); color: #ef4444; font-weight: 800; font-size: 11.5px; border-radius: 8px; cursor: pointer;">🗑️</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function copyTemplateText(encodedText, btn) {
+    const text = decodeURIComponent(encodedText);
+    navigator.clipboard.writeText(text);
+    const old = btn.textContent;
+    btn.textContent = "✅ Copied!";
+    setTimeout(() => btn.textContent = old, 1500);
+  }
+
+  function openLightbox(url) {
+    const modal = document.getElementById("imageLightboxModal");
+    const img = document.getElementById("lightboxImg");
+    const dload = document.getElementById("lightboxDownloadBtn");
+    if (modal && img) {
+      img.src = url;
+      if (dload) dload.href = url;
+      modal.classList.remove("hidden");
+    }
+  }
+
+  function closeLightbox() {
+    document.getElementById("imageLightboxModal")?.classList.add("hidden");
+  }
+
+  function openAdminModal() { document.getElementById("adminGuideModal")?.classList.remove("hidden"); }
+  function closeAdminModal() { document.getElementById("adminGuideModal")?.classList.add("hidden"); }
+
+  async function submitGuideUpload(e) {
+    e.preventDefault();
+    const btn = document.getElementById("uploadSubmitBtn");
+    btn.textContent = "Uploading to Drive...";
+    btn.disabled = true;
+
+    const fileInput = document.getElementById("guideFileInput");
+    let imageBytes = "";
+    let fileName = "";
+    let mimeType = "";
+
+    if (fileInput.files.length > 0) {
+      const file = fileInput.files[0];
+      fileName = file.name;
+      mimeType = file.type;
+      imageBytes = await new Promise((res) => {
+        const reader = new FileReader();
+        reader.onload = (evt) => res(evt.target.result);
+        reader.readAsDataURL(file);
+      });
+    }
+
+    const payload = {
+      action: "upload",
+      pin: document.getElementById("adminPinInput").value,
+      title: document.getElementById("guideTitleInput").value,
+      dept: document.getElementById("guideDeptFormSelect").value,
+      category: document.getElementById("guideCategorySelect").value,
+      templateText: document.getElementById("guideTemplateInput").value,
+      imageBytes: imageBytes,
+      fileName: fileName,
+      mimeType: mimeType
+    };
+
+    try {
+      const res = await fetch(APPS_SCRIPT_URL, {
+        method: "POST",
+        body: JSON.stringify(payload)
+      });
+      const result = await res.json();
+      if (result.status === "success") {
+        alert("Guide published successfully!");
+        closeAdminModal();
+        document.getElementById("guideUploadForm").reset();
+        fetchClinicalGuides();
+      } else {
+        alert("Error: " + result.message);
+      }
+    } catch (err) {
+      alert("Network or script error during upload.");
+    } finally {
+      btn.textContent = "Publish Live";
+      btn.disabled = false;
+    }
+  }
+
+  async function promptDeleteGuide(id) {
+    const pin = prompt("Enter Admin PIN to delete this item:");
+    if (!pin) return;
+
+    try {
+      const res = await fetch(APPS_SCRIPT_URL, {
+        method: "POST",
+        body: JSON.stringify({ action: "delete", id: id, pin: pin })
+      });
+      const result = await res.json();
+      if (result.status === "success") {
+        alert("Deleted.");
+        fetchClinicalGuides();
+      } else {
+        alert("Error: " + result.message);
+      }
+    } catch(e) {
+      alert("Failed to delete.");
+    }
   }
 
   function toggleFeedbackModal() {

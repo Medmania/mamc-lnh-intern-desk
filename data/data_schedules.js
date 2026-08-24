@@ -33,6 +33,7 @@ const deptSchedules = [
       { title: "Cardiology OPD <span style='font-weight:normal;'>(Dr. Girish M.P.)</span>", days: "Mon & Thu", location: "Room 435" },
       { title: "Cardiology OPD <span style='font-weight:normal;'>(Dr. Arima Nigam)</span>", days: "Tue & Fri", location: "Room 435" },
       { title: "Cardiology OPD <span style='font-weight:normal;'>(Dr. Mohit D. Gupta)</span>", days: "Wed & Sat", location: "Room 435" },
+      { title: "Echocardiography (Echo Routine & Early Date)", days: "Daily (09:00 AM - 04:00 PM)", location: "<b>Echo:</b> Block C. <b>For Early Date:</b> Cath Lab (D-Block 6th Fl or C-Block 2nd Fl)" },
       { title: "Pacemaker Clinic <span style='font-weight:normal;'>(Dr. Ankit Bansal / Dr. Subrat Muduli)</span>", days: "Tuesday", location: "Room 431" },
       { title: "Pediatric Cardiology Clinic <span style='font-weight:normal;'>(Dr. Sumod Kurian)</span>", days: "Friday", location: "Room 431" },
       { title: "Pacemaker Clinic <span style='font-weight:normal;'>(Dr. Sanjeev Kathuria)</span>", days: "Tuesday", location: "Room 433" },
@@ -397,6 +398,7 @@ const deptSchedules = [
     id: "clinic_other",
     name: "Other Special Clinics, Hospital Units & Support Services",
     units: [
+      { title: 'Medical Records Department (MRD) — File & PAC Retrieval', days: "Mon to Sat (09:00 AM - 04:00 PM)", location: "OPD Building (Ground / Basement Floor)" },
       { title: 'Anti-Retroviral Therapy (ART Centre) <span style="font-weight: normal;">(Dr. S. Anuradha)</span>', days: "Mon to Sat (09:00 AM - 04:00 PM)", location: "OPD Block 6th Floor (Room 634)" },
       { title: 'Chest Clinic (DOTS for TB / Tuberculosis) <span style="font-weight: normal;">(Dr. Vishal Khanna)</span>', days: "Mon to Sat", location: "Chest Clinic (DOTS Centre), Gate No. 2" },
       { title: 'Radio Diagnosis <span style="font-weight: normal;">(Dr. Gaurav Pradhan)</span>', days: "Mon to Sat", location: "Room 137 (Near Gate No. 2)" },

@@ -90,6 +90,31 @@ mark.faq-highlight{background:rgba(56,189,248,0.35);color:inherit;padding:1px 3p
 .admin-tab.active{background:var(--primary);color:white;border-color:var(--primary)}
 .hidden{display:none!important}
 @keyframes popupSlide{from{opacity:0;transform:translateY(20px) scale(0.95)}to{opacity:1;transform:translateY(0) scale(1)}}
+
+/* ===== Missing styles used by roster search ===== */
+.partner-chip,.co-intern-chip{display:inline-flex;align-items:center;gap:4px;background:var(--box-bg);border:1px solid var(--border);padding:4px 10px;border-radius:20px;font-size:12px;font-weight:600;margin:2px}
+.partner-pills,.co-intern-grid{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.week-box{background:var(--box-bg);border:1px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:10px}
+.week-box-header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.unit-partner-section{margin:8px 0;padding:8px 10px;background:rgba(34,197,94,0.08);border-radius:10px;border:1px solid rgba(34,197,94,0.25)}
+.co-intern-toggle{margin-top:8px}
+.duty-roster-box{margin-top:12px}
+.ward-team-card,.night-roster-card{background:var(--box-bg);border:1px solid var(--border);border-radius:12px;padding:12px;margin-top:8px}
+.ward-team-header,.night-roster-header{font-weight:800;font-size:13.5px;margin-bottom:8px}
+.duty-grid{display:flex;flex-wrap:wrap;gap:8px}
+.duty-item{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:6px 10px;font-size:12.5px}
+.duty-item.active-user{background:rgba(34,197,94,0.2);border-color:#22c55e}
+.duty-dept-tag{font-size:11px;color:var(--text-muted);margin-left:6px}
+.timeline-scroll{max-height:320px;overflow-y:auto;border:1px solid var(--border);border-radius:10px;margin-top:8px}
+.timeline-scroll table{margin-top:0;border:none;box-shadow:none}
+.selected-week-row td{background:rgba(56,189,248,0.18)!important;font-weight:700}
+.timeline-hint{font-size:12px;color:var(--text-muted);margin:6px 0}
+.timeline-burari-days{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}
+.timeline-day-chip{font-size:11px;padding:3px 8px;border-radius:8px;background:var(--box-bg);border:1px solid var(--border)}
+.timeline-day-chip.night{background:rgba(99,102,241,0.15);border-color:rgba(99,102,241,0.4)}
+.timeline-day-chip.pdo{background:rgba(245,158,11,0.15);border-color:rgba(245,158,11,0.4)}
+.timeline-burari-empty{font-size:12px;color:var(--text-muted);font-style:italic}
+.dlabel{font-weight:700;margin-right:4px}
 </style>
 </head>
 <body>
@@ -126,7 +151,7 @@ mark.faq-highlight{background:rgba(56,189,248,0.35);color:inherit;padding:1px 3p
 <button class="admin-tab" onclick="switchAdminTab('notes')">Notes</button>
 </div>
 <div id="adminContent">
-<p style="color:var(--text-muted);font-size:14px">Firebase connection ready. CRUD forms will render here.</p>
+<p style="color:var(--text-muted);font-size:14px">Firebase connection will be added later. This panel is ready for CRUD forms.</p>
 </div>
 </div>
 
@@ -365,41 +390,29 @@ const firebaseConfig = {
   appId: "1:489695840383:web:7891a8e07d33fc0147974a",
   measurementId: "G-1GGKYEJLWE"
 };
+// firebase.initializeApp(firebaseConfig);
+// const auth = firebase.auth();
+// const db = firebase.firestore();
 
 // ========== GLOBAL STATE ==========
 let currentUser = null;
 let isAdmin = false;
-let faqData = (typeof faqs !== 'undefined') ? faqs : [];
+let faqData = [];
 const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxVpbrlW7sCbFQdvSKt76NjScuxlkcem9hyn6SCsuAKjo-Fg57AovmD6gjTYBqwm0VH/exec";
 let clinicalGuidesData = [];
 const ADMIN_EMAILS = ["your.email@gmail.com"];
 
 // ========== THEME ==========
-function applyTheme(theme){
-  document.documentElement.setAttribute('data-theme',theme);
-  localStorage.setItem('mamc_theme',theme);
-  const icon=document.getElementById('themeIcon');
-  if(icon) icon.textContent=theme==='dark'?'☀️':'🌙';
-}
-function toggleTheme(){
-  const cur=document.documentElement.getAttribute('data-theme')||'light';
-  applyTheme(cur==='light'?'dark':'light');
-}
-(function(){
-  const s=localStorage.getItem('mamc_theme');
-  if(s) applyTheme(s);
-  else if(window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches) applyTheme('dark');
-  else applyTheme('light');
-})();
+function applyTheme(theme){document.documentElement.setAttribute('data-theme',theme);localStorage.setItem('mamc_theme',theme);const icon=document.getElementById('themeIcon');if(icon)icon.textContent=theme==='dark'?'☀️':'🌙'}
+function toggleTheme(){const cur=document.documentElement.getAttribute('data-theme')||'light';applyTheme(cur==='light'?'dark':'light')}
+(function(){const s=localStorage.getItem('mamc_theme');if(s)applyTheme(s);else if(window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches)applyTheme('dark');else applyTheme('light')})();
 
 // ========== AUTH ==========
 function loginWithGoogle(){
   alert("Firebase Auth will be connected later.\nFor now this is a placeholder.");
 }
 function logoutUser(){
-  currentUser=null;
-  isAdmin=false;
-  updateAuthUI();
+  currentUser=null;isAdmin=false;updateAuthUI();
 }
 function handleAuth(user){
   currentUser=user;
@@ -433,7 +446,7 @@ function toggleAdminPanel(){
 }
 function switchAdminTab(tab){
   document.querySelectorAll('.admin-tab').forEach(t=>t.classList.remove('active'));
-  if(event && event.target) event.target.classList.add('active');
+  event.target.classList.add('active');
   document.getElementById('adminContent').innerHTML=`<p style="color:var(--text-muted)">Admin form for <strong>${tab}</strong> will be built after Firebase setup.</p>`;
 }
 
@@ -457,24 +470,14 @@ function renderUserHistory(){
   const faq=JSON.parse(localStorage.getItem('mamc_history_faq')||'[]');
   const all=[...new Set([...roster,...lab,...faq])].slice(0,10);
   if(all.length===0){chips.innerHTML='<span style="color:var(--text-muted);font-size:12px">No recent searches yet</span>';return}
-  chips.innerHTML=all.map(q=>`<span class="history-chip" onclick="applyHistory('${q.replace(/'/g,"\\'")}')">${q}</span>`).join('');
+  chips.innerHTML=all.map(q=>`<span class="history-chip" onclick="applyHistory('\( {q.replace(/'/g,"\\'")}')"> \){q}</span>`).join('');
 }
 function applyHistory(q){
   const activeTab=document.querySelector('.tab-btn.active');
   if(!activeTab)return;
-  if(activeTab.textContent.includes('Roster')){
-    document.getElementById('universalPersonInput').value=q;
-    executeSmartSearch();
-  } else if(activeTab.textContent.includes('facilities')){
-    document.getElementById('scheduleSearch').value=q;
-    renderScheduleResults();
-  } else if(activeTab.textContent.includes('Labs')){
-    document.getElementById('labSearch').value=q;
-    searchLabTests();
-  } else if(activeTab.textContent.includes('FAQs')){
-    document.getElementById('faqSearchInput').value=q;
-    renderFaqs();
-  }
+  if(activeTab.textContent.includes('Roster')){document.getElementById('universalPersonInput').value=q;executeSmartSearch()}
+  else if(activeTab.textContent.includes('Labs')){document.getElementById('labSearch').value=q;searchLabTests()}
+  else if(activeTab.textContent.includes('FAQs')){document.getElementById('faqSearchInput').value=q;renderFaqs()}
 }
 function clearSearchHistory(){
   ['roster','lab','faq'].forEach(t=>localStorage.removeItem(`mamc_history_${t}`));
@@ -482,125 +485,43 @@ function clearSearchHistory(){
 }
 
 // ========== FAQ ==========
-function highlightText(text,query){
-  if(!query)return text;
-  const esc=query.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
-  return text.replace(new RegExp(`(${esc})`,'gi'),'<mark class="faq-highlight">$1</mark>');
-}
+function highlightText(text,query){if(!query)return text;const esc=query.replace(/[.*+?^${}()|[\]\\]/g,'\\\( &');return text.replace(new RegExp(`( \){esc})`,'gi'),'<mark class="faq-highlight">$1</mark>')}
 function renderFaqs(){
   const query=(document.getElementById('faqSearchInput')?.value||'').toLowerCase().trim();
   const container=document.getElementById('faqResults');
   const countEl=document.getElementById('faqMatchCount');
   if(!container)return;
-  if(typeof faqData==='undefined'||!faqData||faqData.length===0){
-    container.innerHTML='<div class="faq-empty"><p>FAQ data not loaded yet.<br>Add <code>data/data_faqs.js</code> and verify data.</p></div>';
-    if(countEl)countEl.textContent='';
-    return;
-  }
+  if(typeof faqData==='undefined'||!faqData||faqData.length===0){container.innerHTML='<div class="faq-empty"><p>FAQ data not loaded yet.<br>Add <code>data/data_faqs.js</code> and set <code>faqData</code>.</p></div>';if(countEl)countEl.textContent='';return}
   let filtered=faqData;
   if(query)filtered=faqData.filter(item=>{const s=(item.question+' '+ (item.tags||[]).join(' ')+' '+item.category+' '+(item.answer||'').replace(/<[^>]+>/g,' ')).toLowerCase();return s.includes(query)});
-  if(countEl)countEl.textContent=query?`${filtered.length} result${filtered.length!==1?'s':''} found`:`${faqData.length} SOPs available`;
+  if(countEl)countEl.textContent=query?`\( {filtered.length} result \){filtered.length!==1?'s':''} found`:`${faqData.length} SOPs available`;
   if(filtered.length===0){container.innerHTML=`<div class="faq-empty"><p>No SOP found for “<strong>${query}</strong>”.</p></div>`;return}
   const groups={};filtered.forEach(item=>{if(!groups[item.category])groups[item.category]=[];groups[item.category].push(item)});
   const order=["Emergency & Critical Workflows","Special Forms & Requisitions","Blood Bank","Radiology & Cardiology"];
   let html='',firstOpen=false;
-  order.forEach(cat=>{if(!groups[cat]||!groups[cat].length)return;html+=`<div class="faq-category"><div class="faq-category-header"><span>${getCategoryIcon(cat)}</span><span>${cat}</span><span class="badge badge-sub" style="margin-left:auto;font-size:11px">${groups[cat].length}</span></div>`;
-  groups[cat].forEach(item=>{const open=query&&!firstOpen;if(open)firstOpen=true;html+=`<details class="faq-item" ${open?'open':''}><summary><span style="flex:1">${item.urgent?'<span class="badge badge-urgent" style="margin-right:6px">Urgent</span>':''}${highlightText(item.question,query)}</span></summary><div class="faq-answer">${item.answer||''}<div class="faq-actions"><button onclick="copyFaqAnswer('${item.id}',this)">📋 Copy Answer</button></div></div></details>`});
+  order.forEach(cat=>{if(!groups[cat]||!groups[cat].length)return;html+=`<div class="faq-category"><div class="faq-category-header"><span>\( {getCategoryIcon(cat)}</span><span> \){cat}</span><span class="badge badge-sub" style="margin-left:auto;font-size:11px">${groups[cat].length}</span></div>`;
+  groups[cat].forEach(item=>{const open=query&&!firstOpen;if(open)firstOpen=true;html+=`**Summary:**
+<span style="flex:1">\( {item.urgent?'<span class="badge badge-urgent" style="margin-right:6px">Urgent</span>':''} \){highlightText(item.question,query)}</span><div class="faq-answer">\( {item.answer||''}<div class="faq-actions"><button onclick="copyFaqAnswer(' \){item.id}',this)">📋 Copy Answer</button></div></div>`});
   html+='</div>'});
   container.innerHTML=html;
 }
 function getCategoryIcon(cat){if(cat.includes('Emergency'))return'🚨';if(cat.includes('Special'))return'📄';if(cat.includes('Blood'))return'🩸';if(cat.includes('Radiology'))return'📷';return'📁'}
 function expandAllFaqs(){document.querySelectorAll('#faqResults details.faq-item').forEach(d=>d.open=true)}
 function collapseAllFaqs(){document.querySelectorAll('#faqResults details.faq-item').forEach(d=>d.open=false)}
-function copyFaqAnswer(id,btn){const item=faqData.find(f=>f.id===id);if(!item)return;const temp=document.createElement('div');temp.innerHTML=item.answer||'';navigator.clipboard.writeText(`${item.question}\n\n${(temp.textContent||'').trim()}`);const old=btn.textContent;btn.textContent='✅ Copied!';setTimeout(()=>btn.textContent=old,1500)}
+function copyFaqAnswer(id,btn){const item=faqData.find(f=>f.id===id);if(!item)return;const temp=document.createElement('div');temp.innerHTML=item.answer||'';navigator.clipboard.writeText(`\( {item.question}\n\n \){(temp.textContent||'').trim()}`);const old=btn.textContent;btn.textContent='✅ Copied!';setTimeout(()=>btn.textContent=old,1500)}
 
-// ========== ROSTER HELPERS ==========
-function getCoInternsNames(coSnos,userDept,selectedDate,currentSearchedSno){
-  if(!coSnos||!coSnos.length)return"";
-  const isNight=userDept&&userDept.toLowerCase().includes("night");
-  const curSno=Number(currentSearchedSno);
-  const wardPartners=coSnos.map(sno=>{
-    let name="";
-    const isNum=!isNaN(sno);
-    if(isNum){
-      const intern=(typeof interns!=='undefined')?interns.find(i=>Number(i.sno)===Number(sno)):null;
-      name=intern?`${intern.name} (S.No ${sno})`:`S.No ${sno}`;
-    } else name=sno;
-    const isCur=isNum&&Number(sno)===curSno;
-    return`<span class="partner-chip" ${isCur?'style="background:rgba(34,197,94,0.3);border-color:#22c55e"':''}>${name}</span>`;
-  }).join('');
-  let html=`<div class="duty-roster-box"><div class="ward-team-card"><div class="ward-team-header">👥 Co-Interns on Duty (${coSnos.length}):</div><div class="partner-pills">${wardPartners}</div></div>`;
-  if(isNight&&typeof burariDailyRoster!=='undefined'&&burariDailyRoster[selectedDate]){
-    const dayData=burariDailyRoster[selectedDate];
-    const nightInterns=[];
-    for(const[snoStr,info]of Object.entries(dayData)){
-      if(info.dept&&info.dept.toLowerCase().includes("night")){
-        const isNum=!isNaN(snoStr);
-        const snoNum=isNum?Number(snoStr):null;
-        let n=snoStr;
-        if(isNum){
-          const intern=(typeof interns!=='undefined')?interns.find(i=>Number(i.sno)===snoNum):null;
-          n=intern?`${intern.name} (#${snoNum})`:`S.No ${snoNum}`;
-        }
-        nightInterns.push({displayName:n,dept:info.dept,isCurrent:isNum&&snoNum===curSno});
-      }
-    }
-    if(nightInterns.length)html+=`<div class="night-roster-card"><div class="night-roster-header">🌙 Everyone on Night Duty Today (${nightInterns.length}):</div><div class="duty-grid">${nightInterns.map(i=>`<div class="duty-item ${i.isCurrent?'active-user':''}"><span><strong>${i.displayName}</strong></span><span class="duty-dept-tag">${i.dept.replace(/night/i,'').trim()}</span></div>`).join('')}</div></div>`;
-  }
-  html+='</div>';
-  return html;
-}
-function getPostingForSubdivision(subdiv,weekNum){return (typeof subdivisionRoster!=='undefined')?(subdivisionRoster[subdiv]?.[`Week${weekNum}`]||'General Duty'):'General Duty'}
+// ========== CORE HELPERS ==========
+function getCoInternsNames(coSnos,userDept,selectedDate,currentSearchedSno){if(!coSnos||!coSnos.length)return"";const isNight=userDept&&userDept.toLowerCase().includes("night");const curSno=Number(currentSearchedSno);const wardPartners=coSnos.map(sno=>{let name="";const isNum=!isNaN(sno);if(isNum){const intern=interns.find(i=>Number(i.sno)===Number(sno));name=intern?`${intern.name} (S.No ${sno})`:`S.No ${sno}`}else name=sno;const isCur=isNum&&Number(sno)===curSno;return`<span class="partner-chip" \( {isCur?'style="background:rgba(34,197,94,0.3);border-color:#22c55e"':''}> \){name}</span>`}).join('');let html=`<div class="duty-roster-box"><div class="ward-team-card"><div class="ward-team-header">👥 Co-Interns on Duty (\( {coSnos.length}):</div><div class="partner-pills"> \){wardPartners}</div></div>`;if(isNight&&typeof burariDailyRoster!=='undefined'&&burariDailyRoster[selectedDate]){const dayData=burariDailyRoster[selectedDate];const nightInterns=[];for(const[snoStr,info]of Object.entries(dayData)){if(info.dept&&info.dept.toLowerCase().includes("night")){const isNum=!isNaN(snoStr);const snoNum=isNum?Number(snoStr):null;let n=snoStr;if(isNum){const intern=interns.find(i=>Number(i.sno)===snoNum);n=intern?`\( {intern.name} (# \){snoNum})`:`S.No \( {snoNum}`}nightInterns.push({displayName:n,dept:info.dept,isCurrent:isNum&&snoNum===curSno})}}if(nightInterns.length)html+=`<div class="night-roster-card"><div class="night-roster-header">🌙 Everyone on Night Duty Today ( \){nightInterns.length}):</div><div class="duty-grid">${nightInterns.map(i=>`<div class="duty-item \( {i.isCurrent?'active-user':''}"><span><strong> \){i.displayName}</strong></span><span class="duty-dept-tag">${i.dept.replace(/night/i,'').trim()}</span></div>`).join('')}</div></div>`}html+='</div>';return html}
+function getPostingForSubdivision(subdiv,weekNum){return subdivisionRoster[subdiv]?.[`Week${weekNum}`]||'General Duty'}
 function getSpecialUnitInfo(sno,dateStr){if(typeof specialUnitRoster==='undefined'||!specialUnitRoster||!dateStr||!sno)return null;return specialUnitRoster.find(r=>Number(r.sno)===Number(sno)&&dateStr>=r.start&&dateStr<=r.end)||null}
-function formatDateShort(dateStr){if(!dateStr)return"";const[y,m,d]=dateStr.split("-");return`${d}/${m}/${y.slice(2)}`}
-function getBurariDutiesForWeek(sno,weekStart,weekEnd){if(typeof burariDailyRoster==='undefined'||!burariDailyRoster||!sno||!weekStart||!weekEnd)return[];const duties=[];const cur=new Date(weekStart+'T00:00:00');const end=new Date(weekEnd+'T00:00:00');const snoKey=String(sno);const snoNum=Number(sno);while(cur<=end){const y=cur.getFullYear();const m=String(cur.getMonth()+1).padStart(2,'0');const d=String(cur.getDate()).padStart(2,'0');const ds=`${y}-${m}-${d}`;const dayMap=burariDailyRoster[ds];if(dayMap){const info=dayMap[snoKey]||dayMap[snoNum]||dayMap[sno];if(info&&info.dept)duties.push({date:ds,dept:info.dept,co_snos:info.co_snos||[]})}cur.setDate(cur.getDate()+1)}return duties}
-function renderBurariWeekBreakdown(sno,weekStart,weekEnd){const duties=getBurariDutiesForWeek(sno,weekStart,weekEnd);if(!duties.length)return'<div class="timeline-burari-empty">Daily Burari roster not yet updated for this week</div>';return`<div class="timeline-burari-days">${duties.map(du=>{const low=(du.dept||'').toLowerCase();let cls='timeline-day-chip';if(low.includes('night'))cls+=' night';else if(low.includes('pdo'))cls+=' pdo';return`<span class="${cls}"><span class="dlabel">${formatDateShort(du.date)}</span> ${du.dept}</span>`}).join('')}</div>`}
-function getSelectedWeek(){const selectedDate=document.getElementById('dutyDate')?.value||"2026-05-23";if(typeof weeksData==='undefined')return{wk:1,start:"2026-05-23",end:"2026-05-29",block:"Block 1"};for(let w of weeksData){if(selectedDate>=w.start&&selectedDate<=w.end)return w}return weeksData[0]}
-function setTodayDate(){const today=new Date().toISOString().split('T')[0];const dateInput=document.getElementById('dutyDate');if(dateInput){dateInput.value=(today<"2026-05-23"||today>"2027-05-22")?"2026-05-23":today;onDateOrSelectionChange()}}
-
-window.onload=function(){
-  setTodayDate();
-  renderUserHistory();
-  if(typeof faqs!=='undefined'&&faqData.length===0) faqData=faqs;
-};
-
-function onDateOrSelectionChange(){
-  if(!document.getElementById('roster-tab')?.classList.contains('hidden'))executeSmartSearch();
-  else if(!document.getElementById('schedule-tab')?.classList.contains('hidden'))renderScheduleResults();
-  else if(!document.getElementById('lab-tab')?.classList.contains('hidden'))searchLabTests();
-}
-
-function switchTab(tab){
-  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-  ['roster','schedule','lab','faq','guides'].forEach(t=>document.getElementById(t+'-tab')?.classList.add('hidden'));
-  const dateCard=document.getElementById('date-card');
-  if(tab==='roster'){
-    document.querySelectorAll('.tab-btn')[0].classList.add('active');
-    document.getElementById('roster-tab').classList.remove('hidden');
-    if(dateCard)dateCard.classList.remove('hidden');
-    executeSmartSearch();
-  } else if(tab==='schedule'){
-    document.querySelectorAll('.tab-btn')[1].classList.add('active');
-    document.getElementById('schedule-tab').classList.remove('hidden');
-    if(dateCard)dateCard.classList.add('hidden');
-    renderScheduleResults();
-  } else if(tab==='lab'){
-    document.querySelectorAll('.tab-btn')[2].classList.add('active');
-    document.getElementById('lab-tab').classList.remove('hidden');
-    if(dateCard)dateCard.classList.add('hidden');
-    searchLabTests();
-  } else if(tab==='faq'){
-    document.querySelectorAll('.tab-btn')[3].classList.add('active');
-    document.getElementById('faq-tab').classList.remove('hidden');
-    if(dateCard)dateCard.classList.add('hidden');
-    renderFaqs();
-  } else if(tab==='guides'){
-    document.querySelectorAll('.tab-btn')[4].classList.add('active');
-    document.getElementById('guides-tab').classList.remove('hidden');
-    if(dateCard)dateCard.classList.add('hidden');
-    if(clinicalGuidesData.length===0)fetchClinicalGuides();
-  }
-}
+function formatDateShort(dateStr){if(!dateStr)return"";const[y,m,d]=dateStr.split("-");return`\( {d}/ \){m}/${y.slice(2)}`}
+function getBurariDutiesForWeek(sno,weekStart,weekEnd){if(typeof burariDailyRoster==='undefined'||!burariDailyRoster||!sno||!weekStart||!weekEnd)return[];const duties=[];const cur=new Date(weekStart+'T00:00:00');const end=new Date(weekEnd+'T00:00:00');const snoKey=String(sno);const snoNum=Number(sno);while(cur<=end){const y=cur.getFullYear();const m=String(cur.getMonth()+1).padStart(2,'0');const d=String(cur.getDate()).padStart(2,'0');const ds=`\( {y}- \){m}-${d}`;const dayMap=burariDailyRoster[ds];if(dayMap){const info=dayMap[snoKey]||dayMap[snoNum]||dayMap[sno];if(info&&info.dept)duties.push({date:ds,dept:info.dept,co_snos:info.co_snos||[]})}cur.setDate(cur.getDate()+1)}return duties}
+function renderBurariWeekBreakdown(sno,weekStart,weekEnd){const duties=getBurariDutiesForWeek(sno,weekStart,weekEnd);if(!duties.length)return'<div class="timeline-burari-empty">Daily Burari roster not yet updated for this week</div>';return`<div class="timeline-burari-days">\( {duties.map(du=>{const low=(du.dept||'').toLowerCase();let cls='timeline-day-chip';if(low.includes('night'))cls+=' night';else if(low.includes('pdo'))cls+=' pdo';return`<span class=" \){cls}"><span class="dlabel">${formatDateShort(du.date)}</span> ${du.dept}</span>`}).join('')}</div>`}
+function getSelectedWeek(){const selectedDate=document.getElementById('dutyDate').value;for(let w of weeksData){if(selectedDate>=w.start&&selectedDate<=w.end)return w}return weeksData[0]}
+function setTodayDate(){const today=new Date().toISOString().split('T')[0];const dateInput=document.getElementById('dutyDate');dateInput.value=(today<"2026-05-23"||today>"2027-05-22")?"2026-05-23":today;onDateOrSelectionChange()}
+window.onload=function(){setTodayDate();renderUserHistory()};
+function onDateOrSelectionChange(){if(!document.getElementById('roster-tab')?.classList.contains('hidden'))executeSmartSearch();else if(!document.getElementById('schedule-tab')?.classList.contains('hidden'))searchDeptSchedule();else if(!document.getElementById('lab-tab')?.classList.contains('hidden'))searchLabTests()}
+function switchTab(tab){document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));['roster','schedule','lab','faq','guides'].forEach(t=>document.getElementById(t+'-tab')?.classList.add('hidden'));const dateCard=document.getElementById('date-card');if(tab==='roster'){document.querySelectorAll('.tab-btn')[0].classList.add('active');document.getElementById('roster-tab').classList.remove('hidden');if(dateCard)dateCard.classList.remove('hidden');executeSmartSearch()}else if(tab==='schedule'){document.querySelectorAll('.tab-btn')[1].classList.add('active');document.getElementById('schedule-tab').classList.remove('hidden');if(dateCard)dateCard.classList.add('hidden');searchDeptSchedule()}else if(tab==='lab'){document.querySelectorAll('.tab-btn')[2].classList.add('active');document.getElementById('lab-tab').classList.remove('hidden');if(dateCard)dateCard.classList.add('hidden');searchLabTests()}else if(tab==='faq'){document.querySelectorAll('.tab-btn')[3].classList.add('active');document.getElementById('faq-tab').classList.remove('hidden');if(dateCard)dateCard.classList.add('hidden');renderFaqs()}else if(tab==='guides'){document.querySelectorAll('.tab-btn')[4].classList.add('active');document.getElementById('guides-tab').classList.remove('hidden');if(dateCard)dateCard.classList.add('hidden');if(clinicalGuidesData.length===0)fetchClinicalGuides()}}
 
 // ==================== ROSTER SEARCH ====================
 function executeSmartSearch(){
@@ -609,7 +530,6 @@ function executeSmartSearch(){
   const selectedDate=document.getElementById('dutyDate')?.value||"2026-05-23";
   const resDiv=document.getElementById('smartSearchResults');
   if(!resDiv)return;
-  if(typeof interns==='undefined'||typeof weeksData==='undefined'){resDiv.innerHTML='<p style="padding:16px;color:var(--text-muted);text-align:center">Roster datasets not loaded.</p>';return}
   const weekInfo=getSelectedWeek();
 
   if(!personQuery&&!deptQuery){resDiv.innerHTML='<p style="padding:16px;color:var(--text-muted);text-align:center">Type an intern name/S.No or select a department to see postings.</p>';return}
@@ -620,8 +540,8 @@ function executeSmartSearch(){
     let html='';
     matchedInterns.forEach(student=>{
       const matchingWeeks=weeksData.filter(w=>getPostingForSubdivision(student.batch,w.wk).toLowerCase()===deptQuery.toLowerCase());
-      if(matchingWeeks.length===0){html+=`<div class="result-card" style="padding:16px"><h3>${student.name} (S.No ${student.sno} • Subdivision ${student.batch})</h3><p style="color:var(--text-muted);margin-top:6px">Not posted in <strong>${deptQuery}</strong> during the 2026–2027 internship year.</p></div>`;return}
-      html+=`<div class="result-card"><div class="result-card-header"><h3>👤 ${student.name} &nbsp;➔&nbsp; 🏥 ${deptQuery}</h3><span class="badge badge-sub">Batch ${student.batch} • S.No ${student.sno}</span></div><div class="result-card-meta">Posted in <strong>${deptQuery}</strong> for <strong>${matchingWeeks.length} week(s)</strong>:</div><div class="result-card-body">`;
+      if(matchingWeeks.length===0){html+=`<div class="result-card" style="padding:16px"><h3>${student.name} (S.No ${student.sno} • Subdivision \( {student.batch})</h3><p style="color:var(--text-muted);margin-top:6px">Not posted in <strong> \){deptQuery}</strong> during the 2026–2027 internship year.</p></div>`;return}
+      html+=`<div class="result-card"><div class="result-card-header"><h3>👤 ${student.name} &nbsp;➔&nbsp; 🏥 ${deptQuery}</h3><span class="badge badge-sub">Batch ${student.batch} • S.No \( {student.sno}</span></div><div class="result-card-meta">Posted in <strong> \){deptQuery}</strong> for <strong>${matchingWeeks.length} week(s)</strong>:</div><div class="result-card-body">`;
       matchingWeeks.forEach(w=>{
         const unitInfo=getSpecialUnitInfo(student.sno,w.start);
         const currentUnitName=unitInfo?unitInfo.unit:null;
@@ -629,9 +549,10 @@ function executeSmartSearch(){
         ['A','B','C','D'].forEach(g=>{for(let i=1;i<=12;i++){const sub=g+i;if(getPostingForSubdivision(sub,w.wk).toLowerCase()===deptQuery.toLowerCase())activeSubdivisions.push(sub)}});
         const allDeptInterns=interns.filter(i=>activeSubdivisions.includes(i.batch));
         const sameUnitPartners=currentUnitName?allDeptInterns.filter(i=>getSpecialUnitInfo(i.sno,w.start)?.unit===currentUnitName):[];
-        html+=`<div class="week-box"><div class="week-box-header"><div><span style="font-weight:800;color:var(--primary);font-size:14.5px">🗓️ Week ${w.wk}</span><span style="font-size:12.5px;color:var(--text-muted);margin-left:6px">(${formatDateShort(w.start)} – ${formatDateShort(w.end)})</span></div>${unitInfo?`<span class="badge badge-unit">${unitInfo.unit} • ${unitInfo.incharge}</span>`:'<span class="badge badge-sub">General Duty</span>'}</div>`;
-        if(sameUnitPartners.length>0)html+=`<div class="unit-partner-section"><div style="font-size:12px;font-weight:700;color:#16a34a">🤝 Posted in ${currentUnitName} with ${student.name.split(' ')[0]} (${sameUnitPartners.length}):</div><div class="partner-pills">${sameUnitPartners.map(p=>`<span class="partner-chip" ${p.sno===student.sno?'style="background:rgba(34,197,94,0.3);border-color:#22c55e"':''}>${p.name} <span style="font-size:10.5px;opacity:0.8">(S.No ${p.sno})</span></span>`).join('')}</div></div>`;
-        html+=`<details class="co-intern-toggle"><summary>👥 View all ${allDeptInterns.length} interns in ${deptQuery} this week</summary><div class="co-intern-grid">${allDeptInterns.map(ci=>`<span class="co-intern-chip" ${ci.sno===student.sno?'style="background:rgba(56,189,248,0.2);border-color:#38bdf8;font-weight:bold"':''}>${ci.name} (${ci.batch})${getSpecialUnitInfo(ci.sno,w.start)?` <strong style="color:#d97706">[${getSpecialUnitInfo(ci.sno,w.start).unit}]</strong>`:''}</span>`).join('')}</div></details></div>`;
+        html+=`<div class="week-box"><div class="week-box-header"><div><span style="font-weight:800;color:var(--primary);font-size:14.5px">🗓️ Week \( {w.wk}</span><span style="font-size:12.5px;color:var(--text-muted);margin-left:6px">( \){formatDateShort(w.start)} – \( {formatDateShort(w.end)})</span></div> \){unitInfo?`<span class="badge badge-unit">${unitInfo.unit} • ${unitInfo.incharge}</span>`:'<span class="badge badge-sub">General Duty</span>'}</div>`;
+        if(sameUnitPartners.length>0)html+=`<div class="unit-partner-section"><div style="font-size:12px;font-weight:700;color:#16a34a">🤝 Posted in ${currentUnitName} with \( {student.name.split(' ')[0]} ( \){sameUnitPartners.length}):</div><div class="partner-pills">${sameUnitPartners.map(p=>`<span class="partner-chip" \( {p.sno===student.sno?'style="background:rgba(34,197,94,0.3);border-color:#22c55e"':''}> \){p.name} <span style="font-size:10.5px;opacity:0.8">(S.No ${p.sno})</span></span>`).join('')}</div></div>`;
+        html+=`**Summary:**
+👥 View all ${allDeptInterns.length} interns in \( {deptQuery} this week<div class="co-intern-grid"> \){allDeptInterns.map(ci=>`<span class="co-intern-chip" \( {ci.sno===student.sno?'style="background:rgba(56,189,248,0.2);border-color:#38bdf8;font-weight:bold"':''}> \){ci.name} (\( {ci.batch}) \){getSpecialUnitInfo(ci.sno,w.start)?` <strong style="color:#d97706">[${getSpecialUnitInfo(ci.sno,w.start).unit}]</strong>`:''}</span>`).join('')}</div></div>`;
       });
       html+=`</div></div>`;
     });
@@ -643,9 +564,9 @@ function executeSmartSearch(){
     ['A','B','C','D'].forEach(g=>{for(let i=1;i<=12;i++){const sub=g+i;if(getPostingForSubdivision(sub,weekInfo.wk).toLowerCase()===deptQuery.toLowerCase())activeSubdivisions.push(sub)}});
     const activeInterns=interns.filter(i=>activeSubdivisions.includes(i.batch)).sort((a,b)=>a.sno-b.sno);
     const hasAnyUnit=activeInterns.some(i=>getSpecialUnitInfo(i.sno,selectedDate));
-    let html=`<div class="result-card" style="margin-bottom:16px"><div class="schedule-header">🏥 ${deptQuery} Roster</div><div style="padding:14px 18px"><div style="font-size:13.5px;color:var(--text-muted);margin-bottom:8px"><strong>Week ${weekInfo.wk}</strong> • ${formatDateShort(weekInfo.start)} to ${formatDateShort(weekInfo.end)}</div><div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center"><span style="font-weight:700;font-size:13px;color:var(--text)">Active Subdivisions:</span>${activeSubdivisions.length>0?activeSubdivisions.map(s=>`<span class="badge badge-sub">${s}</span>`).join(''):'<span style="color:var(--text-muted)">None</span>'}</div></div></div>`;
+    let html=`<div class="result-card" style="margin-bottom:16px"><div class="schedule-header">🏥 ${deptQuery} Roster</div><div style="padding:14px 18px"><div style="font-size:13.5px;color:var(--text-muted);margin-bottom:8px"><strong>Week ${weekInfo.wk}</strong> • ${formatDateShort(weekInfo.start)} to \( {formatDateShort(weekInfo.end)}</div><div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center"><span style="font-weight:700;font-size:13px;color:var(--text)">Active Subdivisions:</span> \){activeSubdivisions.length>0?activeSubdivisions.map(s=>`<span class="badge badge-sub">${s}</span>`).join(''):'<span style="color:var(--text-muted)">None</span>'}</div></div></div>`;
     if(activeInterns.length===0)html+=`<p style="padding:16px;color:var(--text-muted);text-align:center">No interns are posted in ${deptQuery} during Week ${weekInfo.wk}.</p>`;
-    else html+=`<div class="result-card" style="overflow:hidden"><table style="margin-top:0;border:none"><thead><tr><th>S.No</th><th>Roll No</th><th>Name</th><th>Subdivision</th>${hasAnyUnit?'<th>Unit</th><th>Incharge</th>':''}</tr></thead><tbody>${activeInterns.map(i=>{const unitInfo=getSpecialUnitInfo(i.sno,selectedDate);return`<tr><td>${i.sno}</td><td>${i.roll}</td><td><b>${i.name}</b></td><td><span class="badge badge-sub">${i.batch}</span></td>${hasAnyUnit?`<td>${unitInfo?`<span class="badge badge-unit">${unitInfo.unit}</span>`:'—'}</td><td style="font-size:12.5px;color:var(--text-muted)">${unitInfo?unitInfo.incharge:'—'}</td>`:''}</tr>`}).join('')}</tbody></table></div>`;
+    else html+=`<div class="result-card" style="overflow:hidden"><table style="margin-top:0;border:none"><thead><tr><th>S.No</th><th>Roll No</th><th>Name</th><th>Subdivision</th>\( {hasAnyUnit?'<th>Unit</th><th>Incharge</th>':''}</tr></thead><tbody> \){activeInterns.map(i=>{const unitInfo=getSpecialUnitInfo(i.sno,selectedDate);return`<tr><td>\( {i.sno}</td><td> \){i.roll}</td><td><b>\( {i.name}</b></td><td><span class="badge badge-sub"> \){i.batch}</span></td>\( {hasAnyUnit?`<td> \){unitInfo?`<span class="badge badge-unit">\( {unitInfo.unit}</span>`:'—'}</td><td style="font-size:12.5px;color:var(--text-muted)"> \){unitInfo?unitInfo.incharge:'—'}</td>`:''}</tr>`}).join('')}</tbody></table></div>`;
     resDiv.innerHTML=html;return;
   }
 
@@ -665,42 +586,38 @@ function executeSmartSearch(){
       else if(isPDO)displayDuty=`PSM - PDO (Post Duty Off)`;
       else if(peripheryInfo)displayDuty=`PSM (${peripheryInfo.toUpperCase()})`;
       const unitInfo=getSpecialUnitInfo(student.sno,selectedDate);
-      const unitBadgeHtml=unitInfo?`<span class="badge badge-unit" style="margin-left:8px">${unitInfo.unit}</span><span style="font-size:11.5px;color:var(--text-muted);margin-left:6px">(${unitInfo.incharge})</span>`:'';
-      html+=`<div class="result-card"><div class="result-card-header"><h3>${student.name}</h3><span class="badge badge-sub">Subdivision ${student.batch}</span></div><div class="result-card-meta"><strong>Roll No:</strong> ${student.roll} &nbsp;•&nbsp; <strong>S.No:</strong> ${student.sno}</div><div class="result-card-body"><div class="posting-chip">📍 <div><div style="font-size:12px;font-weight:600;opacity:0.85;margin-bottom:2px">Posting on ${formatDateShort(selectedDate)}</div><div style="font-size:15.5px;font-weight:800;display:flex;align-items:center;flex-wrap:wrap;gap:4px">${displayDuty}${unitBadgeHtml}</div><div style="font-size:12px;font-weight:500;opacity:0.75;margin-top:2px">Week ${weekInfo.wk} • ${weekInfo.block}</div></div></div>${burariDutyInfo?getCoInternsNames(burariDutyInfo.co_snos,burariDutyInfo.dept,selectedDate,studentSno):''}<details class="roster-timeline-details" style="margin-top:14px" data-focus-week="${weekInfo.wk}"><summary>▶ View 52-Week Full Roster Timeline</summary><p class="timeline-hint">Showing from Week ${weekInfo.wk} (selected date). Scroll up/down for other weeks.</p><div class="timeline-scroll"><table><thead><tr><th>Wk</th><th>Date Range</th><th>Department Posting</th></tr></thead><tbody>${weeksData.map(w=>{const post=getPostingForSubdivision(student.batch,w.wk);const isSelected=w.wk===weekInfo.wk;let timelineDisplay=post;const weekUnit=getSpecialUnitInfo(studentSno,w.start);if(weekUnit&&weekUnit.dept.toLowerCase()===post.toLowerCase())timelineDisplay=`<b>${post} (${weekUnit.unit})</b><br><span style="font-size:11px;color:var(--text-muted)">${weekUnit.incharge}</span>`;const isPsmWeek=(post||'').toLowerCase().includes('psm')||(post||'').toLowerCase().includes('community');if(isPsmWeek)timelineDisplay=`<div style="font-weight:800">${timelineDisplay}</div>`+renderBurariWeekBreakdown(studentSno,w.start,w.end);return`<tr class="${isSelected?'selected-week-row':''}" data-week="${w.wk}"><td>W${w.wk}</td><td>${formatDateShort(w.start)} to ${formatDateShort(w.end)}</td><td>${timelineDisplay}</td></tr>`}).join('')}</tbody></table></div></details></div></div>`;
+      const unitBadgeHtml=unitInfo?`<span class="badge badge-unit" style="margin-left:8px">\( {unitInfo.unit}</span><span style="font-size:11.5px;color:var(--text-muted);margin-left:6px">( \){unitInfo.incharge})</span>`:'';
+      html+=`<div class="result-card"><div class="result-card-header"><h3>${student.name}</h3><span class="badge badge-sub">Subdivision ${student.batch}</span></div><div class="result-card-meta"><strong>Roll No:</strong> ${student.roll} &nbsp;•&nbsp; <strong>S.No:</strong> ${student.sno}</div><div class="result-card-body"><div class="posting-chip">📍 <div><div style="font-size:12px;font-weight:600;opacity:0.85;margin-bottom:2px">Posting on \( {formatDateShort(selectedDate)}</div><div style="font-size:15.5px;font-weight:800;display:flex;align-items:center;flex-wrap:wrap;gap:4px"> \){displayDuty}${unitBadgeHtml}</div><div style="font-size:12px;font-weight:500;opacity:0.75;margin-top:2px">Week ${weekInfo.wk} • \( {weekInfo.block}</div></div></div> \){burariDutyInfo?getCoInternsNames(burariDutyInfo.co_snos,burariDutyInfo.dept,selectedDate,studentSno):''}**Summary:**
+▶ View 52-Week Full Roster Timeline<p class="timeline-hint">Showing from Week \( {weekInfo.wk} (selected date). Scroll up/down for other weeks.</p><div class="timeline-scroll"><table><thead><tr><th>Wk</th><th>Date Range</th><th>Department Posting</th></tr></thead><tbody> \){weeksData.map(w=>{const post=getPostingForSubdivision(student.batch,w.wk);const isSelected=w.wk===weekInfo.wk;let timelineDisplay=post;const weekUnit=getSpecialUnitInfo(studentSno,w.start);if(weekUnit&&weekUnit.dept.toLowerCase()===post.toLowerCase())timelineDisplay=`<b>\( {post} ( \){weekUnit.unit})</b><br><span style="font-size:11px;color:var(--text-muted)">\( {weekUnit.incharge}</span>`;const isPsmWeek=(post||'').toLowerCase().includes('psm')||(post||'').toLowerCase().includes('community');if(isPsmWeek)timelineDisplay=`<div style="font-weight:800"> \){timelineDisplay}</div>`+renderBurariWeekBreakdown(studentSno,w.start,w.end);return`<tr class="\( {isSelected?'selected-week-row':''}" data-week=" \){w.wk}"><td>W\( {w.wk}</td><td> \){formatDateShort(w.start)} to \( {formatDateShort(w.end)}</td><td> \){timelineDisplay}</td></tr>`}).join('')}</tbody></table></div></div></div>`;
     });
     resDiv.innerHTML=html;
     resDiv.querySelectorAll('details.roster-timeline-details').forEach(det=>{det.addEventListener('toggle',function(){if(!det.open)return;const scrollToSelected=()=>{const scrollBox=det.querySelector('.timeline-scroll');const row=det.querySelector('tr.selected-week-row');if(!scrollBox||!row)return;const headerH=scrollBox.querySelector('thead')?.offsetHeight||40;const target=Math.max(0,row.offsetTop-headerH-6);scrollBox.scrollTo({top:target,behavior:'smooth'})};requestAnimationFrame(()=>setTimeout(scrollToSelected,40))})});
   }
 }
 
-// ==================== SCHEDULE ====================
-function onScheduleSearchInput(){
-  const select = document.getElementById('deptScheduleSelect');
-  if(select) select.value = "";
-  renderScheduleResults();
-}
-function onScheduleSelectChange(){
-  const input = document.getElementById('scheduleSearch');
-  if(input) input.value = "";
-  renderScheduleResults();
-}
+// ==================== SCHEDULE (fixed missing handlers) ====================
+function onScheduleSearchInput(){ renderScheduleResults(); }
+function onScheduleSelectChange(){ renderScheduleResults(); }
+function searchDeptSchedule(){ renderScheduleResults(); }
+
 function renderScheduleResults(){
-  const query=document.getElementById('scheduleSearch')?.value.toLowerCase().trim()||"";
-  const categoryId=document.getElementById('deptScheduleSelect')?.value||"";
+  const query=document.getElementById('scheduleSearch').value.toLowerCase().trim();
+  const categoryId=document.getElementById('deptScheduleSelect').value;
   const resDiv=document.getElementById('scheduleResults');
   if(!resDiv)return;
-  if(typeof deptSchedules==='undefined'){resDiv.innerHTML='<p style="padding:16px;color:var(--text-muted);text-align:center">Schedules data not loaded.</p>';return}
   if(query){
     const matches=[];
-    deptSchedules.forEach(category=>{category.units.forEach(unit=>{if(unit.title.toLowerCase().includes(query)||unit.days.toLowerCase().includes(query)||unit.location.toLowerCase().includes(query)||category.name.toLowerCase().includes(query))matches.push({deptCategory:category.name,title:unit.title,days:unit.days,location:unit.location})})});
+    if(typeof deptSchedules!=='undefined'){
+      deptSchedules.forEach(category=>{category.units.forEach(unit=>{if(unit.title.toLowerCase().includes(query)||unit.days.toLowerCase().includes(query)||unit.location.toLowerCase().includes(query)||category.name.toLowerCase().includes(query))matches.push({deptCategory:category.name,title:unit.title,days:unit.days,location:unit.location})})});
+    }
     if(matches.length===0){resDiv.innerHTML='<p style="padding:16px;color:var(--text-muted);text-align:center">No matching facility, room, or clinic found.</p>';return}
-    resDiv.innerHTML=`<p style="color:var(--text-muted);font-size:13px;margin-bottom:12px">Found <strong>${matches.length}</strong> matching entries</p><div class="result-card" style="overflow:hidden"><table style="margin-top:0;border:none"><thead><tr><th>Unit / Specialty</th><th>OPD / Duty Days</th><th>Location (Room No.)</th></tr></thead><tbody>${matches.map(m=>`<tr><td><b style="font-size:14px">${m.title}</b><br><span style="font-size:11.5px;color:var(--text-muted)">${m.deptCategory}</span></td><td><span class="badge badge-days">${m.days}</span></td><td style="font-size:13px">${m.location}</td></tr>`).join('')}</tbody></table></div>`;
+    resDiv.innerHTML=`<p style="color:var(--text-muted);font-size:13px;margin-bottom:12px">Found <strong>\( {matches.length}</strong> matching entries</p><div class="result-card" style="overflow:hidden"><table style="margin-top:0;border:none"><thead><tr><th>Unit / Specialty</th><th>OPD / Duty Days</th><th>Location (Room No.)</th></tr></thead><tbody> \){matches.map(m=>`<tr><td><b style="font-size:14px">\( {m.title}</b><br><span style="font-size:11.5px;color:var(--text-muted)"> \){m.deptCategory}</span></td><td><span class="badge badge-days">\( {m.days}</span></td><td style="font-size:13px"> \){m.location}</td></tr>`).join('')}</tbody></table></div>`;
     return;
   }
   if(categoryId){
-    const category=deptSchedules.find(c=>c.id===categoryId);
+    const category=(typeof deptSchedules!=='undefined')?deptSchedules.find(c=>c.id===categoryId):null;
     if(!category){resDiv.innerHTML='<p style="padding:16px;color:var(--text-muted)">Details for this category will be updated soon.</p>';return}
-    resDiv.innerHTML=`<div class="result-card" style="overflow:hidden;margin-bottom:0"><div class="schedule-header">${category.name}</div><table style="margin-top:0;border:none"><thead><tr><th>Unit / Special Clinic</th><th>OPD Days</th><th>Location (Room No.)</th></tr></thead><tbody>${category.units.map(u=>`<tr><td><b style="font-size:14px">${u.title}</b></td><td><span class="badge badge-days">${u.days}</span></td><td style="font-size:13px">${u.location}</td></tr>`).join('')}</tbody></table></div>`;
+    resDiv.innerHTML=`<div class="result-card" style="overflow:hidden;margin-bottom:0"><div class="schedule-header">\( {category.name}</div><table style="margin-top:0;border:none"><thead><tr><th>Unit / Special Clinic</th><th>OPD Days</th><th>Location (Room No.)</th></tr></thead><tbody> \){category.units.map(u=>`<tr><td><b style="font-size:14px">\( {u.title}</b></td><td><span class="badge badge-days"> \){u.days}</span></td><td style="font-size:13px">${u.location}</td></tr>`).join('')}</tbody></table></div>`;
     return;
   }
   resDiv.innerHTML='';
@@ -712,32 +629,31 @@ function searchLabTests(){
   const selectFilter=document.getElementById('labHospitalSelect');
   const resDiv=document.getElementById('labResults');
   if(!resDiv||!selectFilter)return;
-  if(typeof labDirectory==='undefined'){resDiv.innerHTML='<p style="padding:16px;color:var(--text-muted);text-align:center">Lab directory data not loaded.</p>';return}
   const query=searchInput?searchInput.value.toLowerCase().trim():"";
   const filterVal=selectFilter.value;
-  let filtered=labDirectory;
+  let filtered=(typeof labDirectory!=='undefined')?labDirectory:[];
   if(filterVal==="lnjp_all")filtered=filtered.filter(item=>item.hospital==="LNJP Hospital Labs");
   else if(filterVal==="gbpant_all")filtered=filtered.filter(item=>item.hospital==="GB Pant Hospital Labs");
   else if(filterVal!=="all"){filtered=filtered.filter(item=>{const win=item.window.toLowerCase(),target=filterVal.toLowerCase();if(target==="pathology dept")return win.includes("pathology")||win.includes("cytopath")||win.includes("cytology")||win.includes("histopath")||win.includes("fnac")||win.includes("grossing");if(target==="microbiology")return win.includes("microbiology")||win.includes("window 3");if(target==="window 2")return win.includes("window 2")&&!win.includes("window 2e");return win.includes(target)})}
   if(query)filtered=filtered.filter(item=>item.test.toLowerCase().includes(query)||item.tube.toLowerCase().includes(query)||item.window.toLowerCase().includes(query)||item.days.toLowerCase().includes(query)||item.report.toLowerCase().includes(query)||(item.notes||"").toLowerCase().includes(query));
   if(filtered.length===0){resDiv.innerHTML='<p style="padding:16px;color:var(--text-muted);text-align:center">No matching lab tests found.</p>';return}
-  let html=`<p style="color:var(--text-muted);font-size:13px;margin:0 0 12px 0">Showing <strong>${filtered.length}</strong> test${filtered.length>1?'s':''}</p>`;
-  filtered.forEach(item=>{html+=`<div class="lab-card"><h4>🧪 ${item.test} <span class="badge badge-lab">${item.hospital}</span></h4><div class="lab-meta"><span>💉 <strong>Vial:</strong> ${item.tube}</span><span>📍 <strong>Location:</strong> ${item.window}</span></div><div class="lab-meta"><span>⏰ <strong>Days:</strong> ${item.days}</span><span>📄 <strong>Report:</strong> ${item.report}</span></div>${item.notes?`<div class="lab-notes">💡 <strong>Notes:</strong> ${item.notes}</div>`:''}</div>`});
+  let html=`<p style="color:var(--text-muted);font-size:13px;margin:0 0 12px 0">Showing <strong>\( {filtered.length}</strong> test \){filtered.length>1?'s':''}</p>`;
+  filtered.forEach(item=>{html+=`<div class="lab-card"><h4>🧪 \( {item.test} <span class="badge badge-lab"> \){item.hospital}</span></h4><div class="lab-meta"><span>💉 <strong>Vial:</strong> ${item.tube}</span><span>📍 <strong>Location:</strong> ${item.window}</span></div><div class="lab-meta"><span>⏰ <strong>Days:</strong> ${item.days}</span><span>📄 <strong>Report:</strong> \( {item.report}</span></div> \){item.notes?`<div class="lab-notes">💡 <strong>Notes:</strong> ${item.notes}</div>`:''}</div>`});
   resDiv.innerHTML=html;
 }
 
 // ==================== CLINICAL GUIDES ====================
 async function fetchClinicalGuides(){
-  const container=document.getElementById("guidesResultsGrid");
-  if(container) container.innerHTML=`<p style="grid-column:1/-1;text-align:center;padding:20px;color:var(--text-muted)">Loading formats...</p>`;
   try{
-    const res=await fetch(`${APPS_SCRIPT_URL}?action=getGuides`);
+    const res=await fetch(APPS_SCRIPT_URL+"?action=list");
     const data=await res.json();
-    clinicalGuidesData = Array.isArray(data) ? data : (data.guides || []);
-    renderClinicalGuides();
+    if(data&&data.status==="success") clinicalGuidesData=data.guides||[];
+    else clinicalGuidesData=[];
   }catch(e){
-    if(container) container.innerHTML=`<p style="grid-column:1/-1;text-align:center;padding:20px;color:var(--text-muted)">Unable to load remote guides right now.</p>`;
+    console.warn("Could not fetch clinical guides:",e);
+    clinicalGuidesData=[];
   }
+  renderClinicalGuides();
 }
 
 function renderClinicalGuides(){
@@ -749,7 +665,7 @@ function renderClinicalGuides(){
   if(deptFilter!=="all")filtered=filtered.filter(g=>g.dept.toLowerCase()===deptFilter.toLowerCase());
   if(query)filtered=filtered.filter(g=>g.title.toLowerCase().includes(query)||(g.templateText||"").toLowerCase().includes(query)||g.category.toLowerCase().includes(query));
   if(filtered.length===0){container.innerHTML=`<p style="grid-column:1/-1;text-align:center;padding:20px;color:var(--text-muted)">No guides found matching criteria.</p>`;return}
-  container.innerHTML=filtered.map(g=>`<div class="result-card" style="padding:16px;display:flex;flex-direction:column;justify-content:space-between"><div><div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:8px"><span class="badge badge-sub" style="font-size:11px">${g.dept}</span><span class="badge badge-unit" style="font-size:11px">${g.category}</span></div><h4 style="margin:0 0 8px 0;font-size:15px;font-weight:800;color:var(--text)">${g.title}</h4>${g.imageUrl?`<div style="border-radius:10px;overflow:hidden;height:140px;margin-bottom:10px;background:var(--box-bg);cursor:pointer;border:1px solid var(--border)" onclick="openLightbox('${g.imageUrl}')"><img src="${g.imageUrl}" style="width:100%;height:100%;object-fit:cover" loading="lazy"></div>`:''}${g.templateText?`<div style="background:var(--box-bg);padding:8px 10px;border-radius:8px;font-size:12px;color:var(--text);border:1px dashed var(--border);max-height:80px;overflow-y:auto;white-space:pre-wrap;margin-bottom:10px;font-family:monospace">${g.templateText}</div>`:''}</div><div style="display:flex;gap:8px;margin-top:10px">${g.templateText?`<button onclick="copyTemplateText('${encodeURIComponent(g.templateText)}',this)" style="flex:1;padding:7px;border:1px solid var(--border);background:var(--card);color:var(--text);font-weight:800;font-size:11.5px;border-radius:8px;cursor:pointer">📋 Copy Text</button>`:''}${g.imageUrl?`<button onclick="openLightbox('${g.imageUrl}')" style="flex:1;padding:7px;border:1px solid var(--border);background:var(--card);color:var(--primary);font-weight:800;font-size:11.5px;border-radius:8px;cursor:pointer">🔍 View Photo</button>`:''}<button onclick="promptDeleteGuide('${g.id}')" style="padding:7px 10px;border:none;background:rgba(239,68,68,0.15);color:#ef4444;font-weight:800;font-size:11.5px;border-radius:8px;cursor:pointer">🗑️</button></div></div>`).join('');
+  container.innerHTML=filtered.map(g=>`<div class="result-card" style="padding:16px;display:flex;flex-direction:column;justify-content:space-between"><div><div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:8px"><span class="badge badge-sub" style="font-size:11px">\( {g.dept}</span><span class="badge badge-unit" style="font-size:11px"> \){g.category}</span></div><h4 style="margin:0 0 8px 0;font-size:15px;font-weight:800;color:var(--text)">\( {g.title}</h4> \){g.imageUrl?`<div style="border-radius:10px;overflow:hidden;height:140px;margin-bottom:10px;background:var(--box-bg);cursor:pointer;border:1px solid var(--border)" onclick="openLightbox('\( {g.imageUrl}')"><img src=" \){g.imageUrl}" style="width:100%;height:100%;object-fit:cover" loading="lazy"></div>`:''}\( {g.templateText?`<div style="background:var(--box-bg);padding:8px 10px;border-radius:8px;font-size:12px;color:var(--text);border:1px dashed var(--border);max-height:80px;overflow-y:auto;white-space:pre-wrap;margin-bottom:10px;font-family:monospace"> \){g.templateText}</div>`:''}</div><div style="display:flex;gap:8px;margin-top:10px">\( {g.templateText?`<button onclick="copyTemplateText(' \){encodeURIComponent(g.templateText)}',this)" style="flex:1;padding:7px;border:1px solid var(--border);background:var(--card);color:var(--text);font-weight:800;font-size:11.5px;border-radius:8px;cursor:pointer">📋 Copy Text</button>`:''}\( {g.imageUrl?`<button onclick="openLightbox(' \){g.imageUrl}')" style="flex:1;padding:7px;border:1px solid var(--border);background:var(--card);color:var(--primary);font-weight:800;font-size:11.5px;border-radius:8px;cursor:pointer">🔍 View Photo</button>`:''}<button onclick="promptDeleteGuide('${g.id}')" style="padding:7px 10px;border:none;background:rgba(239,68,68,0.15);color:#ef4444;font-weight:800;font-size:11.5px;border-radius:8px;cursor:pointer">🗑️</button></div></div>`).join('');
 }
 
 async function submitGuideUpload(e){
@@ -758,58 +674,18 @@ async function submitGuideUpload(e){
   btn.textContent="Uploading to Drive...";btn.disabled=true;
   const fileInput=document.getElementById("guideFileInput");
   let imageBytes="",fileName="",mimeType="";
-  if(fileInput.files.length>0){
-    const file=fileInput.files[0];
-    fileName=file.name;
-    mimeType=file.type;
-    imageBytes=await new Promise(res=>{const reader=new FileReader();reader.onload=evt=>res(evt.target.result);reader.readAsDataURL(file)});
-  }
+  if(fileInput.files.length>0){const file=fileInput.files[0];fileName=file.name;mimeType=file.type;imageBytes=await new Promise(res=>{const reader=new FileReader();reader.onload=evt=>res(evt.target.result);reader.readAsDataURL(file)})}
   const payload={action:"upload",pin:document.getElementById("adminPinInput").value,title:document.getElementById("guideTitleInput").value,dept:document.getElementById("guideDeptFormSelect").value,category:document.getElementById("guideCategorySelect").value,templateText:document.getElementById("guideTemplateInput").value,imageBytes,fileName,mimeType};
-  try{
-    const res=await fetch(APPS_SCRIPT_URL,{method:"POST",body:JSON.stringify(payload)});
-    const result=await res.json();
-    if(result.status==="success"){
-      alert("Guide published successfully!");
-      closeAdminModal();
-      document.getElementById("guideUploadForm").reset();
-      fetchClinicalGuides();
-    } else alert("Error: "+result.message);
-  }catch(err){
-    alert("Network or script error during upload.");
-  }finally{
-    btn.textContent="Publish Live";
-    btn.disabled=false;
-  }
+  try{const res=await fetch(APPS_SCRIPT_URL,{method:"POST",body:JSON.stringify(payload)});const result=await res.json();if(result.status==="success"){alert("Guide published successfully!");closeAdminModal();document.getElementById("guideUploadForm").reset();fetchClinicalGuides()}else alert("Error: "+result.message)}catch(err){alert("Network or script error during upload.")}finally{btn.textContent="Publish Live";btn.disabled=false}
 }
 
 async function promptDeleteGuide(id){
   const pin=prompt("Enter Admin PIN to delete this item:");
   if(!pin)return;
-  try{
-    const res=await fetch(APPS_SCRIPT_URL,{method:"POST",body:JSON.stringify({action:"delete",id,pin})});
-    const result=await res.json();
-    if(result.status==="success"){
-      alert("Deleted.");
-      fetchClinicalGuides();
-    } else alert("Error: "+result.message);
-  }catch(e){
-    alert("Failed to delete.");
-  }
+  try{const res=await fetch(APPS_SCRIPT_URL,{method:"POST",body:JSON.stringify({action:"delete",id,pin})});const result=await res.json();if(result.status==="success"){alert("Deleted.");fetchClinicalGuides()}else alert("Error: "+result.message)}catch(e){alert("Failed to delete.")}
 }
-
-function copyTemplateText(encoded,btn){
-  const t=decodeURIComponent(encoded);
-  navigator.clipboard.writeText(t);
-  const o=btn.textContent;
-  btn.textContent="✅ Copied!";
-  setTimeout(()=>btn.textContent=o,1500);
-}
-function openLightbox(url){
-  const m=document.getElementById("imageLightboxModal");
-  const i=document.getElementById("lightboxImg");
-  const d=document.getElementById("lightboxDownloadBtn");
-  if(m&&i){i.src=url;if(d)d.href=url;m.classList.remove("hidden")}
-}
+function copyTemplateText(encoded,btn){const t=decodeURIComponent(encoded);navigator.clipboard.writeText(t);const o=btn.textContent;btn.textContent="✅ Copied!";setTimeout(()=>btn.textContent=o,1500)}
+function openLightbox(url){const m=document.getElementById("imageLightboxModal");const i=document.getElementById("lightboxImg");const d=document.getElementById("lightboxDownloadBtn");if(m&&i){i.src=url;if(d)d.href=url;m.classList.remove("hidden")}}
 function closeLightbox(){document.getElementById("imageLightboxModal")?.classList.add("hidden")}
 function openAdminModal(){document.getElementById("adminGuideModal")?.classList.remove("hidden")}
 function closeAdminModal(){document.getElementById("adminGuideModal")?.classList.add("hidden")}

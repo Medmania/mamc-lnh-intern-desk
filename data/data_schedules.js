@@ -148,6 +148,98 @@ const deptSchedules = [
     ]
   },
   {
+    id: "surgery",
+    name: "Surgery Morning OPD (09:00 AM - 01:00 PM)",
+    units: [
+      { title: 'Surgery Unit 1 <span style="font-weight: normal;">(Dr. C.B. Singh)</span>', days: "🔹 <b>OPD:</b> Mon (New, Em) / Thu (Follow-up)<br>🔴 <b>OT:</b> Wed (A,B) / Fri (C,D)<br>🟡 <b>Uro OT:</b> Saturday", location: "<b>OPD</b> (Rooms 409, 410, 412, 414, 416)<br><b>Ward:</b> Ward 2A" },
+      { title: 'Surgery Unit 2 <span style="font-weight: normal;">(Dr. Pawan Lal)</span>', days: "🔹 <b>OPD:</b> Wed (New, Em) / Sat (Follow-up)<br>🔴 <b>OT:</b> Fri (A,B) / Mon (C,D)<br>🟡 <b>Uro OT:</b> Tuesday", location: "<b>OPD</b> (Rooms 409, 410, 412, 414, 416)<br><b>Ward:</b> Ward 3A" },
+      { title: 'Surgery Unit 3 <span style="font-weight: normal;">(Dr. Rajdeep Singh)</span>', days: "🔹 <b>OPD:</b> Fri (New, Em) / Tue (Follow-up)<br>🔴 <b>OT:</b> Mon (A,B) / Wed (C,D)<br>🟡 <b>Uro OT:</b> Thursday", location: "<b>OPD</b> (Rooms 409, 410, 412, 414, 416)<br><b>Ward:</b> Ward 4A" },
+      { title: 'Surgery Unit 4 <span style="font-weight: normal;">(Dr. Sushanto Neogi)</span>', days: "🔹 <b>OPD:</b> Tue (New, Em) / Fri (Follow-up)<br>🔴 <b>OT:</b> Thu (A,B) / Sat (C,D)<br>🟡 <b>Uro OT:</b> Monday", location: "<b>OPD</b> (Rooms 417, 431, 433, 435)<br><b>Ward:</b> Ward 3B" },
+      { title: 'Surgery Unit 5 <span style="font-weight: normal;">(Dr. Anubhav Vindal)</span>', days: "🔹 <b>OPD:</b> Thu (New, Em) / Mon (Follow-up)<br>🔴 <b>OT:</b> Sat (A,B) / Tue (C,D)<br>🟡 <b>Uro OT:</b> Wednesday", location: "<b>OPD</b> (Rooms 417, 431, 433, 435)<br><b>Ward:</b> Ward 2B" },
+      { title: 'Surgery Unit 6 <span style="font-weight: normal;">(Dr. Deepak Ghuliani)</span>', days: "🔹 <b>OPD:</b> Sat (New, Em) / Wed (Follow-up)<br>🔴 <b>OT:</b> Tue (A,B) / Thu (C,D)<br>🟡 <b>Uro OT:</b> Friday", location: "<b>OPD</b> (Rooms 417, 431, 433, 435)<br><b>Ward:</b> Ward 4B" }
+    ]
+  },
+  {
+    id: "gynae",
+    name: "Gynecology & Obstetrics OPD, OT & Round Schedule",
+    units: [
+      { 
+        title: 'Unit I <span style="font-weight: normal;">(Dr. Latika Sahu)</span>', 
+        days: "🔹 <b>Monday:</b> Gynae OPD<br>🟡 <b>Tuesday:</b> Teaching / Round<br>🔴 <b>Wednesday:</b> Gynae OT<br>🔹 <b>Thursday:</b> ANC OPD<br>🔴 <b>Friday:</b> PP OT<br>🔴 <b>Saturday:</b> Gynae OT", 
+        location: "<b>OPD:</b> Rooms 209-214 (Gynae) / 230-235 (ANC)<br><b>OT:</b> Gynae & PP OT" 
+      },
+      { 
+        title: 'Unit II <span style="font-weight: normal;">(Dr. Sangeeta Gupta)</span>', 
+        days: "🔴 <b>Monday:</b> Gynae OT<br>🔹 <b>Tuesday:</b> Gynae OPD<br>🟡 <b>Wednesday:</b> Teaching / Round<br>🔴 <b>Thursday:</b> Gynae OT<br>🔹 <b>Friday:</b> ANC OPD<br>🔴 <b>Saturday:</b> PP OT", 
+        location: "<b>OPD:</b> Rooms 209-214 (Gynae) / 230-235 (ANC)<br><b>OT:</b> Gynae & PP OT" 
+      },
+      { 
+        title: 'Unit III <span style="font-weight: normal;">(Dr. Y.M. Mala)</span>', 
+        days: "🔴 <b>Monday:</b> PP OT<br>🔴 <b>Tuesday:</b> Gynae OT<br>🔹 <b>Wednesday:</b> Gynae OPD<br>🟡 <b>Thursday:</b> Teaching / Round<br>🔴 <b>Friday:</b> Gynae OT<br>🔹 <b>Saturday:</b> ANC OPD", 
+        location: "<b>OPD:</b> Rooms 209-214 (Gynae) / 230-235 (ANC)<br><b>OT:</b> Gynae & PP OT" 
+      },
+      { 
+        title: 'Unit IV <span style="font-weight: normal;">(Dr. Deepti Goswami)</span>', 
+        days: "🔹 <b>Monday:</b> ANC OPD<br>🔴 <b>Tuesday:</b> PP OT<br>🔴 <b>Wednesday:</b> Gynae OT<br>🔹 <b>Thursday:</b> Gynae OPD<br>🟡 <b>Friday:</b> Teaching / Round<br>🔴 <b>Saturday:</b> Gynae OT", 
+        location: "<b>OPD:</b> Rooms 209-214 (Gynae) / 230-235 (ANC)<br><b>OT:</b> Gynae & PP OT" 
+      },
+      { 
+        title: 'Unit V <span style="font-weight: normal;">(Dr. Madhavi M. Gupta)</span>', 
+        days: "🔴 <b>Monday:</b> Gynae OT<br>🔹 <b>Tuesday:</b> ANC OPD<br>🔴 <b>Wednesday:</b> PP OT<br>🔴 <b>Thursday:</b> Gynae OT<br>🔹 <b>Friday:</b> Gynae OPD<br>🟡 <b>Saturday:</b> Teaching / Round", 
+        location: "<b>OPD:</b> Rooms 209-214 (Gynae) / 230-235 (ANC)<br><b>OT:</b> Gynae & PP OT" 
+      },
+      { 
+        title: 'Unit VI <span style="font-weight: normal;">(Dr. Krishna Agarwal)</span>', 
+        days: "🟡 <b>Monday:</b> Teaching / Round<br>🔴 <b>Tuesday:</b> Gynae OT<br>🔹 <b>Wednesday:</b> ANC OPD<br>🔴 <b>Thursday:</b> PP OT<br>🔴 <b>Friday:</b> Gynae OT<br>🔹 <b>Saturday:</b> Gynae OPD", 
+        location: "<b>OPD:</b> Rooms 209-214 (Gynae) / 230-235 (ANC)<br><b>OT:</b> Gynae & PP OT" 
+      },
+      { title: 'Family Welfare (Male) & Infertility <span style="font-weight: normal;">(Dr. Chandan Kumar)</span>', days: "Mon to Sat", location: "OPD Block 1st Floor (Rooms 124 to 129)" },
+      { title: 'Family Welfare (Female) <span style="font-weight: normal;">(Dr. Rachana Sharma)</span>', days: "Mon to Sat", location: "OPD Block 2nd Floor" },
+      { title: 'Reproductive & IVF Centre <span style="font-weight: normal;">(Dr. Deepti)</span>', days: "Mon to Sat", location: "B.L. Taneja Block (Ground Floor)" }
+    ]
+  },
+  {
+    id: "anaesthesia",
+    name: "Anaesthesia & Intensive Care Unit Rotation Schedule",
+    units: [
+      {
+        title: 'Unit 1 <span style="font-weight: normal;">(Dr. Munisha, Dr. Gunjan, Dr. Kapil, Dr. Divya, Dr. Khushboo, Dr. Shivi)</span>',
+        days: "🔹 <b>Monday:</b> OT-I (Surgery OT)<br>🔹 <b>Tuesday:</b> OT-II (Ortho OT)<br>🔹 <b>Wednesday:</b> OT-III (Peds & ENT Surgery)<br>🔹 <b>Thursday:</b> Gynae OT<br>🚨 <b>Friday:</b> Emergency OT<br>📋 <b>Saturday:</b> PAC",
+        location: "Main OT Complex / Gynae OT / Casualty OT"
+      },
+      {
+        title: 'Unit II <span style="font-weight: normal;">(Dr. Anju, Dr. Anjli, Dr. Rahil, Dr. Shweta, Dr. Anjali Singh)</span>',
+        days: "🔹 <b>Monday:</b> OT-II (Ortho OT)<br>🔹 <b>Tuesday:</b> OT-III (Peds & ENT Surgery)<br>🔹 <b>Wednesday:</b> Gynae OT<br>🚨 <b>Thursday:</b> Emergency OT<br>📋 <b>Friday:</b> PAC<br>🔹 <b>Saturday:</b> OT-I (Surgery OT)",
+        location: "Main OT Complex / Gynae OT / Casualty OT"
+      },
+      {
+        title: 'Unit III <span style="font-weight: normal;">(Dr. Sonia, Dr. Farah, Dr. Sukhyanti, Dr. Shraddha, Dr. Vidhan)</span>',
+        days: "🔹 <b>Monday:</b> OT-III (Peds & ENT Surgery)<br>🔹 <b>Tuesday:</b> Gynae OT<br>🚨 <b>Wednesday:</b> Emergency OT<br>📋 <b>Thursday:</b> PAC<br>🔹 <b>Friday:</b> OT-I (Surgery OT)<br>🔹 <b>Saturday:</b> OT-II (Ortho OT)",
+        location: "Main OT Complex / Gynae OT / Casualty OT"
+      },
+      {
+        title: 'Unit IV <span style="font-weight: normal;">(Dr. Bharti, Dr. Amit, Dr. Snigdha, Dr. Prasant, Dr. Indira, Dr. Ankita)</span>',
+        days: "🔹 <b>Monday:</b> Gynae OT<br>🚨 <b>Tuesday:</b> Emergency OT<br>📋 <b>Wednesday:</b> PAC<br>🔹 <b>Thursday:</b> OT-I (Surgery OT)<br>🔹 <b>Friday:</b> OT-II (Ortho OT)<br>🔹 <b>Saturday:</b> OT-III (Peds & ENT Surgery)",
+        location: "Main OT Complex / Gynae OT / Casualty OT"
+      },
+      {
+        title: 'Unit V <span style="font-weight: normal;">(Dr. Neelam, Dr. Lalit, Dr. Devang, Dr. Chanchal)</span>',
+        days: "🚨 <b>Monday:</b> Emergency OT<br>📋 <b>Tuesday:</b> PAC<br>🔹 <b>Wednesday:</b> OT-I (Surgery OT)<br>🔹 <b>Thursday:</b> OT-II (Ortho OT)<br>🔹 <b>Friday:</b> OT-III (Peds & ENT Surgery)<br>🔹 <b>Saturday:</b> Gynae OT",
+        location: "Main OT Complex / Gynae OT / Casualty OT"
+      },
+      {
+        title: 'Unit VI <span style="font-weight: normal;">(Dr. Mona, Dr. Vandana, Dr. Wahaja, Dr. Rajni K)</span>',
+        days: "📋 <b>Monday:</b> PAC<br>🔹 <b>Tuesday:</b> OT-I (Surgery OT)<br>🔹 <b>Wednesday:</b> OT-II (Ortho OT)<br>🔹 <b>Thursday:</b> OT-III (Peds & ENT Surgery)<br>🔹 <b>Friday:</b> Gynae OT<br>🚨 <b>Saturday:</b> Emergency OT",
+        location: "Main OT Complex / Gynae OT / Casualty OT"
+      },
+      {
+        title: 'Special Postings & ICU Faculty',
+        days: "🔹 <b>4th Floor ICU:</b> Dr. Neera & Dr. Ankita Verma<br>🔹 <b>Sushruta Trauma Centre (STC):</b> Dr. Rajani Arora & Dr. Rohit",
+        location: "4th Floor ICU / Sushruta Trauma Centre"
+      }
+    ]
+  },
+  {
     id: "ophtha",
     name: "Ophthalmology OPD, OT & Round Schedule (Guru Nanak Eye Centre)",
     units: [
@@ -170,18 +262,6 @@ const deptSchedules = [
       { title: 'Friday Special Clinics', days: '🔹 <b>NOC (Neuro-Ophtha) + Squint:</b> Dr. Paromita Dutta <span style="font-weight: normal;">(Rooms 102, 207)</span><br>🔹 <b>Cornea Clinic (10:00 AM):</b> Dr. Parul Jain <span style="font-weight: normal;">(Room 208)</span>', location: "GNEC Rooms 102, 207, 208" },
       { title: 'Saturday Special Clinics', days: '🔹 <b>Retina Clinic-1:</b> Dr. Punita K. Sodhi <span style="font-weight: normal;">(Rooms 104, 107, 108)</span>', location: "GNEC Rooms 104, 107, 108" },
       { title: 'Daily Special Clinic', days: '🔹 <b>LVA Clinic (Low Vision Aids):</b> Held Daily (02:00 PM - 04:00 PM)', location: "GNEC Room 204" }
-    ]
-  },
-  {
-    id: "surgery",
-    name: "Surgery Morning OPD (09:00 AM - 01:00 PM)",
-    units: [
-      { title: 'Surgery Unit 1 <span style="font-weight: normal;">(Dr. C.B. Singh)</span>', days: "🔹 <b>OPD:</b> Mon (New, Em) / Thu (Follow-up)<br>🔴 <b>OT:</b> Wed (A,B) / Fri (C,D)<br>🟡 <b>Uro OT:</b> Saturday", location: "<b>OPD</b> (Rooms 409, 410, 412, 414, 416)<br><b>Ward:</b> Ward 2A" },
-      { title: 'Surgery Unit 2 <span style="font-weight: normal;">(Dr. Pawan Lal)</span>', days: "🔹 <b>OPD:</b> Wed (New, Em) / Sat (Follow-up)<br>🔴 <b>OT:</b> Fri (A,B) / Mon (C,D)<br>🟡 <b>Uro OT:</b> Tuesday", location: "<b>OPD</b> (Rooms 409, 410, 412, 414, 416)<br><b>Ward:</b> Ward 3A" },
-      { title: 'Surgery Unit 3 <span style="font-weight: normal;">(Dr. Rajdeep Singh)</span>', days: "🔹 <b>OPD:</b> Fri (New, Em) / Tue (Follow-up)<br>🔴 <b>OT:</b> Mon (A,B) / Wed (C,D)<br>🟡 <b>Uro OT:</b> Thursday", location: "<b>OPD</b> (Rooms 409, 410, 412, 414, 416)<br><b>Ward:</b> Ward 4A" },
-      { title: 'Surgery Unit 4 <span style="font-weight: normal;">(Dr. Sushanto Neogi)</span>', days: "🔹 <b>OPD:</b> Tue (New, Em) / Fri (Follow-up)<br>🔴 <b>OT:</b> Thu (A,B) / Sat (C,D)<br>🟡 <b>Uro OT:</b> Monday", location: "<b>OPD</b> (Rooms 417, 431, 433, 435)<br><b>Ward:</b> Ward 3B" },
-      { title: 'Surgery Unit 5 <span style="font-weight: normal;">(Dr. Anubhav Vindal)</span>', days: "🔹 <b>OPD:</b> Thu (New, Em) / Mon (Follow-up)<br>🔴 <b>OT:</b> Sat (A,B) / Tue (C,D)<br>🟡 <b>Uro OT:</b> Wednesday", location: "<b>OPD</b> (Rooms 417, 431, 433, 435)<br><b>Ward:</b> Ward 2B" },
-      { title: 'Surgery Unit 6 <span style="font-weight: normal;">(Dr. Deepak Ghuliani)</span>', days: "🔹 <b>OPD:</b> Sat (New, Em) / Wed (Follow-up)<br>🔴 <b>OT:</b> Tue (A,B) / Thu (C,D)<br>🟡 <b>Uro OT:</b> Friday", location: "<b>OPD</b> (Rooms 417, 431, 433, 435)<br><b>Ward:</b> Ward 4B" }
     ]
   },
   {
@@ -238,10 +318,9 @@ const deptSchedules = [
     id: "ent",
     name: "ENT Morning OPD (09:00 AM - 01:00 PM)",
     units: [
-         { title: 'Unit 1 <span style="font-weight: normal;">(Dr. Ishwar Singh)</span>', days: "🔹 <b>OPD:</b> Mon / Thu<br>🔴 <b>OT:</b> Tue / Fri<br>🟡 <b>Ward:</b> Wed / Sat", location: "<b>OPD</b> (Rooms 609-617, 6th Fl)" },
+      { title: 'Unit 1 <span style="font-weight: normal;">(Dr. Ishwar Singh)</span>', days: "🔹 <b>OPD:</b> Mon / Thu<br>🔴 <b>OT:</b> Tue / Fri<br>🟡 <b>Ward:</b> Wed / Sat", location: "<b>OPD</b> (Rooms 609-617, 6th Fl)" },
       { title: 'Unit 2 <span style="font-weight: normal;">(Dr. H.C. Taneja)</span>', days: "🔹 <b>OPD:</b> Tue / Fri<br>🔴 <b>OT:</b> Wed / Sat<br>🟡 <b>Ward:</b> Mon / Thu", location: "<b>OPD</b> (Rooms 609-617, 6th Fl)" },
       { title: 'Unit 3 <span style="font-weight: normal;">(Dr. Ravi Meher)</span>', days: "🔹 <b>OPD:</b> Wed / Sat<br>🔴 <b>OT:</b> Mon / Thu<br>🟡 <b>Ward:</b> Tue / Fri", location: "<b>OPD</b> (Rooms 609-617, 6th Fl)" }
-   
     ]
   },
   {
@@ -273,27 +352,6 @@ const deptSchedules = [
       { title: 'Spine Clinic <span style="font-weight: normal;">(Dr. Abhishek Kashyap)</span>', days: "Wednesday", location: "Ortho Block 1st Floor (Room 115)" },
       { title: 'Arthroscopy Sports Injury Clinic <span style="font-weight: normal;">(Dr. Sumit Arora)</span>', days: "Thursday", location: "Ortho Block 1st Floor (Room 115)" },
       { title: 'Trauma Clinic <span style="font-weight: normal;">(Dr. Vedpal Yadav)</span>', days: "Friday", location: "Ortho Block 1st Floor (Room 115)" }
-    ]
-  },
-  {
-    id: "gynae",
-    name: "Gynecology, Antenatal & Family Welfare Morning OPD (09:00 AM - 01:00 PM)",
-    units: [
-      { title: 'Gynecology Unit 1 <span style="font-weight: normal;">(Dr. Latika Sahu)</span>', days: "🔹 <b>OPD:</b> Monday", location: "OPD Block 2nd Floor (Rooms 209-214)" },
-      { title: 'Gynecology Unit 2 <span style="font-weight: normal;">(Dr. Sangeeta Gupta)</span>', days: "🔹 <b>OPD:</b> Tuesday", location: "OPD Block 2nd Floor (Rooms 209-214)" },
-      { title: 'Gynecology Unit 3 <span style="font-weight: normal;">(Dr. Y.M. Mala)</span>', days: "🔹 <b>OPD:</b> Wednesday", location: "OPD Block 2nd Floor (Rooms 209-214)" },
-      { title: 'Gynecology Unit 4 <span style="font-weight: normal;">(Dr. Deepti Goswami)</span>', days: "🔹 <b>OPD:</b> Thursday", location: "OPD Block 2nd Floor (Rooms 209-214)" },
-      { title: 'Gynecology Unit 5 <span style="font-weight: normal;">(Dr. Madhavi M. Gupta)</span>', days: "🔹 <b>OPD:</b> Friday", location: "OPD Block 2nd Floor (Rooms 209-214)" },
-      { title: 'Gynecology Unit 6 <span style="font-weight: normal;">(Dr. Krishna Agarwal)</span>', days: "🔹 <b>OPD:</b> Saturday", location: "OPD Block 2nd Floor (Rooms 209-214)" },
-      { title: 'Antenatal Clinic (ANC) <span style="font-weight: normal;">(Dr. Deepti Goswami)</span>', days: "Monday", location: "OPD Block 2nd Floor (Rooms 230-235)" },
-      { title: 'Antenatal Clinic (ANC) <span style="font-weight: normal;">(Dr. Madhavi M. Gupta)</span>', days: "Tuesday", location: "OPD Block 2nd Floor (Rooms 230-235)" },
-      { title: 'Antenatal Clinic (ANC) <span style="font-weight: normal;">(Dr. Krishna Agarwal)</span>', days: "Wednesday", location: "OPD Block 2nd Floor (Rooms 230-235)" },
-      { title: 'Antenatal Clinic (ANC) <span style="font-weight: normal;">(Dr. Latika Sahu)</span>', days: "Thursday", location: "OPD Block 2nd Floor (Rooms 230-235)" },
-      { title: 'Antenatal Clinic (ANC) <span style="font-weight: normal;">(Dr. Sangeeta Gupta)</span>', days: "Friday", location: "OPD Block 2nd Floor (Rooms 230-235)" },
-      { title: 'Antenatal Clinic (ANC) <span style="font-weight: normal;">(Dr. Y.M. Mala)</span>', days: "Saturday", location: "OPD Block 2nd Floor (Rooms 230-235)" },
-      { title: 'Family Welfare (Male) & Infertility <span style="font-weight: normal;">(Dr. Chandan Kumar)</span>', days: "Mon to Sat", location: "OPD Block 1st Floor (Rooms 124 to 129)" },
-      { title: 'Family Welfare (Female) <span style="font-weight: normal;">(Dr. Rachana Sharma)</span>', days: "Mon to Sat", location: "OPD Block 2nd Floor" },
-      { title: 'Reproductive & IVF Centre <span style="font-weight: normal;">(Dr. Deepti)</span>', days: "Mon to Sat", location: "B.L. Taneja Block (Ground Floor)" }
     ]
   },
   {

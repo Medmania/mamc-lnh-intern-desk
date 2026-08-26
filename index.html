@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MAMC-LNH Intern Portal — Roster, Labs & Hospital Directory</title>
-  <style>
+  <style>f
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
     :root { --primary: #0284c7; --primary-gradient: linear-gradient(135deg, #0284c7 0%, #2563eb 50%, #38bdf8 100%); --bg: #f0f6ff; --bg-gradient: radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.18) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(37, 99, 235, 0.12) 0px, transparent 50%); --card: #ffffff; --text: #0f172a; --text-muted: #475569; --border: #cbd5e1; --input-bg: #ffffff; --tab-bg: rgba(255, 255, 255, 0.9); --table-header: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); --table-hover: #e0f2fe; --table-alt: #f8fafc; --box-bg: #f8fafc; --header-glass: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 60%, #ede9fe 100%); --header-text: #0f172a; --chip-bg: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%); --chip-text: #0369a1; --chip-border: #7dd3fc; --sub-bg: linear-gradient(135deg, #e0f2fe, #bae6fd); --sub-text: #0284c7; --sub-border: #7dd3fc; --days-bg: linear-gradient(135deg, #dcfce7, #bbf7d0); --days-text: #15803d; --days-border: #86efac; --unit-bg: linear-gradient(135deg, #fef3c7, #fde68a); --unit-text: #b45309; --unit-border: #fcd34d; --shadow-sm: 0 2px 6px rgba(15, 23, 42, 0.05); --shadow-md: 0 6px 24px -4px rgba(2, 132, 199, 0.12); --shadow-lg: 0 14px 34px -6px rgba(2, 132, 199, 0.2); --urgent: #ef4444; }
     [data-theme="dark"] { --primary: #38bdf8; --primary-gradient: linear-gradient(135deg, #0369a1 0%, #0284c7 50%, #38bdf8 100%); --bg: #070d18; --bg-gradient: radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.14) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(14, 165, 233, 0.1) 0px, transparent 50%); --card: #0f172a; --text: #f8fafc; --text-muted: #94a3b8; --border: #1e293b; --input-bg: #131e33; --tab-bg: rgba(15, 23, 42, 0.9); --table-header: linear-gradient(135deg, #17253d 0%, #1e293b 100%); --table-hover: #1e2e4a; --table-alt: #111a2e; --box-bg: #131e33; --header-glass: linear-gradient(135deg, #17253d 0%, #1e2e4a 60%, #1e293b 100%); --header-text: #f8fafc; --chip-bg: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(2, 132, 199, 0.3)); --chip-text: #38bdf8; --chip-border: rgba(56, 189, 248, 0.4); --sub-bg: rgba(56, 189, 248, 0.18); --sub-text: #7dd3fc; --sub-border: rgba(56, 189, 248, 0.35); --days-bg: rgba(34, 197, 94, 0.18); --days-text: #4ade80; --days-border: rgba(34, 197, 94, 0.35); --unit-bg: rgba(245, 158, 11, 0.2); --unit-text: #fbbf24; --unit-border: rgba(245, 158, 11, 0.4); --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.4); --shadow-md: 0 6px 24px -4px rgba(0, 0, 0, 0.6); --shadow-lg: 0 14px 34px -6px rgba(0, 0, 0, 0.8); --urgent: #f87171; }
@@ -603,21 +603,61 @@ function logoutUser() {
       container.innerHTML = `<div class="faq-empty"><p>No SOP found for “<strong>${query}</strong>”.</p></div>`;
       return;
     }
-    const groups = {};
-    filtered.forEach(item => { if (!groups[item.category]) groups[item.category] = []; groups[item.category].push(item); });
-    const order = ["Emergency & Critical Workflows", "Special Forms & Requisitions", "Blood Bank", "Radiology & Cardiology"];
-    let html = '', firstOpen = false;
-    order.forEach(cat => {
-      if (!groups[cat] || !groups[cat].length) return;
-      html += `<div class="faq-category"><div class="faq-category-header"><span>${getCategoryIcon(cat)}</span><span>${cat}</span><span class="badge badge-sub" style="margin-left:auto;font-size:11px">${groups[cat].length}</span></div>`;
-      groups[cat].forEach(item => {
-        const open = query && !firstOpen;
-        if (open) firstOpen = true;
-        html += `<details class="faq-item" ${open ? 'open' : ''}><summary><span style="flex:1">${item.urgent ? '<span class="badge badge-urgent" style="margin-right:6px">Urgent</span>' : ''}${highlightText(item.question, query)}</span></summary><div class="faq-answer">${item.answer || ''}<div class="faq-actions"><button onclick="copyFaqAnswer('${item.id}',this)">📋 Copy Answer</button></div></div></details>`;
-      });
-      html += '</div>';
-    });
-    container.innerHTML = html;
+    // ... inside renderFaqs(), after filtering ...
+
+const groups = {};
+filtered.forEach(item => {
+  if (!groups[item.category]) groups[item.category] = [];
+  groups[item.category].push(item);
+});
+
+// Preferred display order (any unknown categories will appear after these)
+const preferredOrder = [
+  "Emergency & Critical Workflows",
+  "Blood Bank & Transfusion",
+  "Special Forms & Laboratory Routing",
+  "Radiology & Super-Specialty Navigation"
+];
+
+// Build ordered list of categories
+const orderedCategories = [
+  ...preferredOrder.filter(cat => groups[cat]),
+  ...Object.keys(groups).filter(cat => !preferredOrder.includes(cat))
+];
+
+let html = '';
+let firstOpen = false;
+
+orderedCategories.forEach(cat => {
+  html += `<div class="faq-category">
+    <div class="faq-category-header">
+      <span>${getCategoryIcon(cat)}</span>
+      <span>${cat}</span>
+      <span class="badge badge-sub" style="margin-left:auto;font-size:11px">${groups[cat].length}</span>
+    </div>`;
+  
+  groups[cat].forEach(item => {
+    const open = query && !firstOpen;
+    if (open) firstOpen = true;
+    html += `<details class="faq-item" ${open ? 'open' : ''}>
+      <summary>
+        <span style="flex:1">
+          ${item.urgent ? '<span class="badge badge-urgent" style="margin-right:6px">Urgent</span>' : ''}
+          ${highlightText(item.question, query)}
+        </span>
+      </summary>
+      <div class="faq-answer">
+        ${item.answer || ''}
+        <div class="faq-actions">
+          <button onclick="copyFaqAnswer('${item.id}',this)">📋 Copy Answer</button>
+        </div>
+      </div>
+    </details>`;
+  });
+  html += '</div>';
+});
+
+container.innerHTML = html;
   }
   function getCategoryIcon(cat) {
     if (cat.includes('Emergency')) return '🚨';

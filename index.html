@@ -937,95 +937,10 @@ function logoutUser() {
 
   let filtered = labDirectory;
 
-  // Category filters (intern-friendly)
   if (filterVal !== "all") {
-    filtered = filtered.filter(item => {
-      const w = (item.window || "").toLowerCase();
-      const t = (item.test || "").toLowerCase();
-      const n = (item.notes || "").toLowerCase();
-      const h = (item.hospital || "").toLowerCase();
-
-      switch (filterVal) {
-        case "routine":
-          return (w.includes("window 1") || w.includes("window 2e") || w.includes("hba1c")) &&
-                 !w.includes("window 2 ") &&
-                 (t.includes("cbc") || t.includes("lft") || t.includes("kft") || t.includes("sugar") ||
-                  t.includes("electrolyte") || t.includes("lipid") || t.includes("hba1c") ||
-                  t.includes("urm") || t.includes("urine") || t.includes("hemoglobin"));
-
-        case "emergency":
-          return (w.includes("window 2") && !w.includes("window 2e")) ||
-                 t.includes("abg") || t.includes("vbg") ||
-                 (t.includes("lft") && n.includes("emergency")) ||
-                 (t.includes("kft") && n.includes("emergency"));
-
-        case "coag":
-          return t.includes("pt") || t.includes("aptt") || t.includes("d-dimer") ||
-                 t.includes("fibrinogen") || t.includes("coagulation") || t.includes("citrate");
-
-        case "bloodbank":
-          return w.includes("blood bank") || t.includes("blood group") || t.includes("cross") ||
-                 t.includes("coombs") || t.includes("dct") || t.includes("ict");
-
-        case "hematology":
-          return w.includes("pathology") || w.includes("cytopath") || w.includes("fnac") ||
-                 w.includes("grossing") || w.includes("room 52") || w.includes("room 62") ||
-                 w.includes("room 63") || w.includes("room 70") || w.includes("room 93") ||
-                 w.includes("room 94") || t.includes("bone marrow") || t.includes("hpe") ||
-                 t.includes("fnac") || t.includes("cytology");
-
-        case "biochem_routine":
-          return w.includes("window 2e");
-
-        case "biochem_emergency":
-          return w.includes("window 2") && !w.includes("window 2e");
-
-        case "cultures":
-          return (w.includes("room 34") || w.includes("bacteriology") || w.includes("diarrhea") || w.includes("room 124")) &&
-                 (t.includes("culture") || t.includes("csf") || t.includes("pus") || t.includes("urine") ||
-                  t.includes("blood culture") || t.includes("tip") || t.includes("mrsa") || t.includes("stool"));
-
-        case "serology":
-          return w.includes("serology") || w.includes("room 126") ||
-                 t.includes("ra factor") || t.includes("crp") || t.includes("aso") ||
-                 t.includes("widal") || t.includes("vdrl") || t.includes("torch") || t.includes("tpha");
-
-        case "virology":
-          return w.includes("virology") || w.includes("277b") || w.includes("279") ||
-                 t.includes("dengue") || t.includes("chikungunya") || t.includes("hepatitis") ||
-                 t.includes("hbsag") || t.includes("hcv") || t.includes("covid") || t.includes("h1n1");
-
-        case "tb":
-          return w.includes("mycobacteriology") || w.includes("room 330") || w.includes("tb centre") ||
-                 t.includes("afb") || t.includes("zn") || t.includes("cbnaat") || t.includes("sputum");
-
-        case "hiv":
-          return w.includes("hiv") || w.includes("cd4") || w.includes("room 278") ||
-                 t.includes("tridot") || t.includes("hiv") || t.includes("cd4");
-
-        case "mycology":
-          return w.includes("mycology") || w.includes("room 253") ||
-                 t.includes("koh") || t.includes("fungal") || t.includes("india ink") || t.includes("cryptococcal");
-
-        case "parasitology":
-          return w.includes("parasitology") || w.includes("room 128") ||
-                 t.includes("malaria") || t.includes("kala") || t.includes("toxoplasma") ||
-                 t.includes("amoebic") || t.includes("hydatid") || t.includes("neurocysticercosis");
-
-        case "radiology":
-          return w.includes("radiology") || t.includes("ct ") || t.includes("mri") ||
-                 t.includes("usg") || t.includes("x-ray") || t.includes("barium") || t.includes("doppler");
-
-        case "gbpant":
-          return h.includes("gb pant");
-
-        default:
-          return true;
-      }
-    });
+    filtered = filtered.filter(item => item.category === filterVal);
   }
 
-  // Text search
   if (query) {
     filtered = filtered.filter(item =>
       item.test.toLowerCase().includes(query) ||
@@ -1033,7 +948,8 @@ function logoutUser() {
       item.window.toLowerCase().includes(query) ||
       item.days.toLowerCase().includes(query) ||
       item.report.toLowerCase().includes(query) ||
-      (item.notes || "").toLowerCase().includes(query)
+      (item.notes || "").toLowerCase().includes(query) ||
+      (item.category || "").toLowerCase().includes(query)
     );
   }
 
@@ -1059,7 +975,6 @@ function logoutUser() {
   });
   resDiv.innerHTML = html;
 }
-
   // ========== CLINICAL GUIDES ==========
   async function fetchClinicalGuides() {
     const container = document.getElementById("guidesResultsGrid");

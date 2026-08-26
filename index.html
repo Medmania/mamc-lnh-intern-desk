@@ -277,44 +277,56 @@
   </div>
 
   <!-- TAB 3: LABS -->
-  <div id="lab-tab" class="hidden">
-    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;margin-bottom:12px">
-      <select id="labHospitalSelect" onchange="searchLabTests()" style="padding:10px 14px;border-radius:8px;border:1px solid var(--border);font-size:14px;background-color:var(--input-bg);font-weight:600;color:var(--text);min-width:280px;cursor:pointer">
-        <option value="all">🏥 All Hospitals & Labs</option>
-        <optgroup label="── LNJP GENERAL & SPECIALTY LABS ──">
-          <option value="lnjp_all">🏥 LNJP Labs (All Windows & Depts)</option>
-          <option value="Window 1">📍 Window 1 (Pathology Routine)</option>
-          <option value="Window 2E">📍 Window 2E (Biochemistry Routine & Specials)</option>
-          <option value="Window 2">📍 Window 2 (Biochemistry Emergency / ABG)</option>
-          <option value="Blood Bank">📍 Blood Bank</option>
-          <option value="College">📍 College Building / Depts</option>
-          <option value="TB Centre">📍 TB Centre (Gate 2)</option>
-          <option value="Pathology Dept">📍 Cytology / Histopath / FNAC</option>
-          <option value="Radiology">📷 Radiology & Imaging (CT, MRI, USG, X-Ray)</option>
-        </optgroup>
-        <optgroup label="── LNJP MICROBIOLOGY DEPT ──">
-          <option value="Microbiology">🧪 All Microbiology Labs</option>
-          <option value="Serology">🔬 Serology & Latex Tests (Room 126)</option>
-          <option value="Bacteriology">🧫 Routine Bacteriology, Pus & Cultures (Room 34)</option>
-          <option value="Virology 277B">🦠 Virology & Vector Borne Diseases (Room 277B)</option>
-          <option value="Advanced Virology">🧬 Advanced Virology & Molecular PCR (Room 279)</option>
-          <option value="Diarrhea">🧫 Diarrhea & Stool Lab (Room 124)</option>
-          <option value="Parasitology">🩸 Parasitology & Anaerobic Lab (Room 128)</option>
-          <option value="Mycology">🍄 Mycology / Fungal Lab (Room 253)</option>
-          <option value="Mycobacteriology">🫁 Mycobacteriology / TB ZN & Culture (Room 330)</option>
-          <option value="HIV & CD4">🩸 HIV & CD4 Cytometry (Room 278 / 31A)</option>
-        </optgroup>
-        <optgroup label="── GB PANT HOSPITAL ──">
-          <option value="gbpant_all">🏥 GB Pant (All Diagnostics)</option>
-          <option value="Room D-129">📍 Sample Collection (Room D-129)</option>
-          <option value="Radiology">📍 Radiology (X-Ray, USG, CT, MRI)</option>
-          <option value="Cardiology">📍 Cardiology (Echo, TMT, Holter, HUTT)</option>
-        </optgroup>
-      </select>
-      <input type="text" id="labSearch" oninput="searchLabTests();saveSearchHistory('lab',this.value)" placeholder="Type test name, vial color, room, location..." style="flex:1;min-width:250px;padding:10px 14px;border-radius:8px;border:1px solid var(--border);font-size:14px">
-    </div>
-    <div id="labResults"></div>
+<!-- TAB 3: LABS -->
+<div id="lab-tab" class="hidden">
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;margin-bottom:12px">
+    <select id="labHospitalSelect" onchange="searchLabTests()"
+      style="padding:10px 14px;border-radius:8px;border:1px solid var(--border);font-size:14px;background-color:var(--input-bg);font-weight:600;color:var(--text);min-width:280px;cursor:pointer">
+
+      <option value="all">🏥 All Labs & Tests</option>
+
+      <optgroup label="── MOST USED BY INTERNS ──">
+        <option value="routine">🩸 Routine Bloods (CBC, LFT, KFT, Sugar…)</option>
+        <option value="emergency">🚨 Emergency / 24×7 (ABG, Emergency LFT/KFT)</option>
+        <option value="coag">🔵 Coagulation (PT/INR, APTT, D-Dimer)</option>
+        <option value="bloodbank">🩸 Blood Bank & Transfusion</option>
+      </optgroup>
+
+      <optgroup label="── PATHOLOGY ──">
+        <option value="hematology">🔬 Hematology / Cytology / FNAC / HPE</option>
+      </optgroup>
+
+      <optgroup label="── BIOCHEMISTRY ──">
+        <option value="biochem_routine">🧪 Biochemistry Routine (Window 2E)</option>
+        <option value="biochem_emergency">⚡ Biochemistry Emergency (Window 2)</option>
+      </optgroup>
+
+      <optgroup label="── MICROBIOLOGY ──">
+        <option value="cultures">🧫 Cultures (Blood, Urine, Pus, CSF…)</option>
+        <option value="serology">🔬 Serology (RA, CRP, WIDAL, TORCH…)</option>
+        <option value="virology">🦠 Virology & Dengue / Hepatitis</option>
+        <option value="tb">🫁 TB / AFB / CBNAAT</option>
+        <option value="hiv">🩸 HIV & CD4</option>
+        <option value="mycology">🍄 Mycology / Fungal</option>
+        <option value="parasitology">🦟 Parasitology (Malaria, Kala-azar…)</option>
+      </optgroup>
+
+      <optgroup label="── RADIOLOGY ──">
+        <option value="radiology">📷 Radiology (CT, MRI, USG, X-Ray)</option>
+      </optgroup>
+
+      <optgroup label="── OTHER HOSPITALS ──">
+        <option value="gbpant">🏥 GB Pant Diagnostics</option>
+      </optgroup>
+    </select>
+
+    <input type="text" id="labSearch"
+      oninput="searchLabTests();saveSearchHistory('lab',this.value)"
+      placeholder="Search test, tube colour, room, window…"
+      style="flex:1;min-width:250px;padding:10px 14px;border-radius:8px;border:1px solid var(--border);font-size:14px">
   </div>
+  <div id="labResults"></div>
+</div>
 
   <!-- TAB 4: FAQs & SOPs -->
   <div id="faq-tab" class="card hidden">
@@ -915,37 +927,138 @@ function logoutUser() {
 
   // ========== LABS ==========
   function searchLabTests() {
-    const searchInput = document.getElementById('labSearch');
-    const selectFilter = document.getElementById('labHospitalSelect');
-    const resDiv = document.getElementById('labResults');
-    if (!resDiv || !selectFilter) return;
-    const query = searchInput ? searchInput.value.toLowerCase().trim() : "";
-    const filterVal = selectFilter.value;
-    let filtered = labDirectory;
-    if (filterVal === "lnjp_all") filtered = filtered.filter(item => item.hospital === "LNJP Hospital Labs");
-    else if (filterVal === "gbpant_all") filtered = filtered.filter(item => item.hospital === "GB Pant Hospital Labs");
-    else if (filterVal !== "all") {
-      filtered = filtered.filter(item => {
-        const win = item.window.toLowerCase(), target = filterVal.toLowerCase();
-        if (target === "pathology dept") return win.includes("pathology") || win.includes("cytopath") || win.includes("cytology") || win.includes("histopath") || win.includes("fnac") || win.includes("grossing");
-        if (target === "microbiology") return win.includes("microbiology") || win.includes("window 3");
-        if (target === "window 2") return win.includes("window 2") && !win.includes("window 2e");
-        return win.includes(target);
-      });
-    }
-    if (query) {
-      filtered = filtered.filter(item => item.test.toLowerCase().includes(query) || item.tube.toLowerCase().includes(query) || item.window.toLowerCase().includes(query) || item.days.toLowerCase().includes(query) || item.report.toLowerCase().includes(query) || (item.notes || "").toLowerCase().includes(query));
-    }
-    if (filtered.length === 0) {
-      resDiv.innerHTML = '<p style="padding:16px;color:var(--text-muted);text-align:center">No matching lab tests found.</p>';
-      return;
-    }
-    let html = `<p style="color:var(--text-muted);font-size:13px;margin:0 0 12px 0">Showing <strong>${filtered.length}</strong> test${filtered.length > 1 ? 's' : ''}</p>`;
-    filtered.forEach(item => {
-      html += `<div class="lab-card"><h4>🧪 ${item.test} <span class="badge badge-lab">${item.hospital}</span></h4><div class="lab-meta"><span>💉 <strong>Vial:</strong> ${item.tube}</span><span>📍 <strong>Location:</strong> ${item.window}</span></div><div class="lab-meta"><span>⏰ <strong>Days:</strong> ${item.days}</span><span>📄 <strong>Report:</strong> ${item.report}</span></div>${item.notes ? `<div class="lab-notes">💡 <strong>Notes:</strong> ${item.notes}</div>` : ''}</div>`;
+  const searchInput = document.getElementById('labSearch');
+  const selectFilter = document.getElementById('labHospitalSelect');
+  const resDiv = document.getElementById('labResults');
+  if (!resDiv || !selectFilter) return;
+
+  const query = searchInput ? searchInput.value.toLowerCase().trim() : "";
+  const filterVal = selectFilter.value;
+
+  let filtered = labDirectory;
+
+  // Category filters (intern-friendly)
+  if (filterVal !== "all") {
+    filtered = filtered.filter(item => {
+      const w = (item.window || "").toLowerCase();
+      const t = (item.test || "").toLowerCase();
+      const n = (item.notes || "").toLowerCase();
+      const h = (item.hospital || "").toLowerCase();
+
+      switch (filterVal) {
+        case "routine":
+          return (w.includes("window 1") || w.includes("window 2e") || w.includes("hba1c")) &&
+                 !w.includes("window 2 ") &&
+                 (t.includes("cbc") || t.includes("lft") || t.includes("kft") || t.includes("sugar") ||
+                  t.includes("electrolyte") || t.includes("lipid") || t.includes("hba1c") ||
+                  t.includes("urm") || t.includes("urine") || t.includes("hemoglobin"));
+
+        case "emergency":
+          return (w.includes("window 2") && !w.includes("window 2e")) ||
+                 t.includes("abg") || t.includes("vbg") ||
+                 (t.includes("lft") && n.includes("emergency")) ||
+                 (t.includes("kft") && n.includes("emergency"));
+
+        case "coag":
+          return t.includes("pt") || t.includes("aptt") || t.includes("d-dimer") ||
+                 t.includes("fibrinogen") || t.includes("coagulation") || t.includes("citrate");
+
+        case "bloodbank":
+          return w.includes("blood bank") || t.includes("blood group") || t.includes("cross") ||
+                 t.includes("coombs") || t.includes("dct") || t.includes("ict");
+
+        case "hematology":
+          return w.includes("pathology") || w.includes("cytopath") || w.includes("fnac") ||
+                 w.includes("grossing") || w.includes("room 52") || w.includes("room 62") ||
+                 w.includes("room 63") || w.includes("room 70") || w.includes("room 93") ||
+                 w.includes("room 94") || t.includes("bone marrow") || t.includes("hpe") ||
+                 t.includes("fnac") || t.includes("cytology");
+
+        case "biochem_routine":
+          return w.includes("window 2e");
+
+        case "biochem_emergency":
+          return w.includes("window 2") && !w.includes("window 2e");
+
+        case "cultures":
+          return (w.includes("room 34") || w.includes("bacteriology") || w.includes("diarrhea") || w.includes("room 124")) &&
+                 (t.includes("culture") || t.includes("csf") || t.includes("pus") || t.includes("urine") ||
+                  t.includes("blood culture") || t.includes("tip") || t.includes("mrsa") || t.includes("stool"));
+
+        case "serology":
+          return w.includes("serology") || w.includes("room 126") ||
+                 t.includes("ra factor") || t.includes("crp") || t.includes("aso") ||
+                 t.includes("widal") || t.includes("vdrl") || t.includes("torch") || t.includes("tpha");
+
+        case "virology":
+          return w.includes("virology") || w.includes("277b") || w.includes("279") ||
+                 t.includes("dengue") || t.includes("chikungunya") || t.includes("hepatitis") ||
+                 t.includes("hbsag") || t.includes("hcv") || t.includes("covid") || t.includes("h1n1");
+
+        case "tb":
+          return w.includes("mycobacteriology") || w.includes("room 330") || w.includes("tb centre") ||
+                 t.includes("afb") || t.includes("zn") || t.includes("cbnaat") || t.includes("sputum");
+
+        case "hiv":
+          return w.includes("hiv") || w.includes("cd4") || w.includes("room 278") ||
+                 t.includes("tridot") || t.includes("hiv") || t.includes("cd4");
+
+        case "mycology":
+          return w.includes("mycology") || w.includes("room 253") ||
+                 t.includes("koh") || t.includes("fungal") || t.includes("india ink") || t.includes("cryptococcal");
+
+        case "parasitology":
+          return w.includes("parasitology") || w.includes("room 128") ||
+                 t.includes("malaria") || t.includes("kala") || t.includes("toxoplasma") ||
+                 t.includes("amoebic") || t.includes("hydatid") || t.includes("neurocysticercosis");
+
+        case "radiology":
+          return w.includes("radiology") || t.includes("ct ") || t.includes("mri") ||
+                 t.includes("usg") || t.includes("x-ray") || t.includes("barium") || t.includes("doppler");
+
+        case "gbpant":
+          return h.includes("gb pant");
+
+        default:
+          return true;
+      }
     });
-    resDiv.innerHTML = html;
   }
+
+  // Text search
+  if (query) {
+    filtered = filtered.filter(item =>
+      item.test.toLowerCase().includes(query) ||
+      item.tube.toLowerCase().includes(query) ||
+      item.window.toLowerCase().includes(query) ||
+      item.days.toLowerCase().includes(query) ||
+      item.report.toLowerCase().includes(query) ||
+      (item.notes || "").toLowerCase().includes(query)
+    );
+  }
+
+  if (filtered.length === 0) {
+    resDiv.innerHTML = '<p style="padding:16px;color:var(--text-muted);text-align:center">No matching lab tests found.</p>';
+    return;
+  }
+
+  let html = `<p style="color:var(--text-muted);font-size:13px;margin:0 0 12px 0">Showing <strong>${filtered.length}</strong> test${filtered.length > 1 ? 's' : ''}</p>`;
+  filtered.forEach(item => {
+    html += `<div class="lab-card">
+      <h4>🧪 ${item.test} <span class="badge badge-lab">${item.hospital}</span></h4>
+      <div class="lab-meta">
+        <span>💉 <strong>Vial:</strong> ${item.tube}</span>
+        <span>📍 <strong>Location:</strong> ${item.window}</span>
+      </div>
+      <div class="lab-meta">
+        <span>⏰ <strong>Days:</strong> ${item.days}</span>
+        <span>📄 <strong>Report:</strong> ${item.report}</span>
+      </div>
+      ${item.notes ? `<div class="lab-notes">💡 <strong>Notes:</strong> ${item.notes}</div>` : ''}
+    </div>`;
+  });
+  resDiv.innerHTML = html;
+}
 
   // ========== CLINICAL GUIDES ==========
   async function fetchClinicalGuides() {

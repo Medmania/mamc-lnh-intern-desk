@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8">
@@ -6,9 +6,8 @@
   <title>MAMC-LNH Intern Portal — Roster, Labs & Hospital Directory</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
-
-    :root { --primary: #0284c7; --primary-gradient: linear-gradient(135deg, #0284c7 0%, #2563eb 50%, #38bdf8 100%); --bg: #f0f6ff; --bg-gradient: radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.18) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(37, 99, 235, 0.12) 0px, transparent 50%); --card: #ffffff; --text: #0f172a; --text-muted: #475569; --border: #cbd5e1; --input-bg: #ffffff; --tab-bg: rgba(255, 255, 255, 0.9); --table-header: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); --table-hover: #e0f2fe; --table-alt: #f8fafc; --box-bg: #f8fafc; --header-glass: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 60%, #ede9fe 100%); --header-text: #0f172a; --chip-bg: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%); --chip-text: #0369a1; --chip-border: #7dd3fc; --sub-bg: linear-gradient(135deg, #e0f2fe, #bae6fd); --sub-text: #0284c7; --sub-border: #7dd3fc; --days-bg: linear-gradient(135deg, #dcfce7, #bbf7d0); --days-text: #15803d; --days-border: #86efac; --unit-bg: linear-gradient(135deg, #fef3c7, #fde68a); --unit-text: #b45309; --unit-border: #fcd34d; --shadow-sm: 0 2px 6px rgba(15, 23, 42, 0.05); --shadow-md: 0 6px 24px -4px rgba(2, 132, 199, 0.12); --shadow-lg: 0 14px 34px -6px rgba(2, 132, 199, 0.2); }
-    [data-theme="dark"] { --primary: #38bdf8; --primary-gradient: linear-gradient(135deg, #0369a1 0%, #0284c7 50%, #38bdf8 100%); --bg: #070d18; --bg-gradient: radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.14) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(14, 165, 233, 0.1) 0px, transparent 50%); --card: #0f172a; --text: #f8fafc; --text-muted: #94a3b8; --border: #1e293b; --input-bg: #131e33; --tab-bg: rgba(15, 23, 42, 0.9); --table-header: linear-gradient(135deg, #17253d 0%, #1e293b 100%); --table-hover: #1e2e4a; --table-alt: #111a2e; --box-bg: #131e33; --header-glass: linear-gradient(135deg, #17253d 0%, #1e2e4a 60%, #1e293b 100%); --header-text: #f8fafc; --chip-bg: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(2, 132, 199, 0.3)); --chip-text: #38bdf8; --chip-border: rgba(56, 189, 248, 0.4); --sub-bg: rgba(56, 189, 248, 0.18); --sub-text: #7dd3fc; --sub-border: rgba(56, 189, 248, 0.35); --days-bg: rgba(34, 197, 94, 0.18); --days-text: #4ade80; --days-border: rgba(34, 197, 94, 0.35); --unit-bg: rgba(245, 158, 11, 0.2); --unit-text: #fbbf24; --unit-border: rgba(245, 158, 11, 0.4); --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.4); --shadow-md: 0 6px 24px -4px rgba(0, 0, 0, 0.6); --shadow-lg: 0 14px 34px -6px rgba(0, 0, 0, 0.8); }
+    :root { --primary: #0284c7; --primary-gradient: linear-gradient(135deg, #0284c7 0%, #2563eb 50%, #38bdf8 100%); --bg: #f0f6ff; --bg-gradient: radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.18) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(37, 99, 235, 0.12) 0px, transparent 50%); --card: #ffffff; --text: #0f172a; --text-muted: #475569; --border: #cbd5e1; --input-bg: #ffffff; --tab-bg: rgba(255, 255, 255, 0.9); --table-header: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); --table-hover: #e0f2fe; --table-alt: #f8fafc; --box-bg: #f8fafc; --header-glass: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 60%, #ede9fe 100%); --header-text: #0f172a; --chip-bg: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%); --chip-text: #0369a1; --chip-border: #7dd3fc; --sub-bg: linear-gradient(135deg, #e0f2fe, #bae6fd); --sub-text: #0284c7; --sub-border: #7dd3fc; --days-bg: linear-gradient(135deg, #dcfce7, #bbf7d0); --days-text: #15803d; --days-border: #86efac; --unit-bg: linear-gradient(135deg, #fef3c7, #fde68a); --unit-text: #b45309; --unit-border: #fcd34d; --shadow-sm: 0 2px 6px rgba(15, 23, 42, 0.05); --shadow-md: 0 6px 24px -4px rgba(2, 132, 199, 0.12); --shadow-lg: 0 14px 34px -6px rgba(2, 132, 199, 0.2); --urgent: #ef4444; }
+    [data-theme="dark"] { --primary: #38bdf8; --primary-gradient: linear-gradient(135deg, #0369a1 0%, #0284c7 50%, #38bdf8 100%); --bg: #070d18; --bg-gradient: radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.14) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(14, 165, 233, 0.1) 0px, transparent 50%); --card: #0f172a; --text: #f8fafc; --text-muted: #94a3b8; --border: #1e293b; --input-bg: #131e33; --tab-bg: rgba(15, 23, 42, 0.9); --table-header: linear-gradient(135deg, #17253d 0%, #1e293b 100%); --table-hover: #1e2e4a; --table-alt: #111a2e; --box-bg: #131e33; --header-glass: linear-gradient(135deg, #17253d 0%, #1e2e4a 60%, #1e293b 100%); --header-text: #f8fafc; --chip-bg: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(2, 132, 199, 0.3)); --chip-text: #38bdf8; --chip-border: rgba(56, 189, 248, 0.4); --sub-bg: rgba(56, 189, 248, 0.18); --sub-text: #7dd3fc; --sub-border: rgba(56, 189, 248, 0.35); --days-bg: rgba(34, 197, 94, 0.18); --days-text: #4ade80; --days-border: rgba(34, 197, 94, 0.35); --unit-bg: rgba(245, 158, 11, 0.2); --unit-text: #fbbf24; --unit-border: rgba(245, 158, 11, 0.4); --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.4); --shadow-md: 0 6px 24px -4px rgba(0, 0, 0, 0.6); --shadow-lg: 0 14px 34px -6px rgba(0, 0, 0, 0.8); --urgent: #f87171; }
     body { font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); background-image: var(--bg-gradient); background-attachment: fixed; color: var(--text); margin: 0; padding: 24px 16px; min-height: 100vh; transition: background 0.3s ease, color 0.3s ease; }
     .container { max-width: 920px; margin: 0 auto; }
     .header-banner { background: var(--primary-gradient); color: white; padding: 28px 24px; border-radius: 22px; text-align: center; margin-bottom: 24px; box-shadow: var(--shadow-lg); position: relative; overflow: hidden; }
@@ -18,8 +17,12 @@
     .theme-toggle-btn { position: absolute; top: 18px; right: 18px; background: rgba(255, 255, 255, 0.95); border: 1.5px solid rgba(255, 255, 255, 0.8); color: #0369a1; padding: 6px 14px; border-radius: 20px; display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 800; cursor: pointer; transition: all 0.25s ease; z-index: 10; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); }
     [data-theme="dark"] .theme-toggle-btn { background: #1e293b; border-color: #38bdf8; color: #38bdf8; }
     .theme-toggle-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25); }
-    .tabs { display: flex; gap: 10px; margin-bottom: 20px; background: var(--tab-bg); backdrop-filter: blur(12px); padding: 6px; border-radius: 18px; border: 1px solid var(--border); box-shadow: var(--shadow-sm); }
-    .tab-btn { flex: 1; padding: 12px 14px; border: none; background: transparent; cursor: pointer; font-weight: 800; border-radius: 14px; color: var(--text-muted); font-size: 13.5px; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); display: flex; align-items: center; justify-content: center; gap: 6px; }
+    .auth-area { position: absolute; top: 18px; left: 18px; display: flex; gap: 8px; z-index: 10; flex-wrap: wrap; }
+    .auth-btn { background: rgba(255, 255, 255, 0.95); border: 1.5px solid rgba(255, 255, 255, 0.8); color: #0369a1; padding: 6px 12px; border-radius: 20px; font-size: 12.5px; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 5px; }
+    [data-theme="dark"] .auth-btn { background: #1e293b; border-color: #38bdf8; color: #38bdf8; }
+    .auth-btn.admin { background: #fef3c7; color: #b45309; border-color: #fcd34d; }
+    .tabs { display: flex; gap: 10px; margin-bottom: 20px; background: var(--tab-bg); backdrop-filter: blur(12px); padding: 6px; border-radius: 18px; border: 1px solid var(--border); box-shadow: var(--shadow-sm); flex-wrap: wrap; }
+    .tab-btn { flex: 1; min-width: 110px; padding: 12px 10px; border: none; background: transparent; cursor: pointer; font-weight: 800; border-radius: 14px; color: var(--text-muted); font-size: 13px; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); display: flex; align-items: center; justify-content: center; gap: 5px; }
     .tab-btn:hover { color: var(--primary); background: rgba(56, 189, 248, 0.12); }
     .tab-btn.active { background: var(--card); color: var(--primary); box-shadow: 0 4px 14px rgba(2, 132, 199, 0.18); border: 1px solid var(--border); }
     .card { background: var(--card); padding: 24px; border-radius: 22px; box-shadow: var(--shadow-md); border: 1px solid var(--border); margin-bottom: 20px; transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s; }
@@ -53,6 +56,7 @@
     .badge-days { background: var(--days-bg); color: var(--days-text); border: 1px solid var(--days-border); }
     .badge-unit { background: var(--unit-bg); color: var(--unit-text); border: 1px solid var(--unit-border); }
     .badge-lab { background: var(--sub-bg); color: var(--sub-text); border: 1px solid var(--sub-border); font-size: 11px; padding: 3px 9px; }
+    .badge-urgent { background: rgba(239, 68, 68, 0.15); color: var(--urgent); border: 1px solid rgba(239, 68, 68, 0.4); font-size: 11px; }
     .duty-roster-box { margin-top: 14px; display: flex; flex-direction: column; gap: 10px; }
     .ward-team-card { background: rgba(34, 197, 94, 0.09); border: 1px solid rgba(34, 197, 94, 0.35); border-radius: 14px; padding: 12px 16px; }
     .ward-team-header { font-size: 13px; font-weight: 800; color: #16a34a; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
@@ -79,120 +83,120 @@
     .lab-meta { display: flex; flex-wrap: wrap; gap: 10px 18px; font-size: 13px; color: var(--text-muted); margin-bottom: 8px; }
     .lab-notes { margin-top: 10px; padding: 10px 14px; background: rgba(245, 158, 11, 0.14); border-left: 3.5px solid #f59e0b; border-radius: 10px; font-size: 12.5px; color: #d97706; font-weight: 500; }
     [data-theme="dark"] .lab-notes { color: #fbbf24; }
-    details summary { list-style: none; cursor: pointer; color: var(--secondary); font-weight: 800; font-size: 13.5px; padding: 8px 0; display: flex; align-items: center; gap: 6px; }
+    details summary { list-style: none; cursor: pointer; color: var(--primary); font-weight: 800; font-size: 13.5px; padding: 8px 0; display: flex; align-items: center; gap: 6px; }
     details summary::-webkit-details-marker { display: none; }
     details[open] summary { margin-bottom: 8px; }
-    .timeline-scroll {
-      max-height: 320px;
-      overflow-y: auto;
-      margin-top: 6px;
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      scroll-behavior: smooth;
-      -webkit-overflow-scrolling: touch;
-    }
+    .timeline-scroll { max-height: 320px; overflow-y: auto; margin-top: 6px; border-radius: 12px; border: 1px solid var(--border); scroll-behavior: smooth; -webkit-overflow-scrolling: touch; }
     .timeline-scroll table { margin-top: 0; border: none; }
-    .timeline-scroll thead th {
-      position: sticky;
-      top: 0;
-      z-index: 2;
-      background: var(--table-header) !important;
-      box-shadow: 0 1px 0 var(--border);
-    }
-    .selected-week-row td {
-      background: rgba(56, 189, 248, 0.22) !important;
-      font-weight: 800;
-    }
-    [data-theme="dark"] .selected-week-row td {
-      background: rgba(56, 189, 248, 0.28) !important;
-    }
-    .timeline-hint {
-      font-size: 11.5px;
-      color: var(--text-muted);
-      margin: 4px 0 0 0;
-      font-weight: 600;
-    }
-    .timeline-burari-days {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 4px;
-      margin-top: 6px;
-    }
-    .timeline-day-chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      font-size: 11px;
-      font-weight: 700;
-      padding: 3px 8px;
-      border-radius: 8px;
-      background: rgba(56, 189, 248, 0.12);
-      border: 1px solid rgba(56, 189, 248, 0.35);
-      color: var(--primary);
-      white-space: nowrap;
-    }
-    .timeline-day-chip .dlabel {
-      opacity: 0.75;
-      font-weight: 600;
-    }
-    .timeline-day-chip.night {
-      background: rgba(99, 102, 241, 0.14);
-      border-color: rgba(99, 102, 241, 0.4);
-      color: #6366f1;
-    }
+    .timeline-scroll thead th { position: sticky; top: 0; z-index: 2; background: var(--table-header) !important; box-shadow: 0 1px 0 var(--border); }
+    .selected-week-row td { background: rgba(56, 189, 248, 0.22) !important; font-weight: 800; }
+    [data-theme="dark"] .selected-week-row td { background: rgba(56, 189, 248, 0.28) !important; }
+    .timeline-hint { font-size: 11.5px; color: var(--text-muted); margin: 4px 0 0 0; font-weight: 600; }
+    .timeline-burari-days { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+    .timeline-day-chip { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 8px; background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.35); color: var(--primary); white-space: nowrap; }
+    .timeline-day-chip .dlabel { opacity: 0.75; font-weight: 600; }
+    .timeline-day-chip.night { background: rgba(99, 102, 241, 0.14); border-color: rgba(99, 102, 241, 0.4); color: #6366f1; }
     [data-theme="dark"] .timeline-day-chip.night { color: #a5b4fc; }
-    .timeline-day-chip.pdo {
-      background: rgba(148, 163, 184, 0.18);
-      border-color: rgba(148, 163, 184, 0.4);
-      color: var(--text-muted);
-    }
-    .timeline-burari-empty {
-      font-size: 11px;
-      color: var(--text-muted);
-      margin-top: 4px;
-      font-weight: 600;
-      font-style: italic;
-    }
+    .timeline-day-chip.pdo { background: rgba(148, 163, 184, 0.18); border-color: rgba(148, 163, 184, 0.4); color: var(--text-muted); }
+    .timeline-burari-empty { font-size: 11px; color: var(--text-muted); margin-top: 4px; font-weight: 600; font-style: italic; }
+    /* FAQ styles */
+    .faq-search-bar { position: sticky; top: 0; z-index: 20; background: var(--card); padding: 14px 0 12px; margin: -8px 0 12px; border-bottom: 1px solid var(--border); }
+    .faq-controls { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 14px; }
+    .faq-controls button { padding: 8px 14px; border-radius: 12px; border: 1.5px solid var(--border); background: var(--box-bg); color: var(--text); font-weight: 800; font-size: 12.5px; cursor: pointer; }
+    .faq-controls button:hover { border-color: var(--primary); color: var(--primary); background: rgba(56, 189, 248, 0.1); }
+    .faq-match-count { font-size: 13px; color: var(--text-muted); font-weight: 600; }
+    .faq-category { margin-bottom: 22px; }
+    .faq-category-header { display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 800; color: var(--text); margin-bottom: 10px; padding: 8px 14px; background: var(--header-glass); border-radius: 14px; border: 1px solid var(--border); }
+    .faq-item { background: var(--card); border: 1px solid var(--border); border-radius: 14px; margin-bottom: 8px; overflow: hidden; box-shadow: var(--shadow-sm); }
+    .faq-item summary { padding: 14px 16px; font-size: 14.5px; font-weight: 700; color: var(--text); display: flex; align-items: flex-start; gap: 10px; cursor: pointer; list-style: none; }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::before { content: '▶'; font-size: 11px; color: var(--primary); transition: transform 0.2s; margin-top: 3px; flex-shrink: 0; }
+    .faq-item[open] summary::before { transform: rotate(90deg); }
+    .faq-answer { padding: 0 16px 16px 40px; font-size: 13.5px; line-height: 1.6; color: var(--text); border-top: 1px dashed var(--border); margin-top: -4px; }
+    .faq-answer .pitfall { margin-top: 10px; padding: 10px 12px; background: rgba(239, 68, 68, 0.08); border-left: 3px solid var(--urgent); border-radius: 8px; font-size: 12.5px; }
+    .faq-actions { display: flex; gap: 8px; margin-top: 12px; }
+    .faq-actions button { padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--box-bg); color: var(--text); font-weight: 700; font-size: 12px; cursor: pointer; }
+    mark.faq-highlight { background: rgba(56, 189, 248, 0.35); color: inherit; padding: 1px 3px; border-radius: 3px; font-weight: 700; }
+    [data-theme="dark"] mark.faq-highlight { background: rgba(56, 189, 248, 0.45); }
+    .faq-empty { text-align: center; padding: 40px 20px; color: var(--text-muted); font-size: 14px; }
+    .history-box { background: var(--box-bg); border: 1px solid var(--border); border-radius: 14px; padding: 12px 16px; margin-bottom: 14px; font-size: 13px; }
+    .history-box h4 { margin: 0 0 8px 0; font-size: 13.5px; font-weight: 800; }
+    .history-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+    .history-chip { background: var(--card); border: 1px solid var(--border); padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer; }
+    .history-chip:hover { border-color: var(--primary); color: var(--primary); }
+    .admin-panel { display: none; background: var(--card); border: 2px solid var(--primary); border-radius: 18px; padding: 20px; margin-bottom: 20px; }
+    .admin-panel.active { display: block; }
+    .admin-tabs { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+    .admin-tab { padding: 8px 14px; border-radius: 10px; border: 1px solid var(--border); background: var(--box-bg); font-weight: 700; font-size: 13px; cursor: pointer; }
+    .admin-tab.active { background: var(--primary); color: white; border-color: var(--primary); }
     @keyframes popupSlide { from { opacity: 0; transform: translateY(20px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
     .hidden { display: none !important; }
   </style>
 </head>
 <body>
-
 <div class="container">
   <div class="header-banner">
+    <div class="auth-area" id="authArea">
+      <button class="auth-btn" id="loginBtn" onclick="loginWithGoogle()">🔐 Login with Google</button>
+      <button class="auth-btn admin hidden" id="adminBtn" onclick="toggleAdminPanel()">⚙️ Admin Panel</button>
+      <button class="auth-btn hidden" id="logoutBtn" onclick="logoutUser()">Logout</button>
+    </div>
     <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()" title="Toggle Dark/Light Mode">
       <span id="themeIcon">🌙</span> <span>Theme</span>
     </button>
     <h1>MAMC-LNH Intern Portal</h1>
-    <p class="subtitle">MAMC-LNH Intern Portal — Roster, Labs & Hospital Directory</p>
+    <p class="subtitle">Roster • Labs • FAQs • Hospital Directory</p>
   </div>
 
-  <!-- NAVIGATION TABS -->
-  <div class="tabs" style="flex-wrap: wrap;">
+  <div class="tabs">
     <button class="tab-btn active" onclick="switchTab('roster')">🔍 Search Roster</button>
     <button class="tab-btn" onclick="switchTab('schedule')">📅 Hospital facilities</button>
     <button class="tab-btn" onclick="switchTab('lab')">🧪 Tests & Labs</button>
+    <button class="tab-btn" onclick="switchTab('faq')">❓ FAQs & SOPs</button>
     <button class="tab-btn" onclick="switchTab('guides')">📁 Clinical Guides</button>
   </div>
 
+  <!-- ADMIN PANEL (shown only after admin login) -->
+  <div id="adminPanel" class="admin-panel">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <h3 style="margin:0;font-size:18px;font-weight:800">⚙️ Admin Control Panel</h3>
+      <button onclick="toggleAdminPanel()" style="background:none;border:none;font-size:22px;cursor:pointer;color:var(--text-muted)">×</button>
+    </div>
+    <div class="admin-tabs">
+      <button class="admin-tab active" onclick="switchAdminTab('labs')">Labs & Tests</button>
+      <button class="admin-tab" onclick="switchAdminTab('schedules')">Schedules</button>
+      <button class="admin-tab" onclick="switchAdminTab('faqs')">FAQs</button>
+      <button class="admin-tab" onclick="switchAdminTab('notes')">Notes</button>
+    </div>
+    <div id="adminContent">
+      <p style="color:var(--text-muted);font-size:14px">Firebase connection will be added later. This panel is ready for CRUD forms.</p>
+    </div>
+  </div>
+
   <!-- SHARED DATE SELECTOR -->
-  <div class="card" style="margin-bottom: 16px; padding: 14px;">
-    <div id="date-card" class="date-row" style="margin-bottom: 0;">
-      <div style="flex: 1;">
-        <label for="dutyDate" style="margin-bottom: 4px;">📅 Select Date to Check Posting:</label>
+  <div class="card" style="margin-bottom:16px;padding:14px">
+    <div id="date-card" class="date-row" style="margin-bottom:0">
+      <div style="flex:1">
+        <label for="dutyDate" style="margin-bottom:4px">📅 Select Date to Check Posting:</label>
         <input type="date" id="dutyDate" min="2026-05-23" max="2027-05-22" onchange="onDateOrSelectionChange()">
       </div>
       <button onclick="setTodayDate()">Today</button>
     </div>
   </div>
 
-  <!-- TAB 1: SEARCH ROSTER (PERSON & DEPT) -->
+  <!-- TAB 1: ROSTER -->
   <div id="roster-tab" class="card">
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin-bottom: 14px;">
+    <div id="userHistoryBox" class="history-box hidden">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <h4>🕒 Recent Searches</h4>
+        <button onclick="clearSearchHistory()" style="font-size:12px;padding:4px 10px;border-radius:8px;border:1px solid var(--border);background:var(--card);cursor:pointer;font-weight:700">Clear History</button>
+      </div>
+      <div class="history-chips" id="historyChips"></div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-bottom:14px">
       <div>
         <label for="universalPersonInput">👤 Search Person (Name, Roll, S.No, Batch):</label>
-        <input type="text" id="universalPersonInput" placeholder="e.g. Ankit, S.No 33, A7, 44591..." oninput="executeSmartSearch()">
+        <input type="text" id="universalPersonInput" placeholder="e.g. Ankit, S.No 33, A7, 44591..." oninput="executeSmartSearch();saveSearchHistory('roster',this.value)">
       </div>
       <div>
         <label for="universalDeptSelect">🏥 Filter by Department:</label>
@@ -219,15 +223,13 @@
     <div id="smartSearchResults" class="results"></div>
   </div>
 
-  <!-- TAB 2: HOSPITAL FACILITIES & WARDS -->
+  <!-- TAB 2: SCHEDULE -->
   <div id="schedule-tab" class="card hidden">
     <div class="input-group">
       <label for="scheduleSearch">🔍 Search Facility, Clinic, Room or Day:</label>
       <input type="text" id="scheduleSearch" placeholder="Type e.g., Diabetes, Room 310, Monday, Unit 1..." oninput="onScheduleSearchInput()">
     </div>
-
-    <div style="text-align: center; color: var(--text-muted); font-size: 12px; margin: -6px 0 10px 0;">— OR SELECT CATEGORY —</div>
-
+    <div style="text-align:center;color:var(--text-muted);font-size:12px;margin:-6px 0 10px 0">— OR SELECT CATEGORY —</div>
     <div class="input-group">
       <label for="deptScheduleSelect">Select Department or Special Clinic:</label>
       <select id="deptScheduleSelect" onchange="onScheduleSelectChange()">
@@ -238,7 +240,7 @@
           <option value="gynae">👶 Gynecology & ANC</option>
           <option value="ophtha">👁️ Ophthalmology (GNEC)</option>
           <option value="ent">👂 ENT (Ear, Nose, Throat)</option>
-          <option value="ortho">🦴 Orthopedics</option>      
+          <option value="ortho">🦴 Orthopedics</option>
           <option value="derma">🩺 Dermatology</option>
           <option value="anaesthesia">💉 Anaesthesia</option>
           <option value="peds_med">🧸 Pediatric (Med)</option>
@@ -271,14 +273,13 @@
         </optgroup>
       </select>
     </div>
-
     <div id="scheduleResults" class="results"></div>
   </div>
 
-  <!-- TAB 3: TESTS & LABS -->
+  <!-- TAB 3: LABS -->
   <div id="lab-tab" class="hidden">
-    <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; margin-bottom: 12px;">
-      <select id="labHospitalSelect" onchange="searchLabTests()" style="padding: 10px 14px; border-radius: 8px; border: 1px solid var(--border); font-size: 14px; background-color: var(--input-bg); font-weight: 600; color: var(--text); min-width: 280px; cursor: pointer;">
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;margin-bottom:12px">
+      <select id="labHospitalSelect" onchange="searchLabTests()" style="padding:10px 14px;border-radius:8px;border:1px solid var(--border);font-size:14px;background-color:var(--input-bg);font-weight:600;color:var(--text);min-width:280px;cursor:pointer">
         <option value="all">🏥 All Hospitals & Labs</option>
         <optgroup label="── LNJP GENERAL & SPECIALTY LABS ──">
           <option value="lnjp_all">🏥 LNJP Labs (All Windows & Depts)</option>
@@ -310,82 +311,93 @@
           <option value="Cardiology">📍 Cardiology (Echo, TMT, Holter, HUTT)</option>
         </optgroup>
       </select>
-      <input type="text" id="labSearch" oninput="searchLabTests()" placeholder="Type test name, vial color, room, location..." style="flex: 1; min-width: 250px; padding: 10px 14px; border-radius: 8px; border: 1px solid var(--border); font-size: 14px;">
+      <input type="text" id="labSearch" oninput="searchLabTests();saveSearchHistory('lab',this.value)" placeholder="Type test name, vial color, room, location..." style="flex:1;min-width:250px;padding:10px 14px;border-radius:8px;border:1px solid var(--border);font-size:14px">
     </div>
     <div id="labResults"></div>
   </div>
 
-  <!-- TAB 4: CLINICAL GUIDES & REFERRAL FORMATS -->
-  <div id="guides-tab" class="card hidden">
-    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 16px;">
-      <div>
-        <h3 style="margin: 0; font-size: 18px; font-weight: 800; color: var(--text);">📁 Intern Clinical & Documentation Hub</h3>
-        <p style="margin: 4px 0 0 0; font-size: 13px; color: var(--text-muted);">Standard department referral formats, file ordering & clinical memos</p>
+  <!-- TAB 4: FAQs & SOPs -->
+  <div id="faq-tab" class="card hidden">
+    <div class="faq-search-bar">
+      <div class="input-group" style="margin-bottom:10px">
+        <label for="faqSearchInput">🔍 Search SOPs (ABG, Tridot, Needle, Crossmatch…)</label>
+        <input type="text" id="faqSearchInput" placeholder="Type any keyword..." oninput="renderFaqs();saveSearchHistory('faq',this.value)" autocomplete="off">
       </div>
-      <button onclick="openAdminModal()" style="padding: 8px 14px; border: none; background: var(--primary-gradient); color: white; font-weight: 800; font-size: 12.5px; border-radius: 12px; cursor: pointer; box-shadow: var(--shadow-sm);">
-        ⚙️ Admin Upload
-      </button>
+      <div class="faq-controls">
+        <button onclick="expandAllFaqs()">Expand All</button>
+        <button onclick="collapseAllFaqs()">Collapse All</button>
+        <span class="faq-match-count" id="faqMatchCount"></span>
+      </div>
     </div>
-
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-bottom: 16px;">
-      <input type="text" id="guideSearchInput" placeholder="🔍 Search guide (e.g. Nephro consult, Death memo...)" oninput="renderClinicalGuides()">
-      <select id="guideDeptSelect" onchange="renderClinicalGuides()">
-        <option value="all">🏥 All Departments</option>
-         <option value="Medicine">Medicine</option>
-           <option value="ENT">ENT</option>
-           <option value="Ophthalmology">Ophtha</option>
-          <option value="Surgery">General Surgery</option>
-          <option value="Pediatrics">Pediatrics</option>
-          <option value="Obs & Gynae">Obs & Gynae</option>
-          <option value="Orthopedics">Orthopedics</option>
-           <option value="Anaesthesia">Anaesthesia</option>
-           <option value="Radiology">Radiology</option>
-          <option value="Casualty">Casualty & Emergency</option>
-          <option value="Administrative">Paperwork & MLC</option>
-      </select>
-    </div>
-
-    <div id="guidesResultsGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 16px;">
-      <p style="color: var(--text-muted); font-size: 13px;">Loading documentation formats...</p>
+    <div id="faqResults">
+      <p style="text-align:center;color:var(--text-muted);padding:30px">FAQ data will be loaded from <code>data/data_faqs.js</code>. Create that file and define <code>const faqData = [...]</code>.</p>
     </div>
   </div>
 
+  <!-- TAB 5: CLINICAL GUIDES -->
+  <div id="guides-tab" class="card hidden">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px">
+      <div>
+        <h3 style="margin:0;font-size:18px;font-weight:800;color:var(--text)">📁 Intern Clinical & Documentation Hub</h3>
+        <p style="margin:4px 0 0 0;font-size:13px;color:var(--text-muted)">Standard department referral formats, file ordering & clinical memos</p>
+      </div>
+      <button onclick="openAdminModal()" style="padding:8px 14px;border:none;background:var(--primary-gradient);color:white;font-weight:800;font-size:12.5px;border-radius:12px;cursor:pointer;box-shadow:var(--shadow-sm)">⚙️ Admin Upload</button>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-bottom:16px">
+      <input type="text" id="guideSearchInput" placeholder="🔍 Search guide (e.g. Nephro consult, Death memo...)" oninput="renderClinicalGuides()">
+      <select id="guideDeptSelect" onchange="renderClinicalGuides()">
+        <option value="all">🏥 All Departments</option>
+        <option value="Medicine">Medicine</option>
+        <option value="ENT">ENT</option>
+        <option value="Ophthalmology">Ophtha</option>
+        <option value="Surgery">General Surgery</option>
+        <option value="Pediatrics">Pediatrics</option>
+        <option value="Obs & Gynae">Obs & Gynae</option>
+        <option value="Orthopedics">Orthopedics</option>
+        <option value="Anaesthesia">Anaesthesia</option>
+        <option value="Radiology">Radiology</option>
+        <option value="Casualty">Casualty & Emergency</option>
+        <option value="Administrative">Paperwork & MLC</option>
+      </select>
+    </div>
+    <div id="guidesResultsGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px">
+      <p style="color:var(--text-muted);font-size:13px">Loading documentation formats...</p>
+    </div>
+  </div>
 </div>
 
-<footer style="text-align: center; margin-top: 30px; padding: 16px; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 13px;">
-  <p style="margin: 4px 0 0 0; font-size: 16px;"><strong>Batch-2021</strong></p>
+<footer style="text-align:center;margin-top:30px;padding:16px;border-top:1px solid var(--border);color:var(--text-muted);font-size:13px">
+  <p style="margin:4px 0 0 0;font-size:16px"><strong>Batch-2021</strong></p>
 </footer>
 
-<!-- LIGHTBOX IMAGE VIEWER MODAL -->
-<div id="imageLightboxModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); z-index: 10002; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box;" onclick="closeLightbox()">
-  <span style="position: absolute; top: 20px; right: 24px; color: white; font-size: 32px; font-weight: 800; cursor: pointer;">&times;</span>
-  <img id="lightboxImg" src="" style="max-width: 95%; max-height: 85vh; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); object-fit: contain;" onclick="event.stopPropagation()">
-  <a id="lightboxDownloadBtn" href="" target="_blank" download style="margin-top: 14px; background: white; color: #0f172a; padding: 8px 16px; border-radius: 20px; font-weight: 800; font-size: 13px; text-decoration: none;" onclick="event.stopPropagation()">⬇️ Open Full Resolution</a>
+<!-- LIGHTBOX -->
+<div id="imageLightboxModal" class="hidden" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);z-index:10002;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;box-sizing:border-box" onclick="closeLightbox()">
+  <span style="position:absolute;top:20px;right:24px;color:white;font-size:32px;font-weight:800;cursor:pointer">&times;</span>
+  <img id="lightboxImg" src="" style="max-width:95%;max-height:85vh;border-radius:12px;box-shadow:0 10px 40px rgba(0,0,0,0.5);object-fit:contain" onclick="event.stopPropagation()">
+  <a id="lightboxDownloadBtn" href="" target="_blank" download style="margin-top:14px;background:white;color:#0f172a;padding:8px 16px;border-radius:20px;font-weight:800;font-size:13px;text-decoration:none" onclick="event.stopPropagation()">⬇️ Open Full Resolution</a>
 </div>
 
-<!-- ADMIN UPLOAD MODAL -->
-<div id="adminGuideModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(6px); z-index: 10001; display: flex; align-items: center; justify-content: center; padding: 16px; box-sizing: border-box;">
-  <div style="background: var(--card); width: 100%; max-width: 520px; border-radius: 20px; box-shadow: var(--shadow-lg); border: 1px solid var(--border); overflow: hidden; padding: 20px;">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
-      <h3 style="margin: 0; font-size: 16.5px; font-weight: 800; color: var(--text);">📤 Upload Format or Referral Guide</h3>
-      <span onclick="closeAdminModal()" style="font-size: 22px; cursor: pointer; color: var(--text-muted);">&times;</span>
+<!-- ADMIN UPLOAD MODAL (Guides) -->
+<div id="adminGuideModal" class="hidden" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(15,23,42,0.6);backdrop-filter:blur(6px);z-index:10001;display:flex;align-items:center;justify-content:center;padding:16px;box-sizing:border-box">
+  <div style="background:var(--card);width:100%;max-width:520px;border-radius:20px;box-shadow:var(--shadow-lg);border:1px solid var(--border);overflow:hidden;padding:20px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+      <h3 style="margin:0;font-size:16.5px;font-weight:800;color:var(--text)">📤 Upload Format or Referral Guide</h3>
+      <span onclick="closeAdminModal()" style="font-size:22px;cursor:pointer;color:var(--text-muted)">&times;</span>
     </div>
-
-    <form id="guideUploadForm" onsubmit="submitGuideUpload(event)" style="display: flex; flex-direction: column; gap: 12px;">
+    <form id="guideUploadForm" onsubmit="submitGuideUpload(event)" style="display:flex;flex-direction:column;gap:12px">
       <input type="password" id="adminPinInput" placeholder="Enter Admin PIN" required>
       <input type="text" id="guideTitleInput" placeholder="Format Title (e.g. Cardiology Fitness Referral)" required>
-      
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
         <select id="guideDeptFormSelect">
           <option value="Medicine">Medicine</option>
-           <option value="ENT">ENT</option>
-           <option value="Ophthalmology">Ophtha</option>
+          <option value="ENT">ENT</option>
+          <option value="Ophthalmology">Ophtha</option>
           <option value="Surgery">General Surgery</option>
           <option value="Pediatrics">Pediatrics</option>
           <option value="Obs & Gynae">Obs & Gynae</option>
           <option value="Orthopedics">Orthopedics</option>
-           <option value="Anaesthesia">Anaesthesia</option>
-           <option value="Radiology">Radiology</option>
+          <option value="Anaesthesia">Anaesthesia</option>
+          <option value="Radiology">Radiology</option>
           <option value="Casualty">Casualty & Emergency</option>
           <option value="Administrative">Paperwork & MLC</option>
         </select>
@@ -396,154 +408,265 @@
           <option value="Protocol">Emergency Protocol</option>
         </select>
       </div>
-
-      <textarea id="guideTemplateInput" placeholder="Optional raw text template (interns can 1-tap copy this text)..." style="width: 100%; height: 75px; padding: 10px; border-radius: 12px; border: 1.5px solid var(--border); font-family: inherit; font-size: 13px; background: var(--input-bg); color: var(--text); box-sizing: border-box;"></textarea>
-
+      <textarea id="guideTemplateInput" placeholder="Optional raw text template (interns can 1-tap copy this text)..." style="width:100%;height:75px;padding:10px;border-radius:12px;border:1.5px solid var(--border);font-family:inherit;font-size:13px;background:var(--input-bg);color:var(--text);box-sizing:border-box"></textarea>
       <div>
-        <label style="font-size: 12px; margin-bottom: 4px;">Photo of Format / Paperwork (Optional):</label>
+        <label style="font-size:12px;margin-bottom:4px">Photo of Format / Paperwork (Optional):</label>
         <input type="file" id="guideFileInput" accept="image/*">
       </div>
-
-      <button type="submit" id="uploadSubmitBtn" style="padding: 12px; border: none; background: var(--primary-gradient); color: white; font-weight: 800; border-radius: 12px; cursor: pointer; margin-top: 4px;">
-        Publish Live
-      </button>
+      <button type="submit" id="uploadSubmitBtn" style="padding:12px;border:none;background:var(--primary-gradient);color:white;font-weight:800;border-radius:12px;cursor:pointer;margin-top:4px">Publish Live</button>
     </form>
   </div>
 </div>
 
-<!-- DATA SCRIPT DEPENDENCIES -->
+<!-- DATA SCRIPTS -->
 <script src="data/data_interns.js"></script>
 <script src="data/data_burari.js"></script>
 <script src="data/data_periphery.js"></script>
 <script src="data/data_labs.js"></script>
 <script src="data/data_schedules.js"></script>
 <script src="data/data_units.js"></script>
+<!-- Add later: <script src="data/data_faqs.js"></script> -->
+
+<!-- FIREBASE SDKs (ready for later) -->
+<script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore-compat.js"></script>
 
 <script>
-  // PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL HERE:
+  // ========== FIREBASE CONFIG (FILL LATER) ==========
+  const firebaseConfig = {
+    apiKey: "AIzaSyAFYihJu3gTT7kHMLzAY0DdgP40ImxVTbU",
+  authDomain: "medmania.firebaseapp.com",
+  projectId: "medmania",
+  storageBucket: "medmania.firebasestorage.app",
+  messagingSenderId: "489695840383",
+  appId: "1:489695840383:web:7891a8e07d33fc0147974a",
+  };
+  // firebase.initializeApp(firebaseConfig);
+  // const auth = firebase.auth();
+  // const db = firebase.firestore();
+
   const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxVpbrlW7sCbFQdvSKt76NjScuxlkcem9hyn6SCsuAKjo-Fg57AovmD6gjTYBqwm0VH/exec";
   let clinicalGuidesData = [];
+  let faqData = []; // populated by data/data_faqs.js later
+  let currentUser = null;
+  let isAdmin = false;
+  const ADMIN_EMAILS = ["ankitgarg8558@gmail.com"]; // whitelist later
 
+  // ========== THEME ==========
   function applyTheme(theme) {
     document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem('mamc_theme', theme);
     const iconSpan = document.getElementById('themeIcon');
     if (iconSpan) iconSpan.textContent = (theme === 'dark') ? '☀️' : '🌙';
   }
-
   function toggleTheme() {
     const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
     applyTheme(currentTheme === 'light' ? 'dark' : 'light');
   }
-
   (function initTheme() {
     const saved = localStorage.getItem('mamc_theme');
-    if (saved) {
-      applyTheme(saved);
-    } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      applyTheme('dark');
-    } else {
-      applyTheme('light');
-    }
+    if (saved) applyTheme(saved);
+    else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) applyTheme('dark');
+    else applyTheme('light');
   })();
 
-  function getCoInternsNames(coSnos, userDept, selectedDate, currentSearchedSno) {
-  if (!coSnos || coSnos.length === 0) return "";
-  const isNightDuty = userDept && userDept.toLowerCase().includes("night");
-  const currentSnoNum = Number(currentSearchedSno);
+  // ========== AUTH (PLACEHOLDER) ==========
+  function loginWithGoogle() {
+    // After Firebase setup:
+    // const provider = new firebase.auth.GoogleAuthProvider();
+    // auth.signInWithPopup(provider).then(res => handleAuth(res.user)).catch(console.error);
+    alert("Firebase Auth will be connected later.\nFor now this is a placeholder.");
+  }
+  function logoutUser() {
+    // auth.signOut().then(() => { currentUser = null; isAdmin = false; updateAuthUI(); });
+    currentUser = null; isAdmin = false; updateAuthUI();
+  }
+  function handleAuth(user) {
+    currentUser = user;
+    isAdmin = ADMIN_EMAILS.includes(user.email);
+    updateAuthUI();
+    renderUserHistory();
+  }
+  function updateAuthUI() {
+    const loginBtn = document.getElementById('loginBtn');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const adminBtn = document.getElementById('adminBtn');
+    const histBox = document.getElementById('userHistoryBox');
+    if (currentUser) {
+      loginBtn.classList.add('hidden');
+      logoutBtn.classList.remove('hidden');
+      logoutBtn.textContent = `Logout (${currentUser.displayName || 'User'})`;
+      if (isAdmin) adminBtn.classList.remove('hidden');
+      else adminBtn.classList.add('hidden');
+      if (histBox) histBox.classList.remove('hidden');
+    } else {
+      loginBtn.classList.remove('hidden');
+      logoutBtn.classList.add('hidden');
+      adminBtn.classList.add('hidden');
+      if (histBox) histBox.classList.add('hidden');
+      document.getElementById('adminPanel').classList.remove('active');
+    }
+  }
+  function toggleAdminPanel() {
+    if (!isAdmin) return;
+    document.getElementById('adminPanel').classList.toggle('active');
+  }
+  function switchAdminTab(tab) {
+    document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+    if (event && event.target) event.target.classList.add('active');
+    document.getElementById('adminContent').innerHTML = `<p style="color:var(--text-muted)">Admin form for <strong>${tab}</strong> will be built after Firebase setup.</p>`;
+  }
 
-  // 1. Same-ward / exact shift partners (Supports S.No > 50 and named strings)
-  const wardPartners = coSnos
-    .map(sno => {
+  // ========== SEARCH HISTORY (localStorage only) ==========
+  function saveSearchHistory(type, query) {
+    if (!query || query.trim().length < 2) return;
+    const key = `mamc_history_${type}`;
+    let hist = JSON.parse(localStorage.getItem(key) || '[]');
+    hist = hist.filter(h => h.toLowerCase() !== query.toLowerCase());
+    hist.unshift(query.trim());
+    if (hist.length > 8) hist = hist.slice(0, 8);
+    localStorage.setItem(key, JSON.stringify(hist));
+    renderUserHistory();
+  }
+  function renderUserHistory() {
+    const box = document.getElementById('userHistoryBox');
+    const chips = document.getElementById('historyChips');
+    if (!box || !chips) return;
+    const roster = JSON.parse(localStorage.getItem('mamc_history_roster') || '[]');
+    const lab = JSON.parse(localStorage.getItem('mamc_history_lab') || '[]');
+    const faq = JSON.parse(localStorage.getItem('mamc_history_faq') || '[]');
+    const all = [...new Set([...roster, ...lab, ...faq])].slice(0, 10);
+    if (all.length === 0) { chips.innerHTML = '<span style="color:var(--text-muted);font-size:12px">No recent searches yet</span>'; return; }
+    chips.innerHTML = all.map(q => `<span class="history-chip" onclick="applyHistory('${q.replace(/'/g, "\\'")}')">${q}</span>`).join('');
+  }
+  function applyHistory(q) {
+    const activeTab = document.querySelector('.tab-btn.active');
+    if (!activeTab) return;
+    if (activeTab.textContent.includes('Roster')) { document.getElementById('universalPersonInput').value = q; executeSmartSearch(); }
+    else if (activeTab.textContent.includes('Labs')) { document.getElementById('labSearch').value = q; searchLabTests(); }
+    else if (activeTab.textContent.includes('FAQs')) { document.getElementById('faqSearchInput').value = q; renderFaqs(); }
+  }
+  function clearSearchHistory() {
+    ['roster', 'lab', 'faq'].forEach(t => localStorage.removeItem(`mamc_history_${t}`));
+    renderUserHistory();
+  }
+
+  // ========== FAQ FUNCTIONS ==========
+  function highlightText(text, query) {
+    if (!query) return text;
+    const esc = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    return text.replace(new RegExp(`(${esc})`, 'gi'), '<mark class="faq-highlight">$1</mark>');
+  }
+  function renderFaqs() {
+    const query = (document.getElementById('faqSearchInput')?.value || '').toLowerCase().trim();
+    const container = document.getElementById('faqResults');
+    const countEl = document.getElementById('faqMatchCount');
+    if (!container) return;
+    if (typeof faqData === 'undefined' || !faqData || faqData.length === 0) {
+      container.innerHTML = '<div class="faq-empty"><p>FAQ data not loaded yet.<br>Add <code>data/data_faqs.js</code> and set <code>const faqData = [...]</code>.</p></div>';
+      if (countEl) countEl.textContent = '';
+      return;
+    }
+    let filtered = faqData;
+    if (query) {
+      filtered = faqData.filter(item => {
+        const s = (item.question + ' ' + (item.tags || []).join(' ') + ' ' + item.category + ' ' + (item.answer || '').replace(/<[^>]+>/g, ' ')).toLowerCase();
+        return s.includes(query);
+      });
+    }
+    if (countEl) countEl.textContent = query ? `${filtered.length} result${filtered.length !== 1 ? 's' : ''} found` : `${faqData.length} SOPs available`;
+    if (filtered.length === 0) {
+      container.innerHTML = `<div class="faq-empty"><p>No SOP found for “<strong>${query}</strong>”.</p></div>`;
+      return;
+    }
+    const groups = {};
+    filtered.forEach(item => { if (!groups[item.category]) groups[item.category] = []; groups[item.category].push(item); });
+    const order = ["Emergency & Critical Workflows", "Special Forms & Requisitions", "Blood Bank", "Radiology & Cardiology"];
+    let html = '', firstOpen = false;
+    order.forEach(cat => {
+      if (!groups[cat] || !groups[cat].length) return;
+      html += `<div class="faq-category"><div class="faq-category-header"><span>${getCategoryIcon(cat)}</span><span>${cat}</span><span class="badge badge-sub" style="margin-left:auto;font-size:11px">${groups[cat].length}</span></div>`;
+      groups[cat].forEach(item => {
+        const open = query && !firstOpen;
+        if (open) firstOpen = true;
+        html += `<details class="faq-item" ${open ? 'open' : ''}><summary><span style="flex:1">${item.urgent ? '<span class="badge badge-urgent" style="margin-right:6px">Urgent</span>' : ''}${highlightText(item.question, query)}</span></summary><div class="faq-answer">${item.answer || ''}<div class="faq-actions"><button onclick="copyFaqAnswer('${item.id}',this)">📋 Copy Answer</button></div></div></details>`;
+      });
+      html += '</div>';
+    });
+    container.innerHTML = html;
+  }
+  function getCategoryIcon(cat) {
+    if (cat.includes('Emergency')) return '🚨';
+    if (cat.includes('Special')) return '📄';
+    if (cat.includes('Blood')) return '🩸';
+    if (cat.includes('Radiology')) return '📷';
+    return '📁';
+  }
+  function expandAllFaqs() { document.querySelectorAll('#faqResults details.faq-item').forEach(d => d.open = true); }
+  function collapseAllFaqs() { document.querySelectorAll('#faqResults details.faq-item').forEach(d => d.open = false); }
+  function copyFaqAnswer(id, btn) {
+    const item = faqData.find(f => f.id === id);
+    if (!item) return;
+    const temp = document.createElement('div');
+    temp.innerHTML = item.answer || '';
+    navigator.clipboard.writeText(`${item.question}\n\n${(temp.textContent || '').trim()}`);
+    const old = btn.textContent;
+    btn.textContent = '✅ Copied!';
+    setTimeout(() => btn.textContent = old, 1500);
+  }
+
+  // ========== CORE HELPERS ==========
+  function getCoInternsNames(coSnos, userDept, selectedDate, currentSearchedSno) {
+    if (!coSnos || coSnos.length === 0) return "";
+    const isNightDuty = userDept && userDept.toLowerCase().includes("night");
+    const currentSnoNum = Number(currentSearchedSno);
+    const wardPartners = coSnos.map(sno => {
       let displayName = "";
       const isNum = !isNaN(sno);
-
       if (isNum) {
         const intern = interns.find(i => Number(i.sno) === Number(sno));
         displayName = intern ? `${intern.name} (S.No ${sno})` : `S.No ${sno}`;
-      } else {
-        displayName = sno; // Handles repeater/named strings
-      }
-
+      } else displayName = sno;
       const isCurrent = isNum && Number(sno) === currentSnoNum;
-      return `
-        <span class="partner-chip" ${isCurrent ? 'style="background:rgba(34,197,94,0.3); border-color:#22c55e;"' : ''}>
-          ${displayName}
-        </span>
-      `;
+      return `<span class="partner-chip" ${isCurrent ? 'style="background:rgba(34,197,94,0.3); border-color:#22c55e;"' : ''}>${displayName}</span>`;
     }).join('');
-
-  let resultHtml = `
-    <div class="duty-roster-box">
-      <div class="ward-team-card">
-        <div class="ward-team-header">👥 Co-Interns on Duty (${coSnos.length}):</div>
-        <div class="partner-pills">${wardPartners}</div>
-      </div>
-  `;
-
-  // 2. Full Hospital Night Duty Roster (Supports S.No > 50 and named strings)
-  if (isNightDuty && typeof burariDailyRoster !== 'undefined' && burariDailyRoster[selectedDate]) {
-    const dayData = burariDailyRoster[selectedDate];
-    const nightInterns = [];
-
-    for (const [snoStr, info] of Object.entries(dayData)) {
-      if (info.dept && info.dept.toLowerCase().includes("night")) {
-        const isNum = !isNaN(snoStr);
-        const snoNum = isNum ? Number(snoStr) : null;
-        let internName = snoStr;
-
-        if (isNum) {
-          const intern = interns.find(i => Number(i.sno) === snoNum);
-          internName = intern ? `${intern.name} (#${snoNum})` : `S.No ${snoNum}`;
+    let resultHtml = `<div class="duty-roster-box"><div class="ward-team-card"><div class="ward-team-header">👥 Co-Interns on Duty (${coSnos.length}):</div><div class="partner-pills">${wardPartners}</div></div>`;
+    if (isNightDuty && typeof burariDailyRoster !== 'undefined' && burariDailyRoster[selectedDate]) {
+      const dayData = burariDailyRoster[selectedDate];
+      const nightInterns = [];
+      for (const [snoStr, info] of Object.entries(dayData)) {
+        if (info.dept && info.dept.toLowerCase().includes("night")) {
+          const isNum = !isNaN(snoStr);
+          const snoNum = isNum ? Number(snoStr) : null;
+          let internName = snoStr;
+          if (isNum) {
+            const intern = interns.find(i => Number(i.sno) === snoNum);
+            internName = intern ? `${intern.name} (#${snoNum})` : `S.No ${snoNum}`;
+          }
+          nightInterns.push({ sno: isNum ? snoNum : snoStr, displayName: internName, dept: info.dept, isCurrent: isNum && snoNum === currentSnoNum });
         }
-
-        nightInterns.push({
-          sno: isNum ? snoNum : snoStr,
-          displayName: internName,
-          dept: info.dept,
-          isCurrent: isNum && snoNum === currentSnoNum
-        });
+      }
+      if (nightInterns.length > 0) {
+        resultHtml += `<div class="night-roster-card"><div class="night-roster-header">🌙 Everyone on Night Duty Today (${nightInterns.length}):</div><div class="duty-grid">${nightInterns.map(item => `<div class="duty-item ${item.isCurrent ? 'active-user' : ''}"><span><strong>${item.displayName}</strong></span><span class="duty-dept-tag">${item.dept.replace(/night/i, '').trim()}</span></div>`).join('')}</div></div>`;
       }
     }
-
-    if (nightInterns.length > 0) {
-      resultHtml += `
-        <div class="night-roster-card">
-          <div class="night-roster-header">🌙 Everyone on Night Duty Today (${nightInterns.length}):</div>
-          <div class="duty-grid">
-            ${nightInterns.map(item => `
-              <div class="duty-item ${item.isCurrent ? 'active-user' : ''}">
-                <span><strong>${item.displayName}</strong></span>
-                <span class="duty-dept-tag">${item.dept.replace(/night/i, '').trim()}</span>
-              </div>
-            `).join('')}
-          </div>
-        </div>
-      `;
-    }
+    resultHtml += `</div>`;
+    return resultHtml;
   }
-
-  resultHtml += `</div>`;
-  return resultHtml;
-}
-
   function getPostingForSubdivision(subdiv, weekNum) {
     const weekKey = `Week${weekNum}`;
     return subdivisionRoster[subdiv]?.[weekKey] || 'General Duty';
   }
-
   function getSpecialUnitInfo(sno, dateStr) {
     if (typeof specialUnitRoster === 'undefined' || !specialUnitRoster || !dateStr || !sno) return null;
     return specialUnitRoster.find(r => Number(r.sno) === Number(sno) && dateStr >= r.start && dateStr <= r.end) || null;
   }
-
   function formatDateShort(dateStr) {
     if (!dateStr) return "";
     const [year, month, day] = dateStr.split("-");
     return `${day}/${month}/${year.slice(2)}`;
   }
-
-  /** Daily Burari duties for a student across a week range (inclusive). */
   function getBurariDutiesForWeek(sno, weekStart, weekEnd) {
     if (typeof burariDailyRoster === 'undefined' || !burariDailyRoster || !sno || !weekStart || !weekEnd) return [];
     const duties = [];
@@ -559,20 +682,15 @@
       const dayMap = burariDailyRoster[dateStr];
       if (dayMap) {
         const info = dayMap[snoKey] || dayMap[snoNum] || dayMap[sno];
-        if (info && info.dept) {
-          duties.push({ date: dateStr, dept: info.dept, co_snos: info.co_snos || [] });
-        }
+        if (info && info.dept) duties.push({ date: dateStr, dept: info.dept, co_snos: info.co_snos || [] });
       }
       cur.setDate(cur.getDate() + 1);
     }
     return duties;
   }
-
   function renderBurariWeekBreakdown(sno, weekStart, weekEnd) {
     const duties = getBurariDutiesForWeek(sno, weekStart, weekEnd);
-    if (!duties.length) {
-      return '<div class="timeline-burari-empty">Daily Burari roster not yet updated for this week</div>';
-    }
+    if (!duties.length) return '<div class="timeline-burari-empty">Daily Burari roster not yet updated for this week</div>';
     const chips = duties.map(du => {
       const low = (du.dept || '').toLowerCase();
       let cls = 'timeline-day-chip';
@@ -582,7 +700,6 @@
     }).join('');
     return `<div class="timeline-burari-days">${chips}</div>`;
   }
-
   function getSelectedWeek() {
     const selectedDate = document.getElementById('dutyDate').value;
     for (let w of weeksData) {
@@ -590,15 +707,13 @@
     }
     return weeksData[0];
   }
-
   function setTodayDate() {
     const today = new Date().toISOString().split('T')[0];
     const dateInput = document.getElementById('dutyDate');
     dateInput.value = (today < "2026-05-23" || today > "2027-05-22") ? "2026-05-23" : today;
     onDateOrSelectionChange();
   }
-
-  window.onload = function() { setTodayDate(); };
+  window.onload = function() { setTodayDate(); renderUserHistory(); };
 
   function onDateOrSelectionChange() {
     if (!document.getElementById('roster-tab')?.classList.contains('hidden')) executeSmartSearch();
@@ -611,9 +726,9 @@
     document.getElementById('roster-tab')?.classList.add('hidden');
     document.getElementById('schedule-tab')?.classList.add('hidden');
     document.getElementById('lab-tab')?.classList.add('hidden');
+    document.getElementById('faq-tab')?.classList.add('hidden');
     document.getElementById('guides-tab')?.classList.add('hidden');
     const dateCard = document.getElementById('date-card');
-
     if (tab === 'roster') {
       document.querySelectorAll('.tab-btn')[0]?.classList.add('active');
       document.getElementById('roster-tab')?.classList.remove('hidden');
@@ -629,14 +744,20 @@
       document.getElementById('lab-tab')?.classList.remove('hidden');
       if (dateCard) dateCard.classList.add('hidden');
       searchLabTests();
-    } else if (tab === 'guides') {
+    } else if (tab === 'faq') {
       document.querySelectorAll('.tab-btn')[3]?.classList.add('active');
+      document.getElementById('faq-tab')?.classList.remove('hidden');
+      if (dateCard) dateCard.classList.add('hidden');
+      renderFaqs();
+    } else if (tab === 'guides') {
+      document.querySelectorAll('.tab-btn')[4]?.classList.add('active');
       document.getElementById('guides-tab')?.classList.remove('hidden');
       if (dateCard) dateCard.classList.add('hidden');
       if (clinicalGuidesData.length === 0) fetchClinicalGuides();
     }
   }
 
+  // ========== ROSTER SEARCH ==========
   function executeSmartSearch() {
     const personQuery = document.getElementById('universalPersonInput')?.value.toLowerCase().trim() || "";
     const deptQuery = document.getElementById('universalDeptSelect')?.value || "";
@@ -644,222 +765,84 @@
     const resDiv = document.getElementById('smartSearchResults');
     if (!resDiv) return;
     const weekInfo = getSelectedWeek();
-
     if (!personQuery && !deptQuery) {
-      resDiv.innerHTML = '<p style="padding: 16px; color: var(--text-muted); text-align:center;">Type an intern name/S.No or select a department to see postings.</p>';
+      resDiv.innerHTML = '<p style="padding:16px;color:var(--text-muted);text-align:center">Type an intern name/S.No or select a department to see postings.</p>';
       return;
     }
-
     if (personQuery && deptQuery) {
       const matchedInterns = interns.filter(i => i.name.toLowerCase().includes(personQuery) || i.roll.includes(personQuery) || i.batch.toLowerCase() === personQuery || i.sno.toString() === personQuery);
       if (matchedInterns.length === 0) {
-        resDiv.innerHTML = `<p style="padding: 16px; color: var(--text-muted); text-align:center;">No intern matching "<strong>${personQuery}</strong>" found.</p>`;
+        resDiv.innerHTML = `<p style="padding:16px;color:var(--text-muted);text-align:center">No intern matching "<strong>${personQuery}</strong>" found.</p>`;
         return;
       }
-
       let html = '';
       matchedInterns.forEach(student => {
         const matchingWeeks = weeksData.filter(w => getPostingForSubdivision(student.batch, w.wk).toLowerCase() === deptQuery.toLowerCase());
         if (matchingWeeks.length === 0) {
-          html += `<div class="result-card" style="padding: 16px;"><h3>${student.name} (S.No ${student.sno} • Subdivision ${student.batch})</h3><p style="color: var(--text-muted); margin-top: 6px;">Not posted in <strong>${deptQuery}</strong> during the 2026–2027 internship year.</p></div>`;
+          html += `<div class="result-card" style="padding:16px"><h3>${student.name} (S.No ${student.sno} • Subdivision ${student.batch})</h3><p style="color:var(--text-muted);margin-top:6px">Not posted in <strong>${deptQuery}</strong> during the 2026–2027 internship year.</p></div>`;
           return;
         }
-
-        html += `
-          <div class="result-card">
-            <div class="result-card-header">
-              <h3>👤 ${student.name} &nbsp;➔&nbsp; 🏥 ${deptQuery}</h3>
-              <span class="badge badge-sub">Batch ${student.batch} • S.No ${student.sno}</span>
-            </div>
-            <div class="result-card-meta">Posted in <strong>${deptQuery}</strong> for <strong>${matchingWeeks.length} week(s)</strong>:</div>
-            <div class="result-card-body">
-        `;
-
+        html += `<div class="result-card"><div class="result-card-header"><h3>👤 ${student.name} &nbsp;➔&nbsp; 🏥 ${deptQuery}</h3><span class="badge badge-sub">Batch ${student.batch} • S.No ${student.sno}</span></div><div class="result-card-meta">Posted in <strong>${deptQuery}</strong> for <strong>${matchingWeeks.length} week(s)</strong>:</div><div class="result-card-body">`;
         matchingWeeks.forEach(w => {
           const unitInfo = getSpecialUnitInfo(student.sno, w.start);
           const currentUnitName = unitInfo ? unitInfo.unit : null;
           const activeSubdivisions = [];
-          ['A', 'B', 'C', 'D'].forEach(g => {
-            for (let i = 1; i <= 12; i++) {
-              const sub = g + i;
-              if (getPostingForSubdivision(sub, w.wk).toLowerCase() === deptQuery.toLowerCase()) activeSubdivisions.push(sub);
-            }
-          });
-
+          ['A', 'B', 'C', 'D'].forEach(g => { for (let i = 1; i <= 12; i++) { const sub = g + i; if (getPostingForSubdivision(sub, w.wk).toLowerCase() === deptQuery.toLowerCase()) activeSubdivisions.push(sub); } });
           const allDeptInterns = interns.filter(i => activeSubdivisions.includes(i.batch));
           const sameUnitPartners = currentUnitName ? allDeptInterns.filter(i => getSpecialUnitInfo(i.sno, w.start)?.unit === currentUnitName) : [];
-
-          html += `
-            <div class="week-box">
-              <div class="week-box-header">
-                <div>
-                  <span style="font-weight: 800; color: var(--primary); font-size: 14.5px;">🗓️ Week ${w.wk}</span>
-                  <span style="font-size: 12.5px; color: var(--text-muted); margin-left: 6px;">(${formatDateShort(w.start)} – ${formatDateShort(w.end)})</span>
-                </div>
-                ${unitInfo ? `<span class="badge badge-unit">${unitInfo.unit} • ${unitInfo.incharge}</span>` : '<span class="badge badge-sub">General Duty</span>'}
-              </div>
-              ${sameUnitPartners.length > 0 ? `
-                <div class="unit-partner-section">
-                  <div style="font-size: 12px; font-weight: 700; color: #16a34a;">🤝 Posted in ${currentUnitName} with ${student.name.split(' ')[0]} (${sameUnitPartners.length}):</div>
-                  <div class="partner-pills">
-                    ${sameUnitPartners.map(p => `<span class="partner-chip" ${p.sno === student.sno ? 'style="background:rgba(34,197,94,0.3); border-color:#22c55e;"' : ''}>${p.name} <span style="font-size: 10.5px; opacity:0.8;">(S.No ${p.sno})</span></span>`).join('')}
-                  </div>
-                </div>
-              ` : ''}
-              <details class="co-intern-toggle">
-                <summary>👥 View all ${allDeptInterns.length} interns in ${deptQuery} this week</summary>
-                <div class="co-intern-grid">
-                  ${allDeptInterns.map(ci => `<span class="co-intern-chip" ${ci.sno === student.sno ? 'style="background:rgba(56,189,248,0.2); border-color:#38bdf8; font-weight:bold;"' : ''}>${ci.name} (${ci.batch})${getSpecialUnitInfo(ci.sno, w.start) ? ` <strong style="color:#d97706;">[${getSpecialUnitInfo(ci.sno, w.start).unit}]</strong>` : ''}</span>`).join('')}
-                </div>
-              </details>
-            </div>
-          `;
+          html += `<div class="week-box"><div class="week-box-header"><div><span style="font-weight:800;color:var(--primary);font-size:14.5px">🗓️ Week ${w.wk}</span><span style="font-size:12.5px;color:var(--text-muted);margin-left:6px">(${formatDateShort(w.start)} – ${formatDateShort(w.end)})</span></div>${unitInfo ? `<span class="badge badge-unit">${unitInfo.unit} • ${unitInfo.incharge}</span>` : '<span class="badge badge-sub">General Duty</span>'}</div>`;
+          if (sameUnitPartners.length > 0) html += `<div class="unit-partner-section"><div style="font-size:12px;font-weight:700;color:#16a34a">🤝 Posted in ${currentUnitName} with ${student.name.split(' ')[0]} (${sameUnitPartners.length}):</div><div class="partner-pills">${sameUnitPartners.map(p => `<span class="partner-chip" ${p.sno === student.sno ? 'style="background:rgba(34,197,94,0.3);border-color:#22c55e"' : ''}>${p.name} <span style="font-size:10.5px;opacity:0.8">(S.No ${p.sno})</span></span>`).join('')}</div></div>`;
+          html += `<details class="co-intern-toggle"><summary>👥 View all ${allDeptInterns.length} interns in ${deptQuery} this week</summary><div class="co-intern-grid">${allDeptInterns.map(ci => `<span class="co-intern-chip" ${ci.sno === student.sno ? 'style="background:rgba(56,189,248,0.2);border-color:#38bdf8;font-weight:bold"' : ''}>${ci.name} (${ci.batch})${getSpecialUnitInfo(ci.sno, w.start) ? ` <strong style="color:#d97706">[${getSpecialUnitInfo(ci.sno, w.start).unit}]</strong>` : ''}</span>`).join('')}</div></details></div>`;
         });
         html += `</div></div>`;
       });
       resDiv.innerHTML = html;
       return;
     }
-
     if (!personQuery && deptQuery) {
       const activeSubdivisions = [];
-      ['A', 'B', 'C', 'D'].forEach(g => {
-        for (let i = 1; i <= 12; i++) {
-          const sub = g + i;
-          if (getPostingForSubdivision(sub, weekInfo.wk).toLowerCase() === deptQuery.toLowerCase()) activeSubdivisions.push(sub);
-        }
-      });
-
+      ['A', 'B', 'C', 'D'].forEach(g => { for (let i = 1; i <= 12; i++) { const sub = g + i; if (getPostingForSubdivision(sub, weekInfo.wk).toLowerCase() === deptQuery.toLowerCase()) activeSubdivisions.push(sub); } });
       const activeInterns = interns.filter(i => activeSubdivisions.includes(i.batch)).sort((a, b) => a.sno - b.sno);
       const hasAnyUnit = activeInterns.some(i => getSpecialUnitInfo(i.sno, selectedDate));
-
-      let html = `
-        <div class="result-card" style="margin-bottom: 16px;">
-          <div class="schedule-header">🏥 ${deptQuery} Roster</div>
-          <div style="padding: 14px 18px;">
-            <div style="font-size: 13.5px; color: var(--text-muted); margin-bottom: 8px;"><strong>Week ${weekInfo.wk}</strong> • ${formatDateShort(weekInfo.start)} to ${formatDateShort(weekInfo.end)}</div>
-            <div style="display: flex; flex-wrap: wrap; gap: 6px; align-items: center;">
-              <span style="font-weight: 700; font-size: 13px; color: var(--text);">Active Subdivisions:</span>
-              ${activeSubdivisions.length > 0 ? activeSubdivisions.map(s => `<span class="badge badge-sub">${s}</span>`).join('') : '<span style="color:var(--text-muted);">None</span>'}
-            </div>
-          </div>
-        </div>
-      `;
-
-      if (activeInterns.length === 0) {
-        html += `<p style="padding: 16px; color: var(--text-muted); text-align:center;">No interns are posted in ${deptQuery} during Week ${weekInfo.wk}.</p>`;
-      } else {
-        html += `
-          <div class="result-card" style="overflow:hidden;">
-            <table style="margin-top:0; border:none;">
-              <thead>
-                <tr><th>S.No</th><th>Roll No</th><th>Name</th><th>Subdivision</th>${hasAnyUnit ? '<th>Unit</th><th>Incharge</th>' : ''}</tr>
-              </thead>
-              <tbody>
-                ${activeInterns.map(i => {
-                  const unitInfo = getSpecialUnitInfo(i.sno, selectedDate);
-                  return `
-                    <tr>
-                      <td>${i.sno}</td><td>${i.roll}</td><td><b>${i.name}</b></td><td><span class="badge badge-sub">${i.batch}</span></td>
-                      ${hasAnyUnit ? `<td>${unitInfo ? `<span class="badge badge-unit">${unitInfo.unit}</span>` : '—'}</td><td style="font-size:12.5px; color:var(--text-muted);">${unitInfo ? unitInfo.incharge : '—'}</td>` : ''}
-                    </tr>
-                  `;
-                }).join('')}
-              </tbody>
-            </table>
-          </div>
-        `;
-      }
+      let html = `<div class="result-card" style="margin-bottom:16px"><div class="schedule-header">🏥 ${deptQuery} Roster</div><div style="padding:14px 18px"><div style="font-size:13.5px;color:var(--text-muted);margin-bottom:8px"><strong>Week ${weekInfo.wk}</strong> • ${formatDateShort(weekInfo.start)} to ${formatDateShort(weekInfo.end)}</div><div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center"><span style="font-weight:700;font-size:13px;color:var(--text)">Active Subdivisions:</span>${activeSubdivisions.length > 0 ? activeSubdivisions.map(s => `<span class="badge badge-sub">${s}</span>`).join('') : '<span style="color:var(--text-muted)">None</span>'}</div></div></div>`;
+      if (activeInterns.length === 0) html += `<p style="padding:16px;color:var(--text-muted);text-align:center">No interns are posted in ${deptQuery} during Week ${weekInfo.wk}.</p>`;
+      else html += `<div class="result-card" style="overflow:hidden"><table style="margin-top:0;border:none"><thead><tr><th>S.No</th><th>Roll No</th><th>Name</th><th>Subdivision</th>${hasAnyUnit ? '<th>Unit</th><th>Incharge</th>' : ''}</tr></thead><tbody>${activeInterns.map(i => { const unitInfo = getSpecialUnitInfo(i.sno, selectedDate); return `<tr><td>${i.sno}</td><td>${i.roll}</td><td><b>${i.name}</b></td><td><span class="badge badge-sub">${i.batch}</span></td>${hasAnyUnit ? `<td>${unitInfo ? `<span class="badge badge-unit">${unitInfo.unit}</span>` : '—'}</td><td style="font-size:12.5px;color:var(--text-muted)">${unitInfo ? unitInfo.incharge : '—'}</td>` : ''}</tr>`; }).join('')}</tbody></table></div>`;
       resDiv.innerHTML = html;
       return;
     }
-
     if (personQuery && !deptQuery) {
       const matches = interns.filter(i => i.name.toLowerCase().includes(personQuery) || i.roll.includes(personQuery) || i.batch.toLowerCase() === personQuery || i.sno.toString() === personQuery);
       if (matches.length === 0) {
-        resDiv.innerHTML = '<p style="padding:16px; color:var(--text-muted); text-align:center;">No interns found matching your search.</p>';
+        resDiv.innerHTML = '<p style="padding:16px;color:var(--text-muted);text-align:center">No interns found matching your search.</p>';
         return;
       }
-
       let html = '';
       matches.forEach(student => {
         let activePosting = getPostingForSubdivision(student.batch, weekInfo.wk);
         let burariDutyInfo = null, peripheryInfo = null, isPDO = false;
         const studentSno = Number(student.sno);
-
         if (typeof burariDailyRoster !== 'undefined' && burariDailyRoster[selectedDate]?.[studentSno]) burariDutyInfo = burariDailyRoster[selectedDate][studentSno];
         if (!burariDutyInfo && typeof burariDailyRoster !== 'undefined') {
           const prevDate = new Date(selectedDate);
           prevDate.setDate(prevDate.getDate() - 1);
           if (burariDailyRoster[prevDate.toISOString().split('T')[0]]?.[studentSno]?.dept?.toLowerCase().includes("night")) isPDO = true;
         }
-
         if (!burariDutyInfo && !isPDO && typeof peripheryRosterMap !== 'undefined' && peripheryRosterMap[student.batch]) {
           const pMatch = peripheryRosterMap[student.batch].find(p => selectedDate >= p.start && selectedDate <= p.end);
           if (pMatch) peripheryInfo = pMatch.center;
         }
-
         let displayDuty = activePosting;
         if (burariDutyInfo) displayDuty = `PSM - ${burariDutyInfo.dept}`;
         else if (isPDO) displayDuty = `PSM - PDO (Post Duty Off)`;
         else if (peripheryInfo) displayDuty = `PSM (${peripheryInfo.toUpperCase()})`;
-
         const unitInfo = getSpecialUnitInfo(student.sno, selectedDate);
-        const unitBadgeHtml = unitInfo ? `<span class="badge badge-unit" style="margin-left:8px;">${unitInfo.unit}</span><span style="font-size:11.5px; color:var(--text-muted); margin-left:6px;">(${unitInfo.incharge})</span>` : '';
-
-        html += `
-          <div class="result-card">
-            <div class="result-card-header">
-              <h3>${student.name}</h3>
-              <span class="badge badge-sub">Subdivision ${student.batch}</span>
-            </div>
-            <div class="result-card-meta"><strong>Roll No:</strong> ${student.roll} &nbsp;•&nbsp; <strong>S.No:</strong> ${student.sno}</div>
-            <div class="result-card-body">
-              <div class="posting-chip">
-                📍 <div>
-                  <div style="font-size:12px; font-weight:600; opacity:0.85; margin-bottom:2px;">Posting on ${formatDateShort(selectedDate)}</div>
-                  <div style="font-size:15.5px; font-weight:800; display:flex; align-items:center; flex-wrap:wrap; gap:4px;">${displayDuty}${unitBadgeHtml}</div>
-                  <div style="font-size:12px; font-weight:500; opacity:0.75; margin-top:2px;">Week ${weekInfo.wk} • ${weekInfo.block}</div>
-                </div>
-              </div>
-              
-              <!-- Clean Modular Duty & Night Team Layout -->
-              ${burariDutyInfo ? getCoInternsNames(burariDutyInfo.co_snos, burariDutyInfo.dept, selectedDate, studentSno) : ''}
-
-              <details class="roster-timeline-details" style="margin-top: 14px;" data-focus-week="${weekInfo.wk}">
-                <summary>▶ View 52-Week Full Roster Timeline</summary>
-                <p class="timeline-hint">Showing from Week ${weekInfo.wk} (selected date). Scroll up/down for other weeks.</p>
-                <div class="timeline-scroll">
-                  <table>
-                    <thead><tr><th>Wk</th><th>Date Range</th><th>Department Posting</th></tr></thead>
-                    <tbody>
-                      ${weeksData.map(w => {
-                        const post = getPostingForSubdivision(student.batch, w.wk);
-                        const isSelected = w.wk === weekInfo.wk;
-                        let timelineDisplay = post;
-                        const weekUnit = getSpecialUnitInfo(studentSno, w.start);
-                        if (weekUnit && weekUnit.dept.toLowerCase() === post.toLowerCase()) timelineDisplay = `<b>${post} (${weekUnit.unit})</b><br><span style="font-size:11px; color:var(--text-muted);">${weekUnit.incharge}</span>`;
-                        // Extra: for PSM / Burari weeks, show daily duties when roster exists
-                        const isPsmWeek = (post || '').toLowerCase().includes('psm') || (post || '').toLowerCase().includes('community');
-                        if (isPsmWeek) {
-                          timelineDisplay = `<div style="font-weight:800;">${timelineDisplay}</div>` + renderBurariWeekBreakdown(studentSno, w.start, w.end);
-                        }
-                        return `<tr class="${isSelected ? 'selected-week-row' : ''}" data-week="${w.wk}"><td>W${w.wk}</td><td>${formatDateShort(w.start)} to ${formatDateShort(w.end)}</td><td>${timelineDisplay}</td></tr>`;
-                      }).join('')}
-                    </tbody>
-                  </table>
-                </div>
-              </details>
-            </div>
-          </div>
-        `;
+        const unitBadgeHtml = unitInfo ? `<span class="badge badge-unit" style="margin-left:8px">${unitInfo.unit}</span><span style="font-size:11.5px;color:var(--text-muted);margin-left:6px">(${unitInfo.incharge})</span>` : '';
+        html += `<div class="result-card"><div class="result-card-header"><h3>${student.name}</h3><span class="badge badge-sub">Subdivision ${student.batch}</span></div><div class="result-card-meta"><strong>Roll No:</strong> ${student.roll} &nbsp;•&nbsp; <strong>S.No:</strong> ${student.sno}</div><div class="result-card-body"><div class="posting-chip">📍 <div><div style="font-size:12px;font-weight:600;opacity:0.85;margin-bottom:2px">Posting on ${formatDateShort(selectedDate)}</div><div style="font-size:15.5px;font-weight:800;display:flex;align-items:center;flex-wrap:wrap;gap:4px">${displayDuty}${unitBadgeHtml}</div><div style="font-size:12px;font-weight:500;opacity:0.75;margin-top:2px">Week ${weekInfo.wk} • ${weekInfo.block}</div></div></div>${burariDutyInfo ? getCoInternsNames(burariDutyInfo.co_snos, burariDutyInfo.dept, selectedDate, studentSno) : ''}<details class="roster-timeline-details" style="margin-top:14px" data-focus-week="${weekInfo.wk}"><summary>▶ View 52-Week Full Roster Timeline</summary><p class="timeline-hint">Showing from Week ${weekInfo.wk} (selected date). Scroll up/down for other weeks.</p><div class="timeline-scroll"><table><thead><tr><th>Wk</th><th>Date Range</th><th>Department Posting</th></tr></thead><tbody>${weeksData.map(w => { const post = getPostingForSubdivision(student.batch, w.wk); const isSelected = w.wk === weekInfo.wk; let timelineDisplay = post; const weekUnit = getSpecialUnitInfo(studentSno, w.start); if (weekUnit && weekUnit.dept.toLowerCase() === post.toLowerCase()) timelineDisplay = `<b>${post} (${weekUnit.unit})</b><br><span style="font-size:11px;color:var(--text-muted)">${weekUnit.incharge}</span>`; const isPsmWeek = (post || '').toLowerCase().includes('psm') || (post || '').toLowerCase().includes('community'); if (isPsmWeek) timelineDisplay = `<div style="font-weight:800">${timelineDisplay}</div>` + renderBurariWeekBreakdown(studentSno, w.start, w.end); return `<tr class="${isSelected ? 'selected-week-row' : ''}" data-week="${w.wk}"><td>W${w.wk}</td><td>${formatDateShort(w.start)} to ${formatDateShort(w.end)}</td><td>${timelineDisplay}</td></tr>`; }).join('')}</tbody></table></div></details></div></div>`;
       });
       resDiv.innerHTML = html;
-      // Auto-scroll each 52-week timeline to the selected week when opened
       resDiv.querySelectorAll('details.roster-timeline-details').forEach(det => {
-        det.addEventListener('toggle', function onTimelineToggle() {
+        det.addEventListener('toggle', function() {
           if (!det.open) return;
-          // Wait for expand layout, then smoothly place selected week near top
           const scrollToSelected = () => {
             const scrollBox = det.querySelector('.timeline-scroll');
             const row = det.querySelector('tr.selected-week-row');
@@ -874,24 +857,22 @@
     }
   }
 
+  // ========== SCHEDULE ==========
   function onScheduleSearchInput() {
     const query = document.getElementById('scheduleSearch').value.toLowerCase().trim();
     if (query) document.getElementById('deptScheduleSelect').value = "";
     renderScheduleResults();
   }
-
   function onScheduleSelectChange() {
     const selectVal = document.getElementById('deptScheduleSelect').value;
     if (selectVal) document.getElementById('scheduleSearch').value = "";
     renderScheduleResults();
   }
-
   function renderScheduleResults() {
     const query = document.getElementById('scheduleSearch').value.toLowerCase().trim();
     const categoryId = document.getElementById('deptScheduleSelect').value;
     const resDiv = document.getElementById('scheduleResults');
     if (!resDiv) return;
-
     if (query) {
       const matches = [];
       deptSchedules.forEach(category => {
@@ -901,61 +882,35 @@
           }
         });
       });
-
       if (matches.length === 0) {
-        resDiv.innerHTML = '<p style="padding: 16px; color: var(--text-muted); text-align:center;">No matching facility, room, or clinic found.</p>';
+        resDiv.innerHTML = '<p style="padding:16px;color:var(--text-muted);text-align:center">No matching facility, room, or clinic found.</p>';
         return;
       }
-
-      resDiv.innerHTML = `
-        <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 12px;">Found <strong>${matches.length}</strong> matching entries</p>
-        <div class="result-card" style="overflow:hidden;">
-          <table style="margin-top:0; border:none;">
-            <thead><tr><th>Unit / Specialty</th><th>OPD / Duty Days</th><th>Location (Room No.)</th></tr></thead>
-            <tbody>
-              ${matches.map(m => `<tr><td><b style="font-size:14px;">${m.title}</b><br><span style="font-size: 11.5px; color: var(--text-muted);">${m.deptCategory}</span></td><td><span class="badge badge-days">${m.days}</span></td><td style="font-size:13px;">${m.location}</td></tr>`).join('')}
-            </tbody>
-          </table>
-        </div>
-      `;
+      resDiv.innerHTML = `<p style="color:var(--text-muted);font-size:13px;margin-bottom:12px">Found <strong>${matches.length}</strong> matching entries</p><div class="result-card" style="overflow:hidden"><table style="margin-top:0;border:none"><thead><tr><th>Unit / Specialty</th><th>OPD / Duty Days</th><th>Location (Room No.)</th></tr></thead><tbody>${matches.map(m => `<tr><td><b style="font-size:14px">${m.title}</b><br><span style="font-size:11.5px;color:var(--text-muted)">${m.deptCategory}</span></td><td><span class="badge badge-days">${m.days}</span></td><td style="font-size:13px">${m.location}</td></tr>`).join('')}</tbody></table></div>`;
       return;
     }
-
     if (categoryId) {
       const category = deptSchedules.find(c => c.id === categoryId);
       if (!category) {
-        resDiv.innerHTML = '<p style="padding:16px; color:var(--text-muted);">Details for this category will be updated soon.</p>';
+        resDiv.innerHTML = '<p style="padding:16px;color:var(--text-muted)">Details for this category will be updated soon.</p>';
         return;
       }
-
-      resDiv.innerHTML = `
-        <div class="result-card" style="overflow:hidden; margin-bottom: 0;">
-          <div class="schedule-header">${category.name}</div>
-          <table style="margin-top:0; border:none;">
-            <thead><tr><th>Unit / Special Clinic</th><th>OPD Days</th><th>Location (Room No.)</th></tr></thead>
-            <tbody>
-              ${category.units.map(u => `<tr><td><b style="font-size:14px;">${u.title}</b></td><td><span class="badge badge-days">${u.days}</span></td><td style="font-size:13px;">${u.location}</td></tr>`).join('')}
-            </tbody>
-          </table>
-        </div>
-      `;
+      resDiv.innerHTML = `<div class="result-card" style="overflow:hidden;margin-bottom:0"><div class="schedule-header">${category.name}</div><table style="margin-top:0;border:none"><thead><tr><th>Unit / Special Clinic</th><th>OPD Days</th><th>Location (Room No.)</th></tr></thead><tbody>${category.units.map(u => `<tr><td><b style="font-size:14px">${u.title}</b></td><td><span class="badge badge-days">${u.days}</span></td><td style="font-size:13px">${u.location}</td></tr>`).join('')}</tbody></table></div>`;
       return;
     }
     resDiv.innerHTML = '';
   }
-
   function searchDeptSchedule() { renderScheduleResults(); }
 
+  // ========== LABS ==========
   function searchLabTests() {
     const searchInput = document.getElementById('labSearch');
     const selectFilter = document.getElementById('labHospitalSelect');
     const resDiv = document.getElementById('labResults');
     if (!resDiv || !selectFilter) return;
-
     const query = searchInput ? searchInput.value.toLowerCase().trim() : "";
     const filterVal = selectFilter.value;
     let filtered = labDirectory;
-
     if (filterVal === "lnjp_all") filtered = filtered.filter(item => item.hospital === "LNJP Hospital Labs");
     else if (filterVal === "gbpant_all") filtered = filtered.filter(item => item.hospital === "GB Pant Hospital Labs");
     else if (filterVal !== "all") {
@@ -967,31 +922,21 @@
         return win.includes(target);
       });
     }
-
     if (query) {
       filtered = filtered.filter(item => item.test.toLowerCase().includes(query) || item.tube.toLowerCase().includes(query) || item.window.toLowerCase().includes(query) || item.days.toLowerCase().includes(query) || item.report.toLowerCase().includes(query) || (item.notes || "").toLowerCase().includes(query));
     }
-
     if (filtered.length === 0) {
-      resDiv.innerHTML = '<p style="padding: 16px; color: var(--text-muted); text-align:center;">No matching lab tests found.</p>';
+      resDiv.innerHTML = '<p style="padding:16px;color:var(--text-muted);text-align:center">No matching lab tests found.</p>';
       return;
     }
-
-    let html = `<p style="color:var(--text-muted); font-size:13px; margin:0 0 12px 0;">Showing <strong>${filtered.length}</strong> test${filtered.length > 1 ? 's' : ''}</p>`;
+    let html = `<p style="color:var(--text-muted);font-size:13px;margin:0 0 12px 0">Showing <strong>${filtered.length}</strong> test${filtered.length > 1 ? 's' : ''}</p>`;
     filtered.forEach(item => {
-      html += `
-        <div class="lab-card">
-          <h4>🧪 ${item.test} <span class="badge badge-lab">${item.hospital}</span></h4>
-          <div class="lab-meta"><span>💉 <strong>Vial:</strong> ${item.tube}</span><span>📍 <strong>Location:</strong> ${item.window}</span></div>
-          <div class="lab-meta"><span>⏰ <strong>Days:</strong> ${item.days}</span><span>📄 <strong>Report:</strong> ${item.report}</span></div>
-          ${item.notes ? `<div class="lab-notes">💡 <strong>Notes:</strong> ${item.notes}</div>` : ''}
-        </div>
-      `;
+      html += `<div class="lab-card"><h4>🧪 ${item.test} <span class="badge badge-lab">${item.hospital}</span></h4><div class="lab-meta"><span>💉 <strong>Vial:</strong> ${item.tube}</span><span>📍 <strong>Location:</strong> ${item.window}</span></div><div class="lab-meta"><span>⏰ <strong>Days:</strong> ${item.days}</span><span>📄 <strong>Report:</strong> ${item.report}</span></div>${item.notes ? `<div class="lab-notes">💡 <strong>Notes:</strong> ${item.notes}</div>` : ''}</div>`;
     });
     resDiv.innerHTML = html;
   }
 
-  // --- CLINICAL GUIDES API & RENDER LOGIC ---
+  // ========== CLINICAL GUIDES ==========
   async function fetchClinicalGuides() {
     const container = document.getElementById("guidesResultsGrid");
     try {
@@ -1002,62 +947,40 @@
         renderClinicalGuides();
       }
     } catch (err) {
-      if (container) container.innerHTML = `<p style="color: var(--text-muted); font-size: 13px;">Failed to load guides. Check Apps Script URL or connection.</p>`;
+      if (container) container.innerHTML = `<p style="color:var(--text-muted);font-size:13px">Failed to load guides. Check Apps Script URL or connection.</p>`;
     }
   }
-
   function renderClinicalGuides() {
     const query = document.getElementById("guideSearchInput")?.value.toLowerCase().trim() || "";
     const deptFilter = document.getElementById("guideDeptSelect")?.value || "all";
     const container = document.getElementById("guidesResultsGrid");
     if (!container) return;
-
     let filtered = clinicalGuidesData;
-    if (deptFilter !== "all") {
-      filtered = filtered.filter(g => g.dept.toLowerCase() === deptFilter.toLowerCase());
-    }
-    if (query) {
-      filtered = filtered.filter(g => g.title.toLowerCase().includes(query) || (g.templateText || "").toLowerCase().includes(query) || g.category.toLowerCase().includes(query));
-    }
-
+    if (deptFilter !== "all") filtered = filtered.filter(g => g.dept.toLowerCase() === deptFilter.toLowerCase());
+    if (query) filtered = filtered.filter(g => g.title.toLowerCase().includes(query) || (g.templateText || "").toLowerCase().includes(query) || g.category.toLowerCase().includes(query));
     if (filtered.length === 0) {
-      container.innerHTML = `<p style="grid-column: 1/-1; text-align:center; padding: 20px; color: var(--text-muted);">No guides found matching criteria.</p>`;
+      container.innerHTML = `<p style="grid-column:1/-1;text-align:center;padding:20px;color:var(--text-muted)">No guides found matching criteria.</p>`;
       return;
     }
-
     container.innerHTML = filtered.map(g => `
-      <div class="result-card" style="padding: 16px; display: flex; flex-direction: column; justify-content: space-between;">
+      <div class="result-card" style="padding:16px;display:flex;flex-direction:column;justify-content:space-between">
         <div>
-          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 8px;">
-            <span class="badge badge-sub" style="font-size: 11px;">${g.dept}</span>
-            <span class="badge badge-unit" style="font-size: 11px;">${g.category}</span>
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:8px">
+            <span class="badge badge-sub" style="font-size:11px">${g.dept}</span>
+            <span class="badge badge-unit" style="font-size:11px">${g.category}</span>
           </div>
-          <h4 style="margin: 0 0 8px 0; font-size: 15px; font-weight: 800; color: var(--text);">${g.title}</h4>
-
-          ${g.imageUrl ? `
-            <div style="border-radius: 10px; overflow: hidden; height: 140px; margin-bottom: 10px; background: var(--box-bg); cursor: pointer; border: 1px solid var(--border);" onclick="openLightbox('${g.imageUrl}')">
-              <img src="${g.imageUrl}" style="width: 100%; height: 100%; object-fit: cover;" loading="lazy">
-            </div>
-          ` : ''}
-
-          ${g.templateText ? `
-            <div style="background: var(--box-bg); padding: 8px 10px; border-radius: 8px; font-size: 12px; color: var(--text); border: 1px dashed var(--border); max-height: 80px; overflow-y: auto; white-space: pre-wrap; margin-bottom: 10px; font-family: monospace;">${g.templateText}</div>
-          ` : ''}
+          <h4 style="margin:0 0 8px 0;font-size:15px;font-weight:800;color:var(--text)">${g.title}</h4>
+          ${g.imageUrl ? `<div style="border-radius:10px;overflow:hidden;height:140px;margin-bottom:10px;background:var(--box-bg);cursor:pointer;border:1px solid var(--border)" onclick="openLightbox('${g.imageUrl}')"><img src="${g.imageUrl}" style="width:100%;height:100%;object-fit:cover" loading="lazy"></div>` : ''}
+          ${g.templateText ? `<div style="background:var(--box-bg);padding:8px 10px;border-radius:8px;font-size:12px;color:var(--text);border:1px dashed var(--border);max-height:80px;overflow-y:auto;white-space:pre-wrap;margin-bottom:10px;font-family:monospace">${g.templateText}</div>` : ''}
         </div>
-
-        <div style="display: flex; gap: 8px; margin-top: 10px;">
-          ${g.templateText ? `
-            <button onclick="copyTemplateText('${encodeURIComponent(g.templateText)}', this)" style="flex: 1; padding: 7px; border: 1px solid var(--border); background: var(--card); color: var(--text); font-weight: 800; font-size: 11.5px; border-radius: 8px; cursor: pointer;">📋 Copy Text</button>
-          ` : ''}
-          ${g.imageUrl ? `
-            <button onclick="openLightbox('${g.imageUrl}')" style="flex: 1; padding: 7px; border: 1px solid var(--border); background: var(--card); color: var(--primary); font-weight: 800; font-size: 11.5px; border-radius: 8px; cursor: pointer;">🔍 View Photo</button>
-          ` : ''}
-          <button onclick="promptDeleteGuide('${g.id}')" style="padding: 7px 10px; border: none; background: rgba(239, 68, 68, 0.15); color: #ef4444; font-weight: 800; font-size: 11.5px; border-radius: 8px; cursor: pointer;">🗑️</button>
+        <div style="display:flex;gap:8px;margin-top:10px">
+          ${g.templateText ? `<button onclick="copyTemplateText('${encodeURIComponent(g.templateText)}',this)" style="flex:1;padding:7px;border:1px solid var(--border);background:var(--card);color:var(--text);font-weight:800;font-size:11.5px;border-radius:8px;cursor:pointer">📋 Copy Text</button>` : ''}
+          ${g.imageUrl ? `<button onclick="openLightbox('${g.imageUrl}')" style="flex:1;padding:7px;border:1px solid var(--border);background:var(--card);color:var(--primary);font-weight:800;font-size:11.5px;border-radius:8px;cursor:pointer">🔍 View Photo</button>` : ''}
+          <button onclick="promptDeleteGuide('${g.id}')" style="padding:7px 10px;border:none;background:rgba(239,68,68,0.15);color:#ef4444;font-weight:800;font-size:11.5px;border-radius:8px;cursor:pointer">🗑️</button>
         </div>
       </div>
     `).join('');
   }
-
   function copyTemplateText(encodedText, btn) {
     const text = decodeURIComponent(encodedText);
     navigator.clipboard.writeText(text);
@@ -1065,7 +988,6 @@
     btn.textContent = "✅ Copied!";
     setTimeout(() => btn.textContent = old, 1500);
   }
-
   function openLightbox(url) {
     const modal = document.getElementById("imageLightboxModal");
     const img = document.getElementById("lightboxImg");
@@ -1076,25 +998,16 @@
       modal.classList.remove("hidden");
     }
   }
-
-  function closeLightbox() {
-    document.getElementById("imageLightboxModal")?.classList.add("hidden");
-  }
-
+  function closeLightbox() { document.getElementById("imageLightboxModal")?.classList.add("hidden"); }
   function openAdminModal() { document.getElementById("adminGuideModal")?.classList.remove("hidden"); }
   function closeAdminModal() { document.getElementById("adminGuideModal")?.classList.add("hidden"); }
-
   async function submitGuideUpload(e) {
     e.preventDefault();
     const btn = document.getElementById("uploadSubmitBtn");
     btn.textContent = "Uploading to Drive...";
     btn.disabled = true;
-
     const fileInput = document.getElementById("guideFileInput");
-    let imageBytes = "";
-    let fileName = "";
-    let mimeType = "";
-
+    let imageBytes = "", fileName = "", mimeType = "";
     if (fileInput.files.length > 0) {
       const file = fileInput.files[0];
       fileName = file.name;
@@ -1105,7 +1018,6 @@
         reader.readAsDataURL(file);
       });
     }
-
     const payload = {
       action: "upload",
       pin: document.getElementById("adminPinInput").value,
@@ -1113,25 +1025,17 @@
       dept: document.getElementById("guideDeptFormSelect").value,
       category: document.getElementById("guideCategorySelect").value,
       templateText: document.getElementById("guideTemplateInput").value,
-      imageBytes: imageBytes,
-      fileName: fileName,
-      mimeType: mimeType
+      imageBytes, fileName, mimeType
     };
-
     try {
-      const res = await fetch(APPS_SCRIPT_URL, {
-        method: "POST",
-        body: JSON.stringify(payload)
-      });
+      const res = await fetch(APPS_SCRIPT_URL, { method: "POST", body: JSON.stringify(payload) });
       const result = await res.json();
       if (result.status === "success") {
         alert("Guide published successfully!");
         closeAdminModal();
         document.getElementById("guideUploadForm").reset();
         fetchClinicalGuides();
-      } else {
-        alert("Error: " + result.message);
-      }
+      } else alert("Error: " + result.message);
     } catch (err) {
       alert("Network or script error during upload.");
     } finally {
@@ -1139,28 +1043,20 @@
       btn.disabled = false;
     }
   }
-
   async function promptDeleteGuide(id) {
     const pin = prompt("Enter Admin PIN to delete this item:");
     if (!pin) return;
-
     try {
-      const res = await fetch(APPS_SCRIPT_URL, {
-        method: "POST",
-        body: JSON.stringify({ action: "delete", id: id, pin: pin })
-      });
+      const res = await fetch(APPS_SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "delete", id: id, pin: pin }) });
       const result = await res.json();
       if (result.status === "success") {
         alert("Deleted.");
         fetchClinicalGuides();
-      } else {
-        alert("Error: " + result.message);
-      }
-    } catch(e) {
+      } else alert("Error: " + result.message);
+    } catch (e) {
       alert("Failed to delete.");
     }
   }
-
   function toggleFeedbackModal() {
     const modal = document.getElementById('feedbackModal');
     if (modal) modal.classList.toggle('hidden');
@@ -1168,22 +1064,21 @@
 </script>
 
 <!-- FLOATING SUGGESTION BUTTON -->
-<button id="feedbackToggleBtn" onclick="toggleFeedbackModal()" style="position: fixed; bottom: 20px; left: 20px; z-index: 9998; background: var(--primary); color: white; border: none; border-radius: 50px; padding: 12px 20px; font-weight: 800; font-size: 13.5px; box-shadow: var(--shadow-lg); cursor: pointer; display: flex; align-items: center; gap: 8px; font-family: inherit; transition: all 0.25s ease;">
+<button id="feedbackToggleBtn" onclick="toggleFeedbackModal()" style="position:fixed;bottom:20px;left:20px;z-index:9998;background:var(--primary);color:white;border:none;border-radius:50px;padding:12px 20px;font-weight:800;font-size:13.5px;box-shadow:var(--shadow-lg);cursor:pointer;display:flex;align-items:center;gap:8px;font-family:inherit;transition:all 0.25s ease">
   💡 <span>Suggest Changes</span>
 </button>
 
-<!-- SUGGESTION MODAL POPUP -->
-<div id="feedbackModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(6px); z-index: 10000; display: flex; align-items: center; justify-content: center; padding: 16px; box-sizing: border-box;">
-  <div style="background: var(--card); width: 100%; max-width: 640px; border-radius: 20px; box-shadow: var(--shadow-lg); border: 1px solid var(--border); overflow: hidden; animation: popupSlide 0.3s ease;">
-    <div style="padding: 16px 20px; background: var(--primary-gradient); color: white; display: flex; justify-content: space-between; align-items: center;">
-      <h3 style="margin: 0; font-size: 16px; font-weight: 700; display: flex; align-items: center; gap: 8px;">💡 Roster Feedback & Corrections</h3>
-      <button onclick="toggleFeedbackModal()" style="background: rgba(255,255,255,0.2); border: none; color: white; font-size: 20px; cursor: pointer; border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; line-height: 1;">&times;</button>
+<!-- SUGGESTION MODAL -->
+<div id="feedbackModal" class="hidden" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(15,23,42,0.6);backdrop-filter:blur(6px);z-index:10000;display:flex;align-items:center;justify-content:center;padding:16px;box-sizing:border-box">
+  <div style="background:var(--card);width:100%;max-width:640px;border-radius:20px;box-shadow:var(--shadow-lg);border:1px solid var(--border);overflow:hidden;animation:popupSlide 0.3s ease">
+    <div style="padding:16px 20px;background:var(--primary-gradient);color:white;display:flex;justify-content:space-between;align-items:center">
+      <h3 style="margin:0;font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px">💡 Roster Feedback & Corrections</h3>
+      <button onclick="toggleFeedbackModal()" style="background:rgba(255,255,255,0.2);border:none;color:white;font-size:20px;cursor:pointer;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;line-height:1">&times;</button>
     </div>
-    <div style="padding: 12px;">
-      <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdTHssorcf7rmuzjX7nfiZ1QRddKD1is_rXuyA-NNz28tyQQQ/viewform?embedded=true" width="100%" height="500" frameborder="0" marginheight="0" marginwidth="0" style="border: none; display: block; border-radius: 12px;">Loading…</iframe>
+    <div style="padding:12px">
+      <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdTHssorcf7rmuzjX7nfiZ1QRddKD1is_rXuyA-NNz28tyQQQ/viewform?embedded=true" width="100%" height="500" frameborder="0" marginheight="0" marginwidth="0" style="border:none;display:block;border-radius:12px">Loading…</iframe>
     </div>
   </div>
 </div>
-
 </body>
 </html>

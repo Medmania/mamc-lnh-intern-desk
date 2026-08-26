@@ -1,4 +1,4 @@
-const hospitalFaqs = [
+const faqData = [
   {
     category: "Emergency & Critical Workflows",
     q: "What is the immediate protocol for a Needle-Stick Injury (NSI)?",

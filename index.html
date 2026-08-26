@@ -442,9 +442,9 @@
   messagingSenderId: "489695840383",
   appId: "1:489695840383:web:7891a8e07d33fc0147974a",
   };
-  // firebase.initializeApp(firebaseConfig);
-  // const auth = firebase.auth();
-  // const db = firebase.firestore();
+   firebase.initializeApp(firebaseConfig);
+   const auth = firebase.auth();
+   const db = firebase.firestore();
 
   const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxVpbrlW7sCbFQdvSKt76NjScuxlkcem9hyn6SCsuAKjo-Fg57AovmD6gjTYBqwm0VH/exec";
   let clinicalGuidesData = [];
@@ -472,16 +472,26 @@
   })();
 
   // ========== AUTH (PLACEHOLDER) ==========
-  function loginWithGoogle() {
-    // After Firebase setup:
-    // const provider = new firebase.auth.GoogleAuthProvider();
-    // auth.signInWithPopup(provider).then(res => handleAuth(res.user)).catch(console.error);
-    alert("Firebase Auth will be connected later.\nFor now this is a placeholder.");
-  }
-  function logoutUser() {
-    // auth.signOut().then(() => { currentUser = null; isAdmin = false; updateAuthUI(); });
-    currentUser = null; isAdmin = false; updateAuthUI();
-  }
+ function loginWithGoogle() {
+  const provider = new firebase.auth.GoogleAuthProvider();
+  auth.signInWithPopup(provider)
+    .then(res => {
+      handleAuth(res.user);
+    })
+    .catch(err => {
+      console.error(err);
+      alert("Login failed: " + err.message);
+    });
+}
+function logoutUser() {
+  auth.signOut()
+    .then(() => {
+      currentUser = null;
+      isAdmin = false;
+      updateAuthUI();
+    })
+    .catch(console.error);
+}
   function handleAuth(user) {
     currentUser = user;
     isAdmin = ADMIN_EMAILS.includes(user.email);
@@ -1061,6 +1071,16 @@
     const modal = document.getElementById('feedbackModal');
     if (modal) modal.classList.toggle('hidden');
   }
+  // Keep user logged in on page reload
+auth.onAuthStateChanged(user => {
+  if (user) {
+    handleAuth(user);
+  } else {
+    currentUser = null;
+    isAdmin = false;
+    updateAuthUI();
+  }
+});
 </script>
 
 <!-- FLOATING SUGGESTION BUTTON -->

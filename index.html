@@ -152,8 +152,8 @@
     <button class="tab-btn active" onclick="switchTab('roster')">🔍 Search Roster</button>
     <button class="tab-btn" onclick="switchTab('schedule')">📅 Hospital facilities</button>
     <button class="tab-btn" onclick="switchTab('lab')">🧪 Tests & Labs</button>
-    <button class="tab-btn" onclick="switchTab('faq')">❓ FAQs & SOPs</button>
     <button class="tab-btn" onclick="switchTab('guides')">📁 Clinical Guides</button>
+    <button class="tab-btn" onclick="switchTab('faq')">❓ FAQs & SOPs</button>
   </div>
 
   <!-- ADMIN PANEL (shown only after admin login) -->
@@ -449,7 +449,7 @@
 
   const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxVpbrlW7sCbFQdvSKt76NjScuxlkcem9hyn6SCsuAKjo-Fg57AovmD6gjTYBqwm0VH/exec";
   let clinicalGuidesData = [];
-  let faqData = []; // populated by data/data_faqs.js later
+  let faqData = []; 
   let currentUser = null;
   let isAdmin = false;
   const ADMIN_EMAILS = ["ankitgarg8558@gmail.com"]; // whitelist later

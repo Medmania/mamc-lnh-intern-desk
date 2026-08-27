@@ -207,7 +207,7 @@
     <button class="tab-btn" onclick="switchTab('lab')">🧪 Labs</button>
     <button class="tab-btn" onclick="switchTab('faq')">❓ FAQs</button>
     <button class="tab-btn" onclick="switchTab('guides')">📁 Guides</button>
-    <button class="tab-btn" onclick="switchTab('swaps')">🔄 Swaps</button>
+    <button class="tab-btn" onclick="switchTab('swaps')">🔄 Duty Cover</button>
   </div>
 
   <!-- ADMIN PANEL -->
@@ -419,7 +419,7 @@
     </div>
   </div>
 
-  <!-- TAB 6: DUTY SWAPS (NEW) -->
+  <!-- TAB 6: DUTY Cover (NEW) -->
   <div id="swaps-tab" class="card hidden">
     <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px">
       <div>
@@ -449,6 +449,10 @@
           <label>What you are looking for (optional)</label>
           <input type="text" id="swapLookingFor" placeholder="e.g. Day duty, PDO, any Medicine unit">
         </div>
+        <div class="input-group">
+  <label>Amount you are offering (₹)</label>
+  <input type="number" id="swapAmount" placeholder="e.g. 500, 1000, 1500" min="0">
+</div>
         <div class="input-group">
           <label>Additional notes</label>
           <textarea id="swapNotes" rows="2" placeholder="Any extra details..."></textarea>
@@ -572,7 +576,7 @@
   // ========== SITE UPDATE (local + Firestore override) ==========
   let SITE_VERSION = "2026-08-27-v2";
   let SITE_CHANGELOG = [
-    "Added Duty Swap Board (create & accept swaps)",
+    "Added Duty Cover Board (create & accept duty cover)",
     "Fully functional Admin Panel (What's New, Announcements, Add FAQ)",
     "Improved What's New system with Firestore support"
   ];
@@ -827,22 +831,29 @@
     document.getElementById('createSwapForm').classList.add('hidden');
   }
 
-  async function submitSwapRequest() {
-    const date = document.getElementById('swapDate').value;
-    const currentDuty = document.getElementById('swapCurrentDuty').value.trim();
-    const lookingFor = document.getElementById('swapLookingFor').value.trim();
-    const notes = document.getElementById('swapNotes').value.trim();
-    if (!date || !currentDuty) return alert('Date and current duty are required');
-    try {
-      await db.collection('dutySwaps').add({
-        requesterUid: currentUser.uid,
-        requesterName: currentUser.displayName || currentUser.email,
-        requesterEmail: currentUser.email,
-        date, currentDuty, lookingFor, notes,
-        status: 'open',
-        comments: [],
-        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-      });
+ async function submitSwapRequest() {
+  const date = document.getElementById('swapDate').value;
+  const currentDuty = document.getElementById('swapCurrentDuty').value.trim();
+  const lookingFor = document.getElementById('swapLookingFor').value.trim();
+  const notes = document.getElementById('swapNotes').value.trim();
+  const amount = document.getElementById('swapAmount').value.trim();   // ← new
+
+ if (!date || !currentDuty || !amount) return alert('Date, duty and amount are required');
+
+  try {
+    await db.collection('dutySwaps').add({
+      requesterUid: currentUser.uid,
+      requesterName: currentUser.displayName || currentUser.email,
+      requesterEmail: currentUser.email,
+      date,
+      currentDuty,
+      lookingFor,
+      notes,
+      amount: amount ? Number(amount) : null,          // ← new
+      status: 'open',
+      comments: [],
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
       hideCreateSwapForm();
       document.getElementById('swapDate').value = '';
       document.getElementById('swapCurrentDuty').value = '';
@@ -884,12 +895,13 @@
             <div class="swap-meta">
               <div>📍 Current: <strong>${d.currentDuty}</strong></div>
               ${d.lookingFor ? `<div>🔍 Looking for: ${d.lookingFor}</div>` : ''}
+              ${d.amount ? `<div>💰 Offering: <strong>₹${d.amount}</strong></div>` : ''}
               ${d.notes ? `<div style="margin-top:4px">${d.notes}</div>` : ''}
             </div>
             ${commentsHtml}
             <div class="swap-actions">
-              ${d.status === 'open' && !isMine ? `<button class="btn-primary-sm" onclick="acceptSwap('${id}')">Accept Swap</button>` : ''}
-              ${d.status === 'open' ? `<button class="btn-secondary-sm" onclick="addSwapComment('${id}')">Comment</button>` : ''}
+              ${d.status === 'open' && !isMine ? `<button class="btn-primary-sm" onclick="acceptSwap('${id}')">I'm interested</button>` : ''}
+              ${d.status === 'open' ? `<button class="btn-secondary-sm" onclick="addSwapComment('${id}')">Negotiate / Reply</button>` : ''}
               ${isMine && d.status === 'open' ? `<button class="btn-danger-sm" onclick="closeSwap('${id}')">Close Request</button>` : ''}
             </div>
           </div>`;

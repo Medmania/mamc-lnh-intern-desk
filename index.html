@@ -1150,6 +1150,13 @@ auth.onAuthStateChanged(user => {
     updateAuthUI();
   }
 });
+  <link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0284c7">
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw.js');
+  }
+
 </script>
 
 <!-- FLOATING SUGGESTION BUTTON -->

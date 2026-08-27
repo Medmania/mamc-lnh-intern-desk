@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0284c7">
+  <link rel="manifest" href="manifest.json">
   <title>MAMC-LNH Intern Portal — Roster, Labs & Hospital Directory</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
@@ -17,6 +19,10 @@
     .theme-toggle-btn { position: absolute; top: 18px; right: 18px; background: rgba(255, 255, 255, 0.95); border: 1.5px solid rgba(255, 255, 255, 0.8); color: #0369a1; padding: 6px 14px; border-radius: 20px; display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 800; cursor: pointer; transition: all 0.25s ease; z-index: 10; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); }
     [data-theme="dark"] .theme-toggle-btn { background: #1e293b; border-color: #38bdf8; color: #38bdf8; }
     .theme-toggle-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25); }
+    .whats-new-btn { position: absolute; top: 18px; right: 120px; background: rgba(255, 255, 255, 0.95); border: 1.5px solid rgba(255, 255, 255, 0.8); color: #0369a1; padding: 6px 14px; border-radius: 20px; display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 800; cursor: pointer; transition: all 0.25s ease; z-index: 10; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); }
+    [data-theme="dark"] .whats-new-btn { background: #1e293b; border-color: #38bdf8; color: #38bdf8; }
+    .whats-new-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25); }
+    .whats-new-btn.has-new::after { content: ''; position: absolute; top: -2px; right: -2px; width: 10px; height: 10px; background: #ef4444; border-radius: 50%; border: 2px solid white; }
     .auth-area { position: absolute; top: 18px; left: 18px; display: flex; gap: 8px; z-index: 10; flex-wrap: wrap; }
     .auth-btn { background: rgba(255, 255, 255, 0.95); border: 1.5px solid rgba(255, 255, 255, 0.8); color: #0369a1; padding: 6px 12px; border-radius: 20px; font-size: 12.5px; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 5px; }
     [data-theme="dark"] .auth-btn { background: #1e293b; border-color: #38bdf8; color: #38bdf8; }
@@ -131,6 +137,102 @@
     .admin-tab.active { background: var(--primary); color: white; border-color: var(--primary); }
     @keyframes popupSlide { from { opacity: 0; transform: translateY(20px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
     .hidden { display: none !important; }
+
+    /* ===== Site Update Banner ===== */
+    #updateBanner {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      max-width: 480px;
+      width: calc(100% - 32px);
+      z-index: 9999;
+      animation: popupSlide 0.35s ease;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+    #updateBanner.dismissing {
+      opacity: 0;
+      transform: translateX(-50%) translateY(24px) scale(0.96);
+    }
+    #updateBanner .update-inner {
+      background: var(--card);
+      border: 1.5px solid var(--primary);
+      border-radius: 18px;
+      box-shadow: var(--shadow-lg);
+      padding: 16px 18px;
+      position: relative;
+      overflow: hidden;
+    }
+    #updateBanner .update-inner::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 5px;
+      height: 100%;
+      background: linear-gradient(180deg, #38bdf8, #2563eb);
+    }
+    #updateBanner .update-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+    #updateBanner .update-title {
+      font-weight: 800;
+      font-size: 15.5px;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    #updateBanner .update-list {
+      margin: 0;
+      padding-left: 18px;
+      font-size: 13.5px;
+      color: var(--text);
+      line-height: 1.55;
+    }
+    #updateBanner .update-list li {
+      margin-bottom: 4px;
+    }
+    #updateBanner .update-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 14px;
+    }
+    #updateBanner .btn-got-it {
+      flex: 1;
+      padding: 11px 16px;
+      background: var(--primary-gradient);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-weight: 800;
+      font-size: 13.5px;
+      cursor: pointer;
+      font-family: inherit;
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.35);
+      transition: all 0.2s ease;
+    }
+    #updateBanner .btn-got-it:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(2, 132, 199, 0.45);
+    }
+    #updateBanner .btn-close {
+      background: none;
+      border: none;
+      font-size: 22px;
+      cursor: pointer;
+      color: var(--text-muted);
+      line-height: 1;
+      padding: 0 4px;
+      flex-shrink: 0;
+    }
+    #updateBanner .btn-close:hover {
+      color: var(--text);
+    }
   </style>
 </head>
 <body>
@@ -141,6 +243,9 @@
       <button class="auth-btn admin hidden" id="adminBtn" onclick="toggleAdminPanel()">⚙️ Admin Panel</button>
       <button class="auth-btn hidden" id="logoutBtn" onclick="logoutUser()">Logout</button>
     </div>
+    <button class="whats-new-btn" id="whatsNewBtn" onclick="showWhatsNew(true)" title="What's New">
+      ✨ What's New
+    </button>
     <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()" title="Toggle Dark/Light Mode">
       <span id="themeIcon">🌙</span> <span>Theme</span>
     </button>
@@ -277,56 +382,47 @@
   </div>
 
   <!-- TAB 3: LABS -->
-<!-- TAB 3: LABS -->
-<div id="lab-tab" class="hidden">
-  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;margin-bottom:12px">
-    <select id="labHospitalSelect" onchange="searchLabTests()"
-      style="padding:10px 14px;border-radius:8px;border:1px solid var(--border);font-size:14px;background-color:var(--input-bg);font-weight:600;color:var(--text);min-width:280px;cursor:pointer">
-
-      <option value="all">🏥 All Labs & Tests</option>
-
-      <optgroup label="── MOST USED BY INTERNS ──">
-        <option value="routine">🩸 Routine Bloods (CBC, LFT, KFT, Sugar…)</option>
-        <option value="emergency">🚨 Emergency / 24×7 (ABG, Emergency LFT/KFT)</option>
-        <option value="coag">🔵 Coagulation (PT/INR, APTT, D-Dimer)</option>
-        <option value="bloodbank">🩸 Blood Bank & Transfusion</option>
-      </optgroup>
-
-      <optgroup label="── PATHOLOGY ──">
-        <option value="hematology">🔬 Hematology / Cytology / FNAC / HPE</option>
-      </optgroup>
-
-      <optgroup label="── BIOCHEMISTRY ──">
-        <option value="biochem_routine">🧪 Biochemistry Routine (Window 2E)</option>
-        <option value="biochem_emergency">⚡ Biochemistry Emergency (Window 2)</option>
-      </optgroup>
-
-      <optgroup label="── MICROBIOLOGY ──">
-        <option value="cultures">🧫 Cultures (Blood, Urine, Pus, CSF…)</option>
-        <option value="serology">🔬 Serology (RA, CRP, WIDAL, TORCH…)</option>
-        <option value="virology">🦠 Virology & Dengue / Hepatitis</option>
-        <option value="tb">🫁 TB / AFB / CBNAAT</option>
-        <option value="hiv">🩸 HIV & CD4</option>
-        <option value="mycology">🍄 Mycology / Fungal</option>
-        <option value="parasitology">🦟 Parasitology (Malaria, Kala-azar…)</option>
-      </optgroup>
-
-      <optgroup label="── RADIOLOGY ──">
-        <option value="radiology">📷 Radiology (CT, MRI, USG, X-Ray)</option>
-      </optgroup>
-
-      <optgroup label="── OTHER HOSPITALS ──">
-        <option value="gbpant">🏥 GB Pant Diagnostics</option>
-      </optgroup>
-    </select>
-
-    <input type="text" id="labSearch"
-      oninput="searchLabTests();saveSearchHistory('lab',this.value)"
-      placeholder="Search test, tube colour, room, window…"
-      style="flex:1;min-width:250px;padding:10px 14px;border-radius:8px;border:1px solid var(--border);font-size:14px">
+  <div id="lab-tab" class="hidden">
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;margin-bottom:12px">
+      <select id="labHospitalSelect" onchange="searchLabTests()"
+        style="padding:10px 14px;border-radius:8px;border:1px solid var(--border);font-size:14px;background-color:var(--input-bg);font-weight:600;color:var(--text);min-width:280px;cursor:pointer">
+        <option value="all">🏥 All Labs & Tests</option>
+        <optgroup label="── MOST USED BY INTERNS ──">
+          <option value="routine">🩸 Routine Bloods (CBC, LFT, KFT, Sugar…)</option>
+          <option value="emergency">🚨 Emergency / 24×7 (ABG, Emergency LFT/KFT)</option>
+          <option value="coag">🔵 Coagulation (PT/INR, APTT, D-Dimer)</option>
+          <option value="bloodbank">🩸 Blood Bank & Transfusion</option>
+        </optgroup>
+        <optgroup label="── PATHOLOGY ──">
+          <option value="hematology">🔬 Hematology / Cytology / FNAC / HPE</option>
+        </optgroup>
+        <optgroup label="── BIOCHEMISTRY ──">
+          <option value="biochem_routine">🧪 Biochemistry Routine (Window 2E)</option>
+          <option value="biochem_emergency">⚡ Biochemistry Emergency (Window 2)</option>
+        </optgroup>
+        <optgroup label="── MICROBIOLOGY ──">
+          <option value="cultures">🧫 Cultures (Blood, Urine, Pus, CSF…)</option>
+          <option value="serology">🔬 Serology (RA, CRP, WIDAL, TORCH…)</option>
+          <option value="virology">🦠 Virology & Dengue / Hepatitis</option>
+          <option value="tb">🫁 TB / AFB / CBNAAT</option>
+          <option value="hiv">🩸 HIV & CD4</option>
+          <option value="mycology">🍄 Mycology / Fungal</option>
+          <option value="parasitology">🦟 Parasitology (Malaria, Kala-azar…)</option>
+        </optgroup>
+        <optgroup label="── RADIOLOGY ──">
+          <option value="radiology">📷 Radiology (CT, MRI, USG, X-Ray)</option>
+        </optgroup>
+        <optgroup label="── OTHER HOSPITALS ──">
+          <option value="gbpant">🏥 GB Pant Diagnostics</option>
+        </optgroup>
+      </select>
+      <input type="text" id="labSearch"
+        oninput="searchLabTests();saveSearchHistory('lab',this.value)"
+        placeholder="Search test, tube colour, room, window…"
+        style="flex:1;min-width:250px;padding:10px 14px;border-radius:8px;border:1px solid var(--border);font-size:14px">
+    </div>
+    <div id="labResults"></div>
   </div>
-  <div id="labResults"></div>
-</div>
 
   <!-- TAB 4: FAQs & SOPs -->
   <div id="faq-tab" class="card hidden">
@@ -430,6 +526,24 @@
   </div>
 </div>
 
+<!-- FLOATING SUGGESTION BUTTON -->
+<button id="feedbackToggleBtn" onclick="toggleFeedbackModal()" style="position:fixed;bottom:20px;left:20px;z-index:9998;background:var(--primary);color:white;border:none;border-radius:50px;padding:12px 20px;font-weight:800;font-size:13.5px;box-shadow:var(--shadow-lg);cursor:pointer;display:flex;align-items:center;gap:8px;font-family:inherit;transition:all 0.25s ease">
+  💡 <span>Suggest Changes</span>
+</button>
+
+<!-- SUGGESTION MODAL -->
+<div id="feedbackModal" class="hidden" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(15,23,42,0.6);backdrop-filter:blur(6px);z-index:10000;display:flex;align-items:center;justify-content:center;padding:16px;box-sizing:border-box">
+  <div style="background:var(--card);width:100%;max-width:640px;border-radius:20px;box-shadow:var(--shadow-lg);border:1px solid var(--border);overflow:hidden;animation:popupSlide 0.3s ease">
+    <div style="padding:16px 20px;background:var(--primary-gradient);color:white;display:flex;justify-content:space-between;align-items:center">
+      <h3 style="margin:0;font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px">💡 Roster Feedback & Corrections</h3>
+      <button onclick="toggleFeedbackModal()" style="background:rgba(255,255,255,0.2);border:none;color:white;font-size:20px;cursor:pointer;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;line-height:1">&times;</button>
+    </div>
+    <div style="padding:12px">
+      <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdTHssorcf7rmuzjX7nfiZ1QRddKD1is_rXuyA-NNz28tyQQQ/viewform?embedded=true" width="100%" height="500" frameborder="0" marginheight="0" marginwidth="0" style="border:none;display:block;border-radius:12px">Loading…</iframe>
+    </div>
+  </div>
+</div>
+
 <!-- DATA SCRIPTS -->
 <script src="data/data_interns.js"></script>
 <script src="data/data_burari.js"></script>
@@ -439,32 +553,93 @@
 <script src="data/data_units.js"></script>
 <script src="data/data_faqs.js"></script>
 
-<!-- FIREBASE SDKs (ready for later) -->
+<!-- FIREBASE SDKs -->
 <script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore-compat.js"></script>
 
 <script>
-  // ========== FIREBASE CONFIG (FILL LATER) ==========
- const firebaseConfig = {
-  apiKey: "AIzaSyAFYihJu3gTT7kHMlzAY0OdgP40ImxVTbU",
-  authDomain: "medmania.firebaseapp.com",
-  projectId: "medmania",
-  storageBucket: "medmania.firebasestorage.app",
-  messagingSenderId: "489695840383",
-  appId: "1:489695840383:web:7891a8e07d33fc0147974a",
-  measurementId: "G-1GGKYEJLWE"
-};
-   firebase.initializeApp(firebaseConfig);
-   const auth = firebase.auth();
-   const db = firebase.firestore();
+  // ========== FIREBASE CONFIG ==========
+  const firebaseConfig = {
+    apiKey: "AIzaSyAFYihJu3gTT7kHMlzAY0OdgP40ImxVTbU",
+    authDomain: "medmania.firebaseapp.com",
+    projectId: "medmania",
+    storageBucket: "medmania.firebasestorage.app",
+    messagingSenderId: "489695840383",
+    appId: "1:489695840383:web:7891a8e07d33fc0147974a",
+    measurementId: "G-1GGKYEJLWE"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const db = firebase.firestore();
 
   const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxVpbrlW7sCbFQdvSKt76NjScuxlkcem9hyn6SCsuAKjo-Fg57AovmD6gjTYBqwm0VH/exec";
   let clinicalGuidesData = [];
   
   let currentUser = null;
   let isAdmin = false;
-  const ADMIN_EMAILS = ["ankitgarg8558@gmail.com"]; // whitelist later
+  const ADMIN_EMAILS = ["ankitgarg8558@gmail.com"];
+
+  // ========== SITE UPDATE NOTIFICATION ==========
+  // CHANGE THIS VERSION + CHANGELOG every time you update the site
+  const SITE_VERSION = "2026-08-27-v1";
+  const SITE_CHANGELOG = [
+    "Added “What’s New” notification system",
+    "Fixed broken script structure that prevented features from loading",
+    "Smooth dismiss animation for update banner",
+    "Permanent What’s New button in the header"
+  ];
+
+  function showWhatsNew(force) {
+    const lastSeen = localStorage.getItem("mamc_last_seen_version");
+    if (!force && lastSeen === SITE_VERSION) return;
+
+    // Remove existing banner if any
+    const existing = document.getElementById("updateBanner");
+    if (existing) existing.remove();
+
+    const banner = document.createElement("div");
+    banner.id = "updateBanner";
+    banner.innerHTML = `
+      <div class="update-inner">
+        <div class="update-header">
+          <div class="update-title">✨ New updates on the portal</div>
+          <button class="btn-close" onclick="dismissUpdateBanner()" title="Dismiss">×</button>
+        </div>
+        <ul class="update-list">
+          ${SITE_CHANGELOG.map(item => `<li>${item}</li>`).join("")}
+        </ul>
+        <div class="update-actions">
+          <button class="btn-got-it" onclick="dismissUpdateBanner()">Got it</button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(banner);
+  }
+
+  function dismissUpdateBanner() {
+    localStorage.setItem("mamc_last_seen_version", SITE_VERSION);
+    const banner = document.getElementById("updateBanner");
+    if (banner) {
+      banner.classList.add("dismissing");
+      setTimeout(() => banner.remove(), 260);
+    }
+    // Remove the red dot on the permanent button
+    const btn = document.getElementById("whatsNewBtn");
+    if (btn) btn.classList.remove("has-new");
+  }
+
+  function checkForSiteUpdate() {
+    const lastSeen = localStorage.getItem("mamc_last_seen_version");
+    const btn = document.getElementById("whatsNewBtn");
+    if (lastSeen !== SITE_VERSION) {
+      if (btn) btn.classList.add("has-new");
+      // Auto-show after a short delay
+      setTimeout(() => showWhatsNew(false), 900);
+    } else {
+      if (btn) btn.classList.remove("has-new");
+    }
+  }
 
   // ========== THEME ==========
   function applyTheme(theme) {
@@ -484,27 +659,27 @@
     else applyTheme('light');
   })();
 
-  // ========== AUTH (PLACEHOLDER) ==========
- function loginWithGoogle() {
-  const provider = new firebase.auth.GoogleAuthProvider();
-  auth.signInWithPopup(provider)
-    .then(res => {
-      handleAuth(res.user);
-    })
-    .catch(err => {
-      console.error(err);
-      alert("Login failed: " + err.message);
-    });
-}
-function logoutUser() {
-  auth.signOut()
-    .then(() => {
-      currentUser = null;
-      isAdmin = false;
-      updateAuthUI();
-    })
-    .catch(console.error);
-}
+  // ========== AUTH ==========
+  function loginWithGoogle() {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    auth.signInWithPopup(provider)
+      .then(res => {
+        handleAuth(res.user);
+      })
+      .catch(err => {
+        console.error(err);
+        alert("Login failed: " + err.message);
+      });
+  }
+  function logoutUser() {
+    auth.signOut()
+      .then(() => {
+        currentUser = null;
+        isAdmin = false;
+        updateAuthUI();
+      })
+      .catch(console.error);
+  }
   function handleAuth(user) {
     currentUser = user;
     isAdmin = ADMIN_EMAILS.includes(user.email);
@@ -541,7 +716,7 @@ function logoutUser() {
     document.getElementById('adminContent').innerHTML = `<p style="color:var(--text-muted)">Admin form for <strong>${tab}</strong> will be built after Firebase setup.</p>`;
   }
 
-  // ========== SEARCH HISTORY (localStorage only) ==========
+  // ========== SEARCH HISTORY ==========
   function saveSearchHistory(type, query) {
     if (!query || query.trim().length < 2) return;
     const key = `mamc_history_${type}`;
@@ -603,61 +778,58 @@ function logoutUser() {
       container.innerHTML = `<div class="faq-empty"><p>No SOP found for “<strong>${query}</strong>”.</p></div>`;
       return;
     }
-    // ... inside renderFaqs(), after filtering ...
 
-const groups = {};
-filtered.forEach(item => {
-  if (!groups[item.category]) groups[item.category] = [];
-  groups[item.category].push(item);
-});
+    const groups = {};
+    filtered.forEach(item => {
+      if (!groups[item.category]) groups[item.category] = [];
+      groups[item.category].push(item);
+    });
 
-// Preferred display order (any unknown categories will appear after these)
-const preferredOrder = [
-  "Emergency & Critical Workflows",
-  "Blood Bank & Transfusion",
-  "Special Forms & Laboratory Routing",
-  "Radiology & Super-Specialty Navigation"
-];
+    const preferredOrder = [
+      "Emergency & Critical Workflows",
+      "Blood Bank & Transfusion",
+      "Special Forms & Laboratory Routing",
+      "Radiology & Super-Specialty Navigation"
+    ];
 
-// Build ordered list of categories
-const orderedCategories = [
-  ...preferredOrder.filter(cat => groups[cat]),
-  ...Object.keys(groups).filter(cat => !preferredOrder.includes(cat))
-];
+    const orderedCategories = [
+      ...preferredOrder.filter(cat => groups[cat]),
+      ...Object.keys(groups).filter(cat => !preferredOrder.includes(cat))
+    ];
 
-let html = '';
-let firstOpen = false;
+    let html = '';
+    let firstOpen = false;
 
-orderedCategories.forEach(cat => {
-  html += `<div class="faq-category">
-    <div class="faq-category-header">
-      <span>${getCategoryIcon(cat)}</span>
-      <span>${cat}</span>
-      <span class="badge badge-sub" style="margin-left:auto;font-size:11px">${groups[cat].length}</span>
-    </div>`;
-  
-  groups[cat].forEach(item => {
-    const open = query && !firstOpen;
-    if (open) firstOpen = true;
-    html += `<details class="faq-item" ${open ? 'open' : ''}>
-      <summary>
-        <span style="flex:1">
-          ${item.urgent ? '<span class="badge badge-urgent" style="margin-right:6px">Urgent</span>' : ''}
-          ${highlightText(item.question, query)}
-        </span>
-      </summary>
-      <div class="faq-answer">
-        ${item.answer || ''}
-        <div class="faq-actions">
-          <button onclick="copyFaqAnswer('${item.id}',this)">📋 Copy Answer</button>
-        </div>
-      </div>
-    </details>`;
-  });
-  html += '</div>';
-});
+    orderedCategories.forEach(cat => {
+      html += `<div class="faq-category">
+        <div class="faq-category-header">
+          <span>${getCategoryIcon(cat)}</span>
+          <span>${cat}</span>
+          <span class="badge badge-sub" style="margin-left:auto;font-size:11px">${groups[cat].length}</span>
+        </div>`;
+      
+      groups[cat].forEach(item => {
+        const open = query && !firstOpen;
+        if (open) firstOpen = true;
+        html += `<details class="faq-item" ${open ? 'open' : ''}>
+          <summary>
+            <span style="flex:1">
+              ${item.urgent ? '<span class="badge badge-urgent" style="margin-right:6px">Urgent</span>' : ''}
+              ${highlightText(item.question, query)}
+            </span>
+          </summary>
+          <div class="faq-answer">
+            ${item.answer || ''}
+            <div class="faq-actions">
+              <button onclick="copyFaqAnswer('${item.id}',this)">📋 Copy Answer</button>
+            </div>
+          </div>
+        </details>`;
+      });
+      html += '</div>';
+    });
 
-container.innerHTML = html;
+    container.innerHTML = html;
   }
   function getCategoryIcon(cat) {
     if (cat.includes('Emergency')) return '🚨';
@@ -776,7 +948,12 @@ container.innerHTML = html;
     dateInput.value = (today < "2026-05-23" || today > "2027-05-22") ? "2026-05-23" : today;
     onDateOrSelectionChange();
   }
-  window.onload = function() { setTodayDate(); renderUserHistory(); };
+
+  window.onload = function() {
+    setTodayDate();
+    renderUserHistory();
+    checkForSiteUpdate();
+  };
 
   function onDateOrSelectionChange() {
     if (!document.getElementById('roster-tab')?.classList.contains('hidden')) executeSmartSearch();
@@ -967,54 +1144,55 @@ container.innerHTML = html;
 
   // ========== LABS ==========
   function searchLabTests() {
-  const searchInput = document.getElementById('labSearch');
-  const selectFilter = document.getElementById('labHospitalSelect');
-  const resDiv = document.getElementById('labResults');
-  if (!resDiv || !selectFilter) return;
+    const searchInput = document.getElementById('labSearch');
+    const selectFilter = document.getElementById('labHospitalSelect');
+    const resDiv = document.getElementById('labResults');
+    if (!resDiv || !selectFilter) return;
 
-  const query = searchInput ? searchInput.value.toLowerCase().trim() : "";
-  const filterVal = selectFilter.value;
+    const query = searchInput ? searchInput.value.toLowerCase().trim() : "";
+    const filterVal = selectFilter.value;
 
-  let filtered = labDirectory;
+    let filtered = labDirectory;
 
-  if (filterVal !== "all") {
-    filtered = filtered.filter(item => item.category === filterVal);
+    if (filterVal !== "all") {
+      filtered = filtered.filter(item => item.category === filterVal);
+    }
+
+    if (query) {
+      filtered = filtered.filter(item =>
+        item.test.toLowerCase().includes(query) ||
+        item.tube.toLowerCase().includes(query) ||
+        item.window.toLowerCase().includes(query) ||
+        item.days.toLowerCase().includes(query) ||
+        item.report.toLowerCase().includes(query) ||
+        (item.notes || "").toLowerCase().includes(query) ||
+        (item.category || "").toLowerCase().includes(query)
+      );
+    }
+
+    if (filtered.length === 0) {
+      resDiv.innerHTML = '<p style="padding:16px;color:var(--text-muted);text-align:center">No matching lab tests found.</p>';
+      return;
+    }
+
+    let html = `<p style="color:var(--text-muted);font-size:13px;margin:0 0 12px 0">Showing <strong>${filtered.length}</strong> test${filtered.length > 1 ? 's' : ''}</p>`;
+    filtered.forEach(item => {
+      html += `<div class="lab-card">
+        <h4>🧪 ${item.test} <span class="badge badge-lab">${item.hospital}</span></h4>
+        <div class="lab-meta">
+          <span>💉 <strong>Vial:</strong> ${item.tube}</span>
+          <span>📍 <strong>Location:</strong> ${item.window}</span>
+        </div>
+        <div class="lab-meta">
+          <span>⏰ <strong>Days:</strong> ${item.days}</span>
+          <span>📄 <strong>Report:</strong> ${item.report}</span>
+        </div>
+        ${item.notes ? `<div class="lab-notes">💡 <strong>Notes:</strong> ${item.notes}</div>` : ''}
+      </div>`;
+    });
+    resDiv.innerHTML = html;
   }
 
-  if (query) {
-    filtered = filtered.filter(item =>
-      item.test.toLowerCase().includes(query) ||
-      item.tube.toLowerCase().includes(query) ||
-      item.window.toLowerCase().includes(query) ||
-      item.days.toLowerCase().includes(query) ||
-      item.report.toLowerCase().includes(query) ||
-      (item.notes || "").toLowerCase().includes(query) ||
-      (item.category || "").toLowerCase().includes(query)
-    );
-  }
-
-  if (filtered.length === 0) {
-    resDiv.innerHTML = '<p style="padding:16px;color:var(--text-muted);text-align:center">No matching lab tests found.</p>';
-    return;
-  }
-
-  let html = `<p style="color:var(--text-muted);font-size:13px;margin:0 0 12px 0">Showing <strong>${filtered.length}</strong> test${filtered.length > 1 ? 's' : ''}</p>`;
-  filtered.forEach(item => {
-    html += `<div class="lab-card">
-      <h4>🧪 ${item.test} <span class="badge badge-lab">${item.hospital}</span></h4>
-      <div class="lab-meta">
-        <span>💉 <strong>Vial:</strong> ${item.tube}</span>
-        <span>📍 <strong>Location:</strong> ${item.window}</span>
-      </div>
-      <div class="lab-meta">
-        <span>⏰ <strong>Days:</strong> ${item.days}</span>
-        <span>📄 <strong>Report:</strong> ${item.report}</span>
-      </div>
-      ${item.notes ? `<div class="lab-notes">💡 <strong>Notes:</strong> ${item.notes}</div>` : ''}
-    </div>`;
-  });
-  resDiv.innerHTML = html;
-}
   // ========== CLINICAL GUIDES ==========
   async function fetchClinicalGuides() {
     const container = document.getElementById("guidesResultsGrid");
@@ -1140,41 +1318,23 @@ container.innerHTML = html;
     const modal = document.getElementById('feedbackModal');
     if (modal) modal.classList.toggle('hidden');
   }
-  // Keep user logged in on page reload
-auth.onAuthStateChanged(user => {
-  if (user) {
-    handleAuth(user);
-  } else {
-    currentUser = null;
-    isAdmin = false;
-    updateAuthUI();
-  }
-});
-  <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#0284c7">
-<script>
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('./sw.js');
-  }
 
+  // Keep user logged in on page reload
+  auth.onAuthStateChanged(user => {
+    if (user) {
+      handleAuth(user);
+    } else {
+      currentUser = null;
+      isAdmin = false;
+      updateAuthUI();
+    }
+  });
 </script>
 
-<!-- FLOATING SUGGESTION BUTTON -->
-<button id="feedbackToggleBtn" onclick="toggleFeedbackModal()" style="position:fixed;bottom:20px;left:20px;z-index:9998;background:var(--primary);color:white;border:none;border-radius:50px;padding:12px 20px;font-weight:800;font-size:13.5px;box-shadow:var(--shadow-lg);cursor:pointer;display:flex;align-items:center;gap:8px;font-family:inherit;transition:all 0.25s ease">
-  💡 <span>Suggest Changes</span>
-</button>
-
-<!-- SUGGESTION MODAL -->
-<div id="feedbackModal" class="hidden" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(15,23,42,0.6);backdrop-filter:blur(6px);z-index:10000;display:flex;align-items:center;justify-content:center;padding:16px;box-sizing:border-box">
-  <div style="background:var(--card);width:100%;max-width:640px;border-radius:20px;box-shadow:var(--shadow-lg);border:1px solid var(--border);overflow:hidden;animation:popupSlide 0.3s ease">
-    <div style="padding:16px 20px;background:var(--primary-gradient);color:white;display:flex;justify-content:space-between;align-items:center">
-      <h3 style="margin:0;font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px">💡 Roster Feedback & Corrections</h3>
-      <button onclick="toggleFeedbackModal()" style="background:rgba(255,255,255,0.2);border:none;color:white;font-size:20px;cursor:pointer;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;line-height:1">&times;</button>
-    </div>
-    <div style="padding:12px">
-      <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdTHssorcf7rmuzjX7nfiZ1QRddKD1is_rXuyA-NNz28tyQQQ/viewform?embedded=true" width="100%" height="500" frameborder="0" marginheight="0" marginwidth="0" style="border:none;display:block;border-radius:12px">Loading…</iframe>
-    </div>
-  </div>
-</div>
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw.js').catch(() => {});
+  }
+</script>
 </body>
 </html>

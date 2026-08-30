@@ -699,7 +699,8 @@ async function initPushNotifications() {
     updateAuthUI();
     renderUserHistory();
     if (!document.getElementById('swaps-tab').classList.contains('hidden')) renderSwapTab();
-    startDutyCoverListener(); // start live notifications
+    startDutyCoverListener();// start live notifications
+  initPushNotifications();
   }
   function updateAuthUI() {
     const loginBtn = document.getElementById('loginBtn');

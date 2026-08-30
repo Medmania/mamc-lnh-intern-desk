@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#0284c7">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <link rel="manifest" href="manifest.json">
   <title>MAMC-LNH Intern Portal — Roster, Labs & Hospital Directory</title>
   <style>
@@ -31,18 +34,15 @@
     .tab-btn { flex: 1; min-width: 100px; padding: 11px 8px; border: none; background: transparent; cursor: pointer; font-weight: 800; border-radius: 14px; color: var(--text-muted); font-size: 12.5px; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); display: flex; align-items: center; justify-content: center; gap: 4px; }
     .tab-btn:hover { color: var(--primary); background: rgba(56, 189, 248, 0.12); }
     .tab-btn.active { background: var(--card); color: var(--primary); box-shadow: 0 4px 14px rgba(2, 132, 199, 0.18); border: 1px solid var(--border); }
-    .card { background: var(--card); padding: 24px; border-radius: 22px; box-shadow: var(--shadow-md); border: 1px solid var(--border); margin-bottom: 20px; transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s; }
+    .card { background: var(--card); padding: 24px; border-radius: 22px; box-shadow: var(--shadow-md); border: 1px solid var(--border); margin-bottom: 20px; }
     .input-group { margin-bottom: 18px; }
     label { display: block; font-weight: 700; margin-bottom: 8px; font-size: 13.5px; color: var(--text); }
     input, select, textarea { width: 100%; padding: 13px 16px; border: 1.5px solid var(--border); border-radius: 14px; box-sizing: border-box; font-size: 14px; font-family: inherit; color: var(--text); font-weight: 600; background-color: var(--input-bg); transition: all 0.2s ease; }
     select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%230284c7'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2.5' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; background-size: 16px; padding-right: 40px; appearance: none; -webkit-appearance: none; cursor: pointer; }
     input:focus, select:focus, textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.25); }
-    optgroup { font-size: 12px; font-weight: 800; color: var(--primary); background: var(--card); padding: 8px 4px; }
-    option { font-size: 14px; font-weight: 600; color: var(--text); background: var(--card); padding: 10px; }
     .date-row { display: flex; gap: 12px; align-items: flex-end; background: var(--card); padding: 16px; border-radius: 16px; border: 1px solid var(--border); }
-    .date-row button { padding: 12px 20px; border: none; background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important; color: #ffffff !important; font-weight: 800; font-size: 13.5px; border-radius: 12px; cursor: pointer; transition: all 0.2s ease; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.35); flex-shrink: 0; min-height: 44px; }
-    .date-row button:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(2, 132, 199, 0.45); }
-    .schedule-header { background: var(--header-glass) !important; color: var(--header-text) !important; padding: 16px 20px !important; border-radius: 18px 18px 0 0 !important; margin: -1px -1px 0 -1px; font-size: 16.5px !important; font-weight: 800 !important; letter-spacing: -0.3px; border-bottom: 1.5px solid var(--border); display: flex; align-items: center; gap: 8px; }
+    .date-row button { padding: 12px 20px; border: none; background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important; color: #ffffff !important; font-weight: 800; font-size: 13.5px; border-radius: 12px; cursor: pointer; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.35); flex-shrink: 0; min-height: 44px; }
+    .schedule-header { background: var(--header-glass) !important; color: var(--header-text) !important; padding: 16px 20px !important; border-radius: 18px 18px 0 0 !important; margin: -1px -1px 0 -1px; font-size: 16.5px !important; font-weight: 800 !important; border-bottom: 1.5px solid var(--border); display: flex; align-items: center; gap: 8px; }
     table { width: 100%; border-collapse: separate; border-spacing: 0; margin-top: 12px; font-size: 13.5px; border-radius: 14px; overflow: hidden; border: 1px solid var(--border); box-shadow: var(--shadow-sm); }
     th { background: var(--table-header) !important; color: var(--text-muted) !important; font-size: 12px !important; font-weight: 800 !important; text-transform: uppercase; letter-spacing: 0.6px; padding: 14px 16px !important; border-bottom: 1.5px solid var(--border) !important; }
     td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--border); color: var(--text); }
@@ -56,7 +56,7 @@
     .result-card-header h3 { margin: 0; font-size: 18px; font-weight: 800; color: var(--text); }
     .result-card-meta { padding: 0 20px 12px 24px; font-size: 13.5px; color: var(--text-muted); }
     .result-card-body { padding: 0 20px 18px 24px; }
-    .posting-chip { display: inline-flex; align-items: center; gap: 8px; background: var(--chip-bg); color: var(--chip-text); font-weight: 800; font-size: 14.5px; padding: 12px 16px; border-radius: 14px; border: 1px solid var(--chip-border); margin-top: 6px; line-height: 1.4; box-shadow: 0 2px 8px rgba(56, 189, 248, 0.15); }
+    .posting-chip { display: inline-flex; align-items: center; gap: 8px; background: var(--chip-bg); color: var(--chip-text); font-weight: 800; font-size: 14.5px; padding: 12px 16px; border-radius: 14px; border: 1px solid var(--chip-border); margin-top: 6px; line-height: 1.4; }
     .badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-weight: 800; font-size: 12px; }
     .badge-sub { background: var(--sub-bg); color: var(--sub-text); border: 1px solid var(--sub-border); }
     .badge-days { background: var(--days-bg); color: var(--days-text); border: 1px solid var(--days-border); }
@@ -70,20 +70,20 @@
     .night-roster-card { background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 14px; padding: 12px 16px; }
     .night-roster-header { font-size: 13px; font-weight: 800; color: var(--primary); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
     .duty-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 8px; }
-    .duty-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 8px 12px; font-size: 12.5px; display: flex; justify-content: space-between; align-items: center; gap: 6px; box-shadow: var(--shadow-sm); }
+    .duty-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 8px 12px; font-size: 12.5px; display: flex; justify-content: space-between; align-items: center; gap: 6px; }
     .duty-item.active-user { border-color: var(--primary); background: rgba(56, 189, 248, 0.18); font-weight: 800; }
     .duty-dept-tag { font-size: 11px; font-weight: 800; color: var(--primary); background: rgba(56, 189, 248, 0.15); padding: 3px 8px; border-radius: 6px; white-space: nowrap; }
-    .week-box { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 16px; margin-bottom: 14px; box-shadow: var(--shadow-sm); }
+    .week-box { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 16px; margin-bottom: 14px; }
     .week-box-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
     .unit-partner-section { margin-top: 12px; background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 12px; padding: 12px 14px; }
     .partner-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
-    .partner-chip { background: var(--card); border: 1.5px solid rgba(34, 197, 94, 0.5); color: #16a34a; font-size: 12px; font-weight: 800; padding: 4px 12px; border-radius: 20px; box-shadow: var(--shadow-sm); }
+    .partner-chip { background: var(--card); border: 1.5px solid rgba(34, 197, 94, 0.5); color: #16a34a; font-size: 12px; font-weight: 800; padding: 4px 12px; border-radius: 20px; }
     [data-theme="dark"] .partner-chip { color: #4ade80; border-color: rgba(74, 222, 128, 0.4); }
     .co-intern-toggle { margin-top: 10px; font-size: 12.5px; color: var(--primary); }
     .co-intern-toggle summary { cursor: pointer; font-weight: 800; user-select: none; }
     .co-intern-grid { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; padding: 12px; background: var(--box-bg); border-radius: 12px; border: 1px solid var(--border); }
     .co-intern-chip { background: var(--card); border: 1px solid var(--border); font-size: 11.5px; color: var(--text); padding: 4px 10px; border-radius: 8px; font-weight: 600; }
-    .lab-card { background: var(--card); border-radius: 16px; border: 1px solid var(--border); padding: 18px 20px; margin-bottom: 12px; box-shadow: var(--shadow-sm); position: relative; overflow: hidden; }
+    .lab-card { background: var(--card); border-radius: 16px; border: 1px solid var(--border); padding: 18px 20px; margin-bottom: 12px; position: relative; overflow: hidden; }
     .lab-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, #0284c7, #38bdf8); }
     .lab-card h4 { margin: 0 0 8px 0; font-size: 16px; font-weight: 800; color: var(--text); }
     .lab-meta { display: flex; flex-wrap: wrap; gap: 10px 18px; font-size: 13px; color: var(--text-muted); margin-bottom: 8px; }
@@ -92,9 +92,9 @@
     details summary { list-style: none; cursor: pointer; color: var(--primary); font-weight: 800; font-size: 13.5px; padding: 8px 0; display: flex; align-items: center; gap: 6px; }
     details summary::-webkit-details-marker { display: none; }
     details[open] summary { margin-bottom: 8px; }
-    .timeline-scroll { max-height: 320px; overflow-y: auto; margin-top: 6px; border-radius: 12px; border: 1px solid var(--border); scroll-behavior: smooth; -webkit-overflow-scrolling: touch; }
+    .timeline-scroll { max-height: 320px; overflow-y: auto; margin-top: 6px; border-radius: 12px; border: 1px solid var(--border); }
     .timeline-scroll table { margin-top: 0; border: none; }
-    .timeline-scroll thead th { position: sticky; top: 0; z-index: 2; background: var(--table-header) !important; box-shadow: 0 1px 0 var(--border); }
+    .timeline-scroll thead th { position: sticky; top: 0; z-index: 2; background: var(--table-header) !important; }
     .selected-week-row td { background: rgba(56, 189, 248, 0.22) !important; font-weight: 800; }
     [data-theme="dark"] .selected-week-row td { background: rgba(56, 189, 248, 0.28) !important; }
     .timeline-hint { font-size: 11.5px; color: var(--text-muted); margin: 4px 0 0 0; font-weight: 600; }
@@ -105,21 +105,18 @@
     [data-theme="dark"] .timeline-day-chip.night { color: #a5b4fc; }
     .timeline-day-chip.pdo { background: rgba(148, 163, 184, 0.18); border-color: rgba(148, 163, 184, 0.4); color: var(--text-muted); }
     .timeline-burari-empty { font-size: 11px; color: var(--text-muted); margin-top: 4px; font-weight: 600; font-style: italic; }
-    /* FAQ styles */
     .faq-search-bar { position: sticky; top: 0; z-index: 20; background: var(--card); padding: 14px 0 12px; margin: -8px 0 12px; border-bottom: 1px solid var(--border); }
     .faq-controls { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 14px; }
     .faq-controls button { padding: 8px 14px; border-radius: 12px; border: 1.5px solid var(--border); background: var(--box-bg); color: var(--text); font-weight: 800; font-size: 12.5px; cursor: pointer; }
-    .faq-controls button:hover { border-color: var(--primary); color: var(--primary); background: rgba(56, 189, 248, 0.1); }
     .faq-match-count { font-size: 13px; color: var(--text-muted); font-weight: 600; }
     .faq-category { margin-bottom: 22px; }
     .faq-category-header { display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 800; color: var(--text); margin-bottom: 10px; padding: 8px 14px; background: var(--header-glass); border-radius: 14px; border: 1px solid var(--border); }
-    .faq-item { background: var(--card); border: 1px solid var(--border); border-radius: 14px; margin-bottom: 8px; overflow: hidden; box-shadow: var(--shadow-sm); }
+    .faq-item { background: var(--card); border: 1px solid var(--border); border-radius: 14px; margin-bottom: 8px; overflow: hidden; }
     .faq-item summary { padding: 14px 16px; font-size: 14.5px; font-weight: 700; color: var(--text); display: flex; align-items: flex-start; gap: 10px; cursor: pointer; list-style: none; }
     .faq-item summary::-webkit-details-marker { display: none; }
     .faq-item summary::before { content: '▶'; font-size: 11px; color: var(--primary); transition: transform 0.2s; margin-top: 3px; flex-shrink: 0; }
     .faq-item[open] summary::before { transform: rotate(90deg); }
     .faq-answer { padding: 0 16px 16px 40px; font-size: 13.5px; line-height: 1.6; color: var(--text); border-top: 1px dashed var(--border); margin-top: -4px; }
-    .faq-answer .pitfall { margin-top: 10px; padding: 10px 12px; background: rgba(239, 68, 68, 0.08); border-left: 3px solid var(--urgent); border-radius: 8px; font-size: 12.5px; }
     .faq-actions { display: flex; gap: 8px; margin-top: 12px; }
     .faq-actions button { padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--box-bg); color: var(--text); font-weight: 700; font-size: 12px; cursor: pointer; }
     mark.faq-highlight { background: rgba(56, 189, 248, 0.35); color: inherit; padding: 1px 3px; border-radius: 3px; font-weight: 700; }
@@ -138,38 +135,21 @@
     @keyframes popupSlide { from { opacity: 0; transform: translateY(20px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
     .hidden { display: none !important; }
 
-    /* ===== Site Update Banner ===== */
-    #updateBanner {
-      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
-      max-width: 480px; width: calc(100% - 32px); z-index: 9999;
-      animation: popupSlide 0.35s ease; transition: opacity 0.25s ease, transform 0.25s ease;
-    }
+    /* Update Banner */
+    #updateBanner { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); max-width: 480px; width: calc(100% - 32px); z-index: 9999; animation: popupSlide 0.35s ease; transition: opacity 0.25s ease, transform 0.25s ease; }
     #updateBanner.dismissing { opacity: 0; transform: translateX(-50%) translateY(24px) scale(0.96); }
-    #updateBanner .update-inner {
-      background: var(--card); border: 1.5px solid var(--primary); border-radius: 18px;
-      box-shadow: var(--shadow-lg); padding: 16px 18px; position: relative; overflow: hidden;
-    }
-    #updateBanner .update-inner::before {
-      content: ''; position: absolute; top: 0; left: 0; width: 5px; height: 100%;
-      background: linear-gradient(180deg, #38bdf8, #2563eb);
-    }
+    #updateBanner .update-inner { background: var(--card); border: 1.5px solid var(--primary); border-radius: 18px; box-shadow: var(--shadow-lg); padding: 16px 18px; position: relative; overflow: hidden; }
+    #updateBanner .update-inner::before { content: ''; position: absolute; top: 0; left: 0; width: 5px; height: 100%; background: linear-gradient(180deg, #38bdf8, #2563eb); }
     #updateBanner .update-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 10px; }
-    #updateBanner .update-title { font-weight: 800; font-size: 15.5px; color: var(--primary); display: flex; align-items: center; gap: 8px; }
+    #updateBanner .update-title { font-weight: 800; font-size: 15.5px; color: var(--primary); }
     #updateBanner .update-list { margin: 0; padding-left: 18px; font-size: 13.5px; color: var(--text); line-height: 1.55; }
-    #updateBanner .update-list li { margin-bottom: 4px; }
     #updateBanner .update-actions { display: flex; gap: 10px; margin-top: 14px; }
-    #updateBanner .btn-got-it {
-      flex: 1; padding: 11px 16px; background: var(--primary-gradient); color: white; border: none;
-      border-radius: 12px; font-weight: 800; font-size: 13.5px; cursor: pointer; font-family: inherit;
-      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.35); transition: all 0.2s ease;
-    }
-    #updateBanner .btn-got-it:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(2, 132, 199, 0.45); }
-    #updateBanner .btn-close { background: none; border: none; font-size: 22px; cursor: pointer; color: var(--text-muted); line-height: 1; padding: 0 4px; flex-shrink: 0; }
-    #updateBanner .btn-close:hover { color: var(--text); }
+    #updateBanner .btn-got-it { flex: 1; padding: 11px 16px; background: var(--primary-gradient); color: white; border: none; border-radius: 12px; font-weight: 800; font-size: 13.5px; cursor: pointer; font-family: inherit; }
+    #updateBanner .btn-close { background: none; border: none; font-size: 22px; cursor: pointer; color: var(--text-muted); line-height: 1; padding: 0 4px; }
 
-    /* ===== Duty Swap & Admin extras ===== */
-    .swap-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 16px 18px; margin-bottom: 12px; box-shadow: var(--shadow-sm); position: relative; }
-    .swap-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, #f59e0b, #f97316); border-radius: 16px 0 0 16px; }
+    /* Duty Cover cards */
+    .swap-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 16px 18px; margin-bottom: 12px; position: relative; }
+    .swap-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, #22c55e, #16a34a); border-radius: 16px 0 0 16px; }
     .swap-card.accepted::before { background: linear-gradient(180deg, #22c55e, #16a34a); }
     .swap-meta { font-size: 12.5px; color: var(--text-muted); margin: 6px 0 10px; }
     .swap-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
@@ -181,6 +161,15 @@
     .announcement-item { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; margin-bottom: 8px; }
     .announcement-item .meta { font-size: 11.5px; color: var(--text-muted); margin-top: 4px; }
     .login-required-msg { text-align: center; padding: 30px 20px; color: var(--text-muted); font-size: 14px; }
+
+    /* Toast notification */
+    #liveToast {
+      position: fixed; top: 20px; right: 20px; z-index: 10050;
+      background: var(--card); border: 1.5px solid var(--primary); border-radius: 14px;
+      padding: 14px 18px; box-shadow: var(--shadow-lg); max-width: 340px;
+      animation: popupSlide 0.3s ease; font-size: 13.5px; font-weight: 600;
+    }
+    #liveToast .toast-title { font-weight: 800; color: var(--primary); margin-bottom: 4px; }
   </style>
 </head>
 <body>
@@ -191,9 +180,7 @@
       <button class="auth-btn admin hidden" id="adminBtn" onclick="toggleAdminPanel()">⚙️ Admin Panel</button>
       <button class="auth-btn hidden" id="logoutBtn" onclick="logoutUser()">Logout</button>
     </div>
-    <button class="whats-new-btn" id="whatsNewBtn" onclick="showWhatsNew(true)" title="What's New">
-      ✨ What's New
-    </button>
+    <button class="whats-new-btn" id="whatsNewBtn" onclick="showWhatsNew(true)" title="What's New">✨ What's New</button>
     <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()" title="Toggle Dark/Light Mode">
       <span id="themeIcon">🌙</span> <span>Theme</span>
     </button>
@@ -207,7 +194,7 @@
     <button class="tab-btn" onclick="switchTab('lab')">🧪 Labs</button>
     <button class="tab-btn" onclick="switchTab('faq')">❓ FAQs</button>
     <button class="tab-btn" onclick="switchTab('guides')">📁 Guides</button>
-    <button class="tab-btn" onclick="switchTab('swaps')">🔄 Duty Cover</button>
+    <button class="tab-btn" onclick="switchTab('swaps')">💰 Duty Cover</button>
   </div>
 
   <!-- ADMIN PANEL -->
@@ -225,7 +212,7 @@
     <div id="adminContent"></div>
   </div>
 
-  <!-- SHARED DATE SELECTOR -->
+  <!-- DATE SELECTOR -->
   <div class="card" style="margin-bottom:16px;padding:14px">
     <div id="date-card" class="date-row" style="margin-bottom:0">
       <div style="flex:1">
@@ -248,7 +235,7 @@
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-bottom:14px">
       <div>
         <label for="universalPersonInput">👤 Search Person (Name, Roll, S.No, Batch):</label>
-        <input type="text" id="universalPersonInput" placeholder="e.g. Ankit, S.No 33, A7, 44591..." oninput="executeSmartSearch();saveSearchHistory('roster',this.value)">
+        <input type="text" id="universalPersonInput" placeholder="e.g. Ankit, S.No 33, A7..." oninput="executeSmartSearch();saveSearchHistory('roster',this.value)">
       </div>
       <div>
         <label for="universalDeptSelect">🏥 Filter by Department:</label>
@@ -279,7 +266,7 @@
   <div id="schedule-tab" class="card hidden">
     <div class="input-group">
       <label for="scheduleSearch">🔍 Search Facility, Clinic, Room or Day:</label>
-      <input type="text" id="scheduleSearch" placeholder="Type e.g., Diabetes, Room 310, Monday, Unit 1..." oninput="onScheduleSearchInput()">
+      <input type="text" id="scheduleSearch" placeholder="Type e.g., Diabetes, Room 310..." oninput="onScheduleSearchInput()">
     </div>
     <div style="text-align:center;color:var(--text-muted);font-size:12px;margin:-6px 0 10px 0">— OR SELECT CATEGORY —</div>
     <div class="input-group">
@@ -331,8 +318,7 @@
   <!-- TAB 3: LABS -->
   <div id="lab-tab" class="hidden">
     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;margin-bottom:12px">
-      <select id="labHospitalSelect" onchange="searchLabTests()"
-        style="padding:10px 14px;border-radius:8px;border:1px solid var(--border);font-size:14px;background-color:var(--input-bg);font-weight:600;color:var(--text);min-width:280px;cursor:pointer">
+      <select id="labHospitalSelect" onchange="searchLabTests()" style="padding:10px 14px;border-radius:8px;border:1px solid var(--border);font-size:14px;background-color:var(--input-bg);font-weight:600;color:var(--text);min-width:280px;cursor:pointer">
         <option value="all">🏥 All Labs & Tests</option>
         <optgroup label="── MOST USED BY INTERNS ──">
           <option value="routine">🩸 Routine Bloods</option>
@@ -340,9 +326,7 @@
           <option value="coag">🔵 Coagulation</option>
           <option value="bloodbank">🩸 Blood Bank</option>
         </optgroup>
-        <optgroup label="── PATHOLOGY ──">
-          <option value="hematology">🔬 Hematology / Cytology</option>
-        </optgroup>
+        <optgroup label="── PATHOLOGY ──"><option value="hematology">🔬 Hematology / Cytology</option></optgroup>
         <optgroup label="── BIOCHEMISTRY ──">
           <option value="biochem_routine">🧪 Biochemistry Routine</option>
           <option value="biochem_emergency">⚡ Biochemistry Emergency</option>
@@ -356,16 +340,10 @@
           <option value="mycology">🍄 Mycology</option>
           <option value="parasitology">🦟 Parasitology</option>
         </optgroup>
-        <optgroup label="── RADIOLOGY ──">
-          <option value="radiology">📷 Radiology</option>
-        </optgroup>
-        <optgroup label="── OTHER ──">
-          <option value="gbpant">🏥 GB Pant Diagnostics</option>
-        </optgroup>
+        <optgroup label="── RADIOLOGY ──"><option value="radiology">📷 Radiology</option></optgroup>
+        <optgroup label="── OTHER ──"><option value="gbpant">🏥 GB Pant Diagnostics</option></optgroup>
       </select>
-      <input type="text" id="labSearch" oninput="searchLabTests();saveSearchHistory('lab',this.value)"
-        placeholder="Search test, tube colour, room, window…"
-        style="flex:1;min-width:250px;padding:10px 14px;border-radius:8px;border:1px solid var(--border);font-size:14px">
+      <input type="text" id="labSearch" oninput="searchLabTests();saveSearchHistory('lab',this.value)" placeholder="Search test, tube colour, room..." style="flex:1;min-width:250px;padding:10px 14px;border-radius:8px;border:1px solid var(--border);font-size:14px">
     </div>
     <div id="labResults"></div>
   </div>
@@ -383,9 +361,7 @@
         <span class="faq-match-count" id="faqMatchCount"></span>
       </div>
     </div>
-    <div id="faqResults">
-      <p style="text-align:center;color:var(--text-muted);padding:30px">Loading FAQs...</p>
-    </div>
+    <div id="faqResults"><p style="text-align:center;color:var(--text-muted);padding:30px">Loading FAQs...</p></div>
   </div>
 
   <!-- TAB 5: GUIDES -->
@@ -395,7 +371,7 @@
         <h3 style="margin:0;font-size:18px;font-weight:800;color:var(--text)">📁 Intern Clinical & Documentation Hub</h3>
         <p style="margin:4px 0 0 0;font-size:13px;color:var(--text-muted)">Standard department referral formats, file ordering & clinical memos</p>
       </div>
-      <button onclick="openAdminModal()" style="padding:8px 14px;border:none;background:var(--primary-gradient);color:white;font-weight:800;font-size:12.5px;border-radius:12px;cursor:pointer;box-shadow:var(--shadow-sm)">⚙️ Admin Upload</button>
+      <button onclick="openAdminModal()" style="padding:8px 14px;border:none;background:var(--primary-gradient);color:white;font-weight:800;font-size:12.5px;border-radius:12px;cursor:pointer">⚙️ Admin Upload</button>
     </div>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-bottom:16px">
       <input type="text" id="guideSearchInput" placeholder="🔍 Search guide..." oninput="renderClinicalGuides()">
@@ -419,40 +395,39 @@
     </div>
   </div>
 
-  <!-- TAB 6: DUTY Cover (NEW) -->
+  <!-- TAB 6: DUTY COVER -->
   <div id="swaps-tab" class="card hidden">
     <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px">
       <div>
-        <h3 style="margin:0;font-size:18px;font-weight:800">🔄 Duty Swap Board</h3>
-        <p style="margin:4px 0 0 0;font-size:13px;color:var(--text-muted)">Request or accept duty swaps with other interns</p>
+        <h3 style="margin:0;font-size:18px;font-weight:800">💰 Duty Cover Board</h3>
+        <p style="margin:4px 0 0 0;font-size:13px;color:var(--text-muted)">Need someone to cover your duty? Offer payment and negotiate</p>
       </div>
-      <button id="createSwapBtn" onclick="showCreateSwapForm()" class="btn-primary-sm" style="display:none">+ New Swap Request</button>
+      <button id="createSwapBtn" onclick="showCreateSwapForm()" class="btn-primary-sm" style="display:none">+ New Cover Request</button>
     </div>
 
     <div id="swapLoginPrompt" class="login-required-msg">
-      <p>🔐 Please <strong>Login with Google</strong> to view and post duty swap requests.</p>
+      <p>🔐 Please <strong>Login with Google</strong> to view and post duty cover requests.</p>
     </div>
 
     <div id="swapContent" class="hidden">
-      <!-- Create form (hidden by default) -->
       <div id="createSwapForm" class="admin-form-card hidden">
-        <h4>Post a Swap Request</h4>
+        <h4>Post a Cover Request</h4>
         <div class="input-group">
-          <label>Date of duty you want to swap</label>
+          <label>Date of duty you want covered</label>
           <input type="date" id="swapDate">
         </div>
         <div class="input-group">
           <label>Your current duty / posting</label>
-          <input type="text" id="swapCurrentDuty" placeholder="e.g. Night Duty - Medicine / PSM Burari Night">
+          <input type="text" id="swapCurrentDuty" placeholder="e.g. Night Duty - Medicine / ENT / PSM Burari Night">
         </div>
         <div class="input-group">
           <label>What you are looking for (optional)</label>
-          <input type="text" id="swapLookingFor" placeholder="e.g. Day duty, PDO, any Medicine unit">
+          <input type="text" id="swapLookingFor" placeholder="e.g. Day duty, any unit, PDO">
         </div>
         <div class="input-group">
-  <label>Amount you are offering (₹)</label>
-  <input type="number" id="swapAmount" placeholder="e.g. 500, 1000, 1500" min="0">
-</div>
+          <label>Amount you are offering (₹)</label>
+          <input type="number" id="swapAmount" placeholder="e.g. 500, 1000, 1500" min="0">
+        </div>
         <div class="input-group">
           <label>Additional notes</label>
           <textarea id="swapNotes" rows="2" placeholder="Any extra details..."></textarea>
@@ -462,7 +437,6 @@
           <button onclick="hideCreateSwapForm()" class="btn-secondary-sm">Cancel</button>
         </div>
       </div>
-
       <div id="swapList"></div>
     </div>
   </div>
@@ -475,11 +449,11 @@
 <!-- LIGHTBOX -->
 <div id="imageLightboxModal" class="hidden" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);z-index:10002;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;box-sizing:border-box" onclick="closeLightbox()">
   <span style="position:absolute;top:20px;right:24px;color:white;font-size:32px;font-weight:800;cursor:pointer">&times;</span>
-  <img id="lightboxImg" src="" style="max-width:95%;max-height:85vh;border-radius:12px;box-shadow:0 10px 40px rgba(0,0,0,0.5);object-fit:contain" onclick="event.stopPropagation()">
+  <img id="lightboxImg" src="" style="max-width:95%;max-height:85vh;border-radius:12px;object-fit:contain" onclick="event.stopPropagation()">
   <a id="lightboxDownloadBtn" href="" target="_blank" download style="margin-top:14px;background:white;color:#0f172a;padding:8px 16px;border-radius:20px;font-weight:800;font-size:13px;text-decoration:none" onclick="event.stopPropagation()">⬇️ Open Full Resolution</a>
 </div>
 
-<!-- ADMIN UPLOAD MODAL (Guides) -->
+<!-- ADMIN GUIDE MODAL -->
 <div id="adminGuideModal" class="hidden" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(15,23,42,0.6);backdrop-filter:blur(6px);z-index:10001;display:flex;align-items:center;justify-content:center;padding:16px;box-sizing:border-box">
   <div style="background:var(--card);width:100%;max-width:520px;border-radius:20px;box-shadow:var(--shadow-lg);border:1px solid var(--border);overflow:hidden;padding:20px">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
@@ -491,46 +465,34 @@
       <input type="text" id="guideTitleInput" placeholder="Format Title" required>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
         <select id="guideDeptFormSelect">
-          <option value="Medicine">Medicine</option>
-          <option value="ENT">ENT</option>
-          <option value="Ophthalmology">Ophtha</option>
-          <option value="Surgery">General Surgery</option>
-          <option value="Pediatrics">Pediatrics</option>
-          <option value="Obs & Gynae">Obs & Gynae</option>
-          <option value="Orthopedics">Orthopedics</option>
-          <option value="Anaesthesia">Anaesthesia</option>
-          <option value="Radiology">Radiology</option>
-          <option value="Casualty">Casualty & Emergency</option>
-          <option value="Administrative">Paperwork & MLC</option>
+          <option value="Medicine">Medicine</option><option value="ENT">ENT</option><option value="Ophthalmology">Ophtha</option>
+          <option value="Surgery">General Surgery</option><option value="Pediatrics">Pediatrics</option>
+          <option value="Obs & Gynae">Obs & Gynae</option><option value="Orthopedics">Orthopedics</option>
+          <option value="Anaesthesia">Anaesthesia</option><option value="Radiology">Radiology</option>
+          <option value="Casualty">Casualty & Emergency</option><option value="Administrative">Paperwork & MLC</option>
         </select>
         <select id="guideCategorySelect">
-          <option value="Referral">Referral / Consult</option>
-          <option value="File Ordering">File Ordering</option>
-          <option value="Clinical Memo">Death / Leave Memo</option>
-          <option value="Protocol">Emergency Protocol</option>
+          <option value="Referral">Referral / Consult</option><option value="File Ordering">File Ordering</option>
+          <option value="Clinical Memo">Death / Leave Memo</option><option value="Protocol">Emergency Protocol</option>
         </select>
       </div>
       <textarea id="guideTemplateInput" placeholder="Optional raw text template..." style="width:100%;height:75px;padding:10px;border-radius:12px;border:1.5px solid var(--border);font-family:inherit;font-size:13px;background:var(--input-bg);color:var(--text);box-sizing:border-box"></textarea>
-      <div>
-        <label style="font-size:12px;margin-bottom:4px">Photo (Optional):</label>
-        <input type="file" id="guideFileInput" accept="image/*">
-      </div>
-      <button type="submit" id="uploadSubmitBtn" style="padding:12px;border:none;background:var(--primary-gradient);color:white;font-weight:800;border-radius:12px;cursor:pointer;margin-top:4px">Publish Live</button>
+      <div><label style="font-size:12px;margin-bottom:4px">Photo (Optional):</label><input type="file" id="guideFileInput" accept="image/*"></div>
+      <button type="submit" id="uploadSubmitBtn" style="padding:12px;border:none;background:var(--primary-gradient);color:white;font-weight:800;border-radius:12px;cursor:pointer">Publish Live</button>
     </form>
   </div>
 </div>
 
-<!-- FLOATING SUGGESTION BUTTON -->
+<!-- FLOATING SUGGESTION -->
 <button id="feedbackToggleBtn" onclick="toggleFeedbackModal()" style="position:fixed;bottom:20px;left:20px;z-index:9998;background:var(--primary);color:white;border:none;border-radius:50px;padding:12px 20px;font-weight:800;font-size:13.5px;box-shadow:var(--shadow-lg);cursor:pointer;display:flex;align-items:center;gap:8px;font-family:inherit">
   💡 <span>Suggest Changes</span>
 </button>
 
-<!-- SUGGESTION MODAL -->
 <div id="feedbackModal" class="hidden" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(15,23,42,0.6);backdrop-filter:blur(6px);z-index:10000;display:flex;align-items:center;justify-content:center;padding:16px;box-sizing:border-box">
   <div style="background:var(--card);width:100%;max-width:640px;border-radius:20px;box-shadow:var(--shadow-lg);border:1px solid var(--border);overflow:hidden;animation:popupSlide 0.3s ease">
     <div style="padding:16px 20px;background:var(--primary-gradient);color:white;display:flex;justify-content:space-between;align-items:center">
       <h3 style="margin:0;font-size:16px;font-weight:700">💡 Roster Feedback & Corrections</h3>
-      <button onclick="toggleFeedbackModal()" style="background:rgba(255,255,255,0.2);border:none;color:white;font-size:20px;cursor:pointer;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center">&times;</button>
+      <button onclick="toggleFeedbackModal()" style="background:rgba(255,255,255,0.2);border:none;color:white;font-size:20px;cursor:pointer;border-radius:50%;width:32px;height:32px">&times;</button>
     </div>
     <div style="padding:12px">
       <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdTHssorcf7rmuzjX7nfiZ1QRddKD1is_rXuyA-NNz28tyQQQ/viewform?embedded=true" width="100%" height="500" frameborder="0" style="border:none;display:block;border-radius:12px">Loading…</iframe>
@@ -551,8 +513,12 @@
 <script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-messaging-compat.js"></script>
 
 <script>
+  // ========== VERSION (change this every time you deploy) ==========
+  const APP_BUILD = "2026-08-31-v3";
+
   // ========== FIREBASE ==========
   const firebaseConfig = {
     apiKey: "AIzaSyAFYihJu3gTT7kHMlzAY0OdgP40ImxVTbU",
@@ -567,18 +533,38 @@
   const auth = firebase.auth();
   const db = firebase.firestore();
 
+  // Optional: VAPID key for real push notifications (get from Firebase Console → Project Settings → Cloud Messaging)
+  // const VAPID_KEY = "YOUR_VAPID_KEY_HERE";
+
   const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxVpbrlW7sCbFQdvSKt76NjScuxlkcem9hyn6SCsuAKjo-Fg57AovmD6gjTYBqwm0VH/exec";
   let clinicalGuidesData = [];
   let currentUser = null;
   let isAdmin = false;
   const ADMIN_EMAILS = ["ankitgarg8558@gmail.com"];
 
-  // ========== SITE UPDATE (local + Firestore override) ==========
-  let SITE_VERSION = "2026-08-27-v2";
+  // ========== FORCE CACHE / SW UPDATE ==========
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw.js?v=' + APP_BUILD).then(reg => {
+      reg.update(); // force check for new SW
+    }).catch(() => {});
+  }
+  // Detect if this build is different from last seen
+  const lastBuild = localStorage.getItem('mamc_app_build');
+  if (lastBuild && lastBuild !== APP_BUILD) {
+    // New version detected → hard reload once
+    localStorage.setItem('mamc_app_build', APP_BUILD);
+    location.reload(true);
+  } else {
+    localStorage.setItem('mamc_app_build', APP_BUILD);
+  }
+
+  // ========== SITE UPDATE (What's New) ==========
+  let SITE_VERSION = "2026-08-31-v3";
   let SITE_CHANGELOG = [
-    "Added Duty Cover Board (create & accept duty cover)",
-    "Fully functional Admin Panel (What's New, Announcements, Add FAQ)",
-    "Improved What's New system with Firestore support"
+    "Fixed Duty Cover permission errors (update Firestore rules)",
+    "Added live toast when new cover request is posted",
+    "Forced cache/service-worker update so phones get new version",
+    "Amount field + Duty Cover naming"
   ];
 
   async function loadRemoteWhatsNew() {
@@ -589,7 +575,7 @@
         if (data.version) SITE_VERSION = data.version;
         if (data.changelog && Array.isArray(data.changelog)) SITE_CHANGELOG = data.changelog;
       }
-    } catch (e) { console.log("Using local What's New"); }
+    } catch (e) {}
   }
 
   function showWhatsNew(force) {
@@ -610,18 +596,13 @@
       </div>`;
     document.body.appendChild(banner);
   }
-
   function dismissUpdateBanner() {
     localStorage.setItem("mamc_last_seen_version", SITE_VERSION);
     const banner = document.getElementById("updateBanner");
-    if (banner) {
-      banner.classList.add("dismissing");
-      setTimeout(() => banner.remove(), 260);
-    }
+    if (banner) { banner.classList.add("dismissing"); setTimeout(() => banner.remove(), 260); }
     const btn = document.getElementById("whatsNewBtn");
     if (btn) btn.classList.remove("has-new");
   }
-
   function checkForSiteUpdate() {
     const lastSeen = localStorage.getItem("mamc_last_seen_version");
     const btn = document.getElementById("whatsNewBtn");
@@ -629,6 +610,17 @@
       if (btn) btn.classList.add("has-new");
       setTimeout(() => showWhatsNew(false), 900);
     } else if (btn) btn.classList.remove("has-new");
+  }
+
+  // ========== LIVE TOAST ==========
+  function showLiveToast(title, message) {
+    const existing = document.getElementById('liveToast');
+    if (existing) existing.remove();
+    const t = document.createElement('div');
+    t.id = 'liveToast';
+    t.innerHTML = `<div class="toast-title">${title}</div><div>${message}</div>`;
+    document.body.appendChild(t);
+    setTimeout(() => { t.style.opacity = '0'; setTimeout(() => t.remove(), 300); }, 5000);
   }
 
   // ========== THEME ==========
@@ -665,8 +657,8 @@
     isAdmin = ADMIN_EMAILS.includes(user.email);
     updateAuthUI();
     renderUserHistory();
-    // refresh swap tab if open
     if (!document.getElementById('swaps-tab').classList.contains('hidden')) renderSwapTab();
+    startDutyCoverListener(); // start live notifications
   }
   function updateAuthUI() {
     const loginBtn = document.getElementById('loginBtn');
@@ -694,7 +686,7 @@
     if (panel.classList.contains('active')) switchAdminTab('whatsnew');
   }
 
-  // ========== ADMIN PANEL FUNCTIONS ==========
+  // ========== ADMIN PANEL ==========
   function switchAdminTab(tab) {
     document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
     if (event && event.target) event.target.classList.add('active');
@@ -703,8 +695,8 @@
       content.innerHTML = `
         <div class="admin-form-card">
           <h4>Push new “What’s New”</h4>
-          <p style="font-size:13px;color:var(--text-muted);margin:0 0 12px">This updates the version for all users. They will see the banner next time they open the site.</p>
-          <div class="input-group"><label>Version string</label><input type="text" id="adminVersion" value="${SITE_VERSION}" placeholder="2026-08-28-v3"></div>
+          <p style="font-size:13px;color:var(--text-muted);margin:0 0 12px">Updates the version for all users.</p>
+          <div class="input-group"><label>Version string</label><input type="text" id="adminVersion" value="${SITE_VERSION}"></div>
           <div class="input-group"><label>Changelog (one point per line)</label><textarea id="adminChangelog" rows="4">${SITE_CHANGELOG.join('\n')}</textarea></div>
           <button onclick="saveWhatsNew()" class="btn-primary-sm">Publish What's New</button>
         </div>`;
@@ -712,8 +704,8 @@
       content.innerHTML = `
         <div class="admin-form-card">
           <h4>Post Announcement / Roster Update Note</h4>
-          <div class="input-group"><label>Title</label><input type="text" id="annTitle" placeholder="e.g. Burari Night Roster updated for 28-31 Aug"></div>
-          <div class="input-group"><label>Message</label><textarea id="annMsg" rows="3" placeholder="Details..."></textarea></div>
+          <div class="input-group"><label>Title</label><input type="text" id="annTitle" placeholder="e.g. Burari Night Roster updated"></div>
+          <div class="input-group"><label>Message</label><textarea id="annMsg" rows="3"></textarea></div>
           <button onclick="postAnnouncement()" class="btn-primary-sm">Post Announcement</button>
         </div>
         <div id="adminAnnList" style="margin-top:16px"><p style="color:var(--text-muted);font-size:13px">Loading...</p></div>`;
@@ -731,12 +723,11 @@
               <option>Other</option>
             </select>
           </div>
-          <div class="input-group"><label>Question</label><input type="text" id="faqQ" placeholder="How to request emergency crossmatch?"></div>
-          <div class="input-group"><label>Answer (HTML allowed)</label><textarea id="faqA" rows="4" placeholder="Step-by-step answer..."></textarea></div>
+          <div class="input-group"><label>Question</label><input type="text" id="faqQ"></div>
+          <div class="input-group"><label>Answer (HTML allowed)</label><textarea id="faqA" rows="4"></textarea></div>
           <div class="input-group"><label><input type="checkbox" id="faqUrgent"> Mark as Urgent</label></div>
           <button onclick="addFaqEntry()" class="btn-primary-sm">Add FAQ</button>
-        </div>
-        <p style="font-size:12.5px;color:var(--text-muted);margin-top:10px">New FAQs are stored in Firestore and appear together with the local data_faqs.js entries.</p>`;
+        </div>`;
     } else {
       content.innerHTML = `<p style="color:var(--text-muted)">Notes / future tools will appear here.</p>`;
     }
@@ -748,14 +739,12 @@
     if (!version || changelog.length === 0) return alert('Version and at least one changelog point required');
     try {
       await db.collection('siteConfig').doc('whatsNew').set({
-        version, changelog, updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
-        updatedBy: currentUser.email
+        version, changelog, updatedAt: firebase.firestore.FieldValue.serverTimestamp(), updatedBy: currentUser.email
       });
-      SITE_VERSION = version;
-      SITE_CHANGELOG = changelog;
-      alert('What’s New published! Users will see it on next visit.');
+      SITE_VERSION = version; SITE_CHANGELOG = changelog;
+      alert('What’s New published!');
       checkForSiteUpdate();
-    } catch (e) { alert('Error: ' + e.message); }
+    } catch (e) { alert('Error: ' + e.message + '\n\nMake sure Firestore rules allow write to siteConfig.'); }
   }
 
   async function postAnnouncement() {
@@ -764,14 +753,11 @@
     if (!title) return alert('Title required');
     try {
       await db.collection('announcements').add({
-        title, message: msg,
-        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        title, message: msg, createdAt: firebase.firestore.FieldValue.serverTimestamp(),
         createdBy: currentUser.displayName || currentUser.email
       });
-      document.getElementById('annTitle').value = '';
-      document.getElementById('annMsg').value = '';
-      alert('Announcement posted');
-      loadAdminAnnouncements();
+      document.getElementById('annTitle').value = ''; document.getElementById('annMsg').value = '';
+      alert('Announcement posted'); loadAdminAnnouncements();
     } catch (e) { alert('Error: ' + e.message); }
   }
 
@@ -797,17 +783,47 @@
     if (!question || !answer) return alert('Question and Answer required');
     try {
       await db.collection('extraFaqs').add({
-        category, question, answer, urgent,
-        id: 'extra_' + Date.now(),
+        category, question, answer, urgent, id: 'extra_' + Date.now(),
         createdAt: firebase.firestore.FieldValue.serverTimestamp()
       });
-      alert('FAQ added. It will appear after refresh / re-render.');
-      document.getElementById('faqQ').value = '';
-      document.getElementById('faqA').value = '';
+      alert('FAQ added.'); document.getElementById('faqQ').value = ''; document.getElementById('faqA').value = '';
     } catch (e) { alert('Error: ' + e.message); }
   }
 
-  // ========== DUTY SWAP BOARD ==========
+  // ========== DUTY COVER BOARD ==========
+  let coverListener = null;
+  let knownCoverIds = new Set();
+
+  function startDutyCoverListener() {
+    if (!currentUser || coverListener) return;
+    coverListener = db.collection('dutySwaps')
+      .where('status', '==', 'open')
+      .orderBy('createdAt', 'desc')
+      .limit(20)
+      .onSnapshot(snap => {
+        snap.docChanges().forEach(change => {
+          if (change.type === 'added') {
+            const id = change.doc.id;
+            const data = change.doc.data();
+            // Don't notify the person who just posted it
+            if (data.requesterUid === currentUser.uid) {
+              knownCoverIds.add(id);
+              return;
+            }
+            if (!knownCoverIds.has(id)) {
+              knownCoverIds.add(id);
+              const amt = data.amount ? ` (₹${data.amount})` : '';
+              showLiveToast('💰 New Duty Cover Request', `${data.requesterName} needs cover for ${data.currentDuty}${amt}`);
+              // If currently on the Cover tab, refresh list
+              if (!document.getElementById('swaps-tab').classList.contains('hidden')) loadSwaps();
+            }
+          }
+        });
+      }, err => {
+        console.warn('Cover listener error (probably missing index or rules):', err.message);
+      });
+  }
+
   function renderSwapTab() {
     const prompt = document.getElementById('swapLoginPrompt');
     const content = document.getElementById('swapContent');
@@ -824,76 +840,85 @@
     loadSwaps();
   }
 
-  function showCreateSwapForm() {
-    document.getElementById('createSwapForm').classList.remove('hidden');
-  }
-  function hideCreateSwapForm() {
-    document.getElementById('createSwapForm').classList.add('hidden');
-  }
+  function showCreateSwapForm() { document.getElementById('createSwapForm').classList.remove('hidden'); }
+  function hideCreateSwapForm() { document.getElementById('createSwapForm').classList.add('hidden'); }
 
- async function submitSwapRequest() {
-  const date = document.getElementById('swapDate').value;
-  const currentDuty = document.getElementById('swapCurrentDuty').value.trim();
-  const lookingFor = document.getElementById('swapLookingFor').value.trim();
-  const notes = document.getElementById('swapNotes').value.trim();
-  const amount = document.getElementById('swapAmount').value.trim();   // ← new
+  async function submitSwapRequest() {
+    if (!currentUser) return alert('Please login first');
 
- if (!date || !currentDuty || !amount) return alert('Date, duty and amount are required');
+    const date = document.getElementById('swapDate').value;
+    const currentDuty = document.getElementById('swapCurrentDuty').value.trim();
+    const lookingFor = document.getElementById('swapLookingFor').value.trim();
+    const notes = document.getElementById('swapNotes').value.trim();
+    const amountRaw = document.getElementById('swapAmount').value.trim();
+    const amount = amountRaw ? Number(amountRaw) : null;
 
-  try {
-    await db.collection('dutySwaps').add({
-      requesterUid: currentUser.uid,
-      requesterName: currentUser.displayName || currentUser.email,
-      requesterEmail: currentUser.email,
-      date,
-      currentDuty,
-      lookingFor,
-      notes,
-      amount: amount ? Number(amount) : null,          // ← new
-      status: 'open',
-      comments: [],
-      createdAt: firebase.firestore.FieldValue.serverTimestamp()
-    });
+    if (!date || !currentDuty) {
+      return alert('Date and current duty are required');
+    }
+    if (amountRaw && (isNaN(amount) || amount < 0)) {
+      return alert('Amount must be a valid positive number');
+    }
+
+    try {
+      await db.collection('dutySwaps').add({
+        requesterUid: currentUser.uid,
+        requesterName: currentUser.displayName || currentUser.email || 'Anonymous',
+        requesterEmail: currentUser.email || '',
+        date,
+        currentDuty,
+        lookingFor: lookingFor || '',
+        notes: notes || '',
+        amount: amount,
+        status: 'open',
+        comments: [],
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
       hideCreateSwapForm();
       document.getElementById('swapDate').value = '';
       document.getElementById('swapCurrentDuty').value = '';
       document.getElementById('swapLookingFor').value = '';
       document.getElementById('swapNotes').value = '';
-      alert('Swap request posted!');
+      document.getElementById('swapAmount').value = '';
+      alert('Cover request posted successfully!');
       loadSwaps();
-    } catch (e) { alert('Error: ' + e.message); }
+    } catch (e) {
+      console.error(e);
+      let msg = e.message || 'Unknown error';
+      if (msg.includes('permission') || msg.includes('Permission') || e.code === 'permission-denied') {
+        msg = 'Permission denied.\n\nGo to Firebase Console → Firestore → Rules and publish the rules given in the instructions.\n\nAlso make sure you are logged in.';
+      }
+      alert('Error posting request:\n\n' + msg);
+    }
   }
 
   async function loadSwaps() {
     const list = document.getElementById('swapList');
-    list.innerHTML = '<p style="color:var(--text-muted);font-size:13px">Loading swaps...</p>';
+    list.innerHTML = '<p style="color:var(--text-muted);font-size:13px">Loading cover requests...</p>';
     try {
       const snap = await db.collection('dutySwaps').orderBy('createdAt', 'desc').limit(40).get();
       if (snap.empty) {
-        list.innerHTML = '<p style="text-align:center;color:var(--text-muted);padding:20px">No swap requests yet. Be the first!</p>';
+        list.innerHTML = '<p style="text-align:center;color:var(--text-muted);padding:20px">No cover requests yet. Be the first!</p>';
         return;
       }
       list.innerHTML = snap.docs.map(doc => {
         const d = doc.data();
         const id = doc.id;
         const isMine = currentUser && d.requesterUid === currentUser.uid;
-        const dateStr = d.date || '';
         const statusBadge = d.status === 'accepted'
           ? '<span class="badge badge-days">Accepted</span>'
-          : '<span class="badge badge-unit">Open</span>';
+          : (d.status === 'closed' ? '<span class="badge badge-sub">Closed</span>' : '<span class="badge badge-unit">Open</span>');
         const commentsHtml = (d.comments || []).map(c =>
           `<div style="font-size:12.5px;margin-top:4px;padding:6px 10px;background:var(--box-bg);border-radius:8px"><strong>${c.name}</strong>: ${c.text}</div>`
         ).join('');
         return `
           <div class="swap-card ${d.status === 'accepted' ? 'accepted' : ''}">
             <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;flex-wrap:wrap">
-              <div>
-                <strong style="font-size:15px">${d.requesterName}</strong> ${statusBadge}
-              </div>
-              <span style="font-size:12px;color:var(--text-muted)">${dateStr}</span>
+              <div><strong style="font-size:15px">${d.requesterName || 'User'}</strong> ${statusBadge}</div>
+              <span style="font-size:12px;color:var(--text-muted)">${d.date || ''}</span>
             </div>
             <div class="swap-meta">
-              <div>📍 Current: <strong>${d.currentDuty}</strong></div>
+              <div>📍 Current: <strong>${d.currentDuty || ''}</strong></div>
               ${d.lookingFor ? `<div>🔍 Looking for: ${d.lookingFor}</div>` : ''}
               ${d.amount ? `<div>💰 Offering: <strong>₹${d.amount}</strong></div>` : ''}
               ${d.notes ? `<div style="margin-top:4px">${d.notes}</div>` : ''}
@@ -907,29 +932,33 @@
           </div>`;
       }).join('');
     } catch (e) {
-      list.innerHTML = `<p style="color:var(--urgent)">Failed to load swaps: ${e.message}</p>`;
+      console.error(e);
+      let msg = e.message || '';
+      if (msg.includes('permission') || e.code === 'permission-denied') {
+        msg = 'Permission denied while reading. Update Firestore rules (see instructions).';
+      }
+      list.innerHTML = `<p style="color:var(--urgent);padding:16px">Failed to load: ${msg}</p>`;
     }
   }
 
   async function acceptSwap(id) {
-    if (!confirm('Accept this swap request?')) return;
+    if (!confirm('Mark yourself as interested in covering this duty?')) return;
     try {
       await db.collection('dutySwaps').doc(id).update({
         status: 'accepted',
         acceptedBy: currentUser.displayName || currentUser.email,
         acceptedAt: firebase.firestore.FieldValue.serverTimestamp()
       });
-      alert('Swap accepted! Contact the requester to finalize.');
+      alert('You are now marked as interested. Contact the requester to finalize.');
       loadSwaps();
     } catch (e) { alert(e.message); }
   }
 
   async function addSwapComment(id) {
-    const text = prompt('Your comment / message:');
+    const text = prompt('Your message / negotiation:');
     if (!text || !text.trim()) return;
     try {
-      const ref = db.collection('dutySwaps').doc(id);
-      await ref.update({
+      await db.collection('dutySwaps').doc(id).update({
         comments: firebase.firestore.FieldValue.arrayUnion({
           name: currentUser.displayName || currentUser.email,
           text: text.trim(),
@@ -941,7 +970,7 @@
   }
 
   async function closeSwap(id) {
-    if (!confirm('Close this swap request?')) return;
+    if (!confirm('Close this cover request?')) return;
     try {
       await db.collection('dutySwaps').doc(id).update({ status: 'closed' });
       loadSwaps();
@@ -982,7 +1011,7 @@
     renderUserHistory();
   }
 
-  // ========== FAQ (local + extra from Firestore) ==========
+  // ========== FAQ ==========
   let extraFaqs = [];
   async function loadExtraFaqs() {
     try {
@@ -990,7 +1019,6 @@
       extraFaqs = snap.docs.map(d => d.data());
     } catch (e) {}
   }
-
   function highlightText(text, query) {
     if (!query) return text;
     const esc = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -1060,7 +1088,7 @@
     setTimeout(() => btn.textContent = old, 1500);
   }
 
-  // ========== CORE HELPERS (roster etc.) ==========
+  // ========== CORE HELPERS ==========
   function getCoInternsNames(coSnos, userDept, selectedDate, currentSearchedSno) {
     if (!coSnos || coSnos.length === 0) return "";
     const isNightDuty = userDept && userDept.toLowerCase().includes("night");
@@ -1213,7 +1241,7 @@
     }
   }
 
-  // ========== ROSTER SEARCH (kept original logic) ==========
+  // ========== ROSTER SEARCH (original logic kept) ==========
   function executeSmartSearch() {
     const personQuery = document.getElementById('universalPersonInput')?.value.toLowerCase().trim() || "";
     const deptQuery = document.getElementById('universalDeptSelect')?.value || "";
@@ -1512,8 +1540,11 @@
 </script>
 
 <script>
+  // Extra safety: force SW update on every load
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('./sw.js').catch(() => {});
+    navigator.serviceWorker.getRegistrations().then(regs => {
+      regs.forEach(r => r.update());
+    });
   }
 </script>
 </body>

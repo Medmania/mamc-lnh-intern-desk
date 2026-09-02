@@ -321,18 +321,22 @@
       <select id="labHospitalSelect" onchange="searchLabTests()" style="padding:10px 14px;border-radius:8px;border:1px solid var(--border);font-size:14px;background-color:var(--input-bg);font-weight:600;color:var(--text);min-width:280px;cursor:pointer">
   <option value="all">🏥 All Diagnostic Windows & Labs</option>
   <optgroup label="── LNJP HOSPITAL WINDOWS ──">
-    <option value="window1_path">📍 Window 1(Em/Routine)</option>
+    <option value="window1_path">📍 Window 1(Em/Routine) & 5(Routine)</option>
     <option value="window2_biochem">📍 Window 2(Em) & 2E(Routine)</option>
     <option value="window3_em">📍 Window 3(Em)</option>
   </optgroup>
   <optgroup label="── SPECIALIZED LABS & DEPARTMENTS ──">
     <option value="immunology_serology">🔬 Immunology & Serology Labs</option>
     <option value="virology_pcr">🧬 Virology & Molecular PCR</option>
-    <option value="cultures">🧫 All Cultures, Stool, AFB & Mycology</option>
+    <option value="cultures">🧫 Cultures</option>
     <option value="bloodbank">🩸 Blood Bank</option>
-    <option value="radiology_gbp">📷 Radiology & GB Pant Diagnostics</option>
+  </optgroup>
+  <optgroup label="── RADIOLOGY & GB PANT ──">
+    <option value="radiology_lnjp">🩻 LNJP Radiology</option>
+    <option value="gbpant">🏥 GB Pant Hospital (Labs, Echo & Imaging)</option>
   </optgroup>
 </select>
+
 
       <input type="text" id="labSearch" oninput="searchLabTests();saveSearchHistory('lab',this.value)" placeholder="Search test, tube colour, room..." style="flex:1;min-width:250px;padding:10px 14px;border-radius:8px;border:1px solid var(--border);font-size:14px">
     </div>

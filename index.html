@@ -319,30 +319,21 @@
   <div id="lab-tab" class="hidden">
     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;margin-bottom:12px">
       <select id="labHospitalSelect" onchange="searchLabTests()" style="padding:10px 14px;border-radius:8px;border:1px solid var(--border);font-size:14px;background-color:var(--input-bg);font-weight:600;color:var(--text);min-width:280px;cursor:pointer">
-        <option value="all">🏥 All Labs & Tests</option>
-        <optgroup label="── MOST USED BY INTERNS ──">
-          <option value="routine">🩸 Routine Bloods</option>
-          <option value="emergency">🚨 Emergency / 24×7</option>
-          <option value="coag">🔵 Coagulation</option>
-          <option value="bloodbank">🩸 Blood Bank</option>
-        </optgroup>
-        <optgroup label="── PATHOLOGY ──"><option value="hematology">🔬 Hematology / Cytology</option></optgroup>
-        <optgroup label="── BIOCHEMISTRY ──">
-          <option value="biochem_routine">🧪 Biochemistry Routine</option>
-          <option value="biochem_emergency">⚡ Biochemistry Emergency</option>
-        </optgroup>
-        <optgroup label="── MICROBIOLOGY ──">
-          <option value="cultures">🧫 Cultures</option>
-          <option value="serology">🔬 Serology</option>
-          <option value="virology">🦠 Virology</option>
-          <option value="tb">🫁 TB / AFB / CBNAAT</option>
-          <option value="hiv">🩸 HIV & CD4</option>
-          <option value="mycology">🍄 Mycology</option>
-          <option value="parasitology">🦟 Parasitology</option>
-        </optgroup>
-        <optgroup label="── RADIOLOGY ──"><option value="radiology">📷 Radiology</option></optgroup>
-        <optgroup label="── OTHER ──"><option value="gbpant">🏥 GB Pant Diagnostics</option></optgroup>
-      </select>
+  <option value="all">🏥 All Diagnostic Windows & Labs</option>
+  <optgroup label="── LNJP HOSPITAL WINDOWS ──">
+    <option value="window1_path">📍 Window 1 (Pathology & Clinical)</option>
+    <option value="window2_biochem">📍 Window 2 & 2E (Biochemistry Routine, ABG & Special)</option>
+    <option value="window3_em">📍 Window 3 (Emergency Lab & Fast-Track)</option>
+  </optgroup>
+  <optgroup label="── SPECIALIZED LABS & DEPARTMENTS ──">
+    <option value="immunology_serology">🔬 Immunology & Serology Labs (Rooms 126, 277B, 278, Immuno Lab)</option>
+    <option value="virology_pcr">🧬 Virology & Molecular PCR (Rooms 278, 279)</option>
+    <option value="cultures">🧫 All Cultures, Stool, AFB & Mycology</option>
+    <option value="bloodbank">🩸 Blood Bank & Transfusion</option>
+    <option value="radiology_gbp">📷 Radiology & GB Pant Diagnostics</option>
+  </optgroup>
+</select>
+
       <input type="text" id="labSearch" oninput="searchLabTests();saveSearchHistory('lab',this.value)" placeholder="Search test, tube colour, room..." style="flex:1;min-width:250px;padding:10px 14px;border-radius:8px;border:1px solid var(--border);font-size:14px">
     </div>
     <div id="labResults"></div>

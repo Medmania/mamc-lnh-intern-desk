@@ -118,20 +118,22 @@ const faqData = [
     </ol>
     <div class="pitfall"><strong>Common pitfall:</strong> Do not use hemolyzed samples or random late-evening urine for light chain electrophoresis.</div>`
   },
-  {
+    {
     id: "h1n1_pcr",
     category: "Special Forms & Laboratory Routing",
-    tags: ["h1n1", "swine flu", "rt-pcr", "swab", "virology", "room 278"],
+    tags: ["h1n1", "swine flu", "rt-pcr", "swab", "virology", "room 278", "vtm"],
     urgent: true,
-    question: "Where is H1N1 (Swine Flu) RT-PCR testing conducted?",
+    question: "Where and how to get H1N1 (Swine Flu) RT-PCR testing done?",
     answer: `<ol>
-      <li>Go to <strong>Room 278 (MAMC Virology)</strong> to collect the specialized H1N1 requisition form and VTM transport swab.</li>
-      <li>Collect nasopharyngeal/oropharyngeal swabs strictly during morning hours.</li>
-      <li>Transport the VTM under cold-chain conditions back to Room 278.</li>
-      <li>Reports are released the same evening by ~4:00 PM on weekdays (by ~1:00 PM on Saturdays).</li>
+      <li><strong>Doctor's Slip:</strong> Write a requisition slip mentioning <em>"H1N1 Swab"</em> along with quantity, signed and stamped with unit seal.</li>
+      <li><strong>Form & Kit Collection:</strong> Send the patient attendant with this slip to <strong>Room 278 (College Building)</strong> to collect the specialized H1N1 form and VTM transport swab.</li>
+      <li><strong>Online Entry:</strong> Generate the mandatory portal/app patient ID as per protocol and fill out the physical form.</li>
+      <li><strong>Sampling & Submission:</strong> Take the nasopharyngeal/oropharyngeal swab bedside during morning hours and return it immediately under cold chain to Room 278.</li>
+      <li><strong>Reports:</strong> Same-day evening reports by ~4:00 PM on weekdays (by ~1:00 PM on Saturdays).</li>
     </ol>
-    <div class="pitfall"><strong>Common pitfall:</strong> Swabs received after morning cutoff hours are held over to the next day's batch, delaying same-day reporting.</div>`
+    <div class="pitfall"><strong>Common pitfall:</strong> Do not send the patient attendant to Room 278 without a signed and stamped requisition slip specifying the swab quantity.</div>`
   },
+
   {
     id: "ucs_bcs",
     category: "Special Forms & Laboratory Routing",

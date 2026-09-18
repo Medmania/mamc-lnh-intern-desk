@@ -244,12 +244,12 @@ const deptSchedules = [
     id: "ophtha",
     name: "Ophthalmology OPD, OT & Round Schedule (Guru Nanak Eye Centre)",
     units: [
-      { title: 'Unit 1A <span style="font-weight: normal;">(Dr. Paromita Dutta, Dr. Meenakshi Wadhwani)</span>', days: "🔹 <b>OPD:</b> Mon & Thu<br>🔴 <b>OT:</b> Wed & Sat<br>🟡 <b>Round:</b> Tue & Fri", location: "GNEC OPD (Rooms 06, 07, 19, 20, 21)" },
-      { title: 'Unit 1B <span style="font-weight: normal;">(Dr. Parul Jain, Dr. Siddharth Madan)</span>', days: "🔹 <b>OPD:</b> Mon & Thu<br>🔴 <b>OT:</b> Wed & Sat<br>🟡 <b>Round:</b> Tue & Fri", location: "GNEC OPD (Rooms 10, 12, 16, 17, 18)" },
-      { title: 'Unit 2A <span style="font-weight: normal;">(Dr. Kirti Singh, Dr. Annu Joon, Dr. Arshi Singh)</span>', days: "🔹 <b>OPD:</b> Tue & Fri<br>🔴 <b>OT:</b> Mon & Thu<br>🟡 <b>Round:</b> Wed & Sat", location: "GNEC OPD (Rooms 06, 07, 19, 20, 21)" },
-      { title: 'Unit 2B <span style="font-weight: normal;">(Dr. Punita K. Sodhi, Dr. Aastha Singh)</span>', days: "🔹 <b>OPD:</b> Tue & Fri<br>🔴 <b>OT:</b> Mon & Thu<br>🟡 <b>Round:</b> Wed & Sat", location: "GNEC OPD (Rooms 10, 12, 16, 17, 18)" },
-      { title: 'Unit 3A <span style="font-weight: normal;">(Dr. Meenakshi Thakar, Dr. Bhumika Sharma, Dr. Isha Sharma)</span>', days: "🔹 <b>OPD:</b> Wed & Sat<br>🔴 <b>OT:</b> Tue & Fri<br>🟡 <b>Round:</b> Mon & Thu", location: "GNEC OPD (Rooms 06, 07, 19, 20, 21)" },
-      { title: 'Unit 3B <span style="font-weight: normal;">(Dr. Subhash C. Dadeya, Dr. Ishita Bajaj, Dr. Vaishali Tomar)</span>', days: "🔹 <b>OPD:</b> Wed & Sat<br>🔴 <b>OT:</b> Tue & Fri<br>🟡 <b>Round:</b> Mon & Thu", location: "GNEC OPD (Rooms 10, 12, 16, 17, 18)" }
+      { title: 'Unit 1A <span style="font-weight: normal;">(Dr. Paromita Dutta)</span>', days: "🔹 <b>OPD:</b> Mon & Thu<br>🔴 <b>OT:</b> Wed & Sat<br>🟡 <b>Round:</b> Tue & Fri", location: "<b>GNEC OPD :</b>(Rooms 06, 07, 19, 20, 21)<br><b>Ward :</b>" },
+      { title: 'Unit 1B <span style="font-weight: normal;">(Dr. Parul Jain)</span>', days: "🔹 <b>OPD:</b> Mon & Thu<br>🔴 <b>OT:</b> Wed & Sat<br>🟡 <b>Round:</b> Tue & Fri", location: "<b>GNEC OPD :</b>(Rooms 10, 12, 16, 17, 18)<br><b>Ward :</b>" },
+      { title: 'Unit 2A <span style="font-weight: normal;">(Dr. Kirti Singh)</span>', days: "🔹 <b>OPD:</b> Tue & Fri<br>🔴 <b>OT:</b> Mon & Thu<br>🟡 <b>Round:</b> Wed & Sat", location: "<b>GNEC OPD :</b>(Rooms 06, 07, 19, 20, 21)<br><b>Ward :</b>" },
+      { title: 'Unit 2B <span style="font-weight: normal;">(Dr. Punita K. Sodhi)</span>', days: "🔹 <b>OPD:</b> Tue & Fri<br>🔴 <b>OT:</b> Mon & Thu<br>🟡 <b>Round:</b> Wed & Sat", location: "<b>GNEC OPD :</b>(Rooms 10, 12, 16, 17, 18)<br><b>Ward :</b>Ward 1(Male), Ward 4(Female)" },
+      { title: 'Unit 3A <span style="font-weight: normal;">(Dr. Meenakshi Thakar)</span>', days: "🔹 <b>OPD:</b> Wed & Sat<br>🔴 <b>OT:</b> Tue & Fri<br>🟡 <b>Round:</b> Mon & Thu", location: "<b>GNEC OPD :</b>(Rooms 06, 07, 19, 20, 21)<br><b>Ward :</b>" },
+      { title: 'Unit 3B <span style="font-weight: normal;">(Dr. Subhash C. Dadeya)</span>', days: "🔹 <b>OPD:</b> Wed & Sat<br>🔴 <b>OT:</b> Tue & Fri<br>🟡 <b>Round:</b> Mon & Thu", location: "<b>GNEC OPD :</b>(Rooms 10, 12, 16, 17, 18)<br><b>Ward :</b>" }
     ]
   },
   {

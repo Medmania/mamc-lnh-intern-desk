@@ -337,9 +337,9 @@ const deptSchedules = [
     id: "ortho",
     name: "Orthopedics OPD, OT & Emergency Schedule",
     units: [
-      { title: 'Orthopedics Unit 1 <span style="font-weight: normal;">(Dr. Sumit Sural, Dr. Sumit Arora)</span>', days: "Mon & Thu", location: "Ortho Block 1st Floor (Rooms 101-104, 111-113, 115)" },
-      { title: 'Orthopedics Unit 2 <span style="font-weight: normal;">(Dr. Lalit Maini)</span>', days: "Tue & Fri", location: "Ortho Block 1st Floor (Rooms 101-104, 111-113, 115)" },
-      { title: 'Orthopedics Unit 3 <span style="font-weight: normal;">(Dr. Abhishek Kashyap)</span>', days: "Wed & Sat", location: "Ortho Block 1st Floor (Rooms 101-104, 111-113, 115)" },
+      { title: 'Orthopedics Unit 3 <span style="font-weight: normal;">(Dr. Sumit Arora)</span>', days: "Mon & Thu", location: "Ortho Block 1st Floor (Rooms 101-104, 111-113, 115)" },
+      { title: 'Orthopedics Unit 1 <span style="font-weight: normal;">(Dr. Lalit Maini)</span>', days: "Tue & Fri", location: "Ortho Block 1st Floor (Rooms 101-104, 111-113, 115)" },
+      { title: 'Orthopedics Unit 2 <span style="font-weight: normal;">(Dr. Abhishek Kashyap)</span>', days: "Wed & Sat", location: "Ortho Block 1st Floor (Rooms 101-104, 111-113, 115)" },
       { title: 'Fracture Clinic <span style="font-weight: normal;">(Dr. Lalit Maini)</span>', days: "Mon to Sat (Morning & Evening Shift)", location: "Ortho Block 1st Floor (Room 105)" },
       { title: 'Spine Clinic (Wednesday)', days: "Wednesday", location: "Ortho Block 1st Floor (Room 115)" }
     ]

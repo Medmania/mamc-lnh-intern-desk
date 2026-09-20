@@ -163,12 +163,7 @@
     .login-required-msg { text-align: center; padding: 30px 20px; color: var(--text-muted); font-size: 14px; }
 
     /* Toast notification */
-    #liveToast {
-      position: fixed; top: 20px; right: 20px; z-index: 10050;
-      background: var(--card); border: 1.5px solid var(--primary); border-radius: 14px;
-      padding: 14px 18px; box-shadow: var(--shadow-lg); max-width: 340px;
-      animation: popupSlide 0.3s ease; font-size: 13.5px; font-weight: 600;
-    }
+    #liveToast { position: fixed; top: 20px; right: 20px; z-index: 10050; background: var(--card); border: 1.5px solid var(--primary); border-radius: 14px; padding: 14px 18px; box-shadow: var(--shadow-lg); max-width: 340px; animation: popupSlide 0.3s ease; font-size: 13.5px; font-weight: 600; }
     #liveToast .toast-title { font-weight: 800; color: var(--primary); margin-bottom: 4px; }
   </style>
 </head>
@@ -228,7 +223,7 @@
     <div id="userHistoryBox" class="history-box hidden">
       <div style="display:flex;justify-content:space-between;align-items:center">
         <h4>🕒 Recent Searches</h4>
-        <button onclick="clearSearchHistory()" style="font-size:12px;padding:4px 10px;border-radius:8px;border:1px solid var(--border);background:var(--card);cursor:pointer;font-weight:700">Clear History</button>
+        <button onclick="clearSearchHistory()" style="font-size:12px;padding:4px 10px;border-radius:8px;border:1px solid var(--border);background:var(--card);cursor:font-weight:700">Clear History</button>
       </div>
       <div class="history-chips" id="historyChips"></div>
     </div>
@@ -319,25 +314,23 @@
   <div id="lab-tab" class="hidden">
     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;margin-bottom:12px">
       <select id="labHospitalSelect" onchange="searchLabTests()" style="padding:10px 14px;border-radius:8px;border:1px solid var(--border);font-size:14px;background-color:var(--input-bg);font-weight:600;color:var(--text);min-width:280px;cursor:pointer">
-  <option value="all">🏥 All Diagnostic Windows & Labs</option>
-  <optgroup label="── LNJP HOSPITAL WINDOWS ──">
-    <option value="window1_path">📍 Window 1(Em/Routine) & 5(Routine)</option>
-    <option value="window2_biochem">📍 Window 2(Em) & 2E(Routine)</option>
-    <option value="window3_em">📍 Window 3(Em)</option>
-  </optgroup>
-  <optgroup label="── SPECIALIZED LABS & DEPARTMENTS ──">
-    <option value="immunology_serology">🔬 Immunology & Serology Labs</option>
-    <option value="virology_pcr">🧬 Virology & Molecular PCR</option>
-    <option value="cultures">🧫 Cultures</option>
-    <option value="bloodbank">🩸 Blood Bank</option>
-  </optgroup>
-  <optgroup label="── RADIOLOGY & GB PANT ──">
-    <option value="radiology_lnjp">🩻 LNJP Radiology</option>
-    <option value="gbpant">🏥 GB Pant Hospital (Labs, Echo & Imaging)</option>
-  </optgroup>
-</select>
-
-
+        <option value="all">🏥 All Diagnostic Windows & Labs</option>
+        <optgroup label="── LNJP HOSPITAL WINDOWS ──">
+          <option value="window1_path">📍 Window 1 & 5 (Pathology & Clinical)</option>
+          <option value="window2_biochem">📍 Window 2 & 2E (Biochemistry Routine, ABG & Special)</option>
+          <option value="window3_em">📍 Window 3 (Emergency Lab & Fast-Track)</option>
+        </optgroup>
+        <optgroup label="── SPECIALIZED LABS & DEPARTMENTS ──">
+          <option value="immunology_serology">🔬 Immunology & Serology Labs</option>
+          <option value="virology_pcr">🧬 Virology & Molecular PCR</option>
+          <option value="cultures">🧫 Cultures</option>
+          <option value="bloodbank">🩸 Blood Bank</option>
+        </optgroup>
+        <optgroup label="── RADIOLOGY & GB PANT ──">
+          <option value="radiology_lnjp">🩻 LNJP Radiology</option>
+          <option value="gbpant">🏥 GB Pant Hospital (Labs, Echo & Imaging)</option>
+        </optgroup>
+      </select>
       <input type="text" id="labSearch" oninput="searchLabTests();saveSearchHistory('lab',this.value)" placeholder="Search test, tube colour, room..." style="flex:1;min-width:250px;padding:10px 14px;border-radius:8px;border:1px solid var(--border);font-size:14px">
     </div>
     <div id="labResults"></div>
@@ -366,7 +359,7 @@
         <h3 style="margin:0;font-size:18px;font-weight:800;color:var(--text)">📁 Intern Clinical & Documentation Hub</h3>
         <p style="margin:4px 0 0 0;font-size:13px;color:var(--text-muted)">Standard department referral formats, file ordering & clinical memos</p>
       </div>
-      <button onclick="openAdminModal()" style="padding:8px 14px;border:none;background:var(--primary-gradient);color:white;font-weight:800;font-size:12.5px;border-radius:12px;cursor:pointer">⚙️ Admin Upload</button>
+      <button id="adminUploadBtn" onclick="openAdminModal()" style="padding:8px 14px;border:none;background:var(--primary-gradient);color:white;font-weight:800;font-size:12.5px;border-radius:12px;cursor:pointer">⚙️ Admin Upload</button>
     </div>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-bottom:16px">
       <input type="text" id="guideSearchInput" placeholder="🔍 Search guide..." oninput="renderClinicalGuides()">
@@ -382,8 +375,8 @@
         <option value="Anaesthesia">Anaesthesia</option>
         <option value="Radiology">Radiology</option>
         <option value="Casualty">Casualty & Emergency</option>
-       <option value="Community Medicine">Community Medicine (PSM)</option>
-         <option value="Administrative">Paperwork & MLC</option>
+        <option value="Community Medicine">Community Medicine (PSM)</option>
+        <option value="Administrative">Paperwork & MLC</option>
       </select>
     </div>
     <div id="guidesResultsGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px">
@@ -407,34 +400,18 @@
 
     <div id="swapContent" class="hidden">
       <div id="createSwapForm" class="admin-form-card hidden">
-  <h4 id="swapFormTitle">Post a Cover Request</h4>
-  <input type="hidden" id="editingSwapId" value="">
-
-  <div class="input-group">
-    <label>Date of duty you want covered</label>
-    <input type="date" id="swapDate">
-  </div>
-  <div class="input-group">
-    <label>Your current duty / posting</label>
-    <input type="text" id="swapCurrentDuty" placeholder="e.g. Night Duty - Medicine / ENT / PSM Burari Night">
-  </div>
-  <div class="input-group">
-    <label>What you are looking for (optional)</label>
-    <input type="text" id="swapLookingFor" placeholder="e.g. Day duty, any unit, PDO">
-  </div>
-  <div class="input-group">
-    <label>Amount you are offering (₹)</label>
-    <input type="number" id="swapAmount" placeholder="e.g. 500, 1000, 1500" min="0">
-  </div>
-  <div class="input-group">
-    <label>Additional notes</label>
-    <textarea id="swapNotes" rows="2" placeholder="Any extra details..."></textarea>
-  </div>
-  <div style="display:flex;gap:10px;flex-wrap:wrap">
-    <button onclick="submitSwapRequest()" id="swapSubmitBtn" class="btn-primary-sm">Post Request</button>
-    <button onclick="hideCreateSwapForm()" class="btn-secondary-sm">Cancel</button>
-  </div>
-</div>
+        <h4 id="swapFormTitle">Post a Cover Request</h4>
+        <input type="hidden" id="editingSwapId" value="">
+        <div class="input-group"><label>Date of duty you want covered</label><input type="date" id="swapDate"></div>
+        <div class="input-group"><label>Your current duty / posting</label><input type="text" id="swapCurrentDuty" placeholder="e.g. Night Duty - Medicine / ENT / PSM Burari Night"></div>
+        <div class="input-group"><label>What you are looking for (optional)</label><input type="text" id="swapLookingFor" placeholder="e.g. Day duty, any unit, PDO"></div>
+        <div class="input-group"><label>Amount you are offering (₹)</label><input type="number" id="swapAmount" placeholder="e.g. 500, 1000, 1500" min="0"></div>
+        <div class="input-group"><label>Additional notes</label><textarea id="swapNotes" rows="2" placeholder="Any extra details..."></textarea></div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <button onclick="submitSwapRequest()" id="swapSubmitBtn" class="btn-primary-sm">Post Request</button>
+          <button onclick="hideCreateSwapForm()" class="btn-secondary-sm">Cancel</button>
+        </div>
+      </div>
       <div id="swapList"></div>
     </div>
   </div>
@@ -451,7 +428,6 @@
   <a id="lightboxDownloadBtn" href="" target="_blank" download style="margin-top:14px;background:white;color:#0f172a;padding:8px 16px;border-radius:20px;font-weight:800;font-size:13px;text-decoration:none" onclick="event.stopPropagation()">⬇️ Open Full Resolution</a>
 </div>
 
-
 <!-- FLOATING SUGGESTION -->
 <button id="feedbackToggleBtn" onclick="toggleFeedbackModal()" style="position:fixed;bottom:20px;left:20px;z-index:9998;background:var(--primary);color:white;border:none;border-radius:50px;padding:12px 20px;font-weight:800;font-size:13.5px;box-shadow:var(--shadow-lg);cursor:pointer;display:flex;align-items:center;gap:8px;font-family:inherit">
   💡 <span>Suggest Changes</span>
@@ -466,6 +442,51 @@
     <div style="padding:12px">
       <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdTHssorcf7rmuzjX7nfiZ1QRddKD1is_rXuyA-NNz28tyQQQ/viewform?embedded=true" width="100%" height="500" frameborder="0" style="border:none;display:block;border-radius:12px">Loading…</iframe>
     </div>
+  </div>
+</div>
+
+<!-- ADMIN GUIDE MODAL (PROPERLY PLACED INSIDE BODY) -->
+<div id="adminGuideModal" class="hidden" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(15,23,42,0.6);backdrop-filter:blur(6px);z-index:10001;display:flex;align-items:center;justify-content:center;padding:16px;box-sizing:border-box">
+  <div style="background:var(--card);width:100%;max-width:520px;border-radius:20px;box-shadow:var(--shadow-lg);border:1px solid var(--border);overflow:hidden;padding:20px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+      <h3 id="guideModalTitle" style="margin:0;font-size:16.5px;font-weight:800;color:var(--text)">📤 Upload Format or Referral Guide</h3>
+      <span onclick="closeAdminModal()" style="font-size:22px;cursor:pointer;color:var(--text-muted)">&times;</span>
+    </div>
+    <form id="guideUploadForm" onsubmit="submitGuideUpload(event)" style="display:flex;flex-direction:column;gap:12px">
+      <input type="hidden" id="editingGuideId" value="">
+      <input type="password" id="adminPinInput" placeholder="Enter Admin PIN" required>
+      <input type="text" id="guideTitleInput" placeholder="Format Title" required>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <select id="guideDeptFormSelect">
+          <option value="Medicine">Medicine</option>
+          <option value="ENT">ENT</option>
+          <option value="Ophthalmology">Ophtha</option>
+          <option value="Surgery">General Surgery</option>
+          <option value="Pediatrics">Pediatrics</option>
+          <option value="Obs & Gynae">Obs & Gynae</option>
+          <option value="Orthopedics">Orthopedics</option>
+          <option value="Anaesthesia">Anaesthesia</option>
+          <option value="Radiology">Radiology</option>
+          <option value="Community Medicine">Community Medicine (PSM)</option>
+          <option value="Casualty">Casualty & Emergency</option>
+          <option value="Administrative">Paperwork & MLC</option>
+        </select>
+        <select id="guideCategorySelect">
+          <option value="Referral">Referral / Consult</option>
+          <option value="File Ordering">File Ordering</option>
+          <option value="Logbook/Document">Logbook/Document</option>
+          <option value="Clinical Memo">Death / Leave Memo</option>
+          <option value="Protocol">Emergency Protocol</option>
+        </select>
+      </div>
+      <textarea id="guideTemplateInput" placeholder="Optional raw text template..." style="width:100%;height:75px;padding:10px;border-radius:12px;border:1.5px solid var(--border);font-family:inherit;font-size:13px;background:var(--input-bg);color:var(--text);box-sizing:border-box"></textarea>
+      <div>
+        <label style="font-size:12px;margin-bottom:4px">File / Photo (Optional):</label>
+        <input type="file" id="guideFileInput" accept="image/*,.pdf,.doc,.docx,.xls,.xlsx">
+        <p id="currentFileHint" style="font-size:12px;color:var(--text-muted);margin:6px 0 0 0;display:none"></p>
+      </div>
+      <button type="submit" id="uploadSubmitBtn" style="padding:12px;border:none;background:var(--primary-gradient);color:white;font-weight:800;border-radius:12px;cursor:pointer">Publish Live</button>
+    </form>
   </div>
 </div>
 
@@ -485,8 +506,8 @@
 <script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-messaging-compat.js"></script>
 
 <script>
-  // ========== VERSION (change this every time you deploy) ==========
-  const APP_BUILD = "2026-08-31-v3";
+  // ========== VERSION ==========
+  const APP_BUILD = "2026-08-31-v4";
 
   // ========== FIREBASE ==========
   const firebaseConfig = {
@@ -502,50 +523,34 @@
   const auth = firebase.auth();
   const db = firebase.firestore();
 
-// ========== REAL PUSH NOTIFICATIONS ==========
-const VAPID_KEY = "BJtX4zubLyO9A8SvyhriLC0TsHqqGso4C2hxnNpEwxVSEL6uYlnbRNdLZAqH3_T51Gq4FfcP0yo0M4Q67tjDLQs";   // ← paste the key from Step 1
+  // ========== REAL PUSH NOTIFICATIONS ==========
+  const VAPID_KEY = "BJtX4zubLyO9A8SvyhriLC0TsHqqGso4C2hxnNpEwxVSEL6uYlnbRNdLZAqH3_T51Gq4FfcP0yo0M4Q67tjDLQs";
 
-async function initPushNotifications() {
-  if (!('Notification' in window) || !('serviceWorker' in navigator) || !firebase.messaging) {
-    console.log('Push not supported on this device/browser');
-    return;
+  async function initPushNotifications() {
+    if (!('Notification' in window) || !('serviceWorker' in navigator) || !firebase.messaging) return;
+    try {
+      const permission = await Notification.requestPermission();
+      if (permission !== 'granted') return;
+      const messaging = firebase.messaging();
+      const token = await messaging.getToken({ vapidKey: VAPID_KEY });
+      if (token && currentUser) {
+        await db.collection('fcmTokens').doc(currentUser.uid).set({
+          token: token,
+          email: currentUser.email || '',
+          name: currentUser.displayName || '',
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        }, { merge: true });
+      }
+      messaging.onMessage((payload) => {
+        const title = payload.notification?.title || 'MAMC Intern Portal';
+        const body = payload.notification?.body || 'New update';
+        showLiveToast(title, body);
+      });
+    } catch (err) {
+      console.warn('Push init error:', err);
+    }
   }
 
-  try {
-    const permission = await Notification.requestPermission();
-    if (permission !== 'granted') {
-      console.log('Notification permission denied');
-      return;
-    }
-
-    const messaging = firebase.messaging();
-
-    // Get registration token
-    const token = await messaging.getToken({ vapidKey: VAPID_KEY });
-
-    if (token && currentUser) {
-      // Save token so we can send notifications later
-      await db.collection('fcmTokens').doc(currentUser.uid).set({
-        token: token,
-        email: currentUser.email || '',
-        name: currentUser.displayName || '',
-        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-      }, { merge: true });
-
-      console.log('FCM token saved');
-    }
-
-    // Optional: handle foreground messages
-    messaging.onMessage((payload) => {
-      const title = payload.notification?.title || 'MAMC Intern Portal';
-      const body = payload.notification?.body || 'New update';
-      showLiveToast(title, body);
-    });
-
-  } catch (err) {
-    console.warn('Push init error:', err);
-  }
-}
   const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxVpbrlW7sCbFQdvSKt76NjScuxlkcem9hyn6SCsuAKjo-Fg57AovmD6gjTYBqwm0VH/exec";
   let clinicalGuidesData = [];
   let currentUser = null;
@@ -555,13 +560,11 @@ async function initPushNotifications() {
   // ========== FORCE CACHE / SW UPDATE ==========
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('./sw.js?v=' + APP_BUILD).then(reg => {
-      reg.update(); // force check for new SW
+      reg.update();
     }).catch(() => {});
   }
-  // Detect if this build is different from last seen
   const lastBuild = localStorage.getItem('mamc_app_build');
   if (lastBuild && lastBuild !== APP_BUILD) {
-    // New version detected → hard reload once
     localStorage.setItem('mamc_app_build', APP_BUILD);
     location.reload(true);
   } else {
@@ -569,12 +572,11 @@ async function initPushNotifications() {
   }
 
   // ========== SITE UPDATE (What's New) ==========
-  let SITE_VERSION = "2026-08-31-v3";
+  let SITE_VERSION = "2026-08-31-v4";
   let SITE_CHANGELOG = [
-    "Fixed Duty Cover permission errors (update Firestore rules)",
-    "Added live toast when new cover request is posted",
-    "Forced cache/service-worker update so phones get new version",
-    "Amount field + Duty Cover naming"
+    "Fixed Admin Upload and Guide Edit modals",
+    "Enhanced Duty Cover negotiation workflows",
+    "Optimized single-line JavaScript block formatting"
   ];
 
   async function loadRemoteWhatsNew() {
@@ -668,8 +670,8 @@ async function initPushNotifications() {
     updateAuthUI();
     renderUserHistory();
     if (!document.getElementById('swaps-tab').classList.contains('hidden')) renderSwapTab();
-    startDutyCoverListener();// start live notifications
-  initPushNotifications();
+    startDutyCoverListener();
+    initPushNotifications();
   }
   function updateAuthUI() {
     const loginBtn = document.getElementById('loginBtn');
@@ -801,7 +803,7 @@ async function initPushNotifications() {
     } catch (e) { alert('Error: ' + e.message); }
   }
 
- // ========== DUTY COVER BOARD ==========
+  // ========== DUTY COVER BOARD ==========
   let coverListener = null;
   let knownCoverIds = new Set();
   let editingSwapId = null;
@@ -873,21 +875,17 @@ async function initPushNotifications() {
     document.getElementById('editingSwapId').value = id;
     document.getElementById('swapFormTitle').textContent = '✏️ Edit Cover Request';
     document.getElementById('swapSubmitBtn').textContent = 'Save Changes';
-
     document.getElementById('swapDate').value = data.date || '';
     document.getElementById('swapCurrentDuty').value = data.currentDuty || '';
     document.getElementById('swapLookingFor').value = data.lookingFor || '';
     document.getElementById('swapAmount').value = data.amount || '';
     document.getElementById('swapNotes').value = data.notes || '';
-
     document.getElementById('createSwapForm').classList.remove('hidden');
-    // Scroll to form
     document.getElementById('createSwapForm').scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 
   async function submitSwapRequest() {
     if (!currentUser) return alert('Please login first');
-
     const date = document.getElementById('swapDate').value;
     const currentDuty = document.getElementById('swapCurrentDuty').value.trim();
     const lookingFor = document.getElementById('swapLookingFor').value.trim();
@@ -895,46 +893,29 @@ async function initPushNotifications() {
     const amountRaw = document.getElementById('swapAmount').value.trim();
     const amount = amountRaw ? Number(amountRaw) : null;
 
-    if (!date || !currentDuty) {
-      return alert('Date and current duty are required');
-    }
-    if (amountRaw && (isNaN(amount) || amount < 0)) {
-      return alert('Amount must be a valid positive number');
-    }
+    if (!date || !currentDuty) return alert('Date and current duty are required');
+    if (amountRaw && (isNaN(amount) || amount < 0)) return alert('Amount must be a valid positive number');
 
     const isEdit = !!document.getElementById('editingSwapId').value;
-
     try {
       if (isEdit) {
-        // ===== EDIT MODE =====
         const id = document.getElementById('editingSwapId').value;
         await db.collection('dutySwaps').doc(id).update({
-          date,
-          currentDuty,
-          lookingFor: lookingFor || '',
-          notes: notes || '',
-          amount: amount,
+          date, currentDuty, lookingFor: lookingFor || '', notes: notes || '', amount: amount,
           updatedAt: firebase.firestore.FieldValue.serverTimestamp()
         });
         alert('Request updated successfully!');
       } else {
-        // ===== CREATE MODE =====
         await db.collection('dutySwaps').add({
           requesterUid: currentUser.uid,
           requesterName: currentUser.displayName || currentUser.email || 'Anonymous',
           requesterEmail: currentUser.email || '',
-          date,
-          currentDuty,
-          lookingFor: lookingFor || '',
-          notes: notes || '',
-          amount: amount,
-          status: 'open',
-          comments: [],
+          date, currentDuty, lookingFor: lookingFor || '', notes: notes || '', amount: amount,
+          status: 'open', comments: [],
           createdAt: firebase.firestore.FieldValue.serverTimestamp()
         });
         alert('Cover request posted successfully!');
       }
-
       hideCreateSwapForm();
       loadSwaps();
     } catch (e) {
@@ -956,21 +937,13 @@ async function initPushNotifications() {
         list.innerHTML = '<p style="text-align:center;color:var(--text-muted);padding:20px">No cover requests yet. Be the first!</p>';
         return;
       }
-
       list.innerHTML = snap.docs.map(doc => {
         const d = doc.data();
         const id = doc.id;
         const isMine = currentUser && d.requesterUid === currentUser.uid;
-        const canEdit = isMine || isAdmin;   // Owner or Admin
-
-        const statusBadge = d.status === 'accepted'
-          ? '<span class="badge badge-days">Accepted</span>'
-          : (d.status === 'closed' ? '<span class="badge badge-sub">Closed</span>' : '<span class="badge badge-unit">Open</span>');
-
-        const commentsHtml = (d.comments || []).map(c =>
-          `<div style="font-size:12.5px;margin-top:4px;padding:6px 10px;background:var(--box-bg);border-radius:8px"><strong>${c.name}</strong>: ${c.text}</div>`
-        ).join('');
-
+        const canEdit = isMine || isAdmin;
+        const statusBadge = d.status === 'accepted' ? '<span class="badge badge-days">Accepted</span>' : (d.status === 'closed' ? '<span class="badge badge-sub">Closed</span>' : '<span class="badge badge-unit">Open</span>');
+        const commentsHtml = (d.comments || []).map(c => `<div style="font-size:12.5px;margin-top:4px;padding:6px 10px;background:var(--box-bg);border-radius:8px"><strong>${c.name}</strong>: ${c.text}</div>`).join('');
         return `
           <div class="swap-card ${d.status === 'accepted' ? 'accepted' : ''}">
             <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;flex-wrap:wrap">
@@ -987,12 +960,10 @@ async function initPushNotifications() {
             <div class="swap-actions">
               ${d.status === 'open' && !isMine ? `<button class="btn-primary-sm" onclick="acceptSwap('${id}')">I'm interested</button>` : ''}
               ${d.status === 'open' ? `<button class="btn-secondary-sm" onclick="addSwapComment('${id}')">Negotiate / Reply</button>` : ''}
-              
               ${canEdit && d.status === 'open' ? `
                 <button class="btn-secondary-sm" onclick='openEditSwap("${id}", ${JSON.stringify(d).replace(/'/g, "&#39;")})'>✏️ Edit</button>
                 <button class="btn-danger-sm" onclick="deleteSwap('${id}')">🗑️ Delete</button>
               ` : ''}
-              
               ${isMine && d.status === 'open' && !isAdmin ? `
                 <button class="btn-danger-sm" onclick="closeSwap('${id}')">Close Request</button>
               ` : ''}
@@ -1060,6 +1031,7 @@ async function initPushNotifications() {
       alert('Error deleting:\n\n' + msg);
     }
   }
+
   // ========== SEARCH HISTORY ==========
   function saveSearchHistory(type, query) {
     if (!query || query.trim().length < 2) return;
@@ -1324,7 +1296,7 @@ async function initPushNotifications() {
     }
   }
 
-  // ========== ROSTER SEARCH (original logic kept) ==========
+  // ========== ROSTER SEARCH ==========
   function executeSmartSearch() {
     const personQuery = document.getElementById('universalPersonInput')?.value.toLowerCase().trim() || "";
     const deptQuery = document.getElementById('universalDeptSelect')?.value || "";
@@ -1357,7 +1329,7 @@ async function initPushNotifications() {
           ['A', 'B', 'C', 'D'].forEach(g => { for (let i = 1; i <= 12; i++) { const sub = g + i; if (getPostingForSubdivision(sub, w.wk).toLowerCase() === deptQuery.toLowerCase()) activeSubdivisions.push(sub); } });
           const allDeptInterns = interns.filter(i => activeSubdivisions.includes(i.batch));
           const sameUnitPartners = currentUnitName ? allDeptInterns.filter(i => getSpecialUnitInfo(i.sno, w.start)?.unit === currentUnitName) : [];
-          html += `<div class="week-box"><div class="week-box-header"><div><span style="font-weight:800;color:var(--primary);font-size:14.5px">🗓️ Week ${w.wk}</span><span style="font-size:12.5px;color:var(--text-muted);margin-left:6px">(${formatDateShort(w.start)} – ${formatDateShort(w.end)})</span></div>${unitInfo ? `<span class="badge badge-unit">${unitInfo.unit} • ${unitInfo.incharge}</span>` : '<span class="badge badge-sub">General Duty</span>'}</div>`;
+          html += `<div class="week-box"><div class="week-box-header"><div><span style="font-weight:800;color:var(--primary);font-size:14.5px">🗓️ Week ${w.wk}</span><span style="font-size:12.5px;color:var(--text-muted);margin-left:6px">(${formatDateShort(w.start)} – ${formatDateShort(w.end)})</span></div>${unitInfo ? `<span class="badge badge-unit">${unitInfo.unit} •${unitInfo.incharge}</span>` : '<span class="badge badge-sub">General Duty</span>'}</div>`;
           if (sameUnitPartners.length > 0) html += `<div class="unit-partner-section"><div style="font-size:12px;font-weight:700;color:#16a34a">🤝 Posted in ${currentUnitName} with ${student.name.split(' ')[0]} (${sameUnitPartners.length}):</div><div class="partner-pills">${sameUnitPartners.map(p => `<span class="partner-chip" ${p.sno === student.sno ? 'style="background:rgba(34,197,94,0.3);border-color:#22c55e"' : ''}>${p.name} <span style="font-size:10.5px;opacity:0.8">(S.No ${p.sno})</span></span>`).join('')}</div></div>`;
           html += `<details class="co-intern-toggle"><summary>👥 View all ${allDeptInterns.length} interns in ${deptQuery} this week</summary><div class="co-intern-grid">${allDeptInterns.map(ci => `<span class="co-intern-chip" ${ci.sno === student.sno ? 'style="background:rgba(56,189,248,0.2);border-color:#38bdf8;font-weight:bold"' : ''}>${ci.name} (${ci.batch})${getSpecialUnitInfo(ci.sno, w.start) ? ` <strong style="color:#d97706">[${getSpecialUnitInfo(ci.sno, w.start).unit}]</strong>` : ''}</span>`).join('')}</div></details></div>`;
         });
@@ -1503,7 +1475,7 @@ async function initPushNotifications() {
     resDiv.innerHTML = html;
   }
 
- // ========== CLINICAL GUIDES ==========
+  // ========== CLINICAL GUIDES ==========
   let editingGuideId = null;
 
   async function fetchClinicalGuides() {
@@ -1544,6 +1516,7 @@ async function initPushNotifications() {
     container.innerHTML = filtered.map(g => {
       const isImage = g.isImage || (g.imageUrl && g.imageUrl.includes("lh3.googleusercontent"));
       const fileLink = g.fileUrl || g.imageUrl || "";
+      const safeId = String(g.id).replace(/'/g, "\\'");
 
       return `
       <div class="result-card" style="padding:16px;display:flex;flex-direction:column;justify-content:space-between">
@@ -1577,8 +1550,8 @@ async function initPushNotifications() {
           
           ${!isImage && fileLink ? `<a href="${fileLink}" target="_blank" style="flex:1;min-width:90px;padding:7px;border:1px solid var(--border);background:var(--card);color:var(--primary);font-weight:800;font-size:11.5px;border-radius:8px;cursor:pointer;text-align:center;text-decoration:none">⬇️ Download</a>` : ''}
           
-          <button onclick="openEditGuide('${g.id}')" style="padding:7px 10px;border:1px solid var(--border);background:var(--box-bg);color:var(--text);font-weight:800;font-size:11.5px;border-radius:8px;cursor:pointer">✏️ Edit</button>
-          <button onclick="promptDeleteGuide('${g.id}')" style="padding:7px 10px;border:none;background:rgba(239,68,68,0.15);color:#ef4444;font-weight:800;font-size:11.5px;border-radius:8px;cursor:pointer">🗑️</button>
+          <button onclick="openEditGuide('${safeId}')" style="padding:7px 10px;border:1px solid var(--border);background:var(--box-bg);color:var(--text);font-weight:800;font-size:11.5px;border-radius:8px;cursor:pointer">✏️ Edit</button>
+          <button onclick="promptDeleteGuide('${safeId}')" style="padding:7px 10px;border:none;background:rgba(239,68,68,0.15);color:#ef4444;font-weight:800;font-size:11.5px;border-radius:8px;cursor:pointer">🗑️</button>
         </div>
       </div>
     `}).join('');
@@ -1609,7 +1582,8 @@ async function initPushNotifications() {
 
   function openAdminModal() {
     editingGuideId = null;
-    document.getElementById("editingGuideId").value = "";
+    const idField = document.getElementById("editingGuideId");
+    if (idField) idField.value = "";
     document.getElementById("guideModalTitle").textContent = "📤 Upload Format or Referral Guide";
     document.getElementById("uploadSubmitBtn").textContent = "Publish Live";
     document.getElementById("guideUploadForm").reset();
@@ -1618,7 +1592,7 @@ async function initPushNotifications() {
   }
 
   function openEditGuide(id) {
-    const guide = clinicalGuidesData.find(g => g.id === id);
+    const guide = clinicalGuidesData.find(g => String(g.id) === String(id));
     if (!guide) return alert("Guide not found");
 
     editingGuideId = id;
@@ -1670,7 +1644,6 @@ async function initPushNotifications() {
     }
 
     const isEdit = !!document.getElementById("editingGuideId").value;
-
     const payload = {
       action: isEdit ? "update" : "upload",
       pin: document.getElementById("adminPinInput").value,
@@ -1678,9 +1651,7 @@ async function initPushNotifications() {
       dept: document.getElementById("guideDeptFormSelect").value,
       category: document.getElementById("guideCategorySelect").value,
       templateText: document.getElementById("guideTemplateInput").value,
-      imageBytes,
-      fileName,
-      mimeType
+      imageBytes, fileName, mimeType
     };
 
     if (isEdit) {
@@ -1693,7 +1664,6 @@ async function initPushNotifications() {
         body: JSON.stringify(payload)
       });
       const result = await res.json();
-
       if (result.status === "success") {
         alert(isEdit ? "Guide updated successfully!" : "Guide published!");
         closeAdminModal();
@@ -1733,66 +1703,18 @@ async function initPushNotifications() {
     document.getElementById('feedbackModal')?.classList.toggle('hidden');
   }
 
-  // Auth state
   auth.onAuthStateChanged(user => {
     if (user) handleAuth(user);
     else {
       currentUser = null; isAdmin = false; updateAuthUI();
     }
   });
-</script>
 
-<script>
-  // Extra safety: force SW update on every load
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.getRegistrations().then(regs => {
       regs.forEach(r => r.update());
     });
   }
-  <!-- ADMIN GUIDE MODAL -->
-<div id="adminGuideModal" class="hidden" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(15,23,42,0.6);backdrop-filter:blur(6px);z-index:10001;display:flex;align-items:center;justify-content:center;padding:16px;box-sizing:border-box">
-  <div style="background:var(--card);width:100%;max-width:520px;border-radius:20px;box-shadow:var(--shadow-lg);border:1px solid var(--border);overflow:hidden;padding:20px">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
-      <h3 id="guideModalTitle" style="margin:0;font-size:16.5px;font-weight:800;color:var(--text)">📤 Upload Format or Referral Guide</h3>
-      <span onclick="closeAdminModal()" style="font-size:22px;cursor:pointer;color:var(--text-muted)">&times;</span>
-    </div>
-    <form id="guideUploadForm" onsubmit="submitGuideUpload(event)" style="display:flex;flex-direction:column;gap:12px">
-      <input type="hidden" id="editingGuideId" value="">
-      <input type="password" id="adminPinInput" placeholder="Enter Admin PIN" required>
-      <input type="text" id="guideTitleInput" placeholder="Format Title" required>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-        <select id="guideDeptFormSelect">
-          <option value="Medicine">Medicine</option>
-          <option value="ENT">ENT</option>
-          <option value="Ophthalmology">Ophtha</option>
-          <option value="Surgery">General Surgery</option>
-          <option value="Pediatrics">Pediatrics</option>
-          <option value="Obs & Gynae">Obs & Gynae</option>
-          <option value="Orthopedics">Orthopedics</option>
-          <option value="Anaesthesia">Anaesthesia</option>
-          <option value="Radiology">Radiology</option>
-          <option value="Community Medicine">Community Medicine (PSM)</option>
-          <option value="Casualty">Casualty & Emergency</option>
-          <option value="Administrative">Paperwork & MLC</option>
-        </select>
-        <select id="guideCategorySelect">
-          <option value="Referral">Referral / Consult</option>
-          <option value="File Ordering">File Ordering</option>
-          <option value="Logbook/Document">Logbook/Document</option>
-          <option value="Clinical Memo">Death / Leave Memo</option>
-          <option value="Protocol">Emergency Protocol</option>
-        </select>
-      </div>
-      <textarea id="guideTemplateInput" placeholder="Optional raw text template..." style="width:100%;height:75px;padding:10px;border-radius:12px;border:1.5px solid var(--border);font-family:inherit;font-size:13px;background:var(--input-bg);color:var(--text);box-sizing:border-box"></textarea>
-      <div>
-        <label style="font-size:12px;margin-bottom:4px">File / Photo (Optional):</label>
-        <input type="file" id="guideFileInput" accept="image/*,.pdf,.doc,.docx,.xls,.xlsx">
-        <p id="currentFileHint" style="font-size:12px;color:var(--text-muted);margin:6px 0 0 0;display:none"></p>
-      </div>
-      <button type="submit" id="uploadSubmitBtn" style="padding:12px;border:none;background:var(--primary-gradient);color:white;font-weight:800;border-radius:12px;cursor:pointer">Publish Live</button>
-    </form>
-  </div>
-</div>
 </script>
 </body>
 </html>

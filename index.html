@@ -407,32 +407,34 @@
 
     <div id="swapContent" class="hidden">
       <div id="createSwapForm" class="admin-form-card hidden">
-        <h4>Post a Cover Request</h4>
-        <div class="input-group">
-          <label>Date of duty you want covered</label>
-          <input type="date" id="swapDate">
-        </div>
-        <div class="input-group">
-          <label>Your current duty / posting</label>
-          <input type="text" id="swapCurrentDuty" placeholder="e.g. Night Duty - Medicine / ENT / PSM Burari Night">
-        </div>
-        <div class="input-group">
-          <label>What you are looking for (optional)</label>
-          <input type="text" id="swapLookingFor" placeholder="e.g. Day duty, any unit, PDO">
-        </div>
-        <div class="input-group">
-          <label>Amount you are offering (₹)</label>
-          <input type="number" id="swapAmount" placeholder="e.g. 500, 1000, 1500" min="0">
-        </div>
-        <div class="input-group">
-          <label>Additional notes</label>
-          <textarea id="swapNotes" rows="2" placeholder="Any extra details..."></textarea>
-        </div>
-        <div style="display:flex;gap:10px">
-          <button onclick="submitSwapRequest()" class="btn-primary-sm">Post Request</button>
-          <button onclick="hideCreateSwapForm()" class="btn-secondary-sm">Cancel</button>
-        </div>
-      </div>
+  <h4 id="swapFormTitle">Post a Cover Request</h4>
+  <input type="hidden" id="editingSwapId" value="">
+
+  <div class="input-group">
+    <label>Date of duty you want covered</label>
+    <input type="date" id="swapDate">
+  </div>
+  <div class="input-group">
+    <label>Your current duty / posting</label>
+    <input type="text" id="swapCurrentDuty" placeholder="e.g. Night Duty - Medicine / ENT / PSM Burari Night">
+  </div>
+  <div class="input-group">
+    <label>What you are looking for (optional)</label>
+    <input type="text" id="swapLookingFor" placeholder="e.g. Day duty, any unit, PDO">
+  </div>
+  <div class="input-group">
+    <label>Amount you are offering (₹)</label>
+    <input type="number" id="swapAmount" placeholder="e.g. 500, 1000, 1500" min="0">
+  </div>
+  <div class="input-group">
+    <label>Additional notes</label>
+    <textarea id="swapNotes" rows="2" placeholder="Any extra details..."></textarea>
+  </div>
+  <div style="display:flex;gap:10px;flex-wrap:wrap">
+    <button onclick="submitSwapRequest()" id="swapSubmitBtn" class="btn-primary-sm">Post Request</button>
+    <button onclick="hideCreateSwapForm()" class="btn-secondary-sm">Cancel</button>
+  </div>
+</div>
       <div id="swapList"></div>
     </div>
   </div>

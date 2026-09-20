@@ -53,9 +53,9 @@ const deptSchedules = [
     id: "ortho",
     name: "Orthopedics OPD, OT & Emergency Schedule",
     units: [
-      { title: 'Orthopedics Unit 1 <span style="font-weight: normal;">(Dr. Lalit Maini)</span>', days: "🔹 <b>OPD:</b> Tue & Fri<br>🔵 <b>OT:</b> Mon & Thu<br>🟡 <b>Round:</b> Wed & Sat", location: "<b>OPD</b>Ortho Block 1st Floor (Rooms 101-104, 111-113, 115)<br><b>Ward :</b>" },
-      { title: 'Orthopedics Unit 2 <span style="font-weight: normal;">(Dr. Abhishek Kashyap)</span>', days: "🔹 <b>OPD:</b> Wed & Sat<br>🔵 <b>OT:</b> Tue & Fri<br>🟡 <b>Round:</b> Mon & Thu", location: "<b>OPD</b>Ortho Block 1st Floor (Rooms 101-104, 111-113, 115)<br><b>Ward :</b>" },
-       { title: 'Orthopedics Unit 3 <span style="font-weight: normal;">(Dr. Sumit Arora)</span>', days: "🔹 <b>OPD:</b> Mon & Thu<br>🔵 <b>OT:</b> Wed & Sat<br>🟡 <b>Round:</b> Tue & Fri", location: "<b>OPD</b>Ortho Block 1st Floor (Rooms 101-104, 111-113, 115)<br><b>Ward :</b>" },
+      { title: 'Orthopedics Unit 1 <span style="font-weight: normal;">(Dr. Lalit Maini)</span>', days: "🔹 <b>OPD:</b> Tue & Fri<br>🔵 <b>OT:</b> Mon & Thu<br>🟡 <b>Round:</b> Wed & Sat", location: "<b>OPD</b>Ortho Block 1st Floor (Rooms 101-104, 111-113, 115)<br><b>Ward :</b>Ward 3A(301-306), Ward 3B(1-9)♂, Ward 3C(1-6)♀, Ward 4A(1-9)♂, Ward 4B(1-6)♀, Ward 5A(1-9)♂, Ward 5B(1-6)♀" },
+      { title: 'Orthopedics Unit 2 <span style="font-weight: normal;">(Dr. Abhishek Kashyap)</span>', days: "🔹 <b>OPD:</b> Wed & Sat<br>🔵 <b>OT:</b> Tue & Fri<br>🟡 <b>Round:</b> Mon & Thu", location: "<b>OPD</b>Ortho Block 1st Floor (Rooms 101-104, 111-113, 115)<br><b>Ward :</b>Ward 3A(), Ward 3B()♂, Ward 3C()♀, Ward 4A()♂, Ward 4B()♀, Ward 5A()♂, Ward 5B()♀" },
+       { title: 'Orthopedics Unit 3 <span style="font-weight: normal;">(Dr. Sumit Arora)</span>', days: "🔹 <b>OPD:</b> Mon & Thu<br>🔵 <b>OT:</b> Wed & Sat<br>🟡 <b>Round:</b> Tue & Fri", location: "<b>OPD</b>Ortho Block 1st Floor (Rooms 101-104, 111-113, 115)<br><b>Ward :</b>Ward 3A(), Ward 3B()♂, Ward 3C()♀, Ward 4A()♂, Ward 4B()♀, Ward 5A()♂, Ward 5B()♀" },
      { title: 'Fracture Clinic <span style="font-weight: normal;">(Dr. Lalit Maini)</span>', days: "Mon to Sat (Morning & Evening Shift)", location: "Ortho Block 1st Floor (Room 105)" },
       { title: 'Spine Clinic (Wednesday)', days: "Wednesday", location: "Ortho Block 1st Floor (Room 115)" }
     ]

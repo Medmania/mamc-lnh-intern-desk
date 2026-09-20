@@ -449,37 +449,193 @@
   <a id="lightboxDownloadBtn" href="" target="_blank" download style="margin-top:14px;background:white;color:#0f172a;padding:8px 16px;border-radius:20px;font-weight:800;font-size:13px;text-decoration:none" onclick="event.stopPropagation()">⬇️ Open Full Resolution</a>
 </div>
 
-<!-- ADMIN GUIDE MODAL -->
-<div id="adminGuideModal" class="hidden" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(15,23,42,0.6);backdrop-filter:blur(6px);z-index:10001;display:flex;align-items:center;justify-content:center;padding:16px;box-sizing:border-box">
-  <div style="background:var(--card);width:100%;max-width:520px;border-radius:20px;box-shadow:var(--shadow-lg);border:1px solid var(--border);overflow:hidden;padding:20px">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
-      <h3 style="margin:0;font-size:16.5px;font-weight:800;color:var(--text)">📤 Upload Format or Referral Guide</h3>
-      <span onclick="closeAdminModal()" style="font-size:22px;cursor:pointer;color:var(--text-muted)">&times;</span>
-    </div>
-    <form id="guideUploadForm" onsubmit="submitGuideUpload(event)" style="display:flex;flex-direction:column;gap:12px">
-      <input type="password" id="adminPinInput" placeholder="Enter Admin PIN" required>
-      <input type="text" id="guideTitleInput" placeholder="Format Title" required>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-        <select id="guideDeptFormSelect">
-          <option value="Medicine">Medicine</option><option value="ENT">ENT</option><option value="Ophthalmology">Ophtha</option>
-          <option value="Surgery">General Surgery</option><option value="Pediatrics">Pediatrics</option>
-          <option value="Obs & Gynae">Obs & Gynae</option><option value="Orthopedics">Orthopedics</option>
-          <option value="Anaesthesia">Anaesthesia</option><option value="Radiology">Radiology</option>
-         <option value="Community Medicine">Community Medicine (PSM)</option>
-           <option value="Casualty">Casualty & Emergency</option><option value="Administrative">Paperwork & MLC</option>
-        </select>
-        <select id="guideCategorySelect">
-          <option value="Referral">Referral / Consult</option><option value="File Ordering">File Ordering</option><option value="Logbook/Document">Logbook/Document</option>
-          <option value="Clinical Memo">Death / Leave Memo</option><option value="Protocol">Emergency Protocol</option>
-        </select>
-      </div>
-      <textarea id="guideTemplateInput" placeholder="Optional raw text template..." style="width:100%;height:75px;padding:10px;border-radius:12px;border:1.5px solid var(--border);font-family:inherit;font-size:13px;background:var(--input-bg);color:var(--text);box-sizing:border-box"></textarea>
-      <div><label style="font-size:12px;margin-bottom:4px">Photo (Optional):</label><input type="file" id="guideFileInput" <input type="file" id="guideFileInput" accept="image/*,.pdf,.doc,.docx,.xls,.xlsx"></div>
-      <button type="submit" id="uploadSubmitBtn" style="padding:12px;border:none;background:var(--primary-gradient);color:white;font-weight:800;border-radius:12px;cursor:pointer">Publish Live</button>
-    </form>
-  </div>
-</div>
+const FOLDER_ID = "1Mm3dOm2ol6g__lNtuBppsZgaLYXceJah";
+const ADMIN_PIN = "7074";
 
+function doGet(e) {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  const data = sheet.getDataRange().getValues();
+  const guides = [];
+
+  for (let i = 1; i < data.length; i++) {
+    const row = data[i];
+    guides.push({
+      id: row[0],
+      title: row[1],
+      dept: row[2],
+      category: row[3],
+      templateText: row[4],
+      imageUrl: row[5],
+      fileId: row[6],
+      date: row[7],
+      fileUrl: row[8] || "",
+      isImage: row[9] === true || row[9] === "TRUE" || false,
+      mimeType: row[10] || "",
+      fileName: row[11] || ""
+    });
+  }
+
+  return ContentService
+    .createTextOutput(JSON.stringify({ status: "success", guides: guides }))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+function doPost(e) {
+  try {
+    const payload = JSON.parse(e.postData.contents);
+
+    if (payload.pin !== ADMIN_PIN) {
+      return ContentService
+        .createTextOutput(JSON.stringify({ status: "error", message: "Invalid Admin PIN" }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+
+    const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+
+    // ========== DELETE ==========
+    if (payload.action === "delete") {
+      const data = sheet.getDataRange().getValues();
+      for (let i = 1; i < data.length; i++) {
+        if (data[i][0] === payload.id) {
+          if (data[i][6]) {
+            try { DriveApp.getFileById(data[i][6]).setTrashed(true); } catch (err) {}
+          }
+          sheet.deleteRow(i + 1);
+          return ContentService
+            .createTextOutput(JSON.stringify({ status: "success", message: "Deleted successfully" }))
+            .setMimeType(ContentService.MimeType.JSON);
+        }
+      }
+      return ContentService
+        .createTextOutput(JSON.stringify({ status: "error", message: "Item not found" }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+
+    // ========== UPLOAD (new) ==========
+    if (payload.action === "upload") {
+      let imageUrl = "";
+      let fileUrl = "";
+      let fileId = "";
+      let isImage = false;
+      let mimeType = payload.mimeType || "application/octet-stream";
+      let fileName = payload.fileName || "file";
+
+      if (payload.imageBytes && payload.fileName) {
+        const folder = DriveApp.getFolderById(FOLDER_ID);
+        const base64Data = payload.imageBytes.includes(",")
+          ? payload.imageBytes.split(",")[1]
+          : payload.imageBytes;
+        const decodedBytes = Utilities.base64Decode(base64Data);
+        const blob = Utilities.newBlob(decodedBytes, mimeType, fileName);
+        const file = folder.createFile(blob);
+        file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+
+        fileId = file.getId();
+        isImage = mimeType.startsWith("image/");
+        fileUrl = "https://drive.google.com/file/d/" + fileId + "/view";
+        imageUrl = isImage ? "https://lh3.googleusercontent.com/d/" + fileId : fileUrl;
+      }
+
+      const newId = "guide_" + new Date().getTime();
+      const dateStr = new Date().toLocaleDateString();
+
+      sheet.appendRow([
+        newId,
+        payload.title || "Untitled",
+        payload.dept || "General",
+        payload.category || "Referral",
+        payload.templateText || "",
+        imageUrl,
+        fileId,
+        dateStr,
+        fileUrl,
+        isImage,
+        mimeType,
+        fileName
+      ]);
+
+      return ContentService
+        .createTextOutput(JSON.stringify({ status: "success", id: newId }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+
+    // ========== UPDATE (edit existing) ==========
+    if (payload.action === "update") {
+      const data = sheet.getDataRange().getValues();
+      let rowIndex = -1;
+
+      for (let i = 1; i < data.length; i++) {
+        if (data[i][0] === payload.id) {
+          rowIndex = i + 1; // 1-based for sheet
+          break;
+        }
+      }
+
+      if (rowIndex === -1) {
+        return ContentService
+          .createTextOutput(JSON.stringify({ status: "error", message: "Guide not found" }))
+          .setMimeType(ContentService.MimeType.JSON);
+      }
+
+      const oldRow = data[rowIndex - 1];
+      let imageUrl = oldRow[5] || "";
+      let fileId = oldRow[6] || "";
+      let fileUrl = oldRow[8] || "";
+      let isImage = oldRow[9] === true || oldRow[9] === "TRUE" || false;
+      let mimeType = oldRow[10] || "";
+      let fileName = oldRow[11] || "";
+
+      // If a new file is uploaded → replace the old one
+      if (payload.imageBytes && payload.fileName) {
+        // Trash old file
+        if (fileId) {
+          try { DriveApp.getFileById(fileId).setTrashed(true); } catch (err) {}
+        }
+
+        const folder = DriveApp.getFolderById(FOLDER_ID);
+        const base64Data = payload.imageBytes.includes(",")
+          ? payload.imageBytes.split(",")[1]
+          : payload.imageBytes;
+        const decodedBytes = Utilities.base64Decode(base64Data);
+        mimeType = payload.mimeType || "application/octet-stream";
+        fileName = payload.fileName;
+        const blob = Utilities.newBlob(decodedBytes, mimeType, fileName);
+        const file = folder.createFile(blob);
+        file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+
+        fileId = file.getId();
+        isImage = mimeType.startsWith("image/");
+        fileUrl = "https://drive.google.com/file/d/" + fileId + "/view";
+        imageUrl = isImage ? "https://lh3.googleusercontent.com/d/" + fileId : fileUrl;
+      }
+
+      // Update the row
+      sheet.getRange(rowIndex, 1, 1, 12).setValues([[
+        payload.id,
+        payload.title || "Untitled",
+        payload.dept || "General",
+        payload.category || "Referral",
+        payload.templateText || "",
+        imageUrl,
+        fileId,
+        oldRow[7] || new Date().toLocaleDateString(), // keep original date
+        fileUrl,
+        isImage,
+        mimeType,
+        fileName
+      ]]);
+
+      return ContentService
+        .createTextOutput(JSON.stringify({ status: "success", message: "Updated successfully" }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+
+  } catch (err) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ status: "error", message: err.toString() }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
 <!-- FLOATING SUGGESTION -->
 <button id="feedbackToggleBtn" onclick="toggleFeedbackModal()" style="position:fixed;bottom:20px;left:20px;z-index:9998;background:var(--primary);color:white;border:none;border-radius:50px;padding:12px 20px;font-weight:800;font-size:13.5px;box-shadow:var(--shadow-lg);cursor:pointer;display:flex;align-items:center;gap:8px;font-family:inherit">
   💡 <span>Suggest Changes</span>
@@ -1459,7 +1615,9 @@ async function initPushNotifications() {
     resDiv.innerHTML = html;
   }
 
-  // ========== CLINICAL GUIDES ==========
+ // ========== CLINICAL GUIDES ==========
+  let editingGuideId = null;
+
   async function fetchClinicalGuides() {
     const container = document.getElementById("guidesResultsGrid");
     try {
@@ -1473,19 +1631,33 @@ async function initPushNotifications() {
       if (container) container.innerHTML = `<p style="color:var(--text-muted);font-size:13px">Failed to load guides.</p>`;
     }
   }
+
   function renderClinicalGuides() {
     const query = document.getElementById("guideSearchInput")?.value.toLowerCase().trim() || "";
     const deptFilter = document.getElementById("guideDeptSelect")?.value || "all";
     const container = document.getElementById("guidesResultsGrid");
     if (!container) return;
+
     let filtered = clinicalGuidesData;
     if (deptFilter !== "all") filtered = filtered.filter(g => g.dept.toLowerCase() === deptFilter.toLowerCase());
-    if (query) filtered = filtered.filter(g => g.title.toLowerCase().includes(query) || (g.templateText || "").toLowerCase().includes(query) || g.category.toLowerCase().includes(query));
+    if (query) {
+      filtered = filtered.filter(g =>
+        g.title.toLowerCase().includes(query) ||
+        (g.templateText || "").toLowerCase().includes(query) ||
+        g.category.toLowerCase().includes(query)
+      );
+    }
+
     if (filtered.length === 0) {
       container.innerHTML = `<p style="grid-column:1/-1;text-align:center;padding:20px;color:var(--text-muted)">No guides found.</p>`;
       return;
     }
-    container.innerHTML = filtered.map(g => `
+
+    container.innerHTML = filtered.map(g => {
+      const isImage = g.isImage || (g.imageUrl && g.imageUrl.includes("lh3.googleusercontent"));
+      const fileLink = g.fileUrl || g.imageUrl || "";
+
+      return `
       <div class="result-card" style="padding:16px;display:flex;flex-direction:column;justify-content:space-between">
         <div>
           <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:8px">
@@ -1493,17 +1665,37 @@ async function initPushNotifications() {
             <span class="badge badge-unit" style="font-size:11px">${g.category}</span>
           </div>
           <h4 style="margin:0 0 8px 0;font-size:15px;font-weight:800;color:var(--text)">${g.title}</h4>
-          ${g.imageUrl ? `<div style="border-radius:10px;overflow:hidden;height:140px;margin-bottom:10px;background:var(--box-bg);cursor:pointer;border:1px solid var(--border)" onclick="openLightbox('${g.imageUrl}')"><img src="${g.imageUrl}" style="width:100%;height:100%;object-fit:cover" loading="lazy"></div>` : ''}
-          ${g.templateText ? `<div style="background:var(--box-bg);padding:8px 10px;border-radius:8px;font-size:12px;color:var(--text);border:1px dashed var(--border);max-height:80px;overflow-y:auto;white-space:pre-wrap;margin-bottom:10px;font-family:monospace">${g.templateText}</div>` : ''}
+          
+          ${isImage && g.imageUrl ? `
+            <div style="border-radius:10px;overflow:hidden;height:140px;margin-bottom:10px;background:var(--box-bg);cursor:pointer;border:1px solid var(--border)" onclick="openLightbox('${g.imageUrl}')">
+              <img src="${g.imageUrl}" style="width:100%;height:100%;object-fit:cover" loading="lazy">
+            </div>
+          ` : fileLink ? `
+            <div style="padding:14px;background:var(--box-bg);border-radius:10px;margin-bottom:10px;border:1px dashed var(--border);text-align:center">
+              <div style="font-size:28px;margin-bottom:6px">📄</div>
+              <div style="font-size:12.5px;font-weight:700;color:var(--text)">${g.fileName || "Document"}</div>
+            </div>
+          ` : ''}
+
+          ${g.templateText ? `
+            <div style="background:var(--box-bg);padding:8px 10px;border-radius:8px;font-size:12px;color:var(--text);border:1px dashed var(--border);max-height:80px;overflow-y:auto;white-space:pre-wrap;margin-bottom:10px;font-family:monospace">${g.templateText}</div>
+          ` : ''}
         </div>
-        <div style="display:flex;gap:8px;margin-top:10px">
-          ${g.templateText ? `<button onclick="copyTemplateText('${encodeURIComponent(g.templateText)}',this)" style="flex:1;padding:7px;border:1px solid var(--border);background:var(--card);color:var(--text);font-weight:800;font-size:11.5px;border-radius:8px;cursor:pointer">📋 Copy Text</button>` : ''}
-          ${g.imageUrl ? `<button onclick="openLightbox('${g.imageUrl}')" style="flex:1;padding:7px;border:1px solid var(--border);background:var(--card);color:var(--primary);font-weight:800;font-size:11.5px;border-radius:8px;cursor:pointer">🔍 View Photo</button>` : ''}
+
+        <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+          ${g.templateText ? `<button onclick="copyTemplateText('${encodeURIComponent(g.templateText)}',this)" style="flex:1;min-width:90px;padding:7px;border:1px solid var(--border);background:var(--card);color:var(--text);font-weight:800;font-size:11.5px;border-radius:8px;cursor:pointer">📋 Copy Text</button>` : ''}
+          
+          ${isImage && g.imageUrl ? `<button onclick="openLightbox('${g.imageUrl}')" style="flex:1;min-width:90px;padding:7px;border:1px solid var(--border);background:var(--card);color:var(--primary);font-weight:800;font-size:11.5px;border-radius:8px;cursor:pointer">🔍 View Photo</button>` : ''}
+          
+          ${!isImage && fileLink ? `<a href="${fileLink}" target="_blank" style="flex:1;min-width:90px;padding:7px;border:1px solid var(--border);background:var(--card);color:var(--primary);font-weight:800;font-size:11.5px;border-radius:8px;cursor:pointer;text-align:center;text-decoration:none">⬇️ Download</a>` : ''}
+          
+          <button onclick="openEditGuide('${g.id}')" style="padding:7px 10px;border:1px solid var(--border);background:var(--box-bg);color:var(--text);font-weight:800;font-size:11.5px;border-radius:8px;cursor:pointer">✏️ Edit</button>
           <button onclick="promptDeleteGuide('${g.id}')" style="padding:7px 10px;border:none;background:rgba(239,68,68,0.15);color:#ef4444;font-weight:800;font-size:11.5px;border-radius:8px;cursor:pointer">🗑️</button>
         </div>
       </div>
-    `).join('');
+    `}).join('');
   }
+
   function copyTemplateText(encodedText, btn) {
     const text = decodeURIComponent(encodedText);
     navigator.clipboard.writeText(text);
@@ -1511,59 +1703,143 @@ async function initPushNotifications() {
     btn.textContent = "✅ Copied!";
     setTimeout(() => btn.textContent = old, 1500);
   }
+
   function openLightbox(url) {
     const modal = document.getElementById("imageLightboxModal");
     const img = document.getElementById("lightboxImg");
     const dload = document.getElementById("lightboxDownloadBtn");
-    if (modal && img) { img.src = url; if (dload) dload.href = url; modal.classList.remove("hidden"); }
+    if (modal && img) {
+      img.src = url;
+      if (dload) dload.href = url;
+      modal.classList.remove("hidden");
+    }
   }
-  function closeLightbox() { document.getElementById("imageLightboxModal")?.classList.add("hidden"); }
-  function openAdminModal() { document.getElementById("adminGuideModal")?.classList.remove("hidden"); }
-  function closeAdminModal() { document.getElementById("adminGuideModal")?.classList.add("hidden"); }
+
+  function closeLightbox() {
+    document.getElementById("imageLightboxModal")?.classList.add("hidden");
+  }
+
+  function openAdminModal() {
+    editingGuideId = null;
+    document.getElementById("editingGuideId").value = "";
+    document.getElementById("guideModalTitle").textContent = "📤 Upload Format or Referral Guide";
+    document.getElementById("uploadSubmitBtn").textContent = "Publish Live";
+    document.getElementById("guideUploadForm").reset();
+    document.getElementById("currentFileHint").style.display = "none";
+    document.getElementById("adminGuideModal")?.classList.remove("hidden");
+  }
+
+  function openEditGuide(id) {
+    const guide = clinicalGuidesData.find(g => g.id === id);
+    if (!guide) return alert("Guide not found");
+
+    editingGuideId = id;
+    document.getElementById("editingGuideId").value = id;
+    document.getElementById("guideModalTitle").textContent = "✏️ Edit Guide";
+    document.getElementById("uploadSubmitBtn").textContent = "Save Changes";
+
+    document.getElementById("guideTitleInput").value = guide.title || "";
+    document.getElementById("guideDeptFormSelect").value = guide.dept || "Medicine";
+    document.getElementById("guideCategorySelect").value = guide.category || "Referral";
+    document.getElementById("guideTemplateInput").value = guide.templateText || "";
+    document.getElementById("adminPinInput").value = "";
+
+    const hint = document.getElementById("currentFileHint");
+    if (guide.fileName || guide.imageUrl) {
+      hint.style.display = "block";
+      hint.innerHTML = `Current file: <strong>${guide.fileName || "Image"}</strong><br><span style="font-size:11px">Leave empty to keep the existing file</span>`;
+    } else {
+      hint.style.display = "none";
+    }
+
+    document.getElementById("guideFileInput").value = "";
+    document.getElementById("adminGuideModal")?.classList.remove("hidden");
+  }
+
+  function closeAdminModal() {
+    document.getElementById("adminGuideModal")?.classList.add("hidden");
+    editingGuideId = null;
+  }
+
   async function submitGuideUpload(e) {
     e.preventDefault();
     const btn = document.getElementById("uploadSubmitBtn");
-    btn.textContent = "Uploading..."; btn.disabled = true;
+    btn.textContent = "Saving...";
+    btn.disabled = true;
+
     const fileInput = document.getElementById("guideFileInput");
     let imageBytes = "", fileName = "", mimeType = "";
+
     if (fileInput.files.length > 0) {
       const file = fileInput.files[0];
-      fileName = file.name; mimeType = file.type;
+      fileName = file.name;
+      mimeType = file.type;
       imageBytes = await new Promise((res) => {
         const reader = new FileReader();
         reader.onload = (evt) => res(evt.target.result);
         reader.readAsDataURL(file);
       });
     }
+
+    const isEdit = !!document.getElementById("editingGuideId").value;
+
     const payload = {
-      action: "upload", pin: document.getElementById("adminPinInput").value,
+      action: isEdit ? "update" : "upload",
+      pin: document.getElementById("adminPinInput").value,
       title: document.getElementById("guideTitleInput").value,
       dept: document.getElementById("guideDeptFormSelect").value,
       category: document.getElementById("guideCategorySelect").value,
       templateText: document.getElementById("guideTemplateInput").value,
-      imageBytes, fileName, mimeType
+      imageBytes,
+      fileName,
+      mimeType
     };
+
+    if (isEdit) {
+      payload.id = document.getElementById("editingGuideId").value;
+    }
+
     try {
-      const res = await fetch(APPS_SCRIPT_URL, { method: "POST", body: JSON.stringify(payload) });
+      const res = await fetch(APPS_SCRIPT_URL, {
+        method: "POST",
+        body: JSON.stringify(payload)
+      });
       const result = await res.json();
+
       if (result.status === "success") {
-        alert("Guide published!");
+        alert(isEdit ? "Guide updated successfully!" : "Guide published!");
         closeAdminModal();
         document.getElementById("guideUploadForm").reset();
         fetchClinicalGuides();
-      } else alert("Error: " + result.message);
-    } catch (err) { alert("Network error"); }
-    finally { btn.textContent = "Publish Live"; btn.disabled = false; }
+      } else {
+        alert("Error: " + result.message);
+      }
+    } catch (err) {
+      alert("Network error");
+    } finally {
+      btn.textContent = isEdit ? "Save Changes" : "Publish Live";
+      btn.disabled = false;
+    }
   }
+
   async function promptDeleteGuide(id) {
     const pin = prompt("Enter Admin PIN to delete:");
     if (!pin) return;
     try {
-      const res = await fetch(APPS_SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "delete", id, pin }) });
+      const res = await fetch(APPS_SCRIPT_URL, {
+        method: "POST",
+        body: JSON.stringify({ action: "delete", id, pin })
+      });
       const result = await res.json();
-      if (result.status === "success") { alert("Deleted."); fetchClinicalGuides(); }
-      else alert("Error: " + result.message);
-    } catch (e) { alert("Failed to delete."); }
+      if (result.status === "success") {
+        alert("Deleted.");
+        fetchClinicalGuides();
+      } else {
+        alert("Error: " + result.message);
+      }
+    } catch (e) {
+      alert("Failed to delete.");
+    }
   }
   function toggleFeedbackModal() {
     document.getElementById('feedbackModal')?.classList.toggle('hidden');

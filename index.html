@@ -987,9 +987,10 @@ async function initPushNotifications() {
     } catch (e) { alert('Error: ' + e.message); }
   }
 
-  // ========== DUTY COVER BOARD ==========
+ // ========== DUTY COVER BOARD ==========
   let coverListener = null;
   let knownCoverIds = new Set();
+  let editingSwapId = null;
 
   function startDutyCoverListener() {
     if (!currentUser || coverListener) return;
@@ -1002,7 +1003,6 @@ async function initPushNotifications() {
           if (change.type === 'added') {
             const id = change.doc.id;
             const data = change.doc.data();
-            // Don't notify the person who just posted it
             if (data.requesterUid === currentUser.uid) {
               knownCoverIds.add(id);
               return;
@@ -1011,13 +1011,12 @@ async function initPushNotifications() {
               knownCoverIds.add(id);
               const amt = data.amount ? ` (₹${data.amount})` : '';
               showLiveToast('💰 New Duty Cover Request', `${data.requesterName} needs cover for ${data.currentDuty}${amt}`);
-              // If currently on the Cover tab, refresh list
               if (!document.getElementById('swaps-tab').classList.contains('hidden')) loadSwaps();
             }
           }
         });
       }, err => {
-        console.warn('Cover listener error (probably missing index or rules):', err.message);
+        console.warn('Cover listener error:', err.message);
       });
   }
 
@@ -1037,8 +1036,40 @@ async function initPushNotifications() {
     loadSwaps();
   }
 
-  function showCreateSwapForm() { document.getElementById('createSwapForm').classList.remove('hidden'); }
-  function hideCreateSwapForm() { document.getElementById('createSwapForm').classList.add('hidden'); }
+  function showCreateSwapForm() {
+    editingSwapId = null;
+    document.getElementById('editingSwapId').value = '';
+    document.getElementById('swapFormTitle').textContent = 'Post a Cover Request';
+    document.getElementById('swapSubmitBtn').textContent = 'Post Request';
+    document.getElementById('swapDate').value = '';
+    document.getElementById('swapCurrentDuty').value = '';
+    document.getElementById('swapLookingFor').value = '';
+    document.getElementById('swapAmount').value = '';
+    document.getElementById('swapNotes').value = '';
+    document.getElementById('createSwapForm').classList.remove('hidden');
+  }
+
+  function hideCreateSwapForm() {
+    document.getElementById('createSwapForm').classList.add('hidden');
+    editingSwapId = null;
+  }
+
+  function openEditSwap(id, data) {
+    editingSwapId = id;
+    document.getElementById('editingSwapId').value = id;
+    document.getElementById('swapFormTitle').textContent = '✏️ Edit Cover Request';
+    document.getElementById('swapSubmitBtn').textContent = 'Save Changes';
+
+    document.getElementById('swapDate').value = data.date || '';
+    document.getElementById('swapCurrentDuty').value = data.currentDuty || '';
+    document.getElementById('swapLookingFor').value = data.lookingFor || '';
+    document.getElementById('swapAmount').value = data.amount || '';
+    document.getElementById('swapNotes').value = data.notes || '';
+
+    document.getElementById('createSwapForm').classList.remove('hidden');
+    // Scroll to form
+    document.getElementById('createSwapForm').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
 
   async function submitSwapRequest() {
     if (!currentUser) return alert('Please login first');
@@ -1057,35 +1088,48 @@ async function initPushNotifications() {
       return alert('Amount must be a valid positive number');
     }
 
+    const isEdit = !!document.getElementById('editingSwapId').value;
+
     try {
-      await db.collection('dutySwaps').add({
-        requesterUid: currentUser.uid,
-        requesterName: currentUser.displayName || currentUser.email || 'Anonymous',
-        requesterEmail: currentUser.email || '',
-        date,
-        currentDuty,
-        lookingFor: lookingFor || '',
-        notes: notes || '',
-        amount: amount,
-        status: 'open',
-        comments: [],
-        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-      });
+      if (isEdit) {
+        // ===== EDIT MODE =====
+        const id = document.getElementById('editingSwapId').value;
+        await db.collection('dutySwaps').doc(id).update({
+          date,
+          currentDuty,
+          lookingFor: lookingFor || '',
+          notes: notes || '',
+          amount: amount,
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        alert('Request updated successfully!');
+      } else {
+        // ===== CREATE MODE =====
+        await db.collection('dutySwaps').add({
+          requesterUid: currentUser.uid,
+          requesterName: currentUser.displayName || currentUser.email || 'Anonymous',
+          requesterEmail: currentUser.email || '',
+          date,
+          currentDuty,
+          lookingFor: lookingFor || '',
+          notes: notes || '',
+          amount: amount,
+          status: 'open',
+          comments: [],
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        alert('Cover request posted successfully!');
+      }
+
       hideCreateSwapForm();
-      document.getElementById('swapDate').value = '';
-      document.getElementById('swapCurrentDuty').value = '';
-      document.getElementById('swapLookingFor').value = '';
-      document.getElementById('swapNotes').value = '';
-      document.getElementById('swapAmount').value = '';
-      alert('Cover request posted successfully!');
       loadSwaps();
     } catch (e) {
       console.error(e);
       let msg = e.message || 'Unknown error';
-      if (msg.includes('permission') || msg.includes('Permission') || e.code === 'permission-denied') {
-        msg = 'Permission denied.\n\nGo to Firebase Console → Firestore → Rules and publish the rules given in the instructions.\n\nAlso make sure you are logged in.';
+      if (msg.includes('permission') || e.code === 'permission-denied') {
+        msg = 'Permission denied. You can only edit your own requests (unless you are Admin).';
       }
-      alert('Error posting request:\n\n' + msg);
+      alert('Error:\n\n' + msg);
     }
   }
 
@@ -1098,16 +1142,21 @@ async function initPushNotifications() {
         list.innerHTML = '<p style="text-align:center;color:var(--text-muted);padding:20px">No cover requests yet. Be the first!</p>';
         return;
       }
+
       list.innerHTML = snap.docs.map(doc => {
         const d = doc.data();
         const id = doc.id;
         const isMine = currentUser && d.requesterUid === currentUser.uid;
+        const canEdit = isMine || isAdmin;   // Owner or Admin
+
         const statusBadge = d.status === 'accepted'
           ? '<span class="badge badge-days">Accepted</span>'
           : (d.status === 'closed' ? '<span class="badge badge-sub">Closed</span>' : '<span class="badge badge-unit">Open</span>');
+
         const commentsHtml = (d.comments || []).map(c =>
           `<div style="font-size:12.5px;margin-top:4px;padding:6px 10px;background:var(--box-bg);border-radius:8px"><strong>${c.name}</strong>: ${c.text}</div>`
         ).join('');
+
         return `
           <div class="swap-card ${d.status === 'accepted' ? 'accepted' : ''}">
             <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;flex-wrap:wrap">
@@ -1124,7 +1173,15 @@ async function initPushNotifications() {
             <div class="swap-actions">
               ${d.status === 'open' && !isMine ? `<button class="btn-primary-sm" onclick="acceptSwap('${id}')">I'm interested</button>` : ''}
               ${d.status === 'open' ? `<button class="btn-secondary-sm" onclick="addSwapComment('${id}')">Negotiate / Reply</button>` : ''}
-              ${isMine && d.status === 'open' ? `<button class="btn-danger-sm" onclick="closeSwap('${id}')">Close Request</button>` : ''}
+              
+              ${canEdit && d.status === 'open' ? `
+                <button class="btn-secondary-sm" onclick='openEditSwap("${id}", ${JSON.stringify(d).replace(/'/g, "&#39;")})'>✏️ Edit</button>
+                <button class="btn-danger-sm" onclick="deleteSwap('${id}')">🗑️ Delete</button>
+              ` : ''}
+              
+              ${isMine && d.status === 'open' && !isAdmin ? `
+                <button class="btn-danger-sm" onclick="closeSwap('${id}')">Close Request</button>
+              ` : ''}
             </div>
           </div>`;
       }).join('');
@@ -1132,7 +1189,7 @@ async function initPushNotifications() {
       console.error(e);
       let msg = e.message || '';
       if (msg.includes('permission') || e.code === 'permission-denied') {
-        msg = 'Permission denied while reading. Update Firestore rules (see instructions).';
+        msg = 'Permission denied while reading. Update Firestore rules.';
       }
       list.innerHTML = `<p style="color:var(--urgent);padding:16px">Failed to load: ${msg}</p>`;
     }
@@ -1174,6 +1231,21 @@ async function initPushNotifications() {
     } catch (e) { alert(e.message); }
   }
 
+  async function deleteSwap(id) {
+    if (!confirm('Permanently delete this request? This cannot be undone.')) return;
+    try {
+      await db.collection('dutySwaps').doc(id).delete();
+      alert('Request deleted.');
+      loadSwaps();
+    } catch (e) {
+      console.error(e);
+      let msg = e.message || '';
+      if (msg.includes('permission') || e.code === 'permission-denied') {
+        msg = 'Permission denied. You can only delete your own requests (unless you are Admin).';
+      }
+      alert('Error deleting:\n\n' + msg);
+    }
+  }
   // ========== SEARCH HISTORY ==========
   function saveSearchHistory(type, query) {
     if (!query || query.trim().length < 2) return;

@@ -17,16 +17,21 @@
     .container { max-width: 920px; margin: 0 auto; }
     .header-banner { background: var(--primary-gradient); color: white; padding: 28px 24px; border-radius: 22px; text-align: center; margin-bottom: 24px; box-shadow: var(--shadow-lg); position: relative; overflow: hidden; }
     .header-banner::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255,255,255,0.22) 0%, transparent 60%); pointer-events: none; }
+    
+    /* Pond Water & Ripple Canvas */
+    #pondCanvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; cursor: pointer; pointer-events: auto; }
+    .header-banner h1, .header-banner .subtitle, .header-banner .auth-area, .header-banner .whats-new-btn, .header-banner .theme-toggle-btn { position: relative; z-index: 5; }
+
     h1 { margin: 0 0 6px 0; font-size: 28px; font-weight: 800; letter-spacing: -0.5px; color: #ffffff; text-shadow: 0 2px 8px rgba(0,0,0,0.15); }
     .subtitle { color: #f0f9ff; margin: 0; font-size: 14px; font-weight: 500; opacity: 0.95; }
-    .theme-toggle-btn { position: absolute; top: 18px; right: 18px; background: rgba(255, 255, 255, 0.95); border: 1.5px solid rgba(255, 255, 255, 0.8); color: #0369a1; padding: 6px 14px; border-radius: 20px; display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 800; cursor: pointer; transition: all 0.25s ease; z-index: 10; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); }
+    .theme-toggle-btn { position: absolute; top: 18px; right: 18px; background: rgba(255, 255, 255, 0.95); border: 1.5px solid rgba(255, 255, 255, 0.8); color: #0369a1; padding: 6px 14px; border-radius: 20px; display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 800; cursor: pointer; transition: all 0.25s ease; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); }
     [data-theme="dark"] .theme-toggle-btn { background: #1e293b; border-color: #38bdf8; color: #38bdf8; }
     .theme-toggle-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25); }
-    .whats-new-btn { position: absolute; top: 18px; right: 120px; background: rgba(255, 255, 255, 0.95); border: 1.5px solid rgba(255, 255, 255, 0.8); color: #0369a1; padding: 6px 14px; border-radius: 20px; display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 800; cursor: pointer; transition: all 0.25s ease; z-index: 10; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); }
+    .whats-new-btn { position: absolute; top: 18px; right: 120px; background: rgba(255, 255, 255, 0.95); border: 1.5px solid rgba(255, 255, 255, 0.8); color: #0369a1; padding: 6px 14px; border-radius: 20px; display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 800; cursor: pointer; transition: all 0.25s ease; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); }
     [data-theme="dark"] .whats-new-btn { background: #1e293b; border-color: #38bdf8; color: #38bdf8; }
     .whats-new-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25); }
     .whats-new-btn.has-new::after { content: ''; position: absolute; top: -2px; right: -2px; width: 10px; height: 10px; background: #ef4444; border-radius: 50%; border: 2px solid white; }
-    .auth-area { position: absolute; top: 18px; left: 18px; display: flex; gap: 8px; z-index: 10; flex-wrap: wrap; }
+    .auth-area { position: absolute; top: 18px; left: 18px; display: flex; gap: 8px; flex-wrap: wrap; }
     .auth-btn { background: rgba(255, 255, 255, 0.95); border: 1.5px solid rgba(255, 255, 255, 0.8); color: #0369a1; padding: 6px 12px; border-radius: 20px; font-size: 12.5px; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 5px; }
     [data-theme="dark"] .auth-btn { background: #1e293b; border-color: #38bdf8; color: #38bdf8; }
     .auth-btn.admin { background: #fef3c7; color: #b45309; border-color: #fcd34d; }
@@ -170,6 +175,9 @@
 <body>
 <div class="container">
   <div class="header-banner">
+    <!-- Interactive Koi Pond Canvas -->
+    <canvas id="pondCanvas"></canvas>
+
     <div class="auth-area" id="authArea">
       <button class="auth-btn" id="loginBtn" onclick="loginWithGoogle()">🔐 Login with Google</button>
       <button class="auth-btn admin hidden" id="adminBtn" onclick="toggleAdminPanel()">⚙️ Admin Panel</button>
@@ -223,7 +231,7 @@
     <div id="userHistoryBox" class="history-box hidden">
       <div style="display:flex;justify-content:space-between;align-items:center">
         <h4>🕒 Recent Searches</h4>
-        <button onclick="clearSearchHistory()" style="font-size:12px;padding:4px 10px;border-radius:8px;border:1px solid var(--border);background:var(--card);cursor:font-weight:700">Clear History</button>
+        <button onclick="clearSearchHistory()" style="font-size:12px;padding:4px 10px;border-radius:8px;border:1px solid var(--border);background:var(--card);cursor:pointer;font-weight:700">Clear History</button>
       </div>
       <div class="history-chips" id="historyChips"></div>
     </div>
@@ -376,8 +384,8 @@
         <option value="Radiology">Radiology</option>
         <option value="Casualty">Casualty & Emergency</option>
         <option value="Community Medicine">Community Medicine (PSM)</option>
-      <option value="Blood Bank">Blood Bank</option>
-      <option value="Administrative">Paperwork & MLC</option>
+        <option value="Blood Bank">Blood Bank</option>
+        <option value="Administrative">Paperwork & MLC</option>
       </select>
     </div>
     <div id="guidesResultsGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px">
@@ -446,7 +454,7 @@
   </div>
 </div>
 
-<!-- ADMIN GUIDE MODAL (PROPERLY PLACED INSIDE BODY) -->
+<!-- ADMIN GUIDE MODAL -->
 <div id="adminGuideModal" class="hidden" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(15,23,42,0.6);backdrop-filter:blur(6px);z-index:10001;display:flex;align-items:center;justify-content:center;padding:16px;box-sizing:border-box">
   <div style="background:var(--card);width:100%;max-width:520px;border-radius:20px;box-shadow:var(--shadow-lg);border:1px solid var(--border);overflow:hidden;padding:20px">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
@@ -469,6 +477,7 @@
           <option value="Anaesthesia">Anaesthesia</option>
           <option value="Radiology">Radiology</option>
           <option value="Community Medicine">Community Medicine (PSM)</option>
+          <option value="Blood Bank">Blood Bank</option>
           <option value="Casualty">Casualty & Emergency</option>
           <option value="Administrative">Paperwork & MLC</option>
         </select>
@@ -500,6 +509,9 @@
 <script src="data/data_units.js"></script>
 <script src="data/data_faqs.js"></script>
 
+<!-- POND ANIMATION SCRIPT -->
+<script src="js/pond.js"></script>
+
 <!-- FIREBASE -->
 <script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-auth-compat.js"></script>
@@ -508,7 +520,7 @@
 
 <script>
   // ========== VERSION ==========
-  const APP_BUILD = "2026-08-31-v4";
+  const APP_BUILD = "2026-08-31-v5";
 
   // ========== FIREBASE ==========
   const firebaseConfig = {
@@ -573,10 +585,10 @@
   }
 
   // ========== SITE UPDATE (What's New) ==========
-  let SITE_VERSION = "2026-08-31-v4";
+  let SITE_VERSION = "2026-08-31-v5";
   let SITE_CHANGELOG = [
+    "Added live interactive koi pond with ripple physics on header",
     "Fixed Admin Upload and Guide Edit modals",
-    "Enhanced Duty Cover negotiation workflows",
     "Optimized single-line JavaScript block formatting"
   ];
 

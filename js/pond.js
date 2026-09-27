@@ -12,98 +12,164 @@
     height = canvas.height = canvas.parentElement.offsetHeight;
   });
 
-  // --- RIPPLES ---
+  // ---------- RIPPLES ----------
   const ripples = [];
-  function addRipple(x, y, strength = 1.0) {
-    // Primary ring
-    ripples.push({ x, y, r: 2, maxR: 110 * strength, alpha: 0.85, speed: 2.6, width: 2.4 });
-    // Secondary delayed ring
-    setTimeout(() => {
-      ripples.push({ x, y, r: 2, maxR: 80 * strength, alpha: 0.55, speed: 2.0, width: 1.8 });
-    }, 90);
-    // Tertiary soft ring
-    setTimeout(() => {
-      ripples.push({ x, y, r: 2, maxR: 55 * strength, alpha: 0.35, speed: 1.5, width: 1.3 });
-    }, 180);
+  function addRipple(x, y, strength = 1) {
+    ripples.push({ x, y, r: 2, maxR: 120 * strength, alpha: 0.9, speed: 2.8, width: 2.6 });
+    setTimeout(() => ripples.push({ x, y, r: 2, maxR: 90 * strength, alpha: 0.55, speed: 2.15, width: 1.9 }), 80);
+    setTimeout(() => ripples.push({ x, y, r: 2, maxR: 60 * strength, alpha: 0.3, speed: 1.6, width: 1.3 }), 160);
 
-    // Scatter nearby fish
     koiPond.forEach(fish => {
-      const dx = fish.x - x;
-      const dy = fish.y - y;
+      const dx = fish.x - x, dy = fish.y - y;
       const dist = Math.hypot(dx, dy);
-      if (dist < 160) {
-        const force = (1 - dist / 160) * 6.2;
+      if (dist < 175) {
+        const force = (1 - dist / 175) * 7;
         fish.vx += (dx / (dist || 1)) * force;
         fish.vy += (dy / (dist || 1)) * force;
-        fish.spurt = 38;
+        fish.spurt = 45;
       }
     });
   }
 
-  // --- KOI BODY CONFIGURATION ---
-  const NUM_JOINTS = 12;
-  const BODY_RADII = [12.5, 14.5, 15.8, 15.2, 13.8, 12, 10, 8, 6.2, 4.5, 3, 1.8];
+  // ---------- FLOATING LEAVES ----------
+  const leaves = [];
+  for (let i = 0; i < 7; i++) {
+    leaves.push({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      size: 14 + Math.random() * 18,
+      angle: Math.random() * Math.PI * 2,
+      rotSpeed: (Math.random() - 0.5) * 0.008,
+      driftX: (Math.random() - 0.5) * 0.25,
+      driftY: (Math.random() - 0.5) * 0.15,
+      phase: Math.random() * Math.PI * 2,
+      opacity: 0.25 + Math.random() * 0.25
+    });
+  }
+
+  function drawLeaf(l) {
+    ctx.save();
+    ctx.translate(l.x, l.y);
+    ctx.rotate(l.angle);
+    ctx.globalAlpha = l.opacity;
+
+    // Simple soft leaf shape
+    ctx.beginPath();
+    ctx.moveTo(0, -l.size * 0.6);
+    ctx.quadraticCurveTo(l.size * 0.55, -l.size * 0.25, l.size * 0.45, l.size * 0.35);
+    ctx.quadraticCurveTo(0, l.size * 0.15, -l.size * 0.45, l.size * 0.35);
+    ctx.quadraticCurveTo(-l.size * 0.55, -l.size * 0.25, 0, -l.size * 0.6);
+    ctx.fillStyle = `rgba(34, 197, 94, 0.7)`;
+    ctx.fill();
+
+    // Soft midrib
+    ctx.beginPath();
+    ctx.moveTo(0, -l.size * 0.5);
+    ctx.quadraticCurveTo(l.size * 0.08, 0, 0, l.size * 0.25);
+    ctx.strokeStyle = "rgba(22, 101, 52, 0.4)";
+    ctx.lineWidth = 1.1;
+    ctx.stroke();
+
+    ctx.restore();
+  }
+
+  // ---------- KOI ----------
+  const NUM_JOINTS = 13;
+  const BODY_RADII = [10.5, 13, 14.8, 15.2, 14.5, 13, 11.2, 9.2, 7.2, 5.3, 3.6, 2.3, 1.3];
 
   class Koi {
-    constructor(isKohaku = true) {
+    constructor(type = 'kohaku', personality = 'cruiser') {
       this.x = Math.random() * width;
       this.y = Math.random() * height;
       this.angle = Math.random() * Math.PI * 2;
-      this.speed = 1.15 + Math.random() * 0.55;
+      this.personality = personality;
+      this.type = type;
+
+      if (personality === 'cruiser') {
+        this.baseSpeed = 0.9 + Math.random() * 0.25;
+        this.turnRate = 0.038;
+        this.wiggleSpeed = 0.18;
+      } else if (personality === 'explorer') {
+        this.baseSpeed = 1.2 + Math.random() * 0.35;
+        this.turnRate = 0.065;
+        this.wiggleSpeed = 0.25;
+      } else {
+        this.baseSpeed = 1.45 + Math.random() * 0.4;
+        this.turnRate = 0.1;
+        this.wiggleSpeed = 0.33;
+      }
+
+      this.speed = this.baseSpeed;
       this.vx = Math.cos(this.angle) * this.speed;
       this.vy = Math.sin(this.angle) * this.speed;
       this.spurt = 0;
-      this.wiggleCycle = Math.random() * 100;
-      this.isKohaku = isKohaku;
-      this.depth = 0.6 + Math.random() * 0.4; // 0.6–1.0 for parallax & shadow
+      this.wiggleCycle = Math.random() * 200;
+      this.depth = 0.55 + Math.random() * 0.45;
       this.bobPhase = Math.random() * Math.PI * 2;
+      this.noiseOffset = Math.random() * 1000;
+      this.pauseTimer = 0;
+      this.size = 0.82 + Math.random() * 0.38;
 
       this.spine = [];
       for (let i = 0; i < NUM_JOINTS; i++) {
         this.spine.push({
-          x: this.x - i * 5.8 * Math.cos(this.angle),
-          y: this.y - i * 5.8 * Math.sin(this.angle)
+          x: this.x - i * 5.5 * Math.cos(this.angle),
+          y: this.y - i * 5.5 * Math.sin(this.angle)
         });
       }
     }
 
+    noise(t) {
+      return Math.sin(t * 0.7 + this.noiseOffset) * 0.5 +
+             Math.sin(t * 1.3 + this.noiseOffset * 1.7) * 0.3 +
+             Math.sin(t * 2.1 + this.noiseOffset * 0.4) * 0.2;
+    }
+
     update(time) {
-      const currentMaxSpeed = this.spurt > 0 ? 4.1 : 1.55;
-      if (this.spurt > 0) this.spurt--;
-
-      // Gentle wandering + occasional sharper turns
-      this.angle += (Math.random() - 0.5) * 0.09;
-      if (Math.random() < 0.008) this.angle += (Math.random() - 0.5) * 0.6;
-
-      this.vx = this.vx * 0.965 + Math.cos(this.angle) * (this.speed * 0.045);
-      this.vy = this.vy * 0.965 + Math.sin(this.angle) * (this.speed * 0.045);
-
-      const curSpeed = Math.hypot(this.vx, this.vy);
-      if (curSpeed > currentMaxSpeed) {
-        this.vx = (this.vx / curSpeed) * currentMaxSpeed;
-        this.vy = (this.vy / curSpeed) * currentMaxSpeed;
+      if (this.pauseTimer > 0) {
+        this.pauseTimer--;
+        this.vx *= 0.91;
+        this.vy *= 0.91;
+      } else if (Math.random() < 0.0028) {
+        this.pauseTimer = 20 + Math.random() * 45;
       }
 
-      // Soft border repulsion
-      const pad = 40;
-      if (this.x < pad) this.vx += 0.09;
-      if (this.x > width - pad) this.vx -= 0.09;
-      if (this.y < pad) this.vy += 0.09;
-      if (this.y > height - pad) this.vy -= 0.09;
+      const maxSpeed = this.spurt > 0 ? 4.3 : this.baseSpeed * 1.15;
+      if (this.spurt > 0) this.spurt--;
+
+      const noiseVal = this.noise(time * 0.001 + this.noiseOffset);
+      this.angle += noiseVal * this.turnRate;
+
+      if (Math.random() < (this.personality === 'darter' ? 0.011 : 0.0045)) {
+        this.angle += (Math.random() - 0.5) * 0.85;
+      }
+
+      this.vx = this.vx * 0.96 + Math.cos(this.angle) * (this.speed * 0.038);
+      this.vy = this.vy * 0.96 + Math.sin(this.angle) * (this.speed * 0.038);
+
+      const curSpeed = Math.hypot(this.vx, this.vy);
+      if (curSpeed > maxSpeed) {
+        this.vx = (this.vx / curSpeed) * maxSpeed;
+        this.vy = (this.vy / curSpeed) * maxSpeed;
+      }
+
+      const pad = 48;
+      if (this.x < pad) this.vx += 0.11;
+      if (this.x > width - pad) this.vx -= 0.11;
+      if (this.y < pad) this.vy += 0.11;
+      if (this.y > height - pad) this.vy -= 0.11;
 
       this.x += this.vx;
       this.y += this.vy;
 
-      // Subtle vertical bob for life
-      this.bobPhase += 0.035;
-      this.y += Math.sin(this.bobPhase) * 0.18;
+      this.bobPhase += 0.027 + (this.personality === 'darter' ? 0.009 : 0);
+      this.y += Math.sin(this.bobPhase) * 0.13;
 
       this.angle = Math.atan2(this.vy, this.vx);
 
-      // Spine kinematics with progressive wave
-      this.wiggleCycle += (curSpeed > 2.1 ? 0.48 : 0.23);
+      this.wiggleCycle += this.wiggleSpeed * (curSpeed > 1.7 ? 1.55 : 1);
       this.spine[0] = { x: this.x, y: this.y };
-      const segmentLen = 5.8;
+      const segmentLen = 5.5 * this.size;
 
       for (let i = 1; i < NUM_JOINTS; i++) {
         const prev = this.spine[i - 1];
@@ -114,10 +180,10 @@
         cur.x = prev.x + (dx / d) * segmentLen;
         cur.y = prev.y + (dy / d) * segmentLen;
 
-        const wave = Math.sin(this.wiggleCycle - i * 0.38) * (i * 0.65);
+        const wave = Math.sin(this.wiggleCycle - i * 0.33) * (i * 0.55);
         const normAngle = Math.atan2(dy, dx) + Math.PI / 2;
-        cur.x += Math.cos(normAngle) * wave * 0.22;
-        cur.y += Math.sin(normAngle) * wave * 0.22;
+        cur.x += Math.cos(normAngle) * wave * 0.18 * this.size;
+        cur.y += Math.sin(normAngle) * wave * 0.18 * this.size;
       }
     }
 
@@ -125,15 +191,16 @@
       ctx.save();
 
       if (isShadow) {
-        const offset = 12 + this.depth * 8;
-        ctx.translate(offset * 0.7, offset);
-        ctx.globalAlpha = 0.22 * this.depth;
-        ctx.fillStyle = "rgba(0, 20, 50, 1)";
+        const offset = 10 + this.depth * 11;
+        ctx.translate(offset * 0.55, offset);
+        ctx.globalAlpha = 0.17 * this.depth;
+        ctx.fillStyle = "rgba(0, 14, 38, 1)";
+      } else {
+        ctx.globalAlpha = 0.72 + this.depth * 0.28;
       }
 
-      // Body contours
-      const leftPts = [];
-      const rightPts = [];
+      const leftPts = [], rightPts = [];
+      const scale = this.size;
 
       for (let i = 0; i < NUM_JOINTS; i++) {
         const pt = this.spine[i];
@@ -144,48 +211,40 @@
         } else {
           ang = Math.atan2(pt.y - this.spine[i - 1].y, pt.x - this.spine[i - 1].x) + Math.PI / 2;
         }
-        const r = BODY_RADII[i] * (0.92 + this.depth * 0.1);
+        const r = BODY_RADII[i] * scale * (0.91 + this.depth * 0.1);
         leftPts.push({ x: pt.x + Math.cos(ang) * r, y: pt.y + Math.sin(ang) * r });
         rightPts.push({ x: pt.x - Math.cos(ang) * r, y: pt.y - Math.sin(ang) * r });
       }
 
       // Pectoral fins
       const finJoint = this.spine[2];
-      const finAngle = this.angle;
-      const finFlutter = Math.sin(this.wiggleCycle * 1.35) * 0.28;
-
+      const finFlutter = Math.sin(this.wiggleCycle * 1.42) * 0.34;
       for (let side of [-1, 1]) {
         ctx.beginPath();
-        const baseX = finJoint.x + Math.cos(finAngle + side * 1.35) * 11;
-        const baseY = finJoint.y + Math.sin(finAngle + side * 1.35) * 11;
-        const tipX = baseX + Math.cos(finAngle + side * (1.75 + finFlutter)) * 24;
-        const tipY = baseY + Math.sin(finAngle + side * (1.75 + finFlutter)) * 24;
+        const baseX = finJoint.x + Math.cos(this.angle + side * 1.28) * 9 * scale;
+        const baseY = finJoint.y + Math.sin(this.angle + side * 1.28) * 9 * scale;
+        const tipX = baseX + Math.cos(this.angle + side * (1.78 + finFlutter)) * 24 * scale;
+        const tipY = baseY + Math.sin(this.angle + side * (1.78 + finFlutter)) * 24 * scale;
         ctx.moveTo(baseX, baseY);
-        ctx.quadraticCurveTo(
-          tipX + side * 3, tipY + 2,
-          baseX + Math.cos(finAngle + side * 2.3) * 9,
-          baseY + Math.sin(finAngle + side * 2.3) * 9
-        );
-        ctx.fillStyle = isShadow
-          ? "rgba(0, 15, 40, 0.25)"
-          : (this.isKohaku ? "rgba(255,255,255,0.72)" : "rgba(251,146,60,0.7)");
+        ctx.quadraticCurveTo(tipX + side * 3.5, tipY + 2.5,
+          baseX + Math.cos(this.angle + side * 2.35) * 8 * scale,
+          baseY + Math.sin(this.angle + side * 2.35) * 8 * scale);
+        ctx.fillStyle = isShadow ? "rgba(0,12,32,0.28)" :
+          (this.type === 'ogon' ? "rgba(251,146,60,0.78)" : "rgba(255,255,255,0.82)");
         ctx.fill();
       }
 
-      // Main body path
+      // Body path
       ctx.beginPath();
       ctx.moveTo(leftPts[0].x, leftPts[0].y);
       for (let i = 1; i < leftPts.length; i++) ctx.lineTo(leftPts[i].x, leftPts[i].y);
-      const tailEnd = this.spine[NUM_JOINTS - 1];
-      ctx.lineTo(tailEnd.x, tailEnd.y);
+      ctx.lineTo(this.spine[NUM_JOINTS - 1].x, this.spine[NUM_JOINTS - 1].y);
       for (let i = rightPts.length - 1; i >= 0; i--) ctx.lineTo(rightPts[i].x, rightPts[i].y);
-
-      // Rounded snout
       ctx.bezierCurveTo(
-        this.x + Math.cos(this.angle + 0.55) * 17,
-        this.y + Math.sin(this.angle + 0.55) * 17,
-        this.x + Math.cos(this.angle - 0.55) * 17,
-        this.y + Math.sin(this.angle - 0.55) * 17,
+        this.x + Math.cos(this.angle + 0.55) * 14.5 * scale,
+        this.y + Math.sin(this.angle + 0.55) * 14.5 * scale,
+        this.x + Math.cos(this.angle - 0.55) * 14.5 * scale,
+        this.y + Math.sin(this.angle - 0.55) * 14.5 * scale,
         leftPts[0].x, leftPts[0].y
       );
       ctx.closePath();
@@ -196,196 +255,248 @@
         return;
       }
 
-      // Body gradient
-      const bodyGrad = ctx.createRadialGradient(this.x, this.y, 3, this.x, this.y, 38);
-      if (this.isKohaku) {
-        bodyGrad.addColorStop(0, '#ffffff');
-        bodyGrad.addColorStop(0.55, '#f8fafc');
-        bodyGrad.addColorStop(0.85, '#e2e8f0');
-        bodyGrad.addColorStop(1, '#cbd5e1');
+      // Body shading
+      const grad = ctx.createLinearGradient(
+        this.x + Math.cos(this.angle + Math.PI/2) * 15,
+        this.y + Math.sin(this.angle + Math.PI/2) * 15,
+        this.x + Math.cos(this.angle - Math.PI/2) * 15,
+        this.y + Math.sin(this.angle - Math.PI/2) * 15
+      );
+
+      if (this.type === 'kohaku') {
+        grad.addColorStop(0, '#ffffff');
+        grad.addColorStop(0.5, '#f1f5f9');
+        grad.addColorStop(1, '#cbd5e1');
+      } else if (this.type === 'ogon') {
+        grad.addColorStop(0, '#fdba74');
+        grad.addColorStop(0.45, '#fb923c');
+        grad.addColorStop(1, '#c2410c');
       } else {
-        bodyGrad.addColorStop(0, '#fdba74');
-        bodyGrad.addColorStop(0.45, '#fb923c');
-        bodyGrad.addColorStop(0.8, '#ea580c');
-        bodyGrad.addColorStop(1, '#9a3412');
+        grad.addColorStop(0, '#f8fafc');
+        grad.addColorStop(0.55, '#e2e8f0');
+        grad.addColorStop(1, '#94a3b8');
       }
-      ctx.fillStyle = bodyGrad;
+      ctx.fillStyle = grad;
       ctx.fill();
 
-      // Soft outline for definition
-      ctx.strokeStyle = this.isKohaku ? "rgba(148,163,184,0.25)" : "rgba(154,52,18,0.3)";
-      ctx.lineWidth = 1.1;
+      ctx.strokeStyle = this.type === 'ogon' ? "rgba(154,52,18,0.22)" : "rgba(148,163,184,0.18)";
+      ctx.lineWidth = 0.9;
       ctx.stroke();
 
-      // Hi patterns (Kohaku only)
-      if (this.isKohaku) {
-        ctx.save();
-        ctx.clip();
-        // Head mark
-        const hPt = this.spine[1];
+      // Patterns
+      ctx.save();
+      ctx.clip();
+      if (this.type === 'kohaku') {
+        const h = this.spine[1];
         ctx.beginPath();
-        ctx.ellipse(hPt.x, hPt.y, 8.5, 6, this.angle, 0, Math.PI * 2);
+        ctx.ellipse(h.x, h.y, 8.2 * scale, 5.6 * scale, this.angle, 0, Math.PI * 2);
         ctx.fillStyle = "#dc2626";
         ctx.fill();
-        // Mid saddle
-        const mPt = this.spine[4];
+        const m = this.spine[4];
         ctx.beginPath();
-        ctx.ellipse(mPt.x, mPt.y, 10.5, 7, this.angle - 0.18, 0, Math.PI * 2);
+        ctx.ellipse(m.x, m.y, 10.2 * scale, 6.6 * scale, this.angle - 0.12, 0, Math.PI * 2);
         ctx.fillStyle = "#ea580c";
         ctx.fill();
-        // Rear spot
-        const bPt = this.spine[7];
+        const r = this.spine[7];
         ctx.beginPath();
-        ctx.ellipse(bPt.x, bPt.y, 6.5, 4.2, this.angle + 0.12, 0, Math.PI * 2);
+        ctx.ellipse(r.x, r.y, 6.3 * scale, 4.1 * scale, this.angle + 0.1, 0, Math.PI * 2);
         ctx.fillStyle = "#dc2626";
         ctx.fill();
-        ctx.restore();
+      } else if (this.type === 'showa') {
+        const p1 = this.spine[2];
+        ctx.beginPath();
+        ctx.ellipse(p1.x, p1.y, 9.2 * scale, 6.3 * scale, this.angle, 0, Math.PI * 2);
+        ctx.fillStyle = "#1e293b";
+        ctx.fill();
+        const p2 = this.spine[6];
+        ctx.beginPath();
+        ctx.ellipse(p2.x, p2.y, 7.3 * scale, 4.9 * scale, this.angle + 0.14, 0, Math.PI * 2);
+        ctx.fillStyle = "#0f172a";
+        ctx.fill();
       }
+      ctx.restore();
 
       // Eye
-      const eyeOffset = 9;
-      const eyeX = this.x + Math.cos(this.angle) * eyeOffset + Math.cos(this.angle + Math.PI / 2) * 4.5;
-      const eyeY = this.y + Math.sin(this.angle) * eyeOffset + Math.sin(this.angle + Math.PI / 2) * 4.5;
+      const eyeX = this.x + Math.cos(this.angle) * 7.8 * scale + Math.cos(this.angle + Math.PI/2) * 3.9 * scale;
+      const eyeY = this.y + Math.sin(this.angle) * 7.8 * scale + Math.sin(this.angle + Math.PI/2) * 3.9 * scale;
       ctx.beginPath();
-      ctx.arc(eyeX, eyeY, 2.4, 0, Math.PI * 2);
-      ctx.fillStyle = "#1e293b";
+      ctx.arc(eyeX, eyeY, 2.2 * scale, 0, Math.PI * 2);
+      ctx.fillStyle = "#0f172a";
       ctx.fill();
-      // Eye highlight
       ctx.beginPath();
-      ctx.arc(eyeX - 0.7, eyeY - 0.7, 0.9, 0, Math.PI * 2);
-      ctx.fillStyle = "rgba(255,255,255,0.85)";
+      ctx.arc(eyeX - 0.65 * scale, eyeY - 0.55 * scale, 0.85 * scale, 0, Math.PI * 2);
+      ctx.fillStyle = "rgba(255,255,255,0.9)";
       ctx.fill();
 
-      // Tail fin (translucent + flutter)
+      // Tail
       const last = this.spine[NUM_JOINTS - 1];
-      const secondLast = this.spine[NUM_JOINTS - 2];
-      const tailAngle = Math.atan2(last.y - secondLast.y, last.x - secondLast.x);
-      const finFlare = Math.sin(this.wiggleCycle) * 5.5;
+      const second = this.spine[NUM_JOINTS - 2];
+      const tailAng = Math.atan2(last.y - second.y, last.x - second.x);
+      const flare = Math.sin(this.wiggleCycle) * 6 * scale;
 
       ctx.beginPath();
       ctx.moveTo(last.x, last.y);
       ctx.quadraticCurveTo(
-        last.x + Math.cos(tailAngle - 0.75) * 22,
-        last.y + Math.sin(tailAngle - 0.75) * 22 + finFlare,
-        last.x + Math.cos(tailAngle - 0.28) * 30,
-        last.y + Math.sin(tailAngle - 0.28) * 30 + finFlare
+        last.x + Math.cos(tailAng - 0.72) * 22 * scale,
+        last.y + Math.sin(tailAng - 0.72) * 22 * scale + flare,
+        last.x + Math.cos(tailAng - 0.26) * 30 * scale,
+        last.y + Math.sin(tailAng - 0.26) * 30 * scale + flare
       );
       ctx.quadraticCurveTo(
-        last.x + Math.cos(tailAngle) * 24,
-        last.y + Math.sin(tailAngle) * 24,
-        last.x + Math.cos(tailAngle + 0.28) * 30,
-        last.y + Math.sin(tailAngle + 0.28) * 30 - finFlare
+        last.x + Math.cos(tailAng) * 24 * scale,
+        last.y + Math.sin(tailAng) * 24 * scale,
+        last.x + Math.cos(tailAng + 0.26) * 30 * scale,
+        last.y + Math.sin(tailAng + 0.26) * 30 * scale - flare
       );
       ctx.quadraticCurveTo(
-        last.x + Math.cos(tailAngle + 0.75) * 22,
-        last.y + Math.sin(tailAngle + 0.75) * 22 - finFlare,
+        last.x + Math.cos(tailAng + 0.72) * 22 * scale,
+        last.y + Math.sin(tailAng + 0.72) * 22 * scale - flare,
         last.x, last.y
       );
-      ctx.fillStyle = this.isKohaku
-        ? "rgba(255,255,255,0.68)"
-        : "rgba(249,115,22,0.68)";
+      ctx.fillStyle = this.type === 'ogon' ? "rgba(249,115,22,0.76)" : "rgba(255,255,255,0.76)";
       ctx.fill();
 
       ctx.restore();
     }
   }
 
-  // 5 fish – mix of Kohaku & Yamabuki Ogon
+  // Varied fish
   const koiPond = [
-    new Koi(true),
-    new Koi(true),
-    new Koi(false),
-    new Koi(true),
-    new Koi(false)
+    new Koi('kohaku', 'cruiser'),
+    new Koi('ogon', 'explorer'),
+    new Koi('showa', 'darter'),
+    new Koi('kohaku', 'explorer'),
+    new Koi('ogon', 'cruiser'),
+    new Koi('showa', 'explorer')
   ];
 
-  // Interaction
-  canvas.addEventListener('pointerdown', (e) => {
+  canvas.addEventListener('pointerdown', e => {
     const rect = canvas.getBoundingClientRect();
-    addRipple(e.clientX - rect.left, e.clientY - rect.top, 1.25);
+    addRipple(e.clientX - rect.left, e.clientY - rect.top, 1.3);
   });
 
-  // --- MAIN LOOP ---
+  // ---------- WATER + PARTICLES ----------
   let causticOffset = 0;
-  let particles = [];
-
-  // Soft underwater particles
-  for (let i = 0; i < 18; i++) {
-    particles.push({
-      x: Math.random() * width,
-      y: Math.random() * height,
-      r: 0.6 + Math.random() * 1.4,
-      speed: 0.15 + Math.random() * 0.25,
-      phase: Math.random() * Math.PI * 2
-    });
-  }
+  const particles = Array.from({ length: 18 }, () => ({
+    x: Math.random() * width,
+    y: Math.random() * height,
+    r: 0.5 + Math.random() * 1.4,
+    speed: 0.11 + Math.random() * 0.22,
+    phase: Math.random() * Math.PI * 2,
+    alpha: 0.1 + Math.random() * 0.12
+  }));
 
   function loop(time) {
     ctx.clearRect(0, 0, width, height);
 
-    // Soft underwater gradient base
+    // === Realistic water base ===
+    // Deep water gradient
     const waterGrad = ctx.createLinearGradient(0, 0, 0, height);
-    waterGrad.addColorStop(0, "rgba(14, 116, 144, 0.15)");
-    waterGrad.addColorStop(0.5, "rgba(8, 145, 178, 0.08)");
-    waterGrad.addColorStop(1, "rgba(6, 78, 110, 0.18)");
+    waterGrad.addColorStop(0, "rgba(7, 89, 133, 0.22)");
+    waterGrad.addColorStop(0.35, "rgba(12, 120, 160, 0.13)");
+    waterGrad.addColorStop(0.7, "rgba(8, 100, 140, 0.16)");
+    waterGrad.addColorStop(1, "rgba(4, 60, 95, 0.28)");
     ctx.fillStyle = waterGrad;
     ctx.fillRect(0, 0, width, height);
 
-    // Animated multi-layer caustics
-    causticOffset += 0.012;
+    // Soft light shafts (volumetric feel)
     ctx.save();
-    for (let c = 0; c < 4; c++) {
+    for (let i = 0; i < 5; i++) {
+      const sx = width * (0.15 + i * 0.18) + Math.sin(causticOffset * 0.4 + i) * 40;
       ctx.beginPath();
-      const waveY = height * (0.18 + c * 0.22) + Math.sin(causticOffset + c * 1.7) * 18;
-      const waveX = width * 0.5 + Math.cos(causticOffset * 0.7 + c) * 30;
-      ctx.ellipse(waveX, waveY, width * (0.38 + c * 0.04), 16 + c * 3, (c * Math.PI) / 7, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(255, 255, 255, ${0.035 - c * 0.005})`;
+      ctx.moveTo(sx - 25, 0);
+      ctx.lineTo(sx + 35, 0);
+      ctx.lineTo(sx + 10, height);
+      ctx.lineTo(sx - 50, height);
+      ctx.closePath();
+      ctx.fillStyle = `rgba(255, 255, 255, ${0.018 - i * 0.002})`;
       ctx.fill();
     }
     ctx.restore();
 
-    // Floating particles
+    // Multi-layer animated caustics
+    causticOffset += 0.0095;
+    for (let c = 0; c < 5; c++) {
+      const wy = height * (0.12 + c * 0.17) + Math.sin(causticOffset * (0.9 + c * 0.15) + c * 1.4) * (12 + c * 3);
+      const wx = width * 0.5 + Math.cos(causticOffset * 0.55 + c * 0.8) * (30 + c * 8);
+      ctx.beginPath();
+      ctx.ellipse(wx, wy, width * (0.32 + c * 0.04), 13 + c * 2.8, c * 0.35, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(200, 240, 255, ${0.028 - c * 0.0035})`;
+      ctx.fill();
+    }
+
+    // Secondary smaller caustic sparkles
+    for (let c = 0; c < 6; c++) {
+      const wx = (width * 0.1 + (c * width * 0.16) + Math.sin(causticOffset * 1.2 + c) * 50) % width;
+      const wy = height * 0.25 + Math.cos(causticOffset * 0.9 + c * 1.1) * height * 0.35;
+      ctx.beginPath();
+      ctx.ellipse(wx, wy, 28 + c * 4, 8, c * 0.5, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(255, 255, 255, ${0.015})`;
+      ctx.fill();
+    }
+
+    // Floating particles / micro bubbles
     particles.forEach(p => {
-      p.phase += 0.02;
+      p.phase += 0.015;
       p.y -= p.speed;
-      p.x += Math.sin(p.phase) * 0.3;
-      if (p.y < -5) {
-        p.y = height + 5;
+      p.x += Math.sin(p.phase) * 0.22;
+      if (p.y < -8) {
+        p.y = height + 8;
         p.x = Math.random() * width;
       }
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = "rgba(255,255,255,0.18)";
+      ctx.fillStyle = `rgba(255,255,255,${p.alpha})`;
       ctx.fill();
     });
 
-    // Shadows first
-    koiPond.forEach(fish => {
-      fish.update(time);
-      fish.draw(true);
+    // Floating leaves (behind fish)
+    leaves.forEach(l => {
+      l.x += l.driftX + Math.sin(l.phase) * 0.15;
+      l.y += l.driftY + Math.cos(l.phase * 0.7) * 0.1;
+      l.angle += l.rotSpeed;
+      l.phase += 0.008;
+
+      // Wrap around
+      if (l.x < -40) l.x = width + 40;
+      if (l.x > width + 40) l.x = -40;
+      if (l.y < -40) l.y = height + 40;
+      if (l.y > height + 40) l.y = -40;
+
+      drawLeaf(l);
     });
 
-    // Bodies
-    koiPond.forEach(fish => fish.draw(false));
+    // Fish shadows → bodies
+    koiPond.forEach(f => { f.update(time); f.draw(true); });
+    koiPond.forEach(f => f.draw(false));
 
-    // Surface ripples (light crest + dark trough)
+    // Surface ripples (stronger light/dark refraction)
     for (let i = ripples.length - 1; i >= 0; i--) {
       const rp = ripples[i];
-      // Outer light crest
+
+      // Outer bright crest
       ctx.beginPath();
       ctx.arc(rp.x, rp.y, rp.r, 0, Math.PI * 2);
       ctx.strokeStyle = `rgba(255, 255, 255, ${rp.alpha})`;
       ctx.lineWidth = rp.width;
       ctx.stroke();
-      // Inner trough
+
+      // Inner darker trough
       ctx.beginPath();
-      ctx.arc(rp.x, rp.y, Math.max(1, rp.r - 2.5), 0, Math.PI * 2);
-      ctx.strokeStyle = `rgba(3, 105, 161, ${rp.alpha * 0.4})`;
+      ctx.arc(rp.x, rp.y, Math.max(1, rp.r - 2.6), 0, Math.PI * 2);
+      ctx.strokeStyle = `rgba(3, 80, 130, ${rp.alpha * 0.4})`;
       ctx.lineWidth = rp.width * 0.6;
       ctx.stroke();
 
+      // Very soft outer glow
+      ctx.beginPath();
+      ctx.arc(rp.x, rp.y, rp.r + 3, 0, Math.PI * 2);
+      ctx.strokeStyle = `rgba(180, 230, 255, ${rp.alpha * 0.15})`;
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+
       rp.r += rp.speed;
-      rp.alpha -= 0.012;
+      rp.alpha -= 0.0105;
       if (rp.alpha <= 0 || rp.r >= rp.maxR) ripples.splice(i, 1);
     }
 

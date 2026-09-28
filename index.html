@@ -1306,8 +1306,9 @@ function toggleGuideIndexPopup() {
           const isLatest = idx === 0 && !query && deptFilter === "all";
           return `
   <button class="index-pill" onclick="jumpToGuide('${cardDomId}'); document.getElementById('guideIndexPopup')?.classList.add('hidden')">
-    \( {isLatest ? '✨ ' : '📄 '}<strong> \){g.title}</strong>
-  </button>`;
+    ${isLatest ? '✨ ' : '📄 '}<strong>${g.title}</strong>
+  </button>
+
         }).join('');
       }
     }

@@ -197,27 +197,26 @@
       border-color: var(--primary) !important;
     }
     .index-pill {
-      white-space: nowrap;
-      background: var(--card);
-      border: 1px solid var(--border);
-      color: var(--text);
-      padding: 5px 12px;
-      border-radius: 20px;
-      font-size: 11.5px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      flex-shrink: 0;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-    }
-    .index-pill:hover {
-      background: var(--primary);
-      color: #ffffff;
-      border-color: var(--primary);
-      transform: translateY(-1px);
-    }
+  width: 100%;
+  text-align: left;
+  background: var(--box-bg);
+  border: 1px solid transparent;
+  color: var(--text);
+  padding: 9px 12px;
+  border-radius: 10px;
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.index-pill:hover {
+  background: rgba(56, 189, 248, 0.15);
+  border-color: var(--primary);
+  color: var(--primary);
+}
 
   </style>
 </head>
@@ -442,14 +441,20 @@
       </select>
     </div>
     <!-- Quick-Access Direct-Click Title Index -->
-    <div id="guideIndexContainer" style="margin-bottom:16px">
-      <div style="font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:6px;display:flex;align-items:center;gap:5px">
-        <span>⚡ Quick Jump to Document:</span>
-      </div>
-      <div id="guideIndexBar" style="display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;scrollbar-width:thin">
-        <!-- Clickable title pills injected dynamically -->
+    <div id="guideIndexContainer" style="margin-bottom:14px">
+  <button id="guideIndexToggleBtn" onclick="toggleGuideIndexPopup()" style="display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:12px;border:1.5px solid var(--border);background:var(--box-bg);color:var(--text);font-weight:800;font-size:12.5px;cursor:pointer;font-family:inherit">
+    ⚡ Quick Jump <span style="font-size:11px;opacity:0.7">▼</span>
+  </button>
+
+  <!-- Popup list (hidden by default) -->
+  <div id="guideIndexPopup" class="hidden" style="position:relative;z-index:30;margin-top:8px">
+    <div style="background:var(--card);border:1.5px solid var(--border);border-radius:14px;box-shadow:var(--shadow-md);max-height:280px;overflow-y:auto;padding:8px">
+      <div id="guideIndexBar" style="display:flex;flex-direction:column;gap:4px">
+        <!-- vertical list items injected here -->
       </div>
     </div>
+  </div>
+</div>
     <div id="guidesResultsGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px">
       <p style="color:var(--text-muted);font-size:13px">Loading documentation formats...</p>
     </div>
@@ -1566,7 +1571,11 @@
       if (container) container.innerHTML = `<p style="color:var(--text-muted);font-size:13px">Failed to load guides.</p>`;
     }
   }
-
+function toggleGuideIndexPopup() {
+  const popup = document.getElementById('guideIndexPopup');
+  if (!popup) return;
+  popup.classList.toggle('hidden');
+}
   // Helper to scroll and highlight card when title pill is clicked
   function jumpToGuide(cardId) {
     const card = document.getElementById(cardId);
@@ -1611,9 +1620,9 @@
           const cardDomId = `guide-card-${g.id}`;
           const isLatest = idx === 0 && !query && deptFilter === "all";
           return `
-            <button class="index-pill" onclick="jumpToGuide('${cardDomId}')">
-              ${isLatest ? '✨ ' : '📄 '}<strong>${g.title}</strong>
-            </button>`;
+  <button class="index-pill" onclick="jumpToGuide('${cardDomId}'); document.getElementById('guideIndexPopup')?.classList.add('hidden')">
+    \( {isLatest ? '✨ ' : '📄 '}<strong> \){g.title}</strong>
+  </button>`;
         }).join('');
       }
     }

@@ -1307,7 +1307,7 @@ function toggleGuideIndexPopup() {
           return `
   <button class="index-pill" onclick="jumpToGuide('${cardDomId}'); document.getElementById('guideIndexPopup')?.classList.add('hidden')">
     ${isLatest ? '✨ ' : '📄 '}<strong>${g.title}</strong>
-  </button>
+  </button>`;
 
         }).join('');
       }

@@ -12,24 +12,75 @@
     height = canvas.height = canvas.parentElement.offsetHeight;
   });
 
-  // ---------- RIPPLES ----------
+  // ---------- REALISTIC RIPPLES ----------
   const ripples = [];
-  function addRipple(x, y, strength = 1) {
-    ripples.push({ x, y, r: 2, maxR: 120 * strength, alpha: 0.9, speed: 2.8, width: 2.6 });
-    setTimeout(() => ripples.push({ x, y, r: 2, maxR: 90 * strength, alpha: 0.55, speed: 2.15, width: 1.9 }), 80);
-    setTimeout(() => ripples.push({ x, y, r: 2, maxR: 60 * strength, alpha: 0.3, speed: 1.6, width: 1.3 }), 160);
+  let isPointerDown = false;
+  let lastRippleX = 0;
+  let lastRippleY = 0;
+  const MIN_DIST = 18; // minimum distance before spawning new ripple while dragging
 
-    koiPond.forEach(fish => {
-      const dx = fish.x - x, dy = fish.y - y;
-      const dist = Math.hypot(dx, dy);
-      if (dist < 175) {
-        const force = (1 - dist / 175) * 7;
-        fish.vx += (dx / (dist || 1)) * force;
-        fish.vy += (dy / (dist || 1)) * force;
-        fish.spurt = 45;
-      }
+  function addRipple(x, y, strength = 1.0) {
+    // Main ripple with multiple sine-wave rings for depth
+    ripples.push({
+      x, y,
+      r: 3,
+      maxR: 140 * strength,
+      alpha: 0.95,
+      speed: 2.9,
+      strength,
+      // for sine-wave look
+      rings: [
+        { offset: 0,   width: 3.2, bright: true },
+        { offset: 5,   width: 2.4, bright: false },
+        { offset: 11,  width: 2.0, bright: true },
+        { offset: 18,  width: 1.5, bright: false }
+      ]
     });
   }
+
+  // Pointer events for tap + continuous slide
+  canvas.addEventListener('pointerdown', (e) => {
+    isPointerDown = true;
+    const rect = canvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    lastRippleX = x;
+    lastRippleY = y;
+    addRipple(x, y, 1.3);
+
+    // Startle fish
+    koiPond.forEach(fish => {
+      const dx = fish.x - x;
+      const dy = fish.y - y;
+      const dist = Math.hypot(dx, dy);
+      if (dist < 180) {
+        const force = (1 - dist / 180) * 7.5;
+        fish.vx += (dx / (dist || 1)) * force;
+        fish.vy += (dy / (dist || 1)) * force;
+        fish.spurt = 48;
+      }
+    });
+  });
+
+  canvas.addEventListener('pointermove', (e) => {
+    if (!isPointerDown) return;
+    const rect = canvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    const dist = Math.hypot(x - lastRippleX, y - lastRippleY);
+    if (dist >= MIN_DIST) {
+      // Strength depends on how fast you slide
+      const strength = Math.min(1.4, 0.7 + dist / 60);
+      addRipple(x, y, strength);
+      lastRippleX = x;
+      lastRippleY = y;
+    }
+  });
+
+  canvas.addEventListener('pointerup', () => { isPointerDown = false; });
+  canvas.addEventListener('pointerleave', () => { isPointerDown = false; });
+  canvas.addEventListener('pointercancel', () => { isPointerDown = false; });
 
   // ---------- FLOATING LEAVES ----------
   const leaves = [];
@@ -37,13 +88,13 @@
     leaves.push({
       x: Math.random() * width,
       y: Math.random() * height,
-      size: 14 + Math.random() * 18,
+      size: 13 + Math.random() * 17,
       angle: Math.random() * Math.PI * 2,
-      rotSpeed: (Math.random() - 0.5) * 0.008,
-      driftX: (Math.random() - 0.5) * 0.25,
-      driftY: (Math.random() - 0.5) * 0.15,
+      rotSpeed: (Math.random() - 0.5) * 0.007,
+      driftX: (Math.random() - 0.5) * 0.22,
+      driftY: (Math.random() - 0.5) * 0.13,
       phase: Math.random() * Math.PI * 2,
-      opacity: 0.25 + Math.random() * 0.25
+      opacity: 0.22 + Math.random() * 0.22
     });
   }
 
@@ -53,27 +104,25 @@
     ctx.rotate(l.angle);
     ctx.globalAlpha = l.opacity;
 
-    // Simple soft leaf shape
     ctx.beginPath();
     ctx.moveTo(0, -l.size * 0.6);
     ctx.quadraticCurveTo(l.size * 0.55, -l.size * 0.25, l.size * 0.45, l.size * 0.35);
     ctx.quadraticCurveTo(0, l.size * 0.15, -l.size * 0.45, l.size * 0.35);
     ctx.quadraticCurveTo(-l.size * 0.55, -l.size * 0.25, 0, -l.size * 0.6);
-    ctx.fillStyle = `rgba(34, 197, 94, 0.7)`;
+    ctx.fillStyle = "rgba(34, 197, 94, 0.75)";
     ctx.fill();
 
-    // Soft midrib
     ctx.beginPath();
     ctx.moveTo(0, -l.size * 0.5);
     ctx.quadraticCurveTo(l.size * 0.08, 0, 0, l.size * 0.25);
-    ctx.strokeStyle = "rgba(22, 101, 52, 0.4)";
+    ctx.strokeStyle = "rgba(22, 101, 52, 0.45)";
     ctx.lineWidth = 1.1;
     ctx.stroke();
 
     ctx.restore();
   }
 
-  // ---------- KOI ----------
+  // ---------- KOI (kept from previous good version) ----------
   const NUM_JOINTS = 13;
   const BODY_RADII = [10.5, 13, 14.8, 15.2, 14.5, 13, 11.2, 9.2, 7.2, 5.3, 3.6, 2.3, 1.3];
 
@@ -234,7 +283,7 @@
         ctx.fill();
       }
 
-      // Body path
+      // Body
       ctx.beginPath();
       ctx.moveTo(leftPts[0].x, leftPts[0].y);
       for (let i = 1; i < leftPts.length; i++) ctx.lineTo(leftPts[i].x, leftPts[i].y);
@@ -255,7 +304,6 @@
         return;
       }
 
-      // Body shading
       const grad = ctx.createLinearGradient(
         this.x + Math.cos(this.angle + Math.PI/2) * 15,
         this.y + Math.sin(this.angle + Math.PI/2) * 15,
@@ -360,7 +408,6 @@
     }
   }
 
-  // Varied fish
   const koiPond = [
     new Koi('kohaku', 'cruiser'),
     new Koi('ogon', 'explorer'),
@@ -370,12 +417,7 @@
     new Koi('showa', 'explorer')
   ];
 
-  canvas.addEventListener('pointerdown', e => {
-    const rect = canvas.getBoundingClientRect();
-    addRipple(e.clientX - rect.left, e.clientY - rect.top, 1.3);
-  });
-
-  // ---------- WATER + PARTICLES ----------
+  // ---------- WATER + LOOP ----------
   let causticOffset = 0;
   const particles = Array.from({ length: 18 }, () => ({
     x: Math.random() * width,
@@ -389,8 +431,7 @@
   function loop(time) {
     ctx.clearRect(0, 0, width, height);
 
-    // === Realistic water base ===
-    // Deep water gradient
+    // Deep water base
     const waterGrad = ctx.createLinearGradient(0, 0, 0, height);
     waterGrad.addColorStop(0, "rgba(7, 89, 133, 0.22)");
     waterGrad.addColorStop(0.35, "rgba(12, 120, 160, 0.13)");
@@ -399,7 +440,7 @@
     ctx.fillStyle = waterGrad;
     ctx.fillRect(0, 0, width, height);
 
-    // Soft light shafts (volumetric feel)
+    // Soft light shafts
     ctx.save();
     for (let i = 0; i < 5; i++) {
       const sx = width * (0.15 + i * 0.18) + Math.sin(causticOffset * 0.4 + i) * 40;
@@ -414,7 +455,7 @@
     }
     ctx.restore();
 
-    // Multi-layer animated caustics
+    // Multi-layer caustics
     causticOffset += 0.0095;
     for (let c = 0; c < 5; c++) {
       const wy = height * (0.12 + c * 0.17) + Math.sin(causticOffset * (0.9 + c * 0.15) + c * 1.4) * (12 + c * 3);
@@ -425,17 +466,17 @@
       ctx.fill();
     }
 
-    // Secondary smaller caustic sparkles
+    // Secondary sparkles
     for (let c = 0; c < 6; c++) {
       const wx = (width * 0.1 + (c * width * 0.16) + Math.sin(causticOffset * 1.2 + c) * 50) % width;
       const wy = height * 0.25 + Math.cos(causticOffset * 0.9 + c * 1.1) * height * 0.35;
       ctx.beginPath();
       ctx.ellipse(wx, wy, 28 + c * 4, 8, c * 0.5, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(255, 255, 255, ${0.015})`;
+      ctx.fillStyle = "rgba(255, 255, 255, 0.015)";
       ctx.fill();
     }
 
-    // Floating particles / micro bubbles
+    // Particles
     particles.forEach(p => {
       p.phase += 0.015;
       p.y -= p.speed;
@@ -450,54 +491,62 @@
       ctx.fill();
     });
 
-    // Floating leaves (behind fish)
+    // Leaves
     leaves.forEach(l => {
       l.x += l.driftX + Math.sin(l.phase) * 0.15;
       l.y += l.driftY + Math.cos(l.phase * 0.7) * 0.1;
       l.angle += l.rotSpeed;
       l.phase += 0.008;
-
-      // Wrap around
       if (l.x < -40) l.x = width + 40;
       if (l.x > width + 40) l.x = -40;
       if (l.y < -40) l.y = height + 40;
       if (l.y > height + 40) l.y = -40;
-
       drawLeaf(l);
     });
 
-    // Fish shadows → bodies
+    // Fish
     koiPond.forEach(f => { f.update(time); f.draw(true); });
     koiPond.forEach(f => f.draw(false));
 
-    // Surface ripples (stronger light/dark refraction)
+    // ===== REALISTIC SINE-WAVE RIPPLES =====
     for (let i = ripples.length - 1; i >= 0; i--) {
       const rp = ripples[i];
 
-      // Outer bright crest
+      rp.rings.forEach((ring, idx) => {
+        const ringR = rp.r - ring.offset;
+        if (ringR < 2) return;
+
+        const fade = Math.max(0, 1 - (rp.r / rp.maxR));
+        const alpha = rp.alpha * fade * (1 - idx * 0.12);
+
+        ctx.beginPath();
+        ctx.arc(rp.x, rp.y, ringR, 0, Math.PI * 2);
+
+        if (ring.bright) {
+          // Crest – bright white
+          ctx.strokeStyle = `rgba(255, 255, 255, ${alpha * 0.95})`;
+        } else {
+          // Trough – darker blue for depth
+          ctx.strokeStyle = `rgba(3, 70, 120, ${alpha * 0.55})`;
+        }
+        ctx.lineWidth = ring.width * fade;
+        ctx.stroke();
+      });
+
+      // Soft outer glow for extra realism
       ctx.beginPath();
-      ctx.arc(rp.x, rp.y, rp.r, 0, Math.PI * 2);
-      ctx.strokeStyle = `rgba(255, 255, 255, ${rp.alpha})`;
-      ctx.lineWidth = rp.width;
+      ctx.arc(rp.x, rp.y, rp.r + 4, 0, Math.PI * 2);
+      ctx.strokeStyle = `rgba(180, 230, 255, ${rp.alpha * 0.12 * (1 - rp.r / rp.maxR)})`;
+      ctx.lineWidth = 2.5;
       ctx.stroke();
 
-      // Inner darker trough
-      ctx.beginPath();
-      ctx.arc(rp.x, rp.y, Math.max(1, rp.r - 2.6), 0, Math.PI * 2);
-      ctx.strokeStyle = `rgba(3, 80, 130, ${rp.alpha * 0.4})`;
-      ctx.lineWidth = rp.width * 0.6;
-      ctx.stroke();
-
-      // Very soft outer glow
-      ctx.beginPath();
-      ctx.arc(rp.x, rp.y, rp.r + 3, 0, Math.PI * 2);
-      ctx.strokeStyle = `rgba(180, 230, 255, ${rp.alpha * 0.15})`;
-      ctx.lineWidth = 1.5;
-      ctx.stroke();
-
+      // Expand & fade
       rp.r += rp.speed;
-      rp.alpha -= 0.0105;
-      if (rp.alpha <= 0 || rp.r >= rp.maxR) ripples.splice(i, 1);
+      rp.alpha -= 0.0095;
+
+      if (rp.alpha <= 0 || rp.r >= rp.maxR) {
+        ripples.splice(i, 1);
+      }
     }
 
     requestAnimationFrame(loop);

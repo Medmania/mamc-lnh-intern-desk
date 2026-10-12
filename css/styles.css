@@ -228,5 +228,41 @@
   border-color: var(--primary);
   color: var(--primary);
 }
+/* ==========================================
+   LAB A-Z DIRECTORY STYLES
+   ========================================== */
+.lab-dir-item {
+  width: 100%;
+  text-align: left;
+  background: var(--box-bg);
+  border: 1px solid transparent;
+  color: var(--text);
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-size: 12.5px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  font-family: inherit;
+}
+
+.lab-dir-item:hover {
+  background: rgba(56, 189, 248, 0.15);
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.lab-dir-location {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--primary);
+  background: rgba(2, 132, 199, 0.12);
+  padding: 2px 8px;
+  border-radius: 6px;
+  white-space: nowrap;
+}
 
   

@@ -10,9 +10,6 @@
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="css/styles.css">
   <title>MAMC-LNH Intern Portal — Roster, Labs & Hospital Directory</title>
-
-
-
 </head>
 <body>
 <div class="container">
@@ -166,8 +163,25 @@
 
   <!-- TAB 3: LABS -->
   <div id="lab-tab" class="hidden">
-    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;margin-bottom:12px">
-      <select id="labHospitalSelect" onchange="searchLabTests()" style="padding:10px 14px;border-radius:8px;border:1px solid var(--border);font-size:14px;background-color:var(--input-bg);font-weight:600;color:var(--text);min-width:280px;cursor:pointer">
+    <!-- A-Z REPORT DIRECTORY BUTTON & POPUP LIST -->
+    <div id="labDirectoryContainer" style="margin-top: 12px; margin-bottom: 12px; position: relative;">
+      <button id="labDirectoryToggleBtn" onclick="toggleLabDirectoryPopup()" style="display:inline-flex; align-items:center; gap:6px; padding:9px 16px; border-radius:12px; border:1.5px solid var(--border); background:var(--box-bg); color:var(--primary); font-weight:800; font-size:13px; cursor:pointer; font-family:inherit; box-shadow: var(--shadow-sm);">
+        📄 Report Locations (A–Z Directory) <span style="font-size:11px; opacity:0.7">▼</span>
+      </button>
+
+      <!-- Popup List -->
+      <div id="labDirectoryPopup" class="hidden" style="position:absolute; top:100%; left:0; right:0; max-width:420px; z-index:30; margin-top:6px;">
+        <div style="background:var(--card); border:1.5px solid var(--border); border-radius:16px; box-shadow:var(--shadow-md); max-height:300px; overflow-y:auto; padding:8px;">
+          <div id="labDirectoryList" style="display:flex; flex-direction:column; gap:4px;">
+            <!-- Dynamic A-Z tests injected here -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filter Controls -->
+    <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:12px">
+      <select id="labHospitalSelect" onchange="searchLabTests()" style="padding:10px 14px; border-radius:8px; border:1px solid var(--border); font-size:14px; background-color:var(--input-bg); font-weight:600; color:var(--text); min-width:280px; cursor:pointer">
         <option value="all">🏥 All Diagnostic Windows & Labs</option>
         <optgroup label="── LNJP HOSPITAL WINDOWS ──">
           <option value="window1_path">📍 Window 1 & 5 (Pathology & Clinical)</option>
@@ -185,7 +199,7 @@
           <option value="gbpant">🏥 GB Pant Hospital (Labs, Echo & Imaging)</option>
         </optgroup>
       </select>
-      <input type="text" id="labSearch" oninput="searchLabTests();saveSearchHistory('lab',this.value)" placeholder="Search test, tube colour, room..." style="flex:1;min-width:250px;padding:10px 14px;border-radius:8px;border:1px solid var(--border);font-size:14px">
+      <input type="text" id="labSearch" oninput="searchLabTests(); saveSearchHistory('lab',this.value)" placeholder="Search test, tube colour, room..." style="flex:1; min-width:250px; padding:10px 14px; border-radius:8px; border:1px solid var(--border); font-size:14px">
     </div>
     <div id="labResults"></div>
   </div>
@@ -236,19 +250,19 @@
     </div>
     <!-- Quick-Access Direct-Click Title Index -->
     <div id="guideIndexContainer" style="margin-bottom:14px">
-  <button id="guideIndexToggleBtn" onclick="toggleGuideIndexPopup()" style="display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:12px;border:1.5px solid var(--border);background:var(--box-bg);color:var(--text);font-weight:800;font-size:12.5px;cursor:pointer;font-family:inherit">
-    ⚡ Quick Jump <span style="font-size:11px;opacity:0.7">▼</span>
-  </button>
+      <button id="guideIndexToggleBtn" onclick="toggleGuideIndexPopup()" style="display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:12px;border:1.5px solid var(--border);background:var(--box-bg);color:var(--text);font-weight:800;font-size:12.5px;cursor:pointer;font-family:inherit">
+        ⚡ Quick Jump <span style="font-size:11px;opacity:0.7">▼</span>
+      </button>
 
-  <!-- Popup list (hidden by default) -->
-  <div id="guideIndexPopup" class="hidden" style="position:relative;z-index:30;margin-top:8px">
-    <div style="background:var(--card);border:1.5px solid var(--border);border-radius:14px;box-shadow:var(--shadow-md);max-height:280px;overflow-y:auto;padding:8px">
-      <div id="guideIndexBar" style="display:flex;flex-direction:column;gap:4px">
-        <!-- vertical list items injected here -->
+      <!-- Popup list -->
+      <div id="guideIndexPopup" class="hidden" style="position:relative;z-index:30;margin-top:8px">
+        <div style="background:var(--card);border:1.5px solid var(--border);border-radius:14px;box-shadow:var(--shadow-md);max-height:280px;overflow-y:auto;padding:8px">
+          <div id="guideIndexBar" style="display:flex;flex-direction:column;gap:4px">
+            <!-- vertical list items injected here -->
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
     <div id="guidesResultsGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px">
       <p style="color:var(--text-muted);font-size:13px">Loading documentation formats...</p>
     </div>
@@ -370,7 +384,7 @@
 <script src="data/data_units.js"></script>
 <script src="data/data_faqs.js"></script>
 
-  <script src="js/roster.js"></script>
+<script src="js/roster.js"></script>
 <!-- POND ANIMATION SCRIPT -->
 <script src="js/pond.js"></script>
 
@@ -1018,8 +1032,6 @@
     setTimeout(() => btn.textContent = old, 1500);
   }
 
-
-  
   function switchTab(tab) {
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     ['roster','schedule','lab','faq','guides','swaps'].forEach(t => {
@@ -1206,16 +1218,98 @@
   }
   function searchDeptSchedule() { renderScheduleResults(); }
 
-  // ========== LABS ==========
+  // ========== LABS DIRECTORY & SEARCH ==========
+  function toggleLabDirectoryPopup() {
+    const popup = document.getElementById('labDirectoryPopup');
+    if (!popup) return;
+    popup.classList.toggle('hidden');
+    if (!popup.classList.contains('hidden')) {
+      populateLabAlphabeticalDirectory();
+    }
+  }
+
+  function populateLabAlphabeticalDirectory() {
+    const listContainer = document.getElementById('labDirectoryList');
+    if (!listContainer || typeof labDirectory === 'undefined' || !labDirectory) return;
+
+    // Sort tests alphabetically A to Z
+    const sortedLabs = [...labDirectory].sort((a, b) => a.test.localeCompare(b.test));
+
+    listContainer.innerHTML = sortedLabs.map(item => `
+      <button class="lab-dir-item" onclick="selectLabFromDirectory('${encodeURIComponent(item.test)}')">
+        <span style="font-weight:700;">🧪 ${item.test}</span>
+        <span class="lab-dir-location">📍 ${item.report || 'Window 1'}</span>
+      </button>
+    `).join('');
+  }
+
+  function selectLabFromDirectory(encodedTestName) {
+    const testName = decodeURIComponent(encodedTestName);
+    
+    // Fill search bar
+    const searchInput = document.getElementById('labSearch');
+    if (searchInput) searchInput.value = testName;
+
+    // Reset filter select to 'all'
+    const selectFilter = document.getElementById('labHospitalSelect');
+    if (selectFilter) selectFilter.value = 'all';
+
+    // Hide dropdown list
+    document.getElementById('labDirectoryPopup')?.classList.add('hidden');
+
+    // Trigger rendering
+    searchLabTests();
+
+    // Scroll to the card and highlight
+    setTimeout(() => {
+      const resultsContainer = document.getElementById('labResults');
+      const firstCard = resultsContainer?.querySelector('.result-card');
+      if (firstCard) {
+        firstCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        firstCard.classList.remove('card-highlighted');
+        void firstCard.offsetWidth; // Reflow
+        firstCard.classList.add('card-highlighted');
+        
+        const details = firstCard.querySelector('details');
+        if (details) details.open = true;
+      }
+    }, 100);
+  }
+
+  function getVialBadge(tubeText) {
+    if (!tubeText) return '';
+    const tube = tubeText.toLowerCase();
+    let bg = '#e2e8f0', color = '#334155', border = '#cbd5e1';
+
+    if (tube.includes('purple') || tube.includes('edta')) {
+      bg = 'rgba(168, 85, 247, 0.15)'; color = '#7e22ce'; border = 'rgba(168, 85, 247, 0.4)';
+    } else if (tube.includes('yellow') || tube.includes('sst') || tube.includes('gel')) {
+      bg = 'rgba(234, 179, 8, 0.18)'; color = '#a16207'; border = 'rgba(234, 179, 8, 0.4)';
+    } else if (tube.includes('blue') || tube.includes('citrate')) {
+      bg = 'rgba(56, 189, 248, 0.18)'; color = '#0369a1'; border = 'rgba(56, 189, 248, 0.4)';
+    } else if (tube.includes('red') || tube.includes('plain')) {
+      bg = 'rgba(239, 68, 68, 0.15)'; color = '#b91c1c'; border = 'rgba(239, 68, 68, 0.4)';
+    } else if (tube.includes('grey') || tube.includes('gray') || tube.includes('fluoride')) {
+      bg = 'rgba(100, 116, 139, 0.18)'; color = '#334155'; border = 'rgba(100, 116, 139, 0.4)';
+    } else if (tube.includes('green') || tube.includes('heparin')) {
+      bg = 'rgba(34, 197, 94, 0.15)'; color = '#15803d'; border = 'rgba(34, 197, 94, 0.4)';
+    }
+
+    return `<span class="badge" style="background:${bg}; color:${color}; border:1px solid ${border}; font-weight:800; font-size:11.5px;">💉 ${tubeText}</span>`;
+  }
+
   function searchLabTests() {
     const searchInput = document.getElementById('labSearch');
     const selectFilter = document.getElementById('labHospitalSelect');
     const resDiv = document.getElementById('labResults');
     if (!resDiv || !selectFilter) return;
+
     const query = searchInput ? searchInput.value.toLowerCase().trim() : "";
     const filterVal = selectFilter.value;
-    let filtered = labDirectory;
+
+    let filtered = typeof labDirectory !== 'undefined' ? labDirectory : [];
     if (filterVal !== "all") filtered = filtered.filter(item => item.category === filterVal);
+
     if (query) {
       filtered = filtered.filter(item =>
         item.test.toLowerCase().includes(query) || item.tube.toLowerCase().includes(query) ||
@@ -1224,19 +1318,60 @@
         (item.category || "").toLowerCase().includes(query)
       );
     }
+
     if (filtered.length === 0) {
-      resDiv.innerHTML = '<p style="padding:16px;color:var(--text-muted);text-align:center">No matching lab tests found.</p>';
+      resDiv.innerHTML = '<p style="padding:24px; color:var(--text-muted); text-align:center; font-weight:600">No matching lab tests found.</p>';
       return;
     }
-    let html = `<p style="color:var(--text-muted);font-size:13px;margin:0 0 12px 0">Showing <strong>${filtered.length}</strong> test${filtered.length > 1 ? 's' : ''}</p>`;
+
+    let html = `<div style="font-size:12.5px; color:var(--text-muted); margin:0 0 10px 4px; font-weight:700">Showing <strong>${filtered.length}</strong> test${filtered.length > 1 ? 's' : ''}</div>`;
+
     filtered.forEach(item => {
-      html += `<div class="lab-card">
-        <h4>🧪 ${item.test} <span class="badge badge-lab">${item.hospital}</span></h4>
-        <div class="lab-meta"><span>💉 <strong>Vial:</strong> ${item.tube}</span><span>📍 <strong>Location:</strong> ${item.window}</span></div>
-        <div class="lab-meta"><span>⏰ <strong>Days:</strong> ${item.days}</span><span>📄 <strong>Report:</strong> ${item.report}</span></div>
-        ${item.notes ? `<div class="lab-notes">💡 <strong>Notes:</strong> ${item.notes}</div>` : ''}
+      const vialBadge = getVialBadge(item.tube);
+      const hasNotes = item.notes && item.notes.trim().length > 0;
+
+      html += `
+      <div class="result-card" style="margin-bottom:12px; padding:14px 16px;">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px; flex-wrap:wrap; margin-bottom:8px;">
+          <h4 style="margin:0; font-size:15.5px; font-weight:800; color:var(--text); flex:1; min-width:200px;">
+            🧪 ${item.test}
+          </h4>
+          <div style="display:flex; gap:6px; flex-wrap:wrap;">
+            ${vialBadge}
+            <span class="badge badge-lab">${item.hospital || 'LNJP'}</span>
+          </div>
+        </div>
+
+        <!-- Action Box: Sample Drop & Report Collection -->
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:8px; background:var(--box-bg); padding:10px 12px; border-radius:12px; border:1px solid var(--border); margin-bottom:8px;">
+          <div>
+            <div style="font-size:11px; font-weight:800; text-transform:uppercase; color:var(--text-muted); letter-spacing:0.4px;">📍 Sample Drop / Location</div>
+            <div style="font-size:13px; font-weight:700; color:var(--text); margin-top:2px;">${item.window || 'Main Lab'}</div>
+          </div>
+          <div style="border-left: 2px solid var(--border); padding-left: 10px;">
+            <div style="font-size:11px; font-weight:800; text-transform:uppercase; color:var(--primary); letter-spacing:0.4px;">📄 Report Collection Location</div>
+            <div style="font-size:13.5px; font-weight:800; color:var(--primary); margin-top:2px;">${item.report || 'Window 1'}</div>
+          </div>
+        </div>
+
+        <!-- Timing & Collapsible Notes -->
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px; font-size:12px; color:var(--text-muted);">
+          <span>⏰ <strong>Days:</strong> ${item.days}</span>
+          
+          ${hasNotes ? `
+            <details style="width:100%; margin-top:6px;">
+              <summary style="font-size:12px; font-weight:700; color:var(--primary); cursor:pointer; padding:2px 0;">
+                💡 View Lab Notes & Parameters
+              </summary>
+              <div style="margin-top:6px; padding:8px 12px; background:rgba(245, 158, 11, 0.12); border-left:3px solid #f59e0b; border-radius:8px; font-size:12px; color:var(--text); line-height:1.4;">
+                ${item.notes}
+              </div>
+            </details>
+          ` : ''}
+        </div>
       </div>`;
     });
+
     resDiv.innerHTML = html;
   }
 
@@ -1256,18 +1391,19 @@
       if (container) container.innerHTML = `<p style="color:var(--text-muted);font-size:13px">Failed to load guides.</p>`;
     }
   }
-function toggleGuideIndexPopup() {
-  const popup = document.getElementById('guideIndexPopup');
-  if (!popup) return;
-  popup.classList.toggle('hidden');
-}
-  // Helper to scroll and highlight card when title pill is clicked
+
+  function toggleGuideIndexPopup() {
+    const popup = document.getElementById('guideIndexPopup');
+    if (!popup) return;
+    popup.classList.toggle('hidden');
+  }
+
   function jumpToGuide(cardId) {
     const card = document.getElementById(cardId);
     if (!card) return;
     card.scrollIntoView({ behavior: 'smooth', block: 'center' });
     card.classList.remove('card-highlighted');
-    void card.offsetWidth; // reflow to restart animation
+    void card.offsetWidth;
     card.classList.add('card-highlighted');
   }
 
@@ -1278,7 +1414,6 @@ function toggleGuideIndexPopup() {
     const indexBar = document.getElementById("guideIndexBar");
     if (!container) return;
 
-    // Newest uploads first (by createdAt or numeric id)
     let filtered = [...clinicalGuidesData].sort((a, b) => {
       const timeA = a.createdAt ? new Date(a.createdAt).getTime() : (Number(a.id) || 0);
       const timeB = b.createdAt ? new Date(b.createdAt).getTime() : (Number(b.id) || 0);
@@ -1296,7 +1431,6 @@ function toggleGuideIndexPopup() {
       );
     }
 
-    // Populate Quick Jump index bar
     if (indexBar) {
       if (filtered.length === 0) {
         indexBar.innerHTML = `<span style="font-size:12px;color:var(--text-muted)">No documents match.</span>`;
@@ -1305,10 +1439,9 @@ function toggleGuideIndexPopup() {
           const cardDomId = `guide-card-${g.id}`;
           const isLatest = idx === 0 && !query && deptFilter === "all";
           return `
-  <button class="index-pill" onclick="jumpToGuide('${cardDomId}'); document.getElementById('guideIndexPopup')?.classList.add('hidden')">
-    ${isLatest ? '✨ ' : '📄 '}<strong>${g.title}</strong>
-  </button>`;
-
+          <button class="index-pill" onclick="jumpToGuide('${cardDomId}'); document.getElementById('guideIndexPopup')?.classList.add('hidden')">
+            ${isLatest ? '✨ ' : '📄 '}<strong>${g.title}</strong>
+          </button>`;
         }).join('');
       }
     }
@@ -1509,6 +1642,7 @@ function toggleGuideIndexPopup() {
       alert("Failed to delete.");
     }
   }
+
   function toggleFeedbackModal() {
     document.getElementById('feedbackModal')?.classList.toggle('hidden');
   }

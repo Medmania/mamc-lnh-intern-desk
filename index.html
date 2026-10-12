@@ -1,1331 +1,1530 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light" class="light">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SYNAPSE '26 | MAMC Annual Cultural, Sports & E-Sports Fest</title>
+  <meta name="theme-color" content="#0284c7">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="css/styles.css">
+  <title>MAMC-LNH Intern Portal — Roster, Labs & Hospital Directory</title>
 
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            porcelain: '#F8FAFC',
-            ink: '#0F172A',
-            tealPrimary: '#0D9488',
-            festOrange: '#EA580C',
-            festGold: '#EAB308',
-            electricViolet: '#7C3AED',
-            emeraldAccent: '#10B981'
-          }
-        }
-      }
-    };
-  </script>
 
-  <!-- FontAwesome Icons & Inter Font -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-  
-  <!-- Supabase JS SDK v2 -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <!-- Razorpay Checkout SDK -->
-  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-  <!-- QRCode Generator SDK -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-  <!-- HTML5 Camera QR Code Scanner SDK -->
-  <script src="https://unpkg.com/html5-qrcode"></script>
 
-  <style>
-    body { font-family: 'Inter', sans-serif; transition: background-color 0.3s, color 0.3s; }
-    
-    /* Bright Theme System */
-    html.light body { background-color: #F8FAFC; color: #0F172A; }
-    html.light .glass-panel { background: rgba(255, 255, 255, 0.92); backdrop-filter: blur(12px); border: 1px solid rgba(226, 232, 240, 0.8); box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.05); }
-    html.light .card-bg { background-color: #FFFFFF; border: 1px solid #E2E8F0; }
-    html.light .subtle-bg { background-color: #F1F5F9; }
-    html.light .text-primary { color: #0F172A; }
-    html.light .text-muted { color: #64748B; }
-
-    /* Dark Mode Override */
-    html.dark body { background-color: #020617; color: #F8FAFC; }
-    html.dark .glass-panel { background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5); }
-    html.dark .card-bg { background-color: #0F172A; border: 1px solid #1E293B; }
-    html.dark .subtle-bg { background-color: #1E293B; }
-    html.dark .text-primary { color: #F8FAFC; }
-    html.dark .text-muted { color: #94A3B8; }
-
-    .glow-teal { box-shadow: 0 0 25px -5px rgba(13, 148, 136, 0.25); }
-    .glow-gold { box-shadow: 0 0 25px -5px rgba(234, 179, 8, 0.3); }
-    .cat-chip.active { background-color: #0D9488; color: #FFFFFF; font-weight: 700; border-color: #0D9488; }
-    #qr-reader video { border-radius: 1rem; width: 100% !important; }
-    
-    .no-scrollbar::-webkit-scrollbar { display: none; }
-    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-  </style>
 </head>
+<body>
+<div class="container">
+  <div class="header-banner">
+    <!-- Interactive Koi Pond Canvas -->
+    <canvas id="pondCanvas"></canvas>
 
-<body class="min-h-screen flex flex-col selection:bg-teal-500 selection:text-white">
-
-<!-- SPONSOR PLACEMENT 1: TOP HERO BANNER STRIP -->
-<div class="bg-gradient-to-r from-slate-900 via-teal-950 to-slate-900 text-white text-[11px] font-semibold py-1.5 px-4 text-center border-b border-teal-500/30 flex justify-between items-center overflow-x-auto no-scrollbar">
-  <div class="max-w-7xl mx-auto w-full flex justify-between items-center gap-4 shrink-0">
-    <div class="flex items-center gap-2">
-      <span class="bg-festOrange text-white text-[9px] font-black uppercase px-2 py-0.5 rounded-full tracking-wider">Title Sponsor</span>
-      <span class="font-bold tracking-wide text-teal-300"><i class="fa-solid fa-building-columns mr-1"></i> CANARA BANK</span>
-      <span class="text-slate-400">|</span>
-      <span class="text-slate-300">SYNAPSE '26 Powered by <strong class="text-white">Red Bull & Monster Energy</strong></span>
+    <div class="header-top-bar">
+      <div class="auth-area" id="authArea">
+        <button class="auth-btn" id="loginBtn" onclick="loginWithGoogle()">🔐 Login with Google</button>
+        <button class="auth-btn admin hidden" id="adminBtn" onclick="toggleAdminPanel()">⚙️ Admin Panel</button>
+        <button class="auth-btn hidden" id="logoutBtn" onclick="logoutUser()">Logout</button>
+      </div>
+      <div class="header-right-controls">
+        <button class="whats-new-btn" id="whatsNewBtn" onclick="showWhatsNew(true)" title="What's New">✨ What's New</button>
+        <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()" title="Toggle Dark/Light Mode">
+          <span id="themeIcon">🌙</span> <span>Theme</span>
+        </button>
+      </div>
     </div>
-    <div class="flex items-center gap-3">
-      <a href="#perks" class="text-festGold hover:underline text-xs flex items-center gap-1 font-bold">
-        <i class="fa-solid fa-tags"></i> Claim Sponsor Perks & Deals
-      </a>
+    <h1>MAMC-LNH Intern Portal</h1>
+    <p class="subtitle">Roster • Labs • FAQs • Hospital Directory</p>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('roster')">🔍 Search Roster</button>
+    <button class="tab-btn" onclick="switchTab('schedule')">📅 Facilities</button>
+    <button class="tab-btn" onclick="switchTab('lab')">🧪 Labs</button>
+    <button class="tab-btn" onclick="switchTab('faq')">❓ FAQs</button>
+    <button class="tab-btn" onclick="switchTab('guides')">📁 Guides/Documents</button>
+    <button class="tab-btn" onclick="switchTab('swaps')">💰 Duty Cover</button>
+  </div>
+
+  <!-- ADMIN PANEL -->
+  <div id="adminPanel" class="admin-panel">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <h3 style="margin:0;font-size:18px;font-weight:800">⚙️ Admin Control Panel</h3>
+      <button onclick="toggleAdminPanel()" style="background:none;border:none;font-size:22px;cursor:pointer;color:var(--text-muted)">×</button>
+    </div>
+    <div class="admin-tabs">
+      <button class="admin-tab active" onclick="switchAdminTab('whatsnew')">What's New</button>
+      <button class="admin-tab" onclick="switchAdminTab('announcements')">Announcements</button>
+      <button class="admin-tab" onclick="switchAdminTab('faqs')">Add FAQ</button>
+      <button class="admin-tab" onclick="switchAdminTab('notes')">Notes</button>
+    </div>
+    <div id="adminContent"></div>
+  </div>
+
+  <!-- DATE SELECTOR -->
+  <div class="card" style="margin-bottom:16px;padding:14px">
+    <div id="date-card" class="date-row" style="margin-bottom:0">
+      <div style="flex:1">
+        <label for="dutyDate" style="margin-bottom:4px">📅 Select Date to Check Posting:</label>
+        <input type="date" id="dutyDate" min="2026-05-23" max="2027-05-22" onchange="onDateOrSelectionChange()">
+      </div>
+      <button onclick="setTodayDate()">Today</button>
     </div>
   </div>
-</div>
 
-<!-- HEADER NAVIGATION -->
-<header class="sticky top-0 z-40 glass-panel border-b">
-  <div class="max-w-7xl mx-auto px-3 sm:px-4 h-16 sm:h-20 flex items-center justify-between gap-2">
-    
-    <!-- LOGO & MAMC BRANDING -->
-    <div class="flex items-center space-x-2 shrink-0 cursor-pointer" onclick="scrollToSection('hero')">
-      <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-teal-600 via-teal-500 to-emerald-400 flex items-center justify-center font-black text-white text-xl shadow-lg shadow-teal-500/20">S</div>
+  <!-- TAB 1: ROSTER -->
+  <div id="roster-tab" class="card">
+    <div id="userHistoryBox" class="history-box hidden">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <h4>🕒 Recent Searches</h4>
+        <button onclick="clearSearchHistory()" style="font-size:12px;padding:4px 10px;border-radius:8px;border:1px solid var(--border);background:var(--card);cursor:pointer;font-weight:700">Clear History</button>
+      </div>
+      <div class="history-chips" id="historyChips"></div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-bottom:14px">
       <div>
-        <h1 class="text-base sm:text-lg font-extrabold tracking-wider text-primary flex items-center gap-1.5">
-          SYNAPSE <span class="text-tealPrimary text-[10px] sm:text-xs px-2 py-0.5 rounded-full border border-teal-500/30 bg-teal-500/10 font-mono">'26</span>
-        </h1>
-        <p class="text-[10px] text-muted font-medium">Maulana Azad Medical College, New Delhi</p>
-      </div>
-    </div>
-
-    <!-- HEADER BUTTONS & UTILITIES -->
-    <div class="flex items-center space-x-1.5 sm:space-x-2 overflow-x-auto no-scrollbar py-1">
-      <button onclick="scrollToSection('passesSection')" class="shrink-0 subtle-bg hover:bg-teal-500/10 text-primary px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-800 text-xs font-semibold whitespace-nowrap transition">
-        <i class="fa-solid fa-id-card text-tealPrimary mr-1"></i> Passes
-      </button>
-      <button onclick="scrollToSection('eventsSection')" class="shrink-0 subtle-bg hover:bg-teal-500/10 text-primary px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-800 text-xs font-semibold whitespace-nowrap transition">
-        <i class="fa-solid fa-calendar-days text-festOrange mr-1"></i> Events
-      </button>
-      <button onclick="scrollToSection('sponsorsSection')" class="shrink-0 subtle-bg hover:bg-teal-500/10 text-primary px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-800 text-xs font-semibold whitespace-nowrap transition">
-        <i class="fa-solid fa-handshake text-festGold mr-1"></i> Sponsors
-      </button>
-      <button onclick="openMyPassesModal()" class="shrink-0 bg-tealPrimary hover:bg-teal-700 text-white px-3 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition shadow-md">
-        <i class="fa-solid fa-qrcode mr-1"></i> My Passes (<span id="passBadgeCount">0</span>)
-      </button>
-
-      <!-- MAMC / LNH Internal Status Badge -->
-      <div id="verifyStatusContainer" class="shrink-0"></div>
-
-      <!-- Gate QR Scanner Launcher (Admins/Volunteers) -->
-      <div id="scannerBtnContainer" class="hidden shrink-0">
-        <button onclick="openQRScannerModal()" class="bg-electricViolet text-white hover:bg-violet-700 px-3 py-2 rounded-xl text-xs font-bold whitespace-nowrap shadow-md">
-          <i class="fa-solid fa-camera mr-1"></i> Gate Scanner
-        </button>
-      </div>
-
-      <!-- Admin Event Creation Launcher -->
-      <div id="adminEventBtnContainer" class="hidden shrink-0">
-        <button onclick="openAdminEventModal()" class="bg-festOrange text-white hover:bg-orange-700 px-3 py-2 rounded-xl text-xs font-bold whitespace-nowrap shadow-md">
-          <i class="fa-solid fa-plus mr-1"></i> Add Event
-        </button>
-      </div>
-
-      <!-- Theme Toggle Button -->
-      <button onclick="toggleTheme()" class="shrink-0 p-2 rounded-xl subtle-bg border border-slate-200 dark:border-slate-800 text-primary text-xs hover:text-tealPrimary transition" title="Toggle Light/Dark Theme">
-        <i id="themeIcon" class="fa-solid fa-moon"></i>
-      </button>
-
-      <!-- Auth Button Container -->
-      <div id="authContainer" class="shrink-0">
-        <button onclick="openModal('authModal')" class="bg-slate-900 dark:bg-slate-100 dark:text-slate-900 text-white font-bold px-3.5 py-2 rounded-xl text-xs shadow-md hover:bg-slate-800 transition">
-          <i class="fa-solid fa-google mr-1 text-red-500"></i> Login
-        </button>
-      </div>
-    </div>
-
-  </div>
-</header>
-
-<!-- HERO SECTION WITH SPONSOR ATTRIBUTION & QUICK ACTIONS -->
-<section id="hero" class="py-10 px-4 text-center border-b border-slate-200 dark:border-slate-800/80 relative overflow-hidden bg-gradient-to-b from-teal-500/5 via-transparent to-transparent">
-  <div class="max-w-4xl mx-auto relative z-10">
-    
-    <!-- SPONSOR PLACEMENT 1: HERO SUB-BRANDING -->
-    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold bg-white dark:bg-slate-900 text-tealPrimary border border-teal-500/30 shadow-sm mb-4">
-      <i class="fa-solid fa-bolt text-festOrange"></i> MAMC Annual Cultural, Sports & E-Sports Extravaganza
-      <span class="text-slate-300 dark:text-slate-700">|</span>
-      <span class="text-muted font-medium">Oct 13 - 16, 2026</span>
-    </div>
-
-    <h1 class="text-4xl sm:text-6xl font-black tracking-tight text-primary leading-tight">
-      Ignite The Neuro-Rhythm <br>
-      <span class="bg-clip-text text-transparent bg-gradient-to-r from-tealPrimary via-emerald-500 to-electricViolet">At SYNAPSE '26</span>
-    </h1>
-    
-    <p class="mt-3 text-xs sm:text-base text-muted max-w-2xl mx-auto">
-      Official Pass Desk & Competition Portal. Experience Pro-Nights, FIFA Tournaments, Medical Debates & Live Sports. Instant Gate QR Access.
-    </p>
-
-    <!-- TITLE SPONSOR PROMINENT HERO CARD -->
-    <div class="mt-6 p-4 rounded-2xl glass-panel border border-teal-500/30 max-w-xl mx-auto flex items-center justify-between gap-4 glow-teal">
-      <div class="flex items-center gap-3 text-left">
-        <div class="w-12 h-12 rounded-xl bg-teal-500/10 border border-teal-500/30 text-tealPrimary flex items-center justify-center text-xl font-black">
-          <i class="fa-solid fa-crown"></i>
-        </div>
-        <div>
-          <span class="text-[10px] font-black text-festOrange uppercase tracking-wider">Official Title Partner</span>
-          <h4 class="text-sm font-extrabold text-primary">Canara Bank • Together We Can</h4>
-          <p class="text-[11px] text-muted">Providing Zero-Balance Student Accounts & Edu-Loans at MAMC</p>
-        </div>
-      </div>
-      <a href="#perks" class="bg-tealPrimary hover:bg-teal-700 text-white font-bold px-3 py-2 rounded-xl text-xs whitespace-nowrap shadow">
-        View Perks
-      </a>
-    </div>
-
-    <!-- QUICK SEARCH & FILTER BAR -->
-    <div class="mt-8 max-w-2xl mx-auto flex flex-col sm:flex-row gap-2">
-      <div class="relative flex-grow">
-        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-muted text-sm"></i>
-        <input type="text" id="searchInput" oninput="renderEvents()" placeholder="Search football, DJ night, battle of bands, venues..." class="w-full pl-10 pr-4 py-3 card-bg border border-slate-200 dark:border-slate-800 rounded-xl text-sm text-primary focus:outline-none focus:border-tealPrimary shadow-sm">
-      </div>
-      <button onclick="scrollToSection('eventsSection')" class="bg-tealPrimary hover:bg-teal-700 text-white font-bold px-6 py-3 rounded-xl text-sm shadow-md transition">
-        Explore All
-      </button>
-    </div>
-
-  </div>
-</section>
-
-<!-- MAIN CONTENT WRAPPER -->
-<main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 space-y-12">
-
-  <!-- SECTION 1: TWO-LAYER MULTI-TIERED PASS CATALOGUE -->
-  <section id="passesSection" class="space-y-6">
-    <div class="text-center max-w-2xl mx-auto">
-      <span class="text-xs font-bold text-tealPrimary uppercase tracking-widest bg-teal-500/10 px-3 py-1 rounded-full border border-teal-500/20">Access Hierarchy</span>
-      <h2 class="text-2xl sm:text-3xl font-black text-primary mt-2">Official SYNAPSE '26 Pass Lineup</h2>
-      <p class="text-xs sm:text-sm text-muted mt-1">
-        A two-layer system: Select your <strong>Pass Tier</strong> for entry privileges, then register for individual <strong>Competitions</strong> inside.
-      </p>
-    </div>
-
-    <!-- PASS TIERS GRID -->
-    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
-      
-      <!-- PLATINUM PASS -->
-      <div class="card-bg rounded-2xl p-5 border-2 border-festGold flex flex-col justify-between glow-gold relative overflow-hidden">
-        <span class="absolute -right-8 top-4 bg-festGold text-slate-950 text-[9px] font-black uppercase px-8 py-0.5 transform rotate-45 shadow">VIP ACCESS</span>
-        <div>
-          <div class="w-10 h-10 rounded-xl bg-festGold/10 border border-festGold/40 text-festGold flex items-center justify-center text-lg font-black mb-3">
-            <i class="fa-solid fa-crown"></i>
-          </div>
-          <h3 class="text-lg font-black text-primary">PLATINUM</h3>
-          <p class="text-[11px] text-muted mt-0.5">All-Access Premium VIP</p>
-          <div class="mt-3 text-2xl font-black text-primary">₹1,499</div>
-          <ul class="mt-4 space-y-2 text-xs text-muted">
-            <li class="flex items-center gap-1.5"><i class="fa-solid fa-circle-check text-emeraldAccent"></i> Campus Gate Entry (All 4 Days)</li>
-            <li class="flex items-center gap-1.5"><i class="fa-solid fa-circle-check text-emeraldAccent"></i> All Competitions Included</li>
-            <li class="flex items-center gap-1.5"><i class="fa-solid fa-circle-check text-emeraldAccent"></i> All Pro-Nights Covered</li>
-            <li class="flex items-center gap-1.5"><i class="fa-solid fa-circle-check text-emeraldAccent"></i> VIP Front-Pit Viewing</li>
-            <li class="flex items-center gap-1.5"><i class="fa-solid fa-circle-check text-emeraldAccent"></i> Fast-Track Priority Lane</li>
-          </ul>
-        </div>
-        <button onclick="selectPassTier('pass-platinum')" class="mt-6 w-full bg-festGold hover:bg-yellow-500 text-slate-950 font-extrabold py-2.5 rounded-xl text-xs shadow-md transition">
-          Get Platinum VIP
-        </button>
-      </div>
-
-      <!-- DIAMOND PASS -->
-      <div class="card-bg rounded-2xl p-5 border border-tealPrimary/40 flex flex-col justify-between relative">
-        <div>
-          <div class="w-10 h-10 rounded-xl bg-teal-500/10 border border-teal-500/30 text-tealPrimary flex items-center justify-center text-lg font-black mb-3">
-            <i class="fa-solid fa-gem"></i>
-          </div>
-          <h3 class="text-lg font-black text-primary">DIAMOND</h3>
-          <p class="text-[11px] text-muted mt-0.5">Full Fest (Excl. Star Nights)</p>
-          <div class="mt-3 text-2xl font-black text-primary">₹499</div>
-          <ul class="mt-4 space-y-2 text-xs text-muted">
-            <li class="flex items-center gap-1.5"><i class="fa-solid fa-circle-check text-emeraldAccent"></i> Campus Gate Entry (All 4 Days)</li>
-            <li class="flex items-center gap-1.5"><i class="fa-solid fa-circle-check text-emeraldAccent"></i> Register for All Competitions</li>
-            <li class="flex items-center gap-1.5"><i class="fa-solid fa-circle-check text-emeraldAccent"></i> Sports, Cultural & E-Sports</li>
-            <li class="flex items-center gap-1.5 text-slate-400"><i class="fa-solid fa-circle-xmark text-red-400"></i> No Pro-Night Concert Access</li>
-          </ul>
-        </div>
-        <button onclick="selectPassTier('pass-diamond')" class="mt-6 w-full bg-tealPrimary hover:bg-teal-700 text-white font-extrabold py-2.5 rounded-xl text-xs shadow-md transition">
-          Get Diamond Pass
-        </button>
-      </div>
-
-      <!-- STAR NIGHT PASS -->
-      <div class="card-bg rounded-2xl p-5 border border-electricViolet/40 flex flex-col justify-between">
-        <div>
-          <div class="w-10 h-10 rounded-xl bg-electricViolet/10 border border-electricViolet/30 text-electricViolet flex items-center justify-center text-lg font-black mb-3">
-            <i class="fa-solid fa-star"></i>
-          </div>
-          <h3 class="text-lg font-black text-primary">STAR NIGHT</h3>
-          <p class="text-[11px] text-muted mt-0.5">Pro-Night Concert Pass</p>
-          <div class="mt-3 text-2xl font-black text-primary">₹799</div>
-          <ul class="mt-4 space-y-2 text-xs text-muted">
-            <li class="flex items-center gap-1.5"><i class="fa-solid fa-circle-check text-emeraldAccent"></i> Entry to Central Grounds Concert</li>
-            <li class="flex items-center gap-1.5"><i class="fa-solid fa-circle-check text-emeraldAccent"></i> Headline DJ & Artist Acts</li>
-            <li class="flex items-center gap-1.5 text-slate-400"><i class="fa-solid fa-circle-xmark text-red-400"></i> Daytime Competitions Excluded</li>
-          </ul>
-        </div>
-        <button onclick="selectPassTier('pass-starnight')" class="mt-6 w-full bg-electricViolet hover:bg-violet-700 text-white font-extrabold py-2.5 rounded-xl text-xs shadow-md transition">
-          Get Concert Pass
-        </button>
-      </div>
-
-      <!-- FEST / GATE BR PASS (MAMC FREE) -->
-      <div class="card-bg rounded-2xl p-5 border border-emeraldAccent/40 flex flex-col justify-between relative">
-        <span class="absolute top-3 right-3 bg-emerald-500/10 text-emeraldAccent border border-emerald-500/30 text-[9px] font-black px-2 py-0.5 rounded-full">AIIMS PULSE / BR STYLE</span>
-        <div>
-          <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emeraldAccent flex items-center justify-center text-lg font-black mb-3">
-            <i class="fa-solid fa-id-badge"></i>
-          </div>
-          <h3 class="text-lg font-black text-primary">GATE / BR PASS</h3>
-          <p class="text-[11px] text-muted mt-0.5">Basic Campus Credentials</p>
-          <div class="mt-3 text-2xl font-black text-primary">₹199 <span class="text-xs text-emeraldAccent font-semibold">(MAMC/LNH FREE)</span></div>
-          <ul class="mt-4 space-y-2 text-xs text-muted">
-            <li class="flex items-center gap-1.5"><i class="fa-solid fa-circle-check text-emeraldAccent"></i> Campus Gate Clearance</li>
-            <li class="flex items-center gap-1.5"><i class="fa-solid fa-circle-check text-emeraldAccent"></i> Food Stalls & Open Zones</li>
-            <li class="flex items-center gap-1.5"><i class="fa-solid fa-circle-check text-emeraldAccent"></i> Free for Verified MAMC Interns</li>
-          </ul>
-        </div>
-        <button onclick="selectPassTier('pass-gatebr')" class="mt-6 w-full bg-slate-900 dark:bg-slate-100 dark:text-slate-900 text-white font-extrabold py-2.5 rounded-xl text-xs shadow-md transition">
-          Claim BR Pass
-        </button>
-      </div>
-
-      <!-- SQUAD / TEAM PASS -->
-      <div class="card-bg rounded-2xl p-5 border border-festOrange/40 flex flex-col justify-between">
-        <div>
-          <div class="w-10 h-10 rounded-xl bg-festOrange/10 border border-festOrange/30 text-festOrange flex items-center justify-center text-lg font-black mb-3">
-            <i class="fa-solid fa-users"></i>
-          </div>
-          <h3 class="text-lg font-black text-primary">SQUAD PASS</h3>
-          <p class="text-[11px] text-muted mt-0.5">Coordinated Team Entry</p>
-          <div class="mt-3 text-2xl font-black text-primary">₹1,999 <span class="text-xs text-muted">/ Team</span></div>
-          <ul class="mt-4 space-y-2 text-xs text-muted">
-            <li class="flex items-center gap-1.5"><i class="fa-solid fa-circle-check text-emeraldAccent"></i> Single Registration for 5-11 Players</li>
-            <li class="flex items-center gap-1.5"><i class="fa-solid fa-circle-check text-emeraldAccent"></i> Captain Managed Roster</li>
-            <li class="flex items-center gap-1.5"><i class="fa-solid fa-circle-check text-emeraldAccent"></i> Individual QR Passes Generated</li>
-          </ul>
-        </div>
-        <button onclick="selectPassTier('pass-squad')" class="mt-6 w-full bg-festOrange hover:bg-orange-600 text-white font-extrabold py-2.5 rounded-xl text-xs shadow-md transition">
-          Register Team Squad
-        </button>
-      </div>
-
-    </div>
-
-    <!-- PASS COMPARISON MATRIX TABLE -->
-    <div class="card-bg rounded-2xl p-5 border overflow-x-auto">
-      <h3 class="text-sm font-extrabold text-primary mb-3 flex items-center gap-2">
-        <i class="fa-solid fa-table-cells text-tealPrimary"></i> Access Privilege Comparison Matrix
-      </h3>
-      <table class="w-full text-left border-collapse text-xs">
-        <thead>
-          <tr class="subtle-bg border-b border-slate-200 dark:border-slate-800 text-muted font-bold">
-            <th class="p-3">Access / Privilege</th>
-            <th class="p-3 text-festGold font-extrabold">Platinum VIP</th>
-            <th class="p-3 text-tealPrimary font-extrabold">Diamond</th>
-            <th class="p-3 text-electricViolet font-extrabold">Star Night</th>
-            <th class="p-3 text-emeraldAccent font-extrabold">BR / Gate Pass</th>
-            <th class="p-3 text-festOrange font-extrabold">Squad / Team</th>
-          </tr>
-        </thead>
-        <tbody class="divide-y divide-slate-200 dark:divide-slate-800 text-primary">
-          <tr>
-            <td class="p-3 font-semibold">General Campus Gate Entry</td>
-            <td class="p-3 text-emeraldAccent font-bold">Yes (All 4 Days)</td>
-            <td class="p-3 text-emeraldAccent font-bold">Yes (All 4 Days)</td>
-            <td class="p-3 text-slate-400">Evening Concert Only</td>
-            <td class="p-3 text-emeraldAccent font-bold">Yes</td>
-            <td class="p-3 text-emeraldAccent font-bold">Yes (Entire Team)</td>
-          </tr>
-          <tr>
-            <td class="p-3 font-semibold">Included Competitions Registration</td>
-            <td class="p-3 text-emeraldAccent font-bold">Unlimited</td>
-            <td class="p-3 text-emeraldAccent font-bold">Unlimited</td>
-            <td class="p-3 text-slate-400">No</td>
-            <td class="p-3 text-slate-400">No</td>
-            <td class="p-3 text-emeraldAccent font-bold">Selected Sport/Tournament</td>
-          </tr>
-          <tr>
-            <td class="p-3 font-semibold">Pro-Nights / Star Night Access</td>
-            <td class="p-3 text-emeraldAccent font-bold">All 4 Nights (VIP Pit)</td>
-            <td class="p-3 text-slate-400">No (Upgrade Needed)</td>
-            <td class="p-3 text-emeraldAccent font-bold">Selected Night</td>
-            <td class="p-3 text-slate-400">No</td>
-            <td class="p-3 text-slate-400">No</td>
-          </tr>
-          <tr>
-            <td class="p-3 font-semibold">Gate Entry Queue Lane</td>
-            <td class="p-3 text-festGold font-bold">Priority Express Lane</td>
-            <td class="p-3">Standard Lane</td>
-            <td class="p-3">Standard Lane</td>
-            <td class="p-3">Standard Lane</td>
-            <td class="p-3">Captain Group Lane</td>
-          </tr>
-          <tr>
-            <td class="p-3 font-semibold">Price Tier</td>
-            <td class="p-3 font-bold">₹1,499</td>
-            <td class="p-3 font-bold">₹499</td>
-            <td class="p-3 font-bold">₹799</td>
-            <td class="p-3 font-bold">₹199 (MAMC ₹0)</td>
-            <td class="p-3 font-bold">₹1,999 / Team</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-
-  <!-- SECTION 2: EVENT CATALOGUE WITH DUAL MEDIA (POSTER LIGHTBOX & BROCHURE PDF) -->
-  <section id="eventsSection" class="space-y-6">
-    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-      <div>
-        <span class="text-xs font-bold text-festOrange uppercase tracking-widest bg-orange-500/10 px-3 py-1 rounded-full border border-orange-500/20">Competitions & Acts</span>
-        <h2 class="text-2xl sm:text-3xl font-black text-primary mt-1">Events & Pro-Nights</h2>
-      </div>
-      
-      <!-- CATEGORY FILTER CHIPS -->
-      <div class="flex flex-wrap gap-1.5" id="categoryFilterContainer">
-        <button onclick="filterCategory('all')" class="cat-chip active px-3 py-1.5 rounded-xl text-xs font-bold subtle-bg border border-slate-200 dark:border-slate-800 text-primary">All Events</button>
-        <button onclick="filterCategory('Flagship')" class="cat-chip px-3 py-1.5 rounded-xl text-xs font-bold subtle-bg border border-slate-200 dark:border-slate-800 text-primary">Flagship</button>
-        <button onclick="filterCategory('Sports')" class="cat-chip px-3 py-1.5 rounded-xl text-xs font-bold subtle-bg border border-slate-200 dark:border-slate-800 text-primary">Sports</button>
-        <button onclick="filterCategory('Cultural')" class="cat-chip px-3 py-1.5 rounded-xl text-xs font-bold subtle-bg border border-slate-200 dark:border-slate-800 text-primary">Cultural</button>
-        <button onclick="filterCategory('E-Sports')" class="cat-chip px-3 py-1.5 rounded-xl text-xs font-bold subtle-bg border border-slate-200 dark:border-slate-800 text-primary">E-Sports</button>
-      </div>
-    </div>
-
-    <!-- EVENTS GRID -->
-    <div id="eventsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
-    <div id="emptyState" class="hidden text-center py-12 text-muted text-sm">No matching events found.</div>
-  </section>
-
-  <!-- SECTION 3: SPONSOR PLACEMENT 2 & 4 - DEDICATED SPONSOR HUB & FEST PERKS -->
-  <section id="sponsorsSection" class="space-y-8 subtle-bg p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800">
-    <div class="text-center max-w-2xl mx-auto">
-      <span class="text-xs font-bold text-festGold uppercase tracking-widest bg-yellow-500/10 px-3 py-1 rounded-full border border-yellow-500/20">Corporate & Industry Partners</span>
-      <h2 class="text-2xl sm:text-3xl font-black text-primary mt-2">Our Valued Sponsors</h2>
-      <p class="text-xs sm:text-sm text-muted mt-1">Empowering medical youth culture & sports at Maulana Azad Medical College.</p>
-    </div>
-
-    <!-- SPONSOR TIER CATEGORY GRID -->
-    <div class="space-y-6">
-      
-      <!-- TITLE SPONSORS -->
-      <div>
-        <h4 class="text-xs font-extrabold text-festOrange uppercase tracking-wider mb-3 flex items-center gap-1.5">
-          <i class="fa-solid fa-crown text-festGold"></i> Title & Co-Presenting Partners
-        </h4>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div onclick="openSponsorModal('canara')" class="card-bg p-5 rounded-2xl border border-teal-500/30 flex items-center gap-4 cursor-pointer hover:border-tealPrimary transition">
-            <div class="w-14 h-14 rounded-xl bg-teal-500/10 border border-teal-500/30 text-tealPrimary flex items-center justify-center text-2xl font-black shrink-0">
-              <i class="fa-solid fa-building-columns"></i>
-            </div>
-            <div>
-              <span class="text-[10px] font-bold bg-teal-500/10 text-tealPrimary px-2 py-0.5 rounded uppercase">Title Partner</span>
-              <h4 class="text-base font-extrabold text-primary mt-0.5">Canara Bank</h4>
-              <p class="text-xs text-muted">Exclusive Banking & Edu-Loan Partner</p>
-            </div>
-          </div>
-
-          <div onclick="openSponsorModal('redbull')" class="card-bg p-5 rounded-2xl border border-red-500/30 flex items-center gap-4 cursor-pointer hover:border-red-500 transition">
-            <div class="w-14 h-14 rounded-xl bg-red-500/10 border border-red-500/30 text-red-500 flex items-center justify-center text-2xl font-black shrink-0">
-              <i class="fa-solid fa-bolt"></i>
-            </div>
-            <div>
-              <span class="text-[10px] font-bold bg-red-500/10 text-red-500 px-2 py-0.5 rounded uppercase">Energy Partner</span>
-              <h4 class="text-base font-extrabold text-primary mt-0.5">Red Bull India</h4>
-              <p class="text-xs text-muted">Official Pro-Night & E-Sports Energy Drink</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ASSOCIATE SPONSORS -->
-      <div>
-        <h4 class="text-xs font-extrabold text-muted uppercase tracking-wider mb-3">Associate & Category Partners</h4>
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          <div onclick="openSponsorModal('dominos')" class="card-bg p-3.5 rounded-xl border flex items-center gap-3 cursor-pointer hover:border-tealPrimary transition">
-            <i class="fa-solid fa-pizza-slice text-red-500 text-xl"></i>
-            <div>
-              <h5 class="text-xs font-extrabold text-primary">Domino's Pizza</h5>
-              <p class="text-[10px] text-muted">Food Zone Partner</p>
-            </div>
-          </div>
-
-          <div onclick="openSponsorModal('swiggy')" class="card-bg p-3.5 rounded-xl border flex items-center gap-3 cursor-pointer hover:border-tealPrimary transition">
-            <i class="fa-solid fa-burger text-orange-500 text-xl"></i>
-            <div>
-              <h5 class="text-xs font-extrabold text-primary">Swiggy Dineout</h5>
-              <p class="text-[10px] text-muted">Dining Deals</p>
-            </div>
-          </div>
-
-          <div onclick="openSponsorModal('marrow')" class="card-bg p-3.5 rounded-xl border flex items-center gap-3 cursor-pointer hover:border-tealPrimary transition">
-            <i class="fa-solid fa-stethoscope text-purple-500 text-xl"></i>
-            <div>
-              <h5 class="text-xs font-extrabold text-primary">Marrow Edition 8</h5>
-              <p class="text-[10px] text-muted">Academic Sponsor</p>
-            </div>
-          </div>
-
-          <div onclick="openSponsorModal('prepladder')" class="card-bg p-3.5 rounded-xl border flex items-center gap-3 cursor-pointer hover:border-tealPrimary transition">
-            <i class="fa-solid fa-book-medical text-tealPrimary text-xl"></i>
-            <div>
-              <h5 class="text-xs font-extrabold text-primary">Prepladder</h5>
-              <p class="text-[10px] text-muted">Quiz Partner</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- SPONSOR PLACEMENT 4: FEST PERKS & COUPON HUB -->
-    <div id="perks" class="pt-6 border-t border-slate-200 dark:border-slate-800">
-      <h3 class="text-base font-extrabold text-primary mb-3 flex items-center gap-2">
-        <i class="fa-solid fa-ticket text-festGold"></i> Exclusive Attendee Fest Perks & Coupons
-      </h3>
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div class="card-bg p-4 rounded-2xl border space-y-2">
-          <span class="text-[10px] font-bold bg-red-500/10 text-red-500 px-2 py-0.5 rounded">DOMINO'S FOOD ZONE</span>
-          <h4 class="text-sm font-extrabold text-primary">Flat 30% Off Food Stalls</h4>
-          <p class="text-xs text-muted">Show your digital SYNAPSE QR pass at the Domino's MAMC ground stall.</p>
-          <div class="font-mono text-xs font-bold text-tealPrimary bg-teal-500/10 p-2 rounded-lg text-center border border-teal-500/20">
-            CODE: SYNAPSE30
-          </div>
-        </div>
-
-        <div class="card-bg p-4 rounded-2xl border space-y-2">
-          <span class="text-[10px] font-bold bg-purple-500/10 text-purple-500 px-2 py-0.5 rounded">MARROW ACADEMIC</span>
-          <h4 class="text-sm font-extrabold text-primary">Free 1-Month Plan C Extension</h4>
-          <p class="text-xs text-muted">Applicable for all registered medical delegates & MBBS interns.</p>
-          <div class="font-mono text-xs font-bold text-purple-500 bg-purple-500/10 p-2 rounded-lg text-center border border-purple-500/20">
-            CODE: MAMCFEST26
-          </div>
-        </div>
-
-        <div class="card-bg p-4 rounded-2xl border space-y-2">
-          <span class="text-[10px] font-bold bg-red-500/10 text-red-500 px-2 py-0.5 rounded">RED BULL ZONE</span>
-          <h4 class="text-sm font-extrabold text-primary">Free Energy Can at Gaming Arena</h4>
-          <p class="text-xs text-muted">Valid for all E-Sports & FIFA tournament participants.</p>
-          <div class="font-mono text-xs font-bold text-red-500 bg-red-500/10 p-2 rounded-lg text-center border border-red-500/20">
-            FREE AT REFRESHMENT DESK
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-</main>
-
-<!-- FOOTER -->
-<footer class="border-t border-slate-200 dark:border-slate-900 subtle-bg py-6 px-4 text-center text-xs text-muted">
-  <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-3">
-    <p>&copy; 2026 SYNAPSE Fest Committee, Maulana Azad Medical College (MAMC), New Delhi.</p>
-    <span id="supabaseStatus" class="text-emeraldAccent font-mono">Connected to Supabase Cloud ✓</span>
-  </div>
-</footer>
-
-<!-- MODAL 1: AUTHENTICATION MODAL -->
-<div id="authModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm">
-  <div class="card-bg w-full max-w-md rounded-2xl p-6 relative text-center border shadow-2xl">
-    <button onclick="closeModal('authModal')" class="absolute top-4 right-4 text-muted hover:text-primary"><i class="fa-solid fa-xmark text-lg"></i></button>
-    <div class="w-12 h-12 rounded-full bg-teal-500/10 border border-teal-500/30 mx-auto flex items-center justify-center text-tealPrimary mb-3">
-      <i class="fa-solid fa-google text-xl"></i>
-    </div>
-    <h3 class="text-xl font-bold text-primary mb-1">Login with Google</h3>
-    <p class="text-xs text-muted mb-6">Required to buy passes, register for events, and manage QR access.</p>
-    <button onclick="handleGoogleSignIn()" class="w-full bg-slate-900 dark:bg-slate-100 dark:text-slate-900 text-white font-bold py-3.5 px-4 rounded-xl flex items-center justify-center gap-3 transition shadow-lg">
-      <i class="fa-brands fa-google text-red-500 text-lg"></i> Continue with Google
-    </button>
-  </div>
-</div>
-
-<!-- MODAL 2: MAMC / LNH INTERNAL VERIFICATION (FOR ₹0 FREE BR PASS) -->
-<div id="verificationModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm">
-  <div class="card-bg w-full max-w-md rounded-2xl p-6 relative border shadow-2xl max-h-[90vh] overflow-y-auto">
-    <button onclick="closeModal('verificationModal')" class="absolute top-4 right-4 text-muted"><i class="fa-solid fa-xmark text-lg"></i></button>
-    <h3 class="text-lg font-bold text-primary mb-0.5"><i class="fa-solid fa-id-card text-tealPrimary mr-1.5"></i> MAMC / LNH Internal Verification</h3>
-    <p class="text-xs text-muted mb-4">Upload ID card proof for institutional verification. Verified MAMC interns get <strong>₹0 Gate BR Pass</strong>.</p>
-
-    <form onsubmit="handleVerificationSubmit(event)" class="space-y-3">
-      <div>
-        <label class="block text-xs font-semibold text-muted mb-1">Full Name</label>
-        <input type="text" id="verName" required class="w-full card-bg border rounded-xl px-3.5 py-2 text-xs text-primary">
+        <label for="universalPersonInput">👤 Search Person (Name, Roll, S.No, Batch):</label>
+        <input type="text" id="universalPersonInput" placeholder="e.g. Ankit, S.No 33, A7..." oninput="executeSmartSearch();saveSearchHistory('roster',this.value)">
       </div>
       <div>
-        <label class="block text-xs font-semibold text-muted mb-1">Category / Role</label>
-        <select id="verRole" required class="w-full card-bg border rounded-xl px-3.5 py-2 text-xs text-primary">
-          <option value="MAMC MBBS Student">MAMC MBBS Student</option>
-          <option value="MAMC Intern">MAMC Intern (LNJP / Burari)</option>
-          <option value="PG Resident (MD/MS)">PG Resident (MD/MS)</option>
-          <option value="Senior Resident (SR)">Senior Resident (SR)</option>
-          <option value="LNH / MAMC Faculty">LNH / MAMC Faculty</option>
+        <label for="universalDeptSelect">🏥 Filter by Department:</label>
+        <select id="universalDeptSelect" onchange="executeSmartSearch()">
+          <option value="">✨ -- All Departments / Any --</option>
+          <option value="PSM">Community Medicine (PSM)</option>
+          <option value="Forensic">Forensic Medicine (FMT)</option>
+          <option value="MED">General Medicine</option>
+          <option value="Surgery">General Surgery</option>
+          <option value="DVL">Dermatology (DVL)</option>
+          <option value="ObsGynae">Obstetrics & Gynaecology</option>
+          <option value="Psychiatry">Psychiatry</option>
+          <option value="Pediatrics">Pediatrics</option>
+          <option value="Casualty">Casualty / Emergency</option>
+          <option value="ENT">ENT</option>
+          <option value="Ophtha">Ophthalmology</option>
+          <option value="Ortho">Orthopedics</option>
+          <option value="Anaesthesia">Anesthesia</option>
+          <option value="Pulm Med">Pulmonary Medicine</option>
+          <option value="Radiology">Radiology</option>
         </select>
       </div>
-      <div>
-        <label class="block text-xs font-semibold text-muted mb-1">Roll Number / Employee ID</label>
-        <input type="text" id="verIdNo" required placeholder="e.g. Roll #142 / ENT Dept" class="w-full card-bg border rounded-xl px-3.5 py-2 text-xs text-primary">
-      </div>
-      <div>
-        <label class="block text-xs font-semibold text-muted mb-1">Upload ID Card Photo / Proof</label>
-        <input type="file" id="verProofFile" accept="image/*,.pdf" required class="w-full card-bg border rounded-xl px-3 py-2 text-xs text-muted">
-      </div>
+    </div>
+    <div id="smartSearchResults" class="results"></div>
+  </div>
 
-      <button type="submit" class="w-full bg-tealPrimary hover:bg-teal-700 text-white font-extrabold py-3 rounded-xl text-xs shadow-lg mt-2">
-        Submit For Verification
-      </button>
+  <!-- TAB 2: SCHEDULE -->
+  <div id="schedule-tab" class="card hidden">
+    <div class="input-group">
+      <label for="scheduleSearch">🔍 Search Facility, Clinic, Room or Day:</label>
+      <input type="text" id="scheduleSearch" placeholder="Type e.g., Diabetes, Room 310..." oninput="onScheduleSearchInput()">
+    </div>
+    <div style="text-align:center;color:var(--text-muted);font-size:12px;margin:-6px 0 10px 0">— OR SELECT CATEGORY —</div>
+    <div class="input-group">
+      <label for="deptScheduleSelect">Select Department or Special Clinic:</label>
+      <select id="deptScheduleSelect" onchange="onScheduleSelectChange()">
+        <option value="">✨ -- Select Department or Specialty --</option>
+        <optgroup label="🏥 MAIN OPD DEPARTMENTS">
+          <option value="medicine">💊 General Medicine</option>
+          <option value="surgery">🔪 General Surgery</option>
+          <option value="gynae">👶 Gynecology & ANC</option>
+          <option value="ophtha">👁️ Ophthalmology (GNEC)</option>
+          <option value="ent">👂 ENT</option>
+          <option value="ortho">🦴 Orthopedics</option>
+          <option value="derma">🩺 Dermatology</option>
+          <option value="anaesthesia">💉 Anaesthesia</option>
+          <option value="peds_med">🧸 Pediatric (Med)</option>
+          <option value="peds_surg">✂️ Pediatric Surgery</option>
+          <option value="burns">🔥 Burns & Plastic Surgery</option>
+        </optgroup>
+        <optgroup label="🌆 EVENING SPECIAL CLINICS">
+          <option value="clinic_med">🩺 Medicine Evening Clinics</option>
+          <option value="clinic_surg">🩺 Surgery Evening Clinics</option>
+          <option value="clinic_peds">🩺 Pediatric Special Clinics</option>
+          <option value="clinic_ortho">🩺 Ortho Special Clinics</option>
+          <option value="clinic_gynae">🩺 Gynae Special Clinics</option>
+          <option value="clinic_ophtha">🩺 Ophthalmology Special Clinics</option>
+          <option value="clinic_ent">🩺 ENT Special Clinics</option>
+          <option value="neurosurgery">🧠 Neurosurgery & Spine</option>
+          <option value="clinic_other">🏥 Other Services</option>
+        </optgroup>
+        <optgroup label="🏛️ GB PANT HOSPITAL">
+          <option value="gbp_cardio">❤️ Cardiology</option>
+          <option value="gbp_ctvs">🫀 CTVS</option>
+          <option value="gbp_gastro">🧪 Gastroenterology</option>
+          <option value="gbp_gisurg">🔪 GI Surgery</option>
+          <option value="gbp_neuro">🧠 Neurology</option>
+          <option value="gbp_neurosurg">🧠 Neurosurgery</option>
+          <option value="gbp_psychiatry">🧘 Psychiatry</option>
+          <option value="gbp_pain">💉 Pain Clinic</option>
+        </optgroup>
+        <optgroup label="🦷 MAIDS DENTAL">
+          <option value="maids_opd">🦷 MAIDS Dental OPD</option>
+        </optgroup>
+      </select>
+    </div>
+    <div id="scheduleResults" class="results"></div>
+  </div>
+
+  <!-- TAB 3: LABS -->
+  <div id="lab-tab" class="hidden">
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;margin-bottom:12px">
+      <select id="labHospitalSelect" onchange="searchLabTests()" style="padding:10px 14px;border-radius:8px;border:1px solid var(--border);font-size:14px;background-color:var(--input-bg);font-weight:600;color:var(--text);min-width:280px;cursor:pointer">
+        <option value="all">🏥 All Diagnostic Windows & Labs</option>
+        <optgroup label="── LNJP HOSPITAL WINDOWS ──">
+          <option value="window1_path">📍 Window 1 & 5 (Pathology & Clinical)</option>
+          <option value="window2_biochem">📍 Window 2 & 2E (Biochemistry Routine, ABG & Special)</option>
+          <option value="window3_em">📍 Window 3 (Emergency Lab & Fast-Track)</option>
+        </optgroup>
+        <optgroup label="── SPECIALIZED LABS & DEPARTMENTS ──">
+          <option value="immunology_serology">🔬 Immunology & Serology Labs</option>
+          <option value="virology_pcr">🧬 Virology & Molecular PCR</option>
+          <option value="cultures">🧫 Cultures</option>
+          <option value="bloodbank">🩸 Blood Bank</option>
+        </optgroup>
+        <optgroup label="── RADIOLOGY & GB PANT ──">
+          <option value="radiology_lnjp">🩻 LNJP Radiology</option>
+          <option value="gbpant">🏥 GB Pant Hospital (Labs, Echo & Imaging)</option>
+        </optgroup>
+      </select>
+      <input type="text" id="labSearch" oninput="searchLabTests();saveSearchHistory('lab',this.value)" placeholder="Search test, tube colour, room..." style="flex:1;min-width:250px;padding:10px 14px;border-radius:8px;border:1px solid var(--border);font-size:14px">
+    </div>
+    <div id="labResults"></div>
+  </div>
+
+  <!-- TAB 4: FAQs -->
+  <div id="faq-tab" class="card hidden">
+    <div class="faq-search-bar">
+      <div class="input-group" style="margin-bottom:10px">
+        <label for="faqSearchInput">🔍 Search SOPs</label>
+        <input type="text" id="faqSearchInput" placeholder="Type any keyword..." oninput="renderFaqs();saveSearchHistory('faq',this.value)" autocomplete="off">
+      </div>
+      <div class="faq-controls">
+        <button onclick="expandAllFaqs()">Expand All</button>
+        <button onclick="collapseAllFaqs()">Collapse All</button>
+        <span class="faq-match-count" id="faqMatchCount"></span>
+      </div>
+    </div>
+    <div id="faqResults"><p style="text-align:center;color:var(--text-muted);padding:30px">Loading FAQs...</p></div>
+  </div>
+
+  <!-- TAB 5: GUIDES -->
+  <div id="guides-tab" class="card hidden">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px">
+      <div>
+        <h3 style="margin:0;font-size:18px;font-weight:800;color:var(--text)">📁 Intern Clinical & Documentation Hub</h3>
+        <p style="margin:4px 0 0 0;font-size:13px;color:var(--text-muted)">Standard department referral formats, file ordering & clinical memos</p>
+      </div>
+      <button id="adminUploadBtn" onclick="openAdminModal()" style="padding:8px 14px;border:none;background:var(--primary-gradient);color:white;font-weight:800;font-size:12.5px;border-radius:12px;cursor:pointer">⚙️ Admin Upload</button>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-bottom:12px">
+      <input type="text" id="guideSearchInput" placeholder="🔍 Search guide..." oninput="renderClinicalGuides()">
+      <select id="guideDeptSelect" onchange="renderClinicalGuides()">
+        <option value="all">🏥 All Departments</option>
+        <option value="Medicine">Medicine</option>
+        <option value="ENT">ENT</option>
+        <option value="Ophthalmology">Ophtha</option>
+        <option value="Surgery">General Surgery</option>
+        <option value="Pediatrics">Pediatrics</option>
+        <option value="Obs & Gynae">Obs & Gynae</option>
+        <option value="Orthopedics">Orthopedics</option>
+        <option value="Anaesthesia">Anaesthesia</option>
+        <option value="Radiology">Radiology</option>
+        <option value="Casualty">Casualty & Emergency</option>
+        <option value="Community Medicine">Community Medicine (PSM)</option>
+        <option value="Blood Bank">Blood Bank</option>
+        <option value="Administrative">Paperwork & MLC</option>
+      </select>
+    </div>
+    <!-- Quick-Access Direct-Click Title Index -->
+    <div id="guideIndexContainer" style="margin-bottom:14px">
+  <button id="guideIndexToggleBtn" onclick="toggleGuideIndexPopup()" style="display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:12px;border:1.5px solid var(--border);background:var(--box-bg);color:var(--text);font-weight:800;font-size:12.5px;cursor:pointer;font-family:inherit">
+    ⚡ Quick Jump <span style="font-size:11px;opacity:0.7">▼</span>
+  </button>
+
+  <!-- Popup list (hidden by default) -->
+  <div id="guideIndexPopup" class="hidden" style="position:relative;z-index:30;margin-top:8px">
+    <div style="background:var(--card);border:1.5px solid var(--border);border-radius:14px;box-shadow:var(--shadow-md);max-height:280px;overflow-y:auto;padding:8px">
+      <div id="guideIndexBar" style="display:flex;flex-direction:column;gap:4px">
+        <!-- vertical list items injected here -->
+      </div>
+    </div>
+  </div>
+</div>
+    <div id="guidesResultsGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px">
+      <p style="color:var(--text-muted);font-size:13px">Loading documentation formats...</p>
+    </div>
+  </div>
+
+  <!-- TAB 6: DUTY COVER -->
+  <div id="swaps-tab" class="card hidden">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px">
+      <div>
+        <h3 style="margin:0;font-size:18px;font-weight:800">💰 Duty Cover Board</h3>
+        <p style="margin:4px 0 0 0;font-size:13px;color:var(--text-muted)">Need someone to cover your duty? Offer payment and negotiate</p>
+      </div>
+      <button id="createSwapBtn" onclick="showCreateSwapForm()" class="btn-primary-sm" style="display:none">+ New Cover Request</button>
+    </div>
+
+    <div id="swapLoginPrompt" class="login-required-msg">
+      <p>🔐 Please <strong>Login with Google</strong> to view and post duty cover requests.</p>
+    </div>
+
+    <div id="swapContent" class="hidden">
+      <div id="createSwapForm" class="admin-form-card hidden">
+        <h4 id="swapFormTitle">Post a Cover Request</h4>
+        <input type="hidden" id="editingSwapId" value="">
+        <div class="input-group"><label>Date of duty you want covered</label><input type="date" id="swapDate"></div>
+        <div class="input-group"><label>Your current duty / posting</label><input type="text" id="swapCurrentDuty" placeholder="e.g. Night Duty - Medicine / ENT / PSM Burari Night"></div>
+        <div class="input-group"><label>What you are looking for (optional)</label><input type="text" id="swapLookingFor" placeholder="e.g. Day duty, any unit, PDO"></div>
+        <div class="input-group"><label>Amount you are offering (₹)</label><input type="number" id="swapAmount" placeholder="e.g. 500, 1000, 1500" min="0"></div>
+        <div class="input-group"><label>Additional notes</label><textarea id="swapNotes" rows="2" placeholder="Any extra details..."></textarea></div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <button onclick="submitSwapRequest()" id="swapSubmitBtn" class="btn-primary-sm">Post Request</button>
+          <button onclick="hideCreateSwapForm()" class="btn-secondary-sm">Cancel</button>
+        </div>
+      </div>
+      <div id="swapList"></div>
+    </div>
+  </div>
+</div>
+
+<footer style="text-align:center;margin-top:30px;padding:16px;border-top:1px solid var(--border);color:var(--text-muted);font-size:13px">
+  <p style="margin:4px 0 0 0;font-size:16px"><strong>Batch-2021</strong></p>
+</footer>
+
+<!-- LIGHTBOX -->
+<div id="imageLightboxModal" class="hidden" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);z-index:10002;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;box-sizing:border-box" onclick="closeLightbox()">
+  <span style="position:absolute;top:20px;right:24px;color:white;font-size:32px;font-weight:800;cursor:pointer">&times;</span>
+  <img id="lightboxImg" src="" style="max-width:95%;max-height:85vh;border-radius:12px;object-fit:contain" onclick="event.stopPropagation()">
+  <a id="lightboxDownloadBtn" href="" target="_blank" download style="margin-top:14px;background:white;color:#0f172a;padding:8px 16px;border-radius:20px;font-weight:800;font-size:13px;text-decoration:none" onclick="event.stopPropagation()">⬇️ Open Full Resolution</a>
+</div>
+
+<!-- FLOATING SUGGESTION -->
+<button id="feedbackToggleBtn" onclick="toggleFeedbackModal()" style="position:fixed;bottom:20px;left:20px;z-index:9998;background:var(--primary);color:white;border:none;border-radius:50px;padding:12px 20px;font-weight:800;font-size:13.5px;box-shadow:var(--shadow-lg);cursor:pointer;display:flex;align-items:center;gap:8px;font-family:inherit">
+  💡 <span>Suggest Changes</span>
+</button>
+
+<div id="feedbackModal" class="hidden" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(15,23,42,0.6);backdrop-filter:blur(6px);z-index:10000;display:flex;align-items:center;justify-content:center;padding:16px;box-sizing:border-box">
+  <div style="background:var(--card);width:100%;max-width:640px;border-radius:20px;box-shadow:var(--shadow-lg);border:1px solid var(--border);overflow:hidden;animation:popupSlide 0.3s ease">
+    <div style="padding:16px 20px;background:var(--primary-gradient);color:white;display:flex;justify-content:space-between;align-items:center">
+      <h3 style="margin:0;font-size:16px;font-weight:700">💡 Roster Feedback & Corrections</h3>
+      <button onclick="toggleFeedbackModal()" style="background:rgba(255,255,255,0.2);border:none;color:white;font-size:20px;cursor:pointer;border-radius:50%;width:32px;height:32px">&times;</button>
+    </div>
+    <div style="padding:12px">
+      <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdTHssorcf7rmuzjX7nfiZ1QRddKD1is_rXuyA-NNz28tyQQQ/viewform?embedded=true" width="100%" height="500" frameborder="0" style="border:none;display:block;border-radius:12px">Loading…</iframe>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN GUIDE MODAL -->
+<div id="adminGuideModal" class="hidden" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(15,23,42,0.6);backdrop-filter:blur(6px);z-index:10001;display:flex;align-items:center;justify-content:center;padding:16px;box-sizing:border-box">
+  <div style="background:var(--card);width:100%;max-width:520px;border-radius:20px;box-shadow:var(--shadow-lg);border:1px solid var(--border);overflow:hidden;padding:20px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+      <h3 id="guideModalTitle" style="margin:0;font-size:16.5px;font-weight:800;color:var(--text)">📤 Upload Format or Referral Guide</h3>
+      <span onclick="closeAdminModal()" style="font-size:22px;cursor:pointer;color:var(--text-muted)">&times;</span>
+    </div>
+    <form id="guideUploadForm" onsubmit="submitGuideUpload(event)" style="display:flex;flex-direction:column;gap:12px">
+      <input type="hidden" id="editingGuideId" value="">
+      <input type="password" id="adminPinInput" placeholder="Enter Admin PIN" required>
+      <input type="text" id="guideTitleInput" placeholder="Format Title" required>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <select id="guideDeptFormSelect">
+          <option value="Medicine">Medicine</option>
+          <option value="ENT">ENT</option>
+          <option value="Ophthalmology">Ophtha</option>
+          <option value="Surgery">General Surgery</option>
+          <option value="Pediatrics">Pediatrics</option>
+          <option value="Obs & Gynae">Obs & Gynae</option>
+          <option value="Orthopedics">Orthopedics</option>
+          <option value="Anaesthesia">Anaesthesia</option>
+          <option value="Radiology">Radiology</option>
+          <option value="Community Medicine">Community Medicine (PSM)</option>
+          <option value="Blood Bank">Blood Bank</option>
+          <option value="Casualty">Casualty & Emergency</option>
+          <option value="Administrative">Paperwork & MLC</option>
+        </select>
+        <select id="guideCategorySelect">
+          <option value="Referral">Referral / Consult</option>
+          <option value="File Ordering">File Ordering</option>
+          <option value="Logbook/Document">Logbook/Document</option>
+          <option value="Clinical Memo">Death / Leave Memo</option>
+          <option value="Protocol">Emergency Protocol</option>
+        </select>
+      </div>
+      <textarea id="guideTemplateInput" placeholder="Optional raw text template..." style="width:100%;height:75px;padding:10px;border-radius:12px;border:1.5px solid var(--border);font-family:inherit;font-size:13px;background:var(--input-bg);color:var(--text);box-sizing:border-box"></textarea>
+      <div>
+        <label style="font-size:12px;margin-bottom:4px">File / Photo (Optional):</label>
+        <input type="file" id="guideFileInput" accept="image/*,.pdf,.doc,.docx,.xls,.xlsx">
+        <p id="currentFileHint" style="font-size:12px;color:var(--text-muted);margin:6px 0 0 0;display:none"></p>
+      </div>
+      <button type="submit" id="uploadSubmitBtn" style="padding:12px;border:none;background:var(--primary-gradient);color:white;font-weight:800;border-radius:12px;cursor:pointer">Publish Live</button>
     </form>
   </div>
 </div>
 
-<!-- MODAL 3: PASS PURCHASING & EVENT REGISTRATION -->
-<div id="registerModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm">
-  <div class="card-bg w-full max-w-md rounded-2xl p-6 relative border shadow-2xl max-h-[90vh] overflow-y-auto">
-    <button onclick="closeModal('registerModal')" class="absolute top-4 right-4 text-muted"><i class="fa-solid fa-xmark text-lg"></i></button>
-    <h3 id="regTitle" class="text-xl font-bold text-primary mb-0.5">Register Pass</h3>
-    <p id="regSub" class="text-xs text-tealPrimary mb-4 font-mono"></p>
+<!-- DATA SCRIPTS -->
+<script src="data/data_interns.js"></script>
+<script src="data/data_burari.js"></script>
+<script src="data/data_periphery.js"></script>
+<script src="data/data_labs.js"></script>
+<script src="data/data_schedules.js"></script>
+<script src="data/data_units.js"></script>
+<script src="data/data_faqs.js"></script>
 
-    <form onsubmit="handleRegisterSubmit(event)" class="space-y-3">
-      <input type="hidden" id="regItemId">
-      <input type="hidden" id="regType"> <!-- 'pass' or 'event' -->
-      
-      <div>
-        <label class="block text-xs font-semibold text-muted mb-1">Full Name</label>
-        <input type="text" id="regName" required class="w-full card-bg border rounded-xl px-3.5 py-2 text-sm text-primary">
-      </div>
-      <div>
-        <label class="block text-xs font-semibold text-muted mb-1">College / Institution</label>
-        <input type="text" id="regCollege" required placeholder="MAMC / AIIMS / VMMC / Other" class="w-full card-bg border rounded-xl px-3.5 py-2 text-sm text-primary">
-      </div>
-      <div>
-        <label class="block text-xs font-semibold text-muted mb-1">Phone Number</label>
-        <input type="tel" id="regPhone" required placeholder="9876543210" class="w-full card-bg border rounded-xl px-3.5 py-2 text-sm text-primary">
-      </div>
+  <script src="js/roster.js"></script>
+<!-- POND ANIMATION SCRIPT -->
+<script src="js/pond.js"></script>
 
-      <!-- SQUAD / TEAM EXTRA DETAILS IF SQUAD PASS -->
-      <div id="squadSection" class="hidden space-y-2 pt-2 border-t">
-        <label class="block text-xs font-bold text-festOrange">Squad / Team Roster Details</label>
-        <input type="text" id="squadTeamName" placeholder="Team Name (e.g. MAMC FC)" class="w-full card-bg border rounded-xl px-3.5 py-1.5 text-xs text-primary">
-        <input type="number" id="squadSize" placeholder="Total Members (e.g. 5 to 11)" min="2" max="15" class="w-full card-bg border rounded-xl px-3.5 py-1.5 text-xs text-primary">
-        <textarea id="squadRoster" rows="2" placeholder="Member Names & Emails..." class="w-full card-bg border rounded-xl px-3.5 py-1.5 text-xs text-primary"></textarea>
-      </div>
+<!-- FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-messaging-compat.js"></script>
 
-      <!-- PAYMENT OPTIONS FOR PAID PASSES -->
-      <div id="paymentSection" class="hidden space-y-3 pt-2 border-t">
-        <label class="block text-xs font-bold text-primary">Select Payment Method</label>
-        <div class="grid grid-cols-2 gap-2">
-          <button type="button" onclick="selectPayMethod('upi')" id="payMethodUpiBtn" class="card-bg border-2 border-tealPrimary p-2.5 rounded-xl text-left text-xs font-semibold">
-            <i class="fa-solid fa-qrcode text-tealPrimary mr-1"></i> Instant UPI QR
-          </button>
-          <button type="button" onclick="selectPayMethod('razorpay')" id="payMethodRzpBtn" class="card-bg border p-2.5 rounded-xl text-left text-xs font-semibold text-muted">
-            <i class="fa-solid fa-credit-card text-festOrange mr-1"></i> Razorpay
-          </button>
-        </div>
-
-        <!-- INSTANT UPI QR CODE DISPLAY -->
-        <div id="upiQrBox" class="card-bg p-3.5 rounded-2xl border text-center space-y-2">
-          <p class="text-[11px] text-muted">Scan using GPay, PhonePe, Paytm, or BHIM:</p>
-          <div id="upiQrContainer" class="flex justify-center my-2 p-2 bg-white rounded-xl w-36 h-36 mx-auto"></div>
-          <p class="text-xs font-mono font-bold text-tealPrimary">UPI ID: synapse.mamc@upi</p>
-          <div>
-            <label class="block text-[10px] text-muted text-left mb-1">Enter UPI Transaction / UTR Ref ID</label>
-            <input type="text" id="upiTxnRef" placeholder="e.g. 42819028190" class="w-full card-bg border rounded-xl px-3 py-1.5 text-xs text-primary font-mono">
-          </div>
-        </div>
-      </div>
-
-      <button type="submit" id="regSubmitBtn" class="w-full bg-tealPrimary hover:bg-teal-700 text-white font-extrabold py-3 rounded-xl text-sm transition shadow-lg mt-2">
-        Confirm & Generate Digital QR Pass
-      </button>
-    </form>
-  </div>
-</div>
-
-<!-- MODAL 4: ADMIN CREATE / EDIT EVENT MODAL (WITH POSTER & BROCHURE PDF URLS) -->
-<div id="adminEventModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm">
-  <div class="card-bg w-full max-w-lg rounded-2xl p-6 relative border shadow-2xl max-h-[90vh] overflow-y-auto">
-    <button onclick="closeModal('adminEventModal')" class="absolute top-4 right-4 text-muted"><i class="fa-solid fa-xmark text-lg"></i></button>
-    <h3 class="text-xl font-bold text-primary mb-1">⚙️ Add / Edit Fest Event</h3>
-    <p class="text-xs text-muted mb-4">Attach Poster images and Brochure PDF links for attendees.</p>
-
-    <form onsubmit="handleAdminEventSubmit(event)" class="space-y-3">
-      <div>
-        <label class="block text-xs font-semibold text-muted mb-1">Event Title</label>
-        <input type="text" id="admEvTitle" required placeholder="e.g. Battle of the Bands" class="w-full card-bg border rounded-xl px-3.5 py-2 text-xs text-primary">
-      </div>
-
-      <div class="grid grid-cols-2 gap-2">
-        <div>
-          <label class="block text-xs font-semibold text-muted mb-1">Category</label>
-          <select id="admEvCategory" required class="w-full card-bg border rounded-xl px-3.5 py-2 text-xs text-primary">
-            <option value="Flagship">Flagship</option>
-            <option value="Sports">Sports</option>
-            <option value="Cultural">Cultural</option>
-            <option value="E-Sports">E-Sports</option>
-          </select>
-        </div>
-        <div>
-          <label class="block text-xs font-semibold text-muted mb-1">Entry Price (₹)</label>
-          <input type="number" id="admEvPrice" required min="0" value="0" class="w-full card-bg border rounded-xl px-3.5 py-2 text-xs text-primary">
-        </div>
-      </div>
-
-      <div class="grid grid-cols-2 gap-2">
-        <div>
-          <label class="block text-xs font-semibold text-muted mb-1">Venue</label>
-          <input type="text" id="admEvVenue" required placeholder="e.g. Main Auditorium" class="w-full card-bg border rounded-xl px-3.5 py-2 text-xs text-primary">
-        </div>
-        <div>
-          <label class="block text-xs font-semibold text-muted mb-1">Date & Time</label>
-          <input type="text" id="admEvDate" required placeholder="e.g. Oct 14, 4:00 PM" class="w-full card-bg border rounded-xl px-3.5 py-2 text-xs text-primary">
-        </div>
-      </div>
-
-      <div>
-        <label class="block text-xs font-semibold text-muted mb-1">Short Description</label>
-        <textarea id="admEvDesc" rows="2" required placeholder="Event rules, criteria..." class="w-full card-bg border rounded-xl px-3.5 py-2 text-xs text-primary"></textarea>
-      </div>
-
-      <!-- DUAL MEDIA ATTACHMENT FIELDS -->
-      <div class="pt-2 border-t space-y-2">
-        <label class="block text-xs font-bold text-tealPrimary">Media Attachments</label>
-        <div>
-          <label class="block text-[10px] text-muted mb-1">Event Poster Image URL (JPG/PNG/WebP)</label>
-          <input type="url" id="admEvPosterUrl" placeholder="https://images.unsplash.com/..." class="w-full card-bg border rounded-xl px-3.5 py-2 text-xs text-primary">
-        </div>
-        <div>
-          <label class="block text-[10px] text-muted mb-1">Event Brochure / Rulebook PDF Link</label>
-          <input type="url" id="admEvBrochureUrl" placeholder="https://drive.google.com/... or PDF link" class="w-full card-bg border rounded-xl px-3.5 py-2 text-xs text-primary">
-        </div>
-      </div>
-
-      <button type="submit" class="w-full bg-festOrange hover:bg-orange-600 text-white font-extrabold py-3 rounded-xl text-xs shadow-lg mt-2">
-        Publish Event Live
-      </button>
-    </form>
-  </div>
-</div>
-
-<!-- MODAL 5: SPONSOR BRANDED DIGITAL PASS TICKET -->
-<div id="ticketModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md">
-  <div class="card-bg w-full max-w-md rounded-3xl p-6 relative border-2 border-tealPrimary glow-teal text-center shadow-2xl">
-    <button onclick="closeModal('ticketModal')" class="absolute top-4 right-4 text-muted"><i class="fa-solid fa-xmark text-lg"></i></button>
-
-    <!-- SPONSOR PLACEMENT 3: DIGITAL PASS BRANDING HEADER -->
-    <div class="flex items-center justify-between pb-3 mb-3 border-b border-slate-200 dark:border-slate-800 text-left">
-      <div>
-        <span id="passBadgeType" class="text-[10px] font-black text-tealPrimary uppercase tracking-widest bg-teal-500/10 px-2 py-0.5 rounded">SYNAPSE '26 PASS</span>
-        <h3 id="passEvent" class="text-lg font-black text-primary mt-1"></h3>
-      </div>
-      <!-- Sponsor Attribution Badge on Ticket -->
-      <div class="text-right">
-        <span class="text-[9px] text-muted uppercase font-bold block">Powered By</span>
-        <span class="text-xs font-extrabold text-festOrange"><i class="fa-solid fa-building-columns"></i> CANARA BANK</span>
-      </div>
-    </div>
-
-    <!-- QR CODE CONTAINER -->
-    <div class="my-3 p-4 subtle-bg rounded-2xl border flex flex-col items-center">
-      <div id="qrcodeCanvas" class="p-2.5 bg-white rounded-2xl shadow-inner"></div>
-      <p class="text-[10px] text-muted mt-2">Show this encrypted QR code at gate & venue entry scanners</p>
-    </div>
-
-    <div class="my-3 p-3 subtle-bg rounded-2xl text-left space-y-1 text-xs border">
-      <div class="flex justify-between"><span class="text-muted">Attendee:</span><span id="passName" class="font-bold text-primary"></span></div>
-      <div class="flex justify-between"><span class="text-muted">Pass ID:</span><span id="passId" class="font-mono text-tealPrimary font-bold"></span></div>
-      <div class="flex justify-between"><span class="text-muted">College:</span><span id="passCollege" class="text-primary"></span></div>
-      <div class="flex justify-between"><span class="text-muted">Scan Status:</span><span id="passScanStatus" class="font-bold text-emeraldAccent">Active / Unscanned</span></div>
-    </div>
-
-    <div class="flex gap-2">
-      <button onclick="window.print()" class="flex-1 subtle-bg hover:bg-slate-200 text-primary py-2.5 rounded-xl text-xs font-semibold border">
-        <i class="fa-solid fa-print mr-1"></i> Print / Save
-      </button>
-      <button onclick="closeModal('ticketModal')" class="flex-1 bg-tealPrimary text-white font-extrabold py-2.5 rounded-xl text-xs">
-        Done
-      </button>
-    </div>
-  </div>
-</div>
-
-<!-- MODAL 6: MY PASSES MODAL -->
-<div id="myPassesModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm">
-  <div class="card-bg w-full max-w-lg rounded-2xl p-6 relative border max-h-[85vh] flex flex-col">
-    <button onclick="closeModal('myPassesModal')" class="absolute top-4 right-4 text-muted"><i class="fa-solid fa-xmark text-lg"></i></button>
-    <h3 class="text-xl font-bold text-primary mb-1">My Registered Passes</h3>
-    <p id="myPassesSub" class="text-xs text-muted mb-4"></p>
-    <div id="myPassesList" class="overflow-y-auto space-y-3 flex-grow pr-1 text-xs"></div>
-  </div>
-</div>
-
-<!-- MODAL 7: EVENT POSTER LIGHTBOX -->
-<div id="posterLightboxModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-950/90 backdrop-blur-md">
-  <div class="relative max-w-3xl w-full flex flex-col items-center">
-    <button onclick="closeModal('posterLightboxModal')" class="absolute -top-10 right-0 text-white text-2xl font-bold"><i class="fa-solid fa-xmark"></i></button>
-    <img id="lightboxImage" src="" alt="Event Poster" class="max-h-[80vh] w-auto rounded-2xl shadow-2xl object-contain border border-slate-800">
-    <h4 id="lightboxTitle" class="text-white font-bold text-base mt-3"></h4>
-  </div>
-</div>
-
-<!-- MODAL 8: GATE QR CODE CAMERA SCANNER (VOLUNTEERS/ADMIN) -->
-<div id="qrScannerModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-950/90 backdrop-blur-md">
-  <div class="card-bg w-full max-w-md rounded-3xl p-6 relative border text-center">
-    <button onclick="closeQRScannerModal()" class="absolute top-4 right-4 text-muted"><i class="fa-solid fa-xmark text-lg"></i></button>
-    <h3 class="text-lg font-bold text-primary flex items-center justify-center gap-2"><i class="fa-solid fa-camera text-electricViolet"></i> Gate QR Pass Validation</h3>
-    <p class="text-xs text-muted mb-4">Scan attendee QR pass for instant gate entry check-in</p>
-
-    <div id="qr-reader" class="overflow-hidden rounded-2xl border subtle-bg"></div>
-    <div id="scanResultBox" class="hidden mt-4 p-4 rounded-2xl border text-left text-xs space-y-2"></div>
-  </div>
-</div>
-
-<!-- MODAL 9: SPONSOR DETAILS MODAL -->
-<div id="sponsorDetailModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm">
-  <div class="card-bg w-full max-w-md rounded-2xl p-6 relative border text-center shadow-2xl">
-    <button onclick="closeModal('sponsorDetailModal')" class="absolute top-4 right-4 text-muted"><i class="fa-solid fa-xmark text-lg"></i></button>
-    <div id="sponsorModalContent"></div>
-  </div>
-</div>
-
-<!-- JAVASCRIPT APPLICATION LOGIC -->
 <script>
-const SUPER_ADMIN = "ankitgarg8558@gmail.com";
-const SUPABASE_URL = "https://ccsgewccyyexfgrmflig.supabase.co";
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNjc2dld2NjeXlleGZncm1mbGlnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA3ODg0MDEsImV4cCI6MjEwNjM2NDQwMX0.8yolMynIAGtN41qsUCxLASpx_rszxDMUoskBvQJvQGo";
+  // ========== VERSION ==========
+  const APP_BUILD = "2026-08-31-v5";
 
-let supabaseClient = null;
-let currentUser = null;
-let selectedPayMethod = "upi";
-let html5QrcodeScanner = null;
-let activeCategoryFilter = "all";
+  // ========== FIREBASE ==========
+  const firebaseConfig = {
+    apiKey: "AIzaSyAFYihJu3gTT7kHMlzAY0OdgP40ImxVTbU",
+    authDomain: "medmania.firebaseapp.com",
+    projectId: "medmania",
+    storageBucket: "medmania.firebasestorage.app",
+    messagingSenderId: "489695840383",
+    appId: "1:489695840383:web:7891a8e07d33fc0147974a",
+    measurementId: "G-1GGKYEJLWE"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const db = firebase.firestore();
 
-// INITIAL PASS TYPES DATA
-const PASS_TYPES = [
-  { id: "pass-platinum", title: "PLATINUM VIP ALL-ACCESS PASS", price: 1499, tier: "Platinum", desc: "All 4 Pro-Nights, Unlimited Competitions, Front Pit VIP" },
-  { id: "pass-diamond", title: "DIAMOND COMPETITION PASS", price: 499, tier: "Diamond", desc: "Full Fest Daytime & Competition Access (Excl Star Nights)" },
-  { id: "pass-starnight", title: "STAR NIGHT CONCERT PASS", price: 799, tier: "Star Night", desc: "Access to Star Night Concert Zone on Central Grounds" },
-  { id: "pass-gatebr", title: "GATE BR PASS (CAMPUS CLEARANCE)", price: 199, tier: "BR Pass", desc: "Mandatory Campus Entry & Food Zone Clearance (MAMC Free)" },
-  { id: "pass-squad", title: "SQUAD / TEAM PASS", price: 1999, tier: "Squad", desc: "Single Coordinated Pass for 5 to 11 Team Members" }
-];
+  // ========== REAL PUSH NOTIFICATIONS ==========
+  const VAPID_KEY = "BJtX4zubLyO9A8SvyhriLC0TsHqqGso4C2hxnNpEwxVSEL6uYlnbRNdLZAqH3_T51Gq4FfcP0yo0M4Q67tjDLQs";
 
-// INITIAL EVENTS CATALOGUE WITH DUAL MEDIA (POSTERS & BROCHURE PDFS)
-let events = JSON.parse(localStorage.getItem("synapse_events_v10") || "null") || [
-  { 
-    id: "ev-1", 
-    title: "Nerve-Rupture Pro DJ Night", 
-    category: "Flagship", 
-    venue: "MAMC Central Grounds", 
-    price: 799, 
-    date: "Oct 15, 7:00 PM", 
-    desc: "International headline DJs with 360-degree laser & pyro production.",
-    posterUrl: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=600&q=80",
-    brochureUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf" 
-  },
-  { 
-    id: "ev-2", 
-    title: "Pulse Inter-Medical Football League", 
-    category: "Sports", 
-    venue: "MAMC Football Field", 
-    price: 0, 
-    date: "Oct 13, 9:00 AM", 
-    desc: "11-a-side knockout football tournament across medical colleges.",
-    posterUrl: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=600&q=80",
-    brochureUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf" 
-  },
-  { 
-    id: "ev-3", 
-    title: "Choreonite Group Dance Battle", 
-    category: "Cultural", 
-    venue: "MAMC Main Auditorium", 
-    price: 299, 
-    date: "Oct 14, 5:00 PM", 
-    desc: "Western and thematic group dance competition.",
-    posterUrl: "https://images.unsplash.com/photo-1547153760-18fc86324498?auto=format&fit=crop&w=600&q=80",
-    brochureUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf" 
-  },
-  { 
-    id: "ev-4", 
-    title: "Valorant Masters LAN Arena", 
-    category: "E-Sports", 
-    venue: "IT Block LAN Hub", 
-    price: 250, 
-    date: "Oct 14, 11:00 AM", 
-    desc: "5v5 competitive LAN tournament on high-refresh setups.",
-    posterUrl: "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=600&q=80",
-    brochureUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf" 
-  }
-];
-
-let registrations = JSON.parse(localStorage.getItem("synapse_regs_v10") || "[]");
-let verifiedInternalsList = JSON.parse(localStorage.getItem("synapse_verified_v10") || "[]");
-
-window.addEventListener("DOMContentLoaded", () => {
-  initSupabase();
-  renderEvents();
-  updatePassBadge();
-});
-
-function initSupabase() {
-  if (!window.supabase) return;
-  supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-  supabaseClient.auth.onAuthStateChange((event, session) => {
-    if (session?.user) {
-      handleUserSession(session);
-    } else {
-      currentUser = null;
-      updateAuthUI();
+  async function initPushNotifications() {
+    if (!('Notification' in window) || !('serviceWorker' in navigator) || !firebase.messaging) return;
+    try {
+      const permission = await Notification.requestPermission();
+      if (permission !== 'granted') return;
+      const messaging = firebase.messaging();
+      const token = await messaging.getToken({ vapidKey: VAPID_KEY });
+      if (token && currentUser) {
+        await db.collection('fcmTokens').doc(currentUser.uid).set({
+          token: token,
+          email: currentUser.email || '',
+          name: currentUser.displayName || '',
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        }, { merge: true });
+      }
+      messaging.onMessage((payload) => {
+        const title = payload.notification?.title || 'MAMC Intern Portal';
+        const body = payload.notification?.body || 'New update';
+        showLiveToast(title, body);
+      });
+    } catch (err) {
+      console.warn('Push init error:', err);
     }
-  });
-}
-
-function handleUserSession(session) {
-  const email = session.user.email.trim().toLowerCase();
-  const name = session.user.user_metadata?.full_name || email.split("@")[0];
-  const isAdmin = email === SUPER_ADMIN.toLowerCase();
-  const isVerifiedInternal = verifiedInternalsList.includes(email);
-
-  currentUser = { id: session.user.id, email, name, isAdmin, isVerifiedInternal };
-  updateAuthUI();
-  updatePassBadge();
-}
-
-function updateAuthUI() {
-  const container = document.getElementById("authContainer");
-  const scannerBtnContainer = document.getElementById("scannerBtnContainer");
-  const adminEventBtnContainer = document.getElementById("adminEventBtnContainer");
-  const verifyStatusContainer = document.getElementById("verifyStatusContainer");
-
-  if (!currentUser) {
-    container.innerHTML = `
-      <button onclick="openModal('authModal')" class="bg-slate-900 dark:bg-slate-100 dark:text-slate-900 text-white font-bold px-3.5 py-2 rounded-xl text-xs shadow-md">
-        <i class="fa-solid fa-google mr-1 text-red-500"></i> Login
-      </button>`;
-    if (scannerBtnContainer) scannerBtnContainer.classList.add("hidden");
-    if (adminEventBtnContainer) adminEventBtnContainer.classList.add("hidden");
-    if (verifyStatusContainer) verifyStatusContainer.innerHTML = "";
-    return;
   }
 
-  if (currentUser.isAdmin) {
-    if (scannerBtnContainer) scannerBtnContainer.classList.remove("hidden");
-    if (adminEventBtnContainer) adminEventBtnContainer.classList.remove("hidden");
-  }
+  const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxVpbrlW7sCbFQdvSKt76NjScuxlkcem9hyn6SCsuAKjo-Fg57AovmD6gjTYBqwm0VH/exec";
+  let clinicalGuidesData = [];
+  let currentUser = null;
+  let isAdmin = false;
+  const ADMIN_EMAILS = ["ankitgarg8558@gmail.com"];
 
-  if (currentUser.isVerifiedInternal) {
-    verifyStatusContainer.innerHTML = `<span class="bg-emerald-500/10 text-emeraldAccent border border-emerald-500/30 text-[10px] font-bold px-2.5 py-1.5 rounded-xl"><i class="fa-solid fa-user-check mr-1"></i> MAMC Internal (₹0 BR Pass)</span>`;
+  // ========== FORCE CACHE / SW UPDATE ==========
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw.js?v=' + APP_BUILD).then(reg => {
+      reg.update();
+    }).catch(() => {});
+  }
+  const lastBuild = localStorage.getItem('mamc_app_build');
+  if (lastBuild && lastBuild !== APP_BUILD) {
+    localStorage.setItem('mamc_app_build', APP_BUILD);
+    location.reload(true);
   } else {
-    verifyStatusContainer.innerHTML = `<button onclick="openModal('verificationModal')" class="subtle-bg hover:bg-teal-500/10 border border-teal-500/30 text-tealPrimary text-xs font-bold px-2.5 py-1.5 rounded-xl"><i class="fa-solid fa-id-card mr-1"></i> MAMC Verification</button>`;
+    localStorage.setItem('mamc_app_build', APP_BUILD);
   }
 
-  container.innerHTML = `
-    <div class="flex items-center space-x-1.5">
-      <span class="text-xs text-primary font-bold px-2.5 py-1.5 card-bg rounded-xl border truncate max-w-[100px]">${currentUser.name}</span>
-      <button onclick="handleSignOut()" class="text-muted hover:text-red-500 text-xs px-1.5 py-1" title="Logout"><i class="fa-solid fa-right-from-bracket"></i></button>
-    </div>`;
-}
+  // ========== SITE UPDATE (What's New) ==========
+  let SITE_VERSION = "2026-08-31-v5";
+  let SITE_CHANGELOG = [
+    "Added live interactive koi pond with ripple physics on header",
+    "Fixed Admin Upload and Guide Edit modals",
+    "Optimized single-line JavaScript block formatting"
+  ];
 
-async function handleGoogleSignIn() {
-  if (!supabaseClient) return alert("Supabase unavailable.");
-  await supabaseClient.auth.signInWithOAuth({
-    provider: 'google',
-    options: { redirectTo: window.location.origin + window.location.pathname }
-  });
-}
-
-async function handleSignOut() {
-  if (supabaseClient) await supabaseClient.auth.signOut();
-  currentUser = null;
-  updateAuthUI();
-}
-
-function filterCategory(cat) {
-  activeCategoryFilter = cat;
-  document.querySelectorAll(".cat-chip").forEach(btn => btn.classList.remove("active"));
-  if (event && event.target) event.target.classList.add("active");
-  renderEvents();
-}
-
-function renderEvents() {
-  const grid = document.getElementById("eventsGrid");
-  const empty = document.getElementById("emptyState");
-  const query = (document.getElementById("searchInput").value || "").toLowerCase();
-
-  const filtered = events.filter(e => {
-    const matchesCat = activeCategoryFilter === "all" || e.category === activeCategoryFilter;
-    const matchesQuery = e.title.toLowerCase().includes(query) || e.venue.toLowerCase().includes(query);
-    return matchesCat && matchesQuery;
-  });
-
-  if (filtered.length === 0) {
-    grid.innerHTML = "";
-    empty.classList.remove("hidden");
-    return;
+  async function loadRemoteWhatsNew() {
+    try {
+      const doc = await db.collection("siteConfig").doc("whatsNew").get();
+      if (doc.exists) {
+        const data = doc.data();
+        if (data.version) SITE_VERSION = data.version;
+        if (data.changelog && Array.isArray(data.changelog)) SITE_CHANGELOG = data.changelog;
+      }
+    } catch (e) {}
   }
 
-  empty.classList.add("hidden");
-  grid.innerHTML = filtered.map(e => `
-    <div class="card-bg rounded-2xl overflow-hidden border flex flex-col justify-between hover:border-tealPrimary/50 transition group shadow-sm">
-      <div>
-        <!-- POSTER IMAGE CONTAINER -->
-        <div class="relative h-44 overflow-hidden bg-slate-900 cursor-pointer" onclick="openPosterLightbox('${e.posterUrl || ''}', '${e.title}')">
-          <img src="${e.posterUrl || 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=600&q=80'}" alt="${e.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
-          <span class="absolute top-3 left-3 bg-slate-900/80 backdrop-blur-md text-white text-[10px] font-black px-2.5 py-1 rounded-full uppercase border border-white/20">
-            ${e.category}
-          </span>
-          <span class="absolute bottom-3 right-3 bg-tealPrimary text-white text-xs font-black px-2.5 py-1 rounded-lg shadow">
-            ${e.price === 0 ? 'FREE' : '₹' + e.price}
-          </span>
+  function showWhatsNew(force) {
+    const lastSeen = localStorage.getItem("mamc_last_seen_version");
+    if (!force && lastSeen === SITE_VERSION) return;
+    const existing = document.getElementById("updateBanner");
+    if (existing) existing.remove();
+    const banner = document.createElement("div");
+    banner.id = "updateBanner";
+    banner.innerHTML = `
+      <div class="update-inner">
+        <div class="update-header">
+          <div class="update-title">✨ New updates on the portal</div>
+          <button class="btn-close" onclick="dismissUpdateBanner()">×</button>
         </div>
+        <ul class="update-list">${SITE_CHANGELOG.map(i => `<li>${i}</li>`).join("")}</ul>
+        <div class="update-actions"><button class="btn-got-it" onclick="dismissUpdateBanner()">Got it</button></div>
+      </div>`;
+    document.body.appendChild(banner);
+  }
+  function dismissUpdateBanner() {
+    localStorage.setItem("mamc_last_seen_version", SITE_VERSION);
+    const banner = document.getElementById("updateBanner");
+    if (banner) { banner.classList.add("dismissing"); setTimeout(() => banner.remove(), 260); }
+    const btn = document.getElementById("whatsNewBtn");
+    if (btn) btn.classList.remove("has-new");
+  }
+  function checkForSiteUpdate() {
+    const lastSeen = localStorage.getItem("mamc_last_seen_version");
+    const btn = document.getElementById("whatsNewBtn");
+    if (lastSeen !== SITE_VERSION) {
+      if (btn) btn.classList.add("has-new");
+      setTimeout(() => showWhatsNew(false), 900);
+    } else if (btn) btn.classList.remove("has-new");
+  }
 
-        <div class="p-4 space-y-2">
-          <h3 class="text-base font-extrabold text-primary">${e.title}</h3>
-          <p class="text-xs text-muted line-clamp-2">${e.desc}</p>
-          <div class="text-xs text-muted font-medium pt-1 flex justify-between items-center">
-            <span><i class="fa-solid fa-location-dot text-tealPrimary mr-1"></i> ${e.venue}</span>
-            <span><i class="fa-solid fa-clock text-festOrange mr-1"></i> ${e.date}</span>
+  // ========== LIVE TOAST ==========
+  function showLiveToast(title, message) {
+    const existing = document.getElementById('liveToast');
+    if (existing) existing.remove();
+    const t = document.createElement('div');
+    t.id = 'liveToast';
+    t.innerHTML = `<div class="toast-title">${title}</div><div>${message}</div>`;
+    document.body.appendChild(t);
+    setTimeout(() => { t.style.opacity = '0'; setTimeout(() => t.remove(), 300); }, 5000);
+  }
+
+  // ========== THEME ==========
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('mamc_theme', theme);
+    const icon = document.getElementById('themeIcon');
+    if (icon) icon.textContent = theme === 'dark' ? '☀️' : '🌙';
+  }
+  function toggleTheme() {
+    const cur = document.documentElement.getAttribute('data-theme') || 'light';
+    applyTheme(cur === 'light' ? 'dark' : 'light');
+  }
+  (function() {
+    const saved = localStorage.getItem('mamc_theme');
+    if (saved) applyTheme(saved);
+    else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) applyTheme('dark');
+    else applyTheme('light');
+  })();
+
+  // ========== AUTH ==========
+  function loginWithGoogle() {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    auth.signInWithPopup(provider).then(res => handleAuth(res.user)).catch(err => alert("Login failed: " + err.message));
+  }
+  function logoutUser() {
+    auth.signOut().then(() => {
+      currentUser = null; isAdmin = false; updateAuthUI();
+      document.getElementById('adminPanel').classList.remove('active');
+    });
+  }
+  function handleAuth(user) {
+    currentUser = user;
+    isAdmin = ADMIN_EMAILS.includes(user.email);
+    updateAuthUI();
+    renderUserHistory();
+    if (!document.getElementById('swaps-tab').classList.contains('hidden')) renderSwapTab();
+    startDutyCoverListener();
+    initPushNotifications();
+  }
+  function updateAuthUI() {
+    const loginBtn = document.getElementById('loginBtn');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const adminBtn = document.getElementById('adminBtn');
+    const histBox = document.getElementById('userHistoryBox');
+    if (currentUser) {
+      loginBtn.classList.add('hidden');
+      logoutBtn.classList.remove('hidden');
+      logoutBtn.textContent = `Logout (${currentUser.displayName || 'User'})`;
+      if (isAdmin) adminBtn.classList.remove('hidden');
+      else adminBtn.classList.add('hidden');
+      if (histBox) histBox.classList.remove('hidden');
+    } else {
+      loginBtn.classList.remove('hidden');
+      logoutBtn.classList.add('hidden');
+      adminBtn.classList.add('hidden');
+      if (histBox) histBox.classList.add('hidden');
+    }
+  }
+  function toggleAdminPanel() {
+    if (!isAdmin) return;
+    const panel = document.getElementById('adminPanel');
+    panel.classList.toggle('active');
+    if (panel.classList.contains('active')) switchAdminTab('whatsnew');
+  }
+
+  // ========== ADMIN PANEL ==========
+  function switchAdminTab(tab) {
+    document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+    if (event && event.target) event.target.classList.add('active');
+    const content = document.getElementById('adminContent');
+    if (tab === 'whatsnew') {
+      content.innerHTML = `
+        <div class="admin-form-card">
+          <h4>Push new “What’s New”</h4>
+          <p style="font-size:13px;color:var(--text-muted);margin:0 0 12px">Updates the version for all users.</p>
+          <div class="input-group"><label>Version string</label><input type="text" id="adminVersion" value="${SITE_VERSION}"></div>
+          <div class="input-group"><label>Changelog (one point per line)</label><textarea id="adminChangelog" rows="4">${SITE_CHANGELOG.join('\n')}</textarea></div>
+          <button onclick="saveWhatsNew()" class="btn-primary-sm">Publish What's New</button>
+        </div>`;
+    } else if (tab === 'announcements') {
+      content.innerHTML = `
+        <div class="admin-form-card">
+          <h4>Post Announcement / Roster Update Note</h4>
+          <div class="input-group"><label>Title</label><input type="text" id="annTitle" placeholder="e.g. Burari Night Roster updated"></div>
+          <div class="input-group"><label>Message</label><textarea id="annMsg" rows="3"></textarea></div>
+          <button onclick="postAnnouncement()" class="btn-primary-sm">Post Announcement</button>
+        </div>
+        <div id="adminAnnList" style="margin-top:16px"><p style="color:var(--text-muted);font-size:13px">Loading...</p></div>`;
+      loadAdminAnnouncements();
+    } else if (tab === 'faqs') {
+      content.innerHTML = `
+        <div class="admin-form-card">
+          <h4>Add New FAQ / SOP</h4>
+          <div class="input-group"><label>Category</label>
+            <select id="faqCat">
+              <option>Emergency & Critical Workflows</option>
+              <option>Blood Bank & Transfusion</option>
+              <option>Special Forms & Laboratory Routing</option>
+              <option>Radiology & Super-Specialty Navigation</option>
+              <option>Other</option>
+            </select>
           </div>
-        </div>
-      </div>
-
-      <div class="p-4 pt-0 space-y-2">
-        ${e.brochureUrl ? `
-          <a href="${e.brochureUrl}" target="_blank" class="w-full subtle-bg hover:bg-slate-200 text-tealPrimary font-bold py-1.5 rounded-xl text-xs flex items-center justify-center gap-1.5 border border-teal-500/20 text-decoration-none">
-            <i class="fa-solid fa-file-pdf"></i> Download Rulebook / Brochure
-          </a>
-        ` : ''}
-
-        <div class="flex gap-2">
-          <button onclick="openRegistrationModal('${e.id}', 'event')" class="flex-grow bg-tealPrimary hover:bg-teal-700 text-white font-extrabold py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow">
-            <i class="fa-solid fa-qrcode"></i> Register Event
-          </button>
-          <button onclick="openPosterLightbox('${e.posterUrl || ''}', '${e.title}')" class="subtle-bg border hover:bg-slate-200 text-primary px-3 py-2.5 rounded-xl text-xs" title="View Full Poster">
-            <i class="fa-solid fa-image"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-  `).join("");
-}
-
-function selectPassTier(passId) {
-  if (!currentUser) return openModal("authModal");
-  const pass = PASS_TYPES.find(p => p.id === passId);
-  if (!pass) return;
-
-  openRegistrationModal(pass.id, 'pass');
-}
-
-function openRegistrationModal(itemId, type) {
-  if (!currentUser) return openModal("authModal");
-
-  const item = type === 'pass' 
-    ? PASS_TYPES.find(p => p.id === itemId)
-    : events.find(e => e.id === itemId);
-
-  if (!item) return;
-
-  let effectivePrice = item.price;
-  if (currentUser.isVerifiedInternal && (item.id === 'pass-gatebr' || item.price === 0)) {
-    effectivePrice = 0;
-  }
-
-  document.getElementById("regItemId").value = item.id;
-  document.getElementById("regType").value = type;
-  document.getElementById("regTitle").innerText = item.title;
-  document.getElementById("regSub").innerText = `Price: ${effectivePrice === 0 ? "FREE (Granted)" : "₹" + effectivePrice}`;
-  document.getElementById("regName").value = currentUser.name || "";
-  
-  const squadSec = document.getElementById("squadSection");
-  if (item.id === 'pass-squad') {
-    squadSec.classList.remove("hidden");
-  } else {
-    squadSec.classList.add("hidden");
-  }
-
-  const paySec = document.getElementById("paymentSection");
-  if (effectivePrice > 0) {
-    paySec.classList.remove("hidden");
-    selectPayMethod("upi");
-    generateUpiQrCode(effectivePrice, item.title);
-  } else {
-    paySec.classList.add("hidden");
-  }
-
-  openModal("registerModal");
-}
-
-function selectPayMethod(method) {
-  selectedPayMethod = method;
-  const upiBtn = document.getElementById("payMethodUpiBtn");
-  const rzpBtn = document.getElementById("payMethodRzpBtn");
-  const upiBox = document.getElementById("upiQrBox");
-
-  if (method === "upi") {
-    upiBtn.className = "card-bg border-2 border-tealPrimary p-2.5 rounded-xl text-left text-xs font-semibold text-primary";
-    rzpBtn.className = "card-bg border p-2.5 rounded-xl text-left text-xs font-semibold text-muted";
-    upiBox.classList.remove("hidden");
-  } else {
-    rzpBtn.className = "card-bg border-2 border-tealPrimary p-2.5 rounded-xl text-left text-xs font-semibold text-primary";
-    upiBtn.className = "card-bg border p-2.5 rounded-xl text-left text-xs font-semibold text-muted";
-    upiBox.classList.add("hidden");
-  }
-}
-
-function generateUpiQrCode(amount, title) {
-  const container = document.getElementById("upiQrContainer");
-  container.innerHTML = "";
-  const upiUri = `upi://pay?pa=synapse.mamc@upi&pn=SYNAPSE26&am=${amount}&tn=${encodeURIComponent(title.substring(0,15))}&cu=INR`;
-  new QRCode(container, { text: upiUri, width: 128, height: 128, colorDark: "#0F172A", colorLight: "#FFFFFF" });
-}
-
-function handleRegisterSubmit(e) {
-  e.preventDefault();
-  const type = document.getElementById("regType").value;
-  const itemId = document.getElementById("regItemId").value;
-  const item = type === 'pass' ? PASS_TYPES.find(p => p.id === itemId) : events.find(ev => ev.id === itemId);
-  if (!item) return;
-
-  let effectivePrice = item.price;
-  if (currentUser.isVerifiedInternal && (item.id === 'pass-gatebr' || item.price === 0)) effectivePrice = 0;
-
-  let paymentRef = "FREE_GRANT";
-  if (effectivePrice > 0) {
-    if (selectedPayMethod === "upi") {
-      paymentRef = document.getElementById("upiTxnRef").value.trim();
-      if (!paymentRef) return alert("Please enter UPI Transaction / UTR Ref ID.");
+          <div class="input-group"><label>Question</label><input type="text" id="faqQ"></div>
+          <div class="input-group"><label>Answer (HTML allowed)</label><textarea id="faqA" rows="4"></textarea></div>
+          <div class="input-group"><label><input type="checkbox" id="faqUrgent"> Mark as Urgent</label></div>
+          <button onclick="addFaqEntry()" class="btn-primary-sm">Add FAQ</button>
+        </div>`;
     } else {
-      paymentRef = "RZP_PAYMENT_SUCCESS";
+      content.innerHTML = `<p style="color:var(--text-muted)">Notes / future tools will appear here.</p>`;
     }
   }
 
-  const pass = {
-    id: "SYN26-" + Math.random().toString(36).substring(2, 8).toUpperCase(),
-    title: item.title,
-    attendeeName: document.getElementById("regName").value.trim(),
-    college: document.getElementById("regCollege").value.trim(),
-    phone: document.getElementById("regPhone").value.trim(),
-    email: currentUser.email,
-    amount: effectivePrice,
-    paymentRef: paymentRef,
-    isScanned: false
-  };
+  async function saveWhatsNew() {
+    const version = document.getElementById('adminVersion').value.trim();
+    const changelog = document.getElementById('adminChangelog').value.split('\n').map(s => s.trim()).filter(Boolean);
+    if (!version || changelog.length === 0) return alert('Version and at least one changelog point required');
+    try {
+      await db.collection('siteConfig').doc('whatsNew').set({
+        version, changelog, updatedAt: firebase.firestore.FieldValue.serverTimestamp(), updatedBy: currentUser.email
+      });
+      SITE_VERSION = version; SITE_CHANGELOG = changelog;
+      alert('What’s New published!');
+      checkForSiteUpdate();
+    } catch (e) { alert('Error: ' + e.message + '\n\nMake sure Firestore rules allow write to siteConfig.'); }
+  }
 
-  registrations.unshift(pass);
-  localStorage.setItem("synapse_regs_v10", JSON.stringify(registrations));
+  async function postAnnouncement() {
+    const title = document.getElementById('annTitle').value.trim();
+    const msg = document.getElementById('annMsg').value.trim();
+    if (!title) return alert('Title required');
+    try {
+      await db.collection('announcements').add({
+        title, message: msg, createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        createdBy: currentUser.displayName || currentUser.email
+      });
+      document.getElementById('annTitle').value = ''; document.getElementById('annMsg').value = '';
+      alert('Announcement posted'); loadAdminAnnouncements();
+    } catch (e) { alert('Error: ' + e.message); }
+  }
 
-  updatePassBadge();
-  closeModal("registerModal");
-  displayTicketModalWithQr(pass);
+  async function loadAdminAnnouncements() {
+    const el = document.getElementById('adminAnnList');
+    if (!el) return;
+    try {
+      const snap = await db.collection('announcements').orderBy('createdAt', 'desc').limit(15).get();
+      if (snap.empty) { el.innerHTML = '<p style="color:var(--text-muted);font-size:13px">No announcements yet.</p>'; return; }
+      el.innerHTML = snap.docs.map(d => {
+        const data = d.data();
+        const date = data.createdAt ? data.createdAt.toDate().toLocaleString() : '';
+        return `<div class="announcement-item"><strong>${data.title}</strong><div style="margin-top:4px;font-size:13.5px">${data.message || ''}</div><div class="meta">${data.createdBy || ''} • ${date}</div></div>`;
+      }).join('');
+    } catch (e) { el.innerHTML = '<p style="color:var(--urgent)">Failed to load</p>'; }
+  }
+
+  async function addFaqEntry() {
+    const category = document.getElementById('faqCat').value;
+    const question = document.getElementById('faqQ').value.trim();
+    const answer = document.getElementById('faqA').value.trim();
+    const urgent = document.getElementById('faqUrgent').checked;
+    if (!question || !answer) return alert('Question and Answer required');
+    try {
+      await db.collection('extraFaqs').add({
+        category, question, answer, urgent, id: 'extra_' + Date.now(),
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+      alert('FAQ added.'); document.getElementById('faqQ').value = ''; document.getElementById('faqA').value = '';
+    } catch (e) { alert('Error: ' + e.message); }
+  }
+
+  // ========== DUTY COVER BOARD ==========
+  let coverListener = null;
+  let knownCoverIds = new Set();
+  let editingSwapId = null;
+
+  function startDutyCoverListener() {
+    if (!currentUser || coverListener) return;
+    coverListener = db.collection('dutySwaps')
+      .where('status', '==', 'open')
+      .orderBy('createdAt', 'desc')
+      .limit(20)
+      .onSnapshot(snap => {
+        snap.docChanges().forEach(change => {
+          if (change.type === 'added') {
+            const id = change.doc.id;
+            const data = change.doc.data();
+            if (data.requesterUid === currentUser.uid) {
+              knownCoverIds.add(id);
+              return;
+            }
+            if (!knownCoverIds.has(id)) {
+              knownCoverIds.add(id);
+              const amt = data.amount ? ` (₹${data.amount})` : '';
+              showLiveToast('💰 New Duty Cover Request', `${data.requesterName} needs cover for ${data.currentDuty}${amt}`);
+              if (!document.getElementById('swaps-tab').classList.contains('hidden')) loadSwaps();
+            }
+          }
+        });
+      }, err => {
+        console.warn('Cover listener error:', err.message);
+      });
+  }
+
+  function renderSwapTab() {
+    const prompt = document.getElementById('swapLoginPrompt');
+    const content = document.getElementById('swapContent');
+    const createBtn = document.getElementById('createSwapBtn');
+    if (!currentUser) {
+      prompt.classList.remove('hidden');
+      content.classList.add('hidden');
+      createBtn.style.display = 'none';
+      return;
+    }
+    prompt.classList.add('hidden');
+    content.classList.remove('hidden');
+    createBtn.style.display = 'inline-block';
+    loadSwaps();
+  }
+
+  function showCreateSwapForm() {
+    editingSwapId = null;
+    document.getElementById('editingSwapId').value = '';
+    document.getElementById('swapFormTitle').textContent = 'Post a Cover Request';
+    document.getElementById('swapSubmitBtn').textContent = 'Post Request';
+    document.getElementById('swapDate').value = '';
+    document.getElementById('swapCurrentDuty').value = '';
+    document.getElementById('swapLookingFor').value = '';
+    document.getElementById('swapAmount').value = '';
+    document.getElementById('swapNotes').value = '';
+    document.getElementById('createSwapForm').classList.remove('hidden');
+  }
+
+  function hideCreateSwapForm() {
+    document.getElementById('createSwapForm').classList.add('hidden');
+    editingSwapId = null;
+  }
+
+  function openEditSwap(id, data) {
+    editingSwapId = id;
+    document.getElementById('editingSwapId').value = id;
+    document.getElementById('swapFormTitle').textContent = '✏️ Edit Cover Request';
+    document.getElementById('swapSubmitBtn').textContent = 'Save Changes';
+    document.getElementById('swapDate').value = data.date || '';
+    document.getElementById('swapCurrentDuty').value = data.currentDuty || '';
+    document.getElementById('swapLookingFor').value = data.lookingFor || '';
+    document.getElementById('swapAmount').value = data.amount || '';
+    document.getElementById('swapNotes').value = data.notes || '';
+    document.getElementById('createSwapForm').classList.remove('hidden');
+    document.getElementById('createSwapForm').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  async function submitSwapRequest() {
+    if (!currentUser) return alert('Please login first');
+    const date = document.getElementById('swapDate').value;
+    const currentDuty = document.getElementById('swapCurrentDuty').value.trim();
+    const lookingFor = document.getElementById('swapLookingFor').value.trim();
+    const notes = document.getElementById('swapNotes').value.trim();
+    const amountRaw = document.getElementById('swapAmount').value.trim();
+    const amount = amountRaw ? Number(amountRaw) : null;
+
+    if (!date || !currentDuty) return alert('Date and current duty are required');
+    if (amountRaw && (isNaN(amount) || amount < 0)) return alert('Amount must be a valid positive number');
+
+    const isEdit = !!document.getElementById('editingSwapId').value;
+    try {
+      if (isEdit) {
+        const id = document.getElementById('editingSwapId').value;
+        await db.collection('dutySwaps').doc(id).update({
+          date, currentDuty, lookingFor: lookingFor || '', notes: notes || '', amount: amount,
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        alert('Request updated successfully!');
+      } else {
+        await db.collection('dutySwaps').add({
+          requesterUid: currentUser.uid,
+          requesterName: currentUser.displayName || currentUser.email || 'Anonymous',
+          requesterEmail: currentUser.email || '',
+          date, currentDuty, lookingFor: lookingFor || '', notes: notes || '', amount: amount,
+          status: 'open', comments: [],
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        alert('Cover request posted successfully!');
+      }
+      hideCreateSwapForm();
+      loadSwaps();
+    } catch (e) {
+      console.error(e);
+      let msg = e.message || 'Unknown error';
+      if (msg.includes('permission') || e.code === 'permission-denied') {
+        msg = 'Permission denied. You can only edit your own requests (unless you are Admin).';
+      }
+      alert('Error:\n\n' + msg);
+    }
+  }
+
+  async function loadSwaps() {
+    const list = document.getElementById('swapList');
+    list.innerHTML = '<p style="color:var(--text-muted);font-size:13px">Loading cover requests...</p>';
+    try {
+      const snap = await db.collection('dutySwaps').orderBy('createdAt', 'desc').limit(40).get();
+      if (snap.empty) {
+        list.innerHTML = '<p style="text-align:center;color:var(--text-muted);padding:20px">No cover requests yet. Be the first!</p>';
+        return;
+      }
+      list.innerHTML = snap.docs.map(doc => {
+        const d = doc.data();
+        const id = doc.id;
+        const isMine = currentUser && d.requesterUid === currentUser.uid;
+        const canEdit = isMine || isAdmin;
+        const statusBadge = d.status === 'accepted' ? '<span class="badge badge-days">Accepted</span>' : (d.status === 'closed' ? '<span class="badge badge-sub">Closed</span>' : '<span class="badge badge-unit">Open</span>');
+        const commentsHtml = (d.comments || []).map(c => `<div style="font-size:12.5px;margin-top:4px;padding:6px 10px;background:var(--box-bg);border-radius:8px"><strong>${c.name}</strong>: ${c.text}</div>`).join('');
+        return `
+          <div class="swap-card ${d.status === 'accepted' ? 'accepted' : ''}">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;flex-wrap:wrap">
+              <div><strong style="font-size:15px">${d.requesterName || 'User'}</strong> ${statusBadge}</div>
+              <span style="font-size:12px;color:var(--text-muted)">${d.date || ''}</span>
+            </div>
+            <div class="swap-meta">
+              <div>📍 Current: <strong>${d.currentDuty || ''}</strong></div>
+              ${d.lookingFor ? `<div>🔍 Looking for: ${d.lookingFor}</div>` : ''}
+              ${d.amount ? `<div>💰 Offering: <strong>₹${d.amount}</strong></div>` : ''}
+              ${d.notes ? `<div style="margin-top:4px">${d.notes}</div>` : ''}
+            </div>
+            ${commentsHtml}
+            <div class="swap-actions">
+              ${d.status === 'open' && !isMine ? `<button class="btn-primary-sm" onclick="acceptSwap('${id}')">I'm interested</button>` : ''}
+              ${d.status === 'open' ? `<button class="btn-secondary-sm" onclick="addSwapComment('${id}')">Negotiate / Reply</button>` : ''}
+              ${canEdit && d.status === 'open' ? `
+                <button class="btn-secondary-sm" onclick='openEditSwap("${id}", ${JSON.stringify(d).replace(/'/g, "&#39;")})'>✏️ Edit</button>
+                <button class="btn-danger-sm" onclick="deleteSwap('${id}')">🗑️ Delete</button>
+              ` : ''}
+              ${isMine && d.status === 'open' && !isAdmin ? `
+                <button class="btn-danger-sm" onclick="closeSwap('${id}')">Close Request</button>
+              ` : ''}
+            </div>
+          </div>`;
+      }).join('');
+    } catch (e) {
+      console.error(e);
+      let msg = e.message || '';
+      if (msg.includes('permission') || e.code === 'permission-denied') {
+        msg = 'Permission denied while reading. Update Firestore rules.';
+      }
+      list.innerHTML = `<p style="color:var(--urgent);padding:16px">Failed to load: ${msg}</p>`;
+    }
+  }
+
+  async function acceptSwap(id) {
+    if (!confirm('Mark yourself as interested in covering this duty?')) return;
+    try {
+      await db.collection('dutySwaps').doc(id).update({
+        status: 'accepted',
+        acceptedBy: currentUser.displayName || currentUser.email,
+        acceptedAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+      alert('You are now marked as interested. Contact the requester to finalize.');
+      loadSwaps();
+    } catch (e) { alert(e.message); }
+  }
+
+  async function addSwapComment(id) {
+    const text = prompt('Your message / negotiation:');
+    if (!text || !text.trim()) return;
+    try {
+      await db.collection('dutySwaps').doc(id).update({
+        comments: firebase.firestore.FieldValue.arrayUnion({
+          name: currentUser.displayName || currentUser.email,
+          text: text.trim(),
+          at: new Date().toISOString()
+        })
+      });
+      loadSwaps();
+    } catch (e) { alert(e.message); }
+  }
+
+  async function closeSwap(id) {
+    if (!confirm('Close this cover request?')) return;
+    try {
+      await db.collection('dutySwaps').doc(id).update({ status: 'closed' });
+      loadSwaps();
+    } catch (e) { alert(e.message); }
+  }
+
+  async function deleteSwap(id) {
+    if (!confirm('Permanently delete this request? This cannot be undone.')) return;
+    try {
+      await db.collection('dutySwaps').doc(id).delete();
+      alert('Request deleted.');
+      loadSwaps();
+    } catch (e) {
+      console.error(e);
+      let msg = e.message || '';
+      if (msg.includes('permission') || e.code === 'permission-denied') {
+        msg = 'Permission denied. You can only delete your own requests (unless you are Admin).';
+      }
+      alert('Error deleting:\n\n' + msg);
+    }
+  }
+
+  // ========== SEARCH HISTORY ==========
+  function saveSearchHistory(type, query) {
+    if (!query || query.trim().length < 2) return;
+    const key = `mamc_history_${type}`;
+    let hist = JSON.parse(localStorage.getItem(key) || '[]');
+    hist = hist.filter(h => h.toLowerCase() !== query.toLowerCase());
+    hist.unshift(query.trim());
+    if (hist.length > 8) hist = hist.slice(0, 8);
+    localStorage.setItem(key, JSON.stringify(hist));
+    renderUserHistory();
+  }
+  function renderUserHistory() {
+    const box = document.getElementById('userHistoryBox');
+    const chips = document.getElementById('historyChips');
+    if (!box || !chips) return;
+    const roster = JSON.parse(localStorage.getItem('mamc_history_roster') || '[]');
+    const lab = JSON.parse(localStorage.getItem('mamc_history_lab') || '[]');
+    const faq = JSON.parse(localStorage.getItem('mamc_history_faq') || '[]');
+    const all = [...new Set([...roster, ...lab, ...faq])].slice(0, 10);
+    if (all.length === 0) { chips.innerHTML = '<span style="color:var(--text-muted);font-size:12px">No recent searches yet</span>'; return; }
+    chips.innerHTML = all.map(q => `<span class="history-chip" onclick="applyHistory('${q.replace(/'/g, "\\'")}')">${q}</span>`).join('');
+  }
+  function applyHistory(q) {
+    const activeTab = document.querySelector('.tab-btn.active');
+    if (!activeTab) return;
+    if (activeTab.textContent.includes('Roster')) { document.getElementById('universalPersonInput').value = q; executeSmartSearch(); }
+    else if (activeTab.textContent.includes('Labs')) { document.getElementById('labSearch').value = q; searchLabTests(); }
+    else if (activeTab.textContent.includes('FAQs')) { document.getElementById('faqSearchInput').value = q; renderFaqs(); }
+  }
+  function clearSearchHistory() {
+    ['roster', 'lab', 'faq'].forEach(t => localStorage.removeItem(`mamc_history_${t}`));
+    renderUserHistory();
+  }
+
+  // ========== FAQ ==========
+  let extraFaqs = [];
+  async function loadExtraFaqs() {
+    try {
+      const snap = await db.collection('extraFaqs').get();
+      extraFaqs = snap.docs.map(d => d.data());
+    } catch (e) {}
+  }
+  function highlightText(text, query) {
+    if (!query) return text;
+    const esc = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    return text.replace(new RegExp(`(${esc})`, 'gi'), '<mark class="faq-highlight">$1</mark>');
+  }
+  function renderFaqs() {
+    const query = (document.getElementById('faqSearchInput')?.value || '').toLowerCase().trim();
+    const container = document.getElementById('faqResults');
+    const countEl = document.getElementById('faqMatchCount');
+    if (!container) return;
+    let base = (typeof faqData !== 'undefined' && faqData) ? faqData : [];
+    const allFaqs = [...base, ...extraFaqs];
+    if (allFaqs.length === 0) {
+      container.innerHTML = '<div class="faq-empty"><p>No FAQ data loaded yet.</p></div>';
+      return;
+    }
+    let filtered = allFaqs;
+    if (query) {
+      filtered = allFaqs.filter(item => {
+        const s = (item.question + ' ' + (item.tags || []).join(' ') + ' ' + item.category + ' ' + (item.answer || '').replace(/<[^>]+>/g, ' ')).toLowerCase();
+        return s.includes(query);
+      });
+    }
+    if (countEl) countEl.textContent = query ? `${filtered.length} result${filtered.length !== 1 ? 's' : ''}` : `${allFaqs.length} SOPs`;
+    if (filtered.length === 0) {
+      container.innerHTML = `<div class="faq-empty"><p>No SOP found for “<strong>${query}</strong>”.</p></div>`;
+      return;
+    }
+    const groups = {};
+    filtered.forEach(item => {
+      if (!groups[item.category]) groups[item.category] = [];
+      groups[item.category].push(item);
+    });
+    const preferredOrder = ["Emergency & Critical Workflows", "Blood Bank & Transfusion", "Special Forms & Laboratory Routing", "Radiology & Super-Specialty Navigation"];
+    const orderedCategories = [...preferredOrder.filter(c => groups[c]), ...Object.keys(groups).filter(c => !preferredOrder.includes(c))];
+    let html = '';
+    let firstOpen = false;
+    orderedCategories.forEach(cat => {
+      html += `<div class="faq-category"><div class="faq-category-header"><span>${getCategoryIcon(cat)}</span><span>${cat}</span><span class="badge badge-sub" style="margin-left:auto;font-size:11px">${groups[cat].length}</span></div>`;
+      groups[cat].forEach(item => {
+        const open = query && !firstOpen;
+        if (open) firstOpen = true;
+        html += `<details class="faq-item" ${open ? 'open' : ''}><summary><span style="flex:1">${item.urgent ? '<span class="badge badge-urgent" style="margin-right:6px">Urgent</span>' : ''}${highlightText(item.question, query)}</span></summary><div class="faq-answer">${item.answer || ''}<div class="faq-actions"><button onclick="copyFaqAnswer('${item.id || ''}',this)">📋 Copy Answer</button></div></div></details>`;
+      });
+      html += '</div>';
+    });
+    container.innerHTML = html;
+  }
+  function getCategoryIcon(cat) {
+    if (cat.includes('Emergency')) return '🚨';
+    if (cat.includes('Special')) return '📄';
+    if (cat.includes('Blood')) return '🩸';
+    if (cat.includes('Radiology')) return '📷';
+    return '📁';
+  }
+  function expandAllFaqs() { document.querySelectorAll('#faqResults details.faq-item').forEach(d => d.open = true); }
+  function collapseAllFaqs() { document.querySelectorAll('#faqResults details.faq-item').forEach(d => d.open = false); }
+  function copyFaqAnswer(id, btn) {
+    const all = [...(typeof faqData !== 'undefined' ? faqData : []), ...extraFaqs];
+    const item = all.find(f => f.id === id);
+    if (!item) return;
+    const temp = document.createElement('div');
+    temp.innerHTML = item.answer || '';
+    navigator.clipboard.writeText(`${item.question}\n\n${(temp.textContent || '').trim()}`);
+    const old = btn.textContent;
+    btn.textContent = '✅ Copied!';
+    setTimeout(() => btn.textContent = old, 1500);
+  }
+
+
+  
+  function switchTab(tab) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    ['roster','schedule','lab','faq','guides','swaps'].forEach(t => {
+      const el = document.getElementById(t + '-tab');
+      if (el) el.classList.add('hidden');
+    });
+    const dateCard = document.getElementById('date-card');
+    const tabs = document.querySelectorAll('.tab-btn');
+    if (tab === 'roster') {
+      tabs[0]?.classList.add('active');
+      document.getElementById('roster-tab')?.classList.remove('hidden');
+      if (dateCard) dateCard.classList.remove('hidden');
+      executeSmartSearch();
+    } else if (tab === 'schedule') {
+      tabs[1]?.classList.add('active');
+      document.getElementById('schedule-tab')?.classList.remove('hidden');
+      if (dateCard) dateCard.classList.add('hidden');
+      searchDeptSchedule();
+    } else if (tab === 'lab') {
+      tabs[2]?.classList.add('active');
+      document.getElementById('lab-tab')?.classList.remove('hidden');
+      if (dateCard) dateCard.classList.add('hidden');
+      searchLabTests();
+    } else if (tab === 'faq') {
+      tabs[3]?.classList.add('active');
+      document.getElementById('faq-tab')?.classList.remove('hidden');
+      if (dateCard) dateCard.classList.add('hidden');
+      renderFaqs();
+    } else if (tab === 'guides') {
+      tabs[4]?.classList.add('active');
+      document.getElementById('guides-tab')?.classList.remove('hidden');
+      if (dateCard) dateCard.classList.add('hidden');
+      if (clinicalGuidesData.length === 0) fetchClinicalGuides();
+    } else if (tab === 'swaps') {
+      tabs[5]?.classList.add('active');
+      document.getElementById('swaps-tab')?.classList.remove('hidden');
+      if (dateCard) dateCard.classList.add('hidden');
+      renderSwapTab();
+    }
+  }
+
+  // ========== ROSTER SEARCH ==========
+  function executeSmartSearch() {
+    const personQuery = document.getElementById('universalPersonInput')?.value.toLowerCase().trim() || "";
+    const deptQuery = document.getElementById('universalDeptSelect')?.value || "";
+    const selectedDate = document.getElementById('dutyDate')?.value || "2026-05-23";
+    const resDiv = document.getElementById('smartSearchResults');
+    if (!resDiv) return;
+    const weekInfo = getSelectedWeek();
+    if (!personQuery && !deptQuery) {
+      resDiv.innerHTML = '<p style="padding:16px;color:var(--text-muted);text-align:center">Type an intern name/S.No or select a department to see postings.</p>';
+      return;
+    }
+    if (personQuery && deptQuery) {
+      const matchedInterns = interns.filter(i => i.name.toLowerCase().includes(personQuery) || i.roll.includes(personQuery) || i.batch.toLowerCase() === personQuery || i.sno.toString() === personQuery);
+      if (matchedInterns.length === 0) {
+        resDiv.innerHTML = `<p style="padding:16px;color:var(--text-muted);text-align:center">No intern matching "<strong>${personQuery}</strong>" found.</p>`;
+        return;
+      }
+      let html = '';
+      matchedInterns.forEach(student => {
+        const matchingWeeks = weeksData.filter(w => getPostingForSubdivision(student.batch, w.wk).toLowerCase() === deptQuery.toLowerCase());
+        if (matchingWeeks.length === 0) {
+          html += `<div class="result-card" style="padding:16px"><h3>${student.name} (S.No ${student.sno} • Subdivision ${student.batch})</h3><p style="color:var(--text-muted);margin-top:6px">Not posted in <strong>${deptQuery}</strong> during the 2026–2027 internship year.</p></div>`;
+          return;
+        }
+        html += `<div class="result-card"><div class="result-card-header"><h3>👤 ${student.name} &nbsp;➔&nbsp; 🏥 ${deptQuery}</h3><span class="badge badge-sub">Batch ${student.batch} • S.No ${student.sno}</span></div><div class="result-card-meta">Posted in <strong>${deptQuery}</strong> for <strong>${matchingWeeks.length} week(s)</strong>:</div><div class="result-card-body">`;
+        matchingWeeks.forEach(w => {
+          const unitInfo = getSpecialUnitInfo(student.sno, w.start);
+          const currentUnitName = unitInfo ? unitInfo.unit : null;
+          const activeSubdivisions = [];
+          ['A', 'B', 'C', 'D'].forEach(g => { for (let i = 1; i <= 12; i++) { const sub = g + i; if (getPostingForSubdivision(sub, w.wk).toLowerCase() === deptQuery.toLowerCase()) activeSubdivisions.push(sub); } });
+          const allDeptInterns = interns.filter(i => activeSubdivisions.includes(i.batch));
+          const sameUnitPartners = currentUnitName ? allDeptInterns.filter(i => getSpecialUnitInfo(i.sno, w.start)?.unit === currentUnitName) : [];
+          html += `<div class="week-box"><div class="week-box-header"><div><span style="font-weight:800;color:var(--primary);font-size:14.5px">🗓️ Week ${w.wk}</span><span style="font-size:12.5px;color:var(--text-muted);margin-left:6px">(${formatDateShort(w.start)} – ${formatDateShort(w.end)})</span></div>${unitInfo ? `<span class="badge badge-unit">${unitInfo.unit} •${unitInfo.incharge}</span>` : '<span class="badge badge-sub">General Duty</span>'}</div>`;
+          if (sameUnitPartners.length > 0) html += `<div class="unit-partner-section"><div style="font-size:12px;font-weight:700;color:#16a34a">🤝 Posted in ${currentUnitName} with ${student.name.split(' ')[0]} (${sameUnitPartners.length}):</div><div class="partner-pills">${sameUnitPartners.map(p => `<span class="partner-chip" ${p.sno === student.sno ? 'style="background:rgba(34,197,94,0.3);border-color:#22c55e"' : ''}>${p.name} <span style="font-size:10.5px;opacity:0.8">(S.No ${p.sno})</span></span>`).join('')}</div></div>`;
+          html += `<details class="co-intern-toggle"><summary>👥 View all ${allDeptInterns.length} interns in ${deptQuery} this week</summary><div class="co-intern-grid">${allDeptInterns.map(ci => `<span class="co-intern-chip" ${ci.sno === student.sno ? 'style="background:rgba(56,189,248,0.2);border-color:#38bdf8;font-weight:bold"' : ''}>${ci.name} (${ci.batch})${getSpecialUnitInfo(ci.sno, w.start) ? ` <strong style="color:#d97706">[${getSpecialUnitInfo(ci.sno, w.start).unit}]</strong>` : ''}</span>`).join('')}</div></details></div>`;
+        });
+        html += `</div></div>`;
+      });
+      resDiv.innerHTML = html;
+      return;
+    }
+    if (!personQuery && deptQuery) {
+      const activeSubdivisions = [];
+      ['A', 'B', 'C', 'D'].forEach(g => { for (let i = 1; i <= 12; i++) { const sub = g + i; if (getPostingForSubdivision(sub, weekInfo.wk).toLowerCase() === deptQuery.toLowerCase()) activeSubdivisions.push(sub); } });
+      const activeInterns = interns.filter(i => activeSubdivisions.includes(i.batch)).sort((a, b) => a.sno - b.sno);
+      const hasAnyUnit = activeInterns.some(i => getSpecialUnitInfo(i.sno, selectedDate));
+      let html = `<div class="result-card" style="margin-bottom:16px"><div class="schedule-header">🏥 ${deptQuery} Roster</div><div style="padding:14px 18px"><div style="font-size:13.5px;color:var(--text-muted);margin-bottom:8px"><strong>Week ${weekInfo.wk}</strong> • ${formatDateShort(weekInfo.start)} to ${formatDateShort(weekInfo.end)}</div><div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center"><span style="font-weight:700;font-size:13px;color:var(--text)">Active Subdivisions:</span>${activeSubdivisions.length > 0 ? activeSubdivisions.map(s => `<span class="badge badge-sub">${s}</span>`).join('') : '<span style="color:var(--text-muted)">None</span>'}</div></div></div>`;
+      if (activeInterns.length === 0) html += `<p style="padding:16px;color:var(--text-muted);text-align:center">No interns are posted in ${deptQuery} during Week ${weekInfo.wk}.</p>`;
+      else html += `<div class="result-card" style="overflow:hidden"><table style="margin-top:0;border:none"><thead><tr><th>S.No</th><th>Roll No</th><th>Name</th><th>Subdivision</th>${hasAnyUnit ? '<th>Unit</th><th>Incharge</th>' : ''}</tr></thead><tbody>${activeInterns.map(i => { const unitInfo = getSpecialUnitInfo(i.sno, selectedDate); return `<tr><td>${i.sno}</td><td>${i.roll}</td><td><b>${i.name}</b></td><td><span class="badge badge-sub">${i.batch}</span></td>${hasAnyUnit ? `<td>${unitInfo ? `<span class="badge badge-unit">${unitInfo.unit}</span>` : '—'}</td><td style="font-size:12.5px;color:var(--text-muted)">${unitInfo ? unitInfo.incharge : '—'}</td>` : ''}</tr>`; }).join('')}</tbody></table></div>`;
+      resDiv.innerHTML = html;
+      return;
+    }
+    if (personQuery && !deptQuery) {
+      const matches = interns.filter(i => i.name.toLowerCase().includes(personQuery) || i.roll.includes(personQuery) || i.batch.toLowerCase() === personQuery || i.sno.toString() === personQuery);
+      if (matches.length === 0) {
+        resDiv.innerHTML = '<p style="padding:16px;color:var(--text-muted);text-align:center">No interns found matching your search.</p>';
+        return;
+      }
+      let html = '';
+      matches.forEach(student => {
+        let activePosting = getPostingForSubdivision(student.batch, weekInfo.wk);
+        let burariDutyInfo = null, peripheryInfo = null, isPDO = false;
+        const studentSno = Number(student.sno);
+        if (typeof burariDailyRoster !== 'undefined' && burariDailyRoster[selectedDate]?.[studentSno]) burariDutyInfo = burariDailyRoster[selectedDate][studentSno];
+        if (!burariDutyInfo && typeof burariDailyRoster !== 'undefined') {
+          const prevDate = new Date(selectedDate);
+          prevDate.setDate(prevDate.getDate() - 1);
+          if (burariDailyRoster[prevDate.toISOString().split('T')[0]]?.[studentSno]?.dept?.toLowerCase().includes("night")) isPDO = true;
+        }
+        if (!burariDutyInfo && !isPDO && typeof peripheryRosterMap !== 'undefined' && peripheryRosterMap[student.batch]) {
+          const pMatch = peripheryRosterMap[student.batch].find(p => selectedDate >= p.start && selectedDate <= p.end);
+          if (pMatch) peripheryInfo = pMatch.center;
+        }
+        let displayDuty = activePosting;
+        if (burariDutyInfo) displayDuty = `PSM - ${burariDutyInfo.dept}`;
+        else if (isPDO) displayDuty = `PSM - PDO (Post Duty Off)`;
+        else if (peripheryInfo) displayDuty = `PSM (${peripheryInfo.toUpperCase()})`;
+        const unitInfo = getSpecialUnitInfo(student.sno, selectedDate);
+        const unitBadgeHtml = unitInfo ? `<span class="badge badge-unit" style="margin-left:8px">${unitInfo.unit}</span><span style="font-size:11.5px;color:var(--text-muted);margin-left:6px">(${unitInfo.incharge})</span>` : '';
+        html += `<div class="result-card"><div class="result-card-header"><h3>${student.name}</h3><span class="badge badge-sub">Subdivision ${student.batch}</span></div><div class="result-card-meta"><strong>Roll No:</strong> ${student.roll} &nbsp;•&nbsp; <strong>S.No:</strong> ${student.sno}</div><div class="result-card-body"><div class="posting-chip">📍 <div><div style="font-size:12px;font-weight:600;opacity:0.85;margin-bottom:2px">Posting on ${formatDateShort(selectedDate)}</div><div style="font-size:15.5px;font-weight:800;display:flex;align-items:center;flex-wrap:wrap;gap:4px">${displayDuty}${unitBadgeHtml}</div><div style="font-size:12px;font-weight:500;opacity:0.75;margin-top:2px">Week ${weekInfo.wk} • ${weekInfo.block}</div></div></div>${burariDutyInfo ? getCoInternsNames(burariDutyInfo.co_snos, burariDutyInfo.dept, selectedDate, studentSno) : ''}<details class="roster-timeline-details" style="margin-top:14px" data-focus-week="${weekInfo.wk}"><summary>▶ View 52-Week Full Roster Timeline</summary><p class="timeline-hint">Showing from Week ${weekInfo.wk} (selected date). Scroll up/down for other weeks.</p><div class="timeline-scroll"><table><thead><tr><th>Wk</th><th>Date Range</th><th>Department Posting</th></tr></thead><tbody>${weeksData.map(w => { const post = getPostingForSubdivision(student.batch, w.wk); const isSelected = w.wk === weekInfo.wk; let timelineDisplay = post; const weekUnit = getSpecialUnitInfo(studentSno, w.start); if (weekUnit && weekUnit.dept.toLowerCase() === post.toLowerCase()) timelineDisplay = `<b>${post} (${weekUnit.unit})</b><br><span style="font-size:11px;color:var(--text-muted)">${weekUnit.incharge}</span>`; const isPsmWeek = (post || '').toLowerCase().includes('psm') || (post || '').toLowerCase().includes('community'); if (isPsmWeek) timelineDisplay = `<div style="font-weight:800">${timelineDisplay}</div>` + renderBurariWeekBreakdown(studentSno, w.start, w.end); return `<tr class="${isSelected ? 'selected-week-row' : ''}" data-week="${w.wk}"><td>W${w.wk}</td><td>${formatDateShort(w.start)} to ${formatDateShort(w.end)}</td><td>${timelineDisplay}</td></tr>`; }).join('')}</tbody></table></div></details></div></div>`;
+      });
+      resDiv.innerHTML = html;
+      resDiv.querySelectorAll('details.roster-timeline-details').forEach(det => {
+        det.addEventListener('toggle', function() {
+          if (!det.open) return;
+          const scrollToSelected = () => {
+            const scrollBox = det.querySelector('.timeline-scroll');
+            const row = det.querySelector('tr.selected-week-row');
+            if (!scrollBox || !row) return;
+            const headerH = scrollBox.querySelector('thead')?.offsetHeight || 40;
+            const target = Math.max(0, row.offsetTop - headerH - 6);
+            scrollBox.scrollTo({ top: target, behavior: 'smooth' });
+          };
+          requestAnimationFrame(() => setTimeout(scrollToSelected, 40));
+        });
+      });
+    }
+  }
+
+  // ========== SCHEDULE ==========
+  function onScheduleSearchInput() {
+    const query = document.getElementById('scheduleSearch').value.toLowerCase().trim();
+    if (query) document.getElementById('deptScheduleSelect').value = "";
+    renderScheduleResults();
+  }
+  function onScheduleSelectChange() {
+    const selectVal = document.getElementById('deptScheduleSelect').value;
+    if (selectVal) document.getElementById('scheduleSearch').value = "";
+    renderScheduleResults();
+  }
+  function renderScheduleResults() {
+    const query = document.getElementById('scheduleSearch').value.toLowerCase().trim();
+    const categoryId = document.getElementById('deptScheduleSelect').value;
+    const resDiv = document.getElementById('scheduleResults');
+    if (!resDiv) return;
+    if (query) {
+      const matches = [];
+      deptSchedules.forEach(category => {
+        category.units.forEach(unit => {
+          if (unit.title.toLowerCase().includes(query) || unit.days.toLowerCase().includes(query) || unit.location.toLowerCase().includes(query) || category.name.toLowerCase().includes(query)) {
+            matches.push({ deptCategory: category.name, title: unit.title, days: unit.days, location: unit.location });
+          }
+        });
+      });
+      if (matches.length === 0) {
+        resDiv.innerHTML = '<p style="padding:16px;color:var(--text-muted);text-align:center">No matching facility, room, or clinic found.</p>';
+        return;
+      }
+      resDiv.innerHTML = `<p style="color:var(--text-muted);font-size:13px;margin-bottom:12px">Found <strong>${matches.length}</strong> matching entries</p><div class="result-card" style="overflow:hidden"><table style="margin-top:0;border:none"><thead><tr><th>Unit / Specialty</th><th>OPD / Duty Days</th><th>Location (Room No.)</th></tr></thead><tbody>${matches.map(m => `<tr><td><b style="font-size:14px">${m.title}</b><br><span style="font-size:11.5px;color:var(--text-muted)">${m.deptCategory}</span></td><td><span class="badge badge-days">${m.days}</span></td><td style="font-size:13px">${m.location}</td></tr>`).join('')}</tbody></table></div>`;
+      return;
+    }
+    if (categoryId) {
+      const category = deptSchedules.find(c => c.id === categoryId);
+      if (!category) {
+        resDiv.innerHTML = '<p style="padding:16px;color:var(--text-muted)">Details for this category will be updated soon.</p>';
+        return;
+      }
+      resDiv.innerHTML = `<div class="result-card" style="overflow:hidden;margin-bottom:0"><div class="schedule-header">${category.name}</div><table style="margin-top:0;border:none"><thead><tr><th>Unit / Special Clinic</th><th>OPD Days</th><th>Location (Room No.)</th></tr></thead><tbody>${category.units.map(u => `<tr><td><b style="font-size:14px">${u.title}</b></td><td><span class="badge badge-days">${u.days}</span></td><td style="font-size:13px">${u.location}</td></tr>`).join('')}</tbody></table></div>`;
+      return;
+    }
+    resDiv.innerHTML = '';
+  }
+  function searchDeptSchedule() { renderScheduleResults(); }
+
+  // ========== LABS ==========
+  function searchLabTests() {
+    const searchInput = document.getElementById('labSearch');
+    const selectFilter = document.getElementById('labHospitalSelect');
+    const resDiv = document.getElementById('labResults');
+    if (!resDiv || !selectFilter) return;
+    const query = searchInput ? searchInput.value.toLowerCase().trim() : "";
+    const filterVal = selectFilter.value;
+    let filtered = labDirectory;
+    if (filterVal !== "all") filtered = filtered.filter(item => item.category === filterVal);
+    if (query) {
+      filtered = filtered.filter(item =>
+        item.test.toLowerCase().includes(query) || item.tube.toLowerCase().includes(query) ||
+        item.window.toLowerCase().includes(query) || item.days.toLowerCase().includes(query) ||
+        item.report.toLowerCase().includes(query) || (item.notes || "").toLowerCase().includes(query) ||
+        (item.category || "").toLowerCase().includes(query)
+      );
+    }
+    if (filtered.length === 0) {
+      resDiv.innerHTML = '<p style="padding:16px;color:var(--text-muted);text-align:center">No matching lab tests found.</p>';
+      return;
+    }
+    let html = `<p style="color:var(--text-muted);font-size:13px;margin:0 0 12px 0">Showing <strong>${filtered.length}</strong> test${filtered.length > 1 ? 's' : ''}</p>`;
+    filtered.forEach(item => {
+      html += `<div class="lab-card">
+        <h4>🧪 ${item.test} <span class="badge badge-lab">${item.hospital}</span></h4>
+        <div class="lab-meta"><span>💉 <strong>Vial:</strong> ${item.tube}</span><span>📍 <strong>Location:</strong> ${item.window}</span></div>
+        <div class="lab-meta"><span>⏰ <strong>Days:</strong> ${item.days}</span><span>📄 <strong>Report:</strong> ${item.report}</span></div>
+        ${item.notes ? `<div class="lab-notes">💡 <strong>Notes:</strong> ${item.notes}</div>` : ''}
+      </div>`;
+    });
+    resDiv.innerHTML = html;
+  }
+
+  // ========== CLINICAL GUIDES ==========
+  let editingGuideId = null;
+
+  async function fetchClinicalGuides() {
+    const container = document.getElementById("guidesResultsGrid");
+    try {
+      const res = await fetch(APPS_SCRIPT_URL);
+      const data = await res.json();
+      if (data.status === "success") {
+        clinicalGuidesData = data.guides || [];
+        renderClinicalGuides();
+      }
+    } catch (err) {
+      if (container) container.innerHTML = `<p style="color:var(--text-muted);font-size:13px">Failed to load guides.</p>`;
+    }
+  }
+function toggleGuideIndexPopup() {
+  const popup = document.getElementById('guideIndexPopup');
+  if (!popup) return;
+  popup.classList.toggle('hidden');
 }
+  // Helper to scroll and highlight card when title pill is clicked
+  function jumpToGuide(cardId) {
+    const card = document.getElementById(cardId);
+    if (!card) return;
+    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    card.classList.remove('card-highlighted');
+    void card.offsetWidth; // reflow to restart animation
+    card.classList.add('card-highlighted');
+  }
 
-function openAdminEventModal() {
-  if (!currentUser || !currentUser.isAdmin) return alert("Admin access required.");
-  openModal("adminEventModal");
-}
+  function renderClinicalGuides() {
+    const query = document.getElementById("guideSearchInput")?.value.toLowerCase().trim() || "";
+    const deptFilter = document.getElementById("guideDeptSelect")?.value || "all";
+    const container = document.getElementById("guidesResultsGrid");
+    const indexBar = document.getElementById("guideIndexBar");
+    if (!container) return;
 
-function handleAdminEventSubmit(e) {
-  e.preventDefault();
-  if (!currentUser || !currentUser.isAdmin) return;
+    // Newest uploads first (by createdAt or numeric id)
+    let filtered = [...clinicalGuidesData].sort((a, b) => {
+      const timeA = a.createdAt ? new Date(a.createdAt).getTime() : (Number(a.id) || 0);
+      const timeB = b.createdAt ? new Date(b.createdAt).getTime() : (Number(b.id) || 0);
+      return timeB - timeA;
+    });
 
-  const newEv = {
-    id: "ev-" + Date.now(),
-    title: document.getElementById("admEvTitle").value.trim(),
-    category: document.getElementById("admEvCategory").value,
-    price: Number(document.getElementById("admEvPrice").value),
-    venue: document.getElementById("admEvVenue").value.trim(),
-    date: document.getElementById("admEvDate").value.trim(),
-    desc: document.getElementById("admEvDesc").value.trim(),
-    posterUrl: document.getElementById("admEvPosterUrl").value.trim() || "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=600&q=80",
-    brochureUrl: document.getElementById("admEvBrochureUrl").value.trim() || "#"
-  };
+    if (deptFilter !== "all") {
+      filtered = filtered.filter(g => g.dept.toLowerCase() === deptFilter.toLowerCase());
+    }
+    if (query) {
+      filtered = filtered.filter(g =>
+        g.title.toLowerCase().includes(query) ||
+        (g.templateText || "").toLowerCase().includes(query) ||
+        g.category.toLowerCase().includes(query)
+      );
+    }
 
-  events.unshift(newEv);
-  localStorage.setItem("synapse_events_v10", JSON.stringify(events));
-  renderEvents();
-  closeModal("adminEventModal");
-  alert("New event created successfully!");
-}
+    // Populate Quick Jump index bar
+    if (indexBar) {
+      if (filtered.length === 0) {
+        indexBar.innerHTML = `<span style="font-size:12px;color:var(--text-muted)">No documents match.</span>`;
+      } else {
+        indexBar.innerHTML = filtered.map((g, idx) => {
+          const cardDomId = `guide-card-${g.id}`;
+          const isLatest = idx === 0 && !query && deptFilter === "all";
+          return `
+  <button class="index-pill" onclick="jumpToGuide('${cardDomId}'); document.getElementById('guideIndexPopup')?.classList.add('hidden')">
+    ${isLatest ? '✨ ' : '📄 '}<strong>${g.title}</strong>
+  </button>`;
 
-function displayTicketModalWithQr(pass) {
-  document.getElementById("passEvent").innerText = pass.title;
-  document.getElementById("passName").innerText = pass.attendeeName;
-  document.getElementById("passId").innerText = pass.id;
-  document.getElementById("passCollege").innerText = pass.college;
-  document.getElementById("passScanStatus").innerText = pass.isScanned ? "ALREADY SCANNED" : "Active / Valid";
+        }).join('');
+      }
+    }
 
-  const qrCanvas = document.getElementById("qrcodeCanvas");
-  qrCanvas.innerHTML = "";
-  new QRCode(qrCanvas, {
-    text: JSON.stringify({ passId: pass.id, email: pass.email }),
-    width: 140,
-    height: 140,
-    colorDark: "#0F172A",
-    colorLight: "#FFFFFF"
+    if (filtered.length === 0) {
+      container.innerHTML = `<p style="grid-column:1/-1;text-align:center;padding:20px;color:var(--text-muted)">No guides found.</p>`;
+      return;
+    }
+
+    container.innerHTML = filtered.map((g, idx) => {
+      const isImage = g.isImage || (g.imageUrl && g.imageUrl.includes("lh3.googleusercontent"));
+      const fileLink = g.fileUrl || g.imageUrl || "";
+      const safeId = String(g.id).replace(/'/g, "\\'");
+      const cardDomId = `guide-card-${g.id}`;
+      const isNew = idx === 0 && !query && deptFilter === "all";
+
+      return `
+      <div id="${cardDomId}" class="result-card" style="padding:16px;display:flex;flex-direction:column;justify-content:space-between;transition:box-shadow 0.3s ease">
+        <div>
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:8px">
+            <span class="badge badge-sub" style="font-size:11px">${g.dept}</span>
+            <div style="display:flex;gap:4px;align-items:center">
+              ${isNew ? '<span class="badge" style="background:#fef08a;color:#854d0e;border:1px solid #facc15;font-size:10px">✨ NEW</span>' : ''}
+              <span class="badge badge-unit" style="font-size:11px">${g.category}</span>
+            </div>
+          </div>
+          <h4 style="margin:0 0 8px 0;font-size:15px;font-weight:800;color:var(--text)">${g.title}</h4>
+          
+          ${isImage && g.imageUrl ? `
+            <div style="border-radius:10px;overflow:hidden;height:140px;margin-bottom:10px;background:var(--box-bg);cursor:pointer;border:1px solid var(--border)" onclick="openLightbox('${g.imageUrl}')">
+              <img src="${g.imageUrl}" style="width:100%;height:100%;object-fit:cover" loading="lazy">
+            </div>
+          ` : fileLink ? `
+            <div style="padding:14px;background:var(--box-bg);border-radius:10px;margin-bottom:10px;border:1px dashed var(--border);text-align:center">
+              <div style="font-size:28px;margin-bottom:6px">📄</div>
+              <div style="font-size:12.5px;font-weight:700;color:var(--text)">${g.fileName || "Document"}</div>
+            </div>
+          ` : ''}
+
+          ${g.templateText ? `
+            <div style="background:var(--box-bg);padding:8px 10px;border-radius:8px;font-size:12px;color:var(--text);border:1px dashed var(--border);max-height:80px;overflow-y:auto;white-space:pre-wrap;margin-bottom:10px;font-family:monospace">${g.templateText}</div>
+          ` : ''}
+        </div>
+
+        <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+          ${g.templateText ? `<button onclick="copyTemplateText('${encodeURIComponent(g.templateText)}',this)" style="flex:1;min-width:90px;padding:7px;border:1px solid var(--border);background:var(--card);color:var(--text);font-weight:800;font-size:11.5px;border-radius:8px;cursor:pointer">📋 Copy Text</button>` : ''}
+          
+          ${isImage && g.imageUrl ? `<button onclick="openLightbox('${g.imageUrl}')" style="flex:1;min-width:90px;padding:7px;border:1px solid var(--border);background:var(--card);color:var(--primary);font-weight:800;font-size:11.5px;border-radius:8px;cursor:pointer">🔍 View Photo</button>` : ''}
+          
+          ${!isImage && fileLink ? `<a href="${fileLink}" target="_blank" style="flex:1;min-width:90px;padding:7px;border:1px solid var(--border);background:var(--card);color:var(--primary);font-weight:800;font-size:11.5px;border-radius:8px;cursor:pointer;text-align:center;text-decoration:none">⬇️ Download</a>` : ''}
+          
+          <button onclick="openEditGuide('${safeId}')" style="padding:7px 10px;border:1px solid var(--border);background:var(--box-bg);color:var(--text);font-weight:800;font-size:11.5px;border-radius:8px;cursor:pointer">✏️ Edit</button>
+          <button onclick="promptDeleteGuide('${safeId}')" style="padding:7px 10px;border:none;background:rgba(239,68,68,0.15);color:#ef4444;font-weight:800;font-size:11.5px;border-radius:8px;cursor:pointer">🗑️</button>
+        </div>
+      </div>
+    `}).join('');
+  }
+
+  function copyTemplateText(encodedText, btn) {
+    const text = decodeURIComponent(encodedText);
+    navigator.clipboard.writeText(text);
+    const old = btn.textContent;
+    btn.textContent = "✅ Copied!";
+    setTimeout(() => btn.textContent = old, 1500);
+  }
+
+  function openLightbox(url) {
+    const modal = document.getElementById("imageLightboxModal");
+    const img = document.getElementById("lightboxImg");
+    const dload = document.getElementById("lightboxDownloadBtn");
+    if (modal && img) {
+      img.src = url;
+      if (dload) dload.href = url;
+      modal.classList.remove("hidden");
+    }
+  }
+
+  function closeLightbox() {
+    document.getElementById("imageLightboxModal")?.classList.add("hidden");
+  }
+
+  function openAdminModal() {
+    editingGuideId = null;
+    const idField = document.getElementById("editingGuideId");
+    if (idField) idField.value = "";
+    document.getElementById("guideModalTitle").textContent = "📤 Upload Format or Referral Guide";
+    document.getElementById("uploadSubmitBtn").textContent = "Publish Live";
+    document.getElementById("guideUploadForm").reset();
+    document.getElementById("currentFileHint").style.display = "none";
+    document.getElementById("adminGuideModal")?.classList.remove("hidden");
+  }
+
+  function openEditGuide(id) {
+    const guide = clinicalGuidesData.find(g => String(g.id) === String(id));
+    if (!guide) return alert("Guide not found");
+
+    editingGuideId = id;
+    document.getElementById("editingGuideId").value = id;
+    document.getElementById("guideModalTitle").textContent = "✏️ Edit Guide";
+    document.getElementById("uploadSubmitBtn").textContent = "Save Changes";
+
+    document.getElementById("guideTitleInput").value = guide.title || "";
+    document.getElementById("guideDeptFormSelect").value = guide.dept || "Medicine";
+    document.getElementById("guideCategorySelect").value = guide.category || "Referral";
+    document.getElementById("guideTemplateInput").value = guide.templateText || "";
+    document.getElementById("adminPinInput").value = "";
+
+    const hint = document.getElementById("currentFileHint");
+    if (guide.fileName || guide.imageUrl) {
+      hint.style.display = "block";
+      hint.innerHTML = `Current file: <strong>${guide.fileName || "Image"}</strong><br><span style="font-size:11px">Leave empty to keep the existing file</span>`;
+    } else {
+      hint.style.display = "none";
+    }
+
+    document.getElementById("guideFileInput").value = "";
+    document.getElementById("adminGuideModal")?.classList.remove("hidden");
+  }
+
+  function closeAdminModal() {
+    document.getElementById("adminGuideModal")?.classList.add("hidden");
+    editingGuideId = null;
+  }
+
+  async function submitGuideUpload(e) {
+    e.preventDefault();
+    const btn = document.getElementById("uploadSubmitBtn");
+    btn.textContent = "Saving...";
+    btn.disabled = true;
+
+    const fileInput = document.getElementById("guideFileInput");
+    let imageBytes = "", fileName = "", mimeType = "";
+
+    if (fileInput.files.length > 0) {
+      const file = fileInput.files[0];
+      fileName = file.name;
+      mimeType = file.type;
+      imageBytes = await new Promise((res) => {
+        const reader = new FileReader();
+        reader.onload = (evt) => res(evt.target.result);
+        reader.readAsDataURL(file);
+      });
+    }
+
+    const isEdit = !!document.getElementById("editingGuideId").value;
+    const payload = {
+      action: isEdit ? "update" : "upload",
+      pin: document.getElementById("adminPinInput").value,
+      title: document.getElementById("guideTitleInput").value,
+      dept: document.getElementById("guideDeptFormSelect").value,
+      category: document.getElementById("guideCategorySelect").value,
+      templateText: document.getElementById("guideTemplateInput").value,
+      imageBytes, fileName, mimeType
+    };
+
+    if (isEdit) {
+      payload.id = document.getElementById("editingGuideId").value;
+    }
+
+    try {
+      const res = await fetch(APPS_SCRIPT_URL, {
+        method: "POST",
+        body: JSON.stringify(payload)
+      });
+      const result = await res.json();
+      if (result.status === "success") {
+        alert(isEdit ? "Guide updated successfully!" : "Guide published!");
+        closeAdminModal();
+        document.getElementById("guideUploadForm").reset();
+        fetchClinicalGuides();
+      } else {
+        alert("Error: " + result.message);
+      }
+    } catch (err) {
+      alert("Network error");
+    } finally {
+      btn.textContent = isEdit ? "Save Changes" : "Publish Live";
+      btn.disabled = false;
+    }
+  }
+
+  async function promptDeleteGuide(id) {
+    const pin = prompt("Enter Admin PIN to delete:");
+    if (!pin) return;
+    try {
+      const res = await fetch(APPS_SCRIPT_URL, {
+        method: "POST",
+        body: JSON.stringify({ action: "delete", id, pin })
+      });
+      const result = await res.json();
+      if (result.status === "success") {
+        alert("Deleted.");
+        fetchClinicalGuides();
+      } else {
+        alert("Error: " + result.message);
+      }
+    } catch (e) {
+      alert("Failed to delete.");
+    }
+  }
+  function toggleFeedbackModal() {
+    document.getElementById('feedbackModal')?.classList.toggle('hidden');
+  }
+
+  auth.onAuthStateChanged(user => {
+    if (user) handleAuth(user);
+    else {
+      currentUser = null; isAdmin = false; updateAuthUI();
+    }
   });
 
-  openModal("ticketModal");
-}
-
-function openPosterLightbox(url, title) {
-  document.getElementById("lightboxImage").src = url || "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=600&q=80";
-  document.getElementById("lightboxTitle").innerText = title;
-  openModal("posterLightboxModal");
-}
-
-function openMyPassesModal() {
-  if (!currentUser) return openModal("authModal");
-  const myRegs = registrations.filter(r => r.email.toLowerCase() === currentUser.email.toLowerCase());
-  
-  document.getElementById("myPassesSub").innerText = `Passes issued to ${currentUser.email}`;
-  const list = document.getElementById("myPassesList");
-
-  if (myRegs.length === 0) {
-    list.innerHTML = `<div class="text-center py-8 text-muted">No active passes found. Claim a Pass or Event Ticket!</div>`;
-  } else {
-    list.innerHTML = myRegs.map(reg => `
-      <div class="card-bg border rounded-xl p-3 flex justify-between items-center">
-        <div>
-          <span class="font-mono text-tealPrimary font-bold text-[11px]">${reg.id}</span>
-          <h4 class="font-bold text-primary">${reg.title}</h4>
-          <p class="text-muted text-[11px]">${reg.college}</p>
-        </div>
-        <button onclick="closeModal('myPassesModal'); displayTicketModalWithQrById('${reg.id}')" class="bg-teal-500/10 text-tealPrimary border border-teal-500/30 px-3 py-1 rounded-lg font-bold">Show QR</button>
-      </div>
-    `).join("");
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then(regs => {
+      regs.forEach(r => r.update());
+    });
   }
-  openModal("myPassesModal");
-}
-
-function displayTicketModalWithQrById(id) {
-  const pass = registrations.find(r => r.id === id);
-  if (pass) displayTicketModalWithQr(pass);
-}
-
-function openSponsorModal(key) {
-  const content = document.getElementById("sponsorModalContent");
-  if (key === 'canara') {
-    content.innerHTML = `
-      <div class="w-12 h-12 rounded-full bg-teal-500/10 text-tealPrimary flex items-center justify-center mx-auto text-xl font-bold mb-2"><i class="fa-solid fa-building-columns"></i></div>
-      <h3 class="text-lg font-black text-primary">Canara Bank</h3>
-      <p class="text-xs text-muted mt-1">Official Title Partner of SYNAPSE '26. Offering zero-balance student salary accounts, education loans, and instant digital banking desks inside MAMC campus.</p>`;
-  } else if (key === 'redbull') {
-    content.innerHTML = `
-      <div class="w-12 h-12 rounded-full bg-red-500/10 text-red-500 flex items-center justify-center mx-auto text-xl font-bold mb-2"><i class="fa-solid fa-bolt"></i></div>
-      <h3 class="text-lg font-black text-primary">Red Bull India</h3>
-      <p class="text-xs text-muted mt-1">Official Energy Drink Partner. Sponsoring the Gaming Arena, Pro DJ Night, and providing complimentary sampling for all participants.</p>`;
-  } else {
-    content.innerHTML = `<h3 class="text-lg font-black text-primary">Associate Partner</h3><p class="text-xs text-muted mt-1">Official food, dining, or academic partner for MAMC SYNAPSE '26.</p>`;
-  }
-  openModal("sponsorDetailModal");
-}
-
-function openQRScannerModal() {
-  if (!currentUser || !currentUser.isAdmin) return alert("Admin scanner access required.");
-  openModal("qrScannerModal");
-
-  if (!html5QrcodeScanner) {
-    html5QrcodeScanner = new Html5Qrcode("qr-reader");
-  }
-
-  html5QrcodeScanner.start(
-    { facingMode: "environment" },
-    { fps: 10, qrbox: { width: 220, height: 220 } },
-    onQrCodeScanned
-  ).catch(err => alert("Camera permission denied."));
-}
-
-function closeQRScannerModal() {
-  if (html5QrcodeScanner) {
-    html5QrcodeScanner.stop().then(() => closeModal("qrScannerModal")).catch(() => closeModal("qrScannerModal"));
-  } else {
-    closeModal("qrScannerModal");
-  }
-}
-
-function onQrCodeScanned(qrMessage) {
-  let passId = qrMessage;
-  try {
-    const parsed = JSON.parse(qrMessage);
-    if (parsed.passId) passId = parsed.passId;
-  } catch(e) {}
-
-  const pass = registrations.find(r => r.id === passId);
-  const resultBox = document.getElementById("scanResultBox");
-  resultBox.classList.remove("hidden");
-
-  if (!pass) {
-    resultBox.className = "mt-4 p-4 rounded-2xl border bg-red-500/10 border-red-500/30 text-red-500 text-left text-xs";
-    resultBox.innerHTML = `<strong>INVALID PASS</strong><p>Pass ID ${passId} not found.</p>`;
-    return;
-  }
-
-  if (pass.isScanned) {
-    resultBox.className = "mt-4 p-4 rounded-2xl border bg-yellow-500/10 border-yellow-500/30 text-yellow-600 text-left text-xs";
-    resultBox.innerHTML = `<strong>ALREADY SCANNED</strong><p>${pass.attendeeName} (${pass.title})</p>`;
-    return;
-  }
-
-  pass.isScanned = true;
-  localStorage.setItem("synapse_regs_v10", JSON.stringify(registrations));
-
-  resultBox.className = "mt-4 p-4 rounded-2xl border bg-emerald-500/10 border-emerald-500/30 text-emeraldAccent text-left text-xs";
-  resultBox.innerHTML = `<strong>VERIFIED ENTRY ✓</strong><p>Name: ${pass.attendeeName} (${pass.college})</p>`;
-}
-
-function handleVerificationSubmit(e) {
-  e.preventDefault();
-  if (!currentUser) return openModal("authModal");
-
-  const email = currentUser.email.toLowerCase();
-  if (!verifiedInternalsList.includes(email)) verifiedInternalsList.push(email);
-  localStorage.setItem("synapse_verified_v10", JSON.stringify(verifiedInternalsList));
-
-  currentUser.isVerifiedInternal = true;
-  updateAuthUI();
-  closeModal("verificationModal");
-  alert("Verification proof submitted successfully! You now have access to ₹0 MAMC Gate BR Passes.");
-}
-
-function updatePassBadge() {
-  const badge = document.getElementById("passBadgeCount");
-  if (!badge) return;
-  if (!currentUser) { badge.innerText = "0"; return; }
-  const count = registrations.filter(r => r.email.toLowerCase() === currentUser.email.toLowerCase()).length;
-  badge.innerText = count;
-}
-
-function toggleTheme() {
-  const html = document.documentElement;
-  const icon = document.getElementById("themeIcon");
-  if (html.classList.contains("dark")) {
-    html.classList.remove("dark");
-    html.classList.add("light");
-    html.setAttribute("data-theme", "light");
-    icon.className = "fa-solid fa-moon";
-  } else {
-    html.classList.remove("light");
-    html.classList.add("dark");
-    html.setAttribute("data-theme", "dark");
-    icon.className = "fa-solid fa-sun";
-  }
-}
-
-function scrollToSection(id) { document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }); }
-function openModal(id) { document.getElementById(id)?.classList.remove("hidden"); }
-function closeModal(id) { document.getElementById(id)?.classList.add("hidden"); }
 </script>
-
 </body>
 </html>

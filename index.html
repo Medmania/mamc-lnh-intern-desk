@@ -52,6 +52,7 @@
     <div class="admin-tabs">
       <button class="admin-tab active" onclick="switchAdminTab('whatsnew')">What's New</button>
       <button class="admin-tab" onclick="switchAdminTab('announcements')">Announcements</button>
+      <button class="admin-tab" onclick="switchAdminTab('canteen')">Canteen Contacts</button>
       <button class="admin-tab" onclick="switchAdminTab('faqs')">Add FAQ</button>
       <button class="admin-tab" onclick="switchAdminTab('notes')">Notes</button>
     </div>
@@ -312,11 +313,44 @@
   <a id="lightboxDownloadBtn" href="" target="_blank" download style="margin-top:14px;background:white;color:#0f172a;padding:8px 16px;border-radius:20px;font-weight:800;font-size:13px;text-decoration:none" onclick="event.stopPropagation()">⬇️ Open Full Resolution</a>
 </div>
 
-<!-- FLOATING SUGGESTION -->
-<button id="feedbackToggleBtn" onclick="toggleFeedbackModal()" style="position:fixed;bottom:20px;left:20px;z-index:9998;background:var(--primary);color:white;border:none;border-radius:50px;padding:12px 20px;font-weight:800;font-size:13.5px;box-shadow:var(--shadow-lg);cursor:pointer;display:flex;align-items:center;gap:8px;font-family:inherit">
-  💡 <span>Suggest Changes</span>
-</button>
+<!-- FLOATING BUTTONS CONTAINER -->
+<div style="position:fixed;bottom:20px;left:20px;right:20px;z-index:9998;display:flex;justify-content:space-between;align-items:center;pointer-events:none;">
+  <!-- Left Button: Suggest Changes -->
+  <button id="feedbackToggleBtn" onclick="toggleFeedbackModal()" style="pointer-events:auto;background:var(--primary);color:white;border:none;border-radius:50px;padding:12px 18px;font-weight:800;font-size:13px;box-shadow:var(--shadow-lg);cursor:pointer;display:flex;align-items:center;gap:6px;font-family:inherit">
+    💡 <span>Suggest</span>
+  </button>
 
+  <!-- Right Button: Food & Mess Contacts -->
+  <button id="foodToggleBtn" onclick="toggleFoodModal()" style="pointer-events:auto;background:linear-gradient(135deg, #f59e0b, #d97706);color:white;border:none;border-radius:50px;padding:12px 20px;font-weight:800;font-size:13.5px;box-shadow:var(--shadow-lg);cursor:pointer;display:flex;align-items:center;gap:6px;font-family:inherit">
+    🍔 <span>Canteen & Mess</span>
+  </button>
+</div>
+
+<!-- FLOATING CANTEEN & MESS MODAL -->
+<div id="foodModal" class="hidden" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(15,23,42,0.65);backdrop-filter:blur(6px);z-index:10000;display:flex;align-items:center;justify-content:center;padding:16px;box-sizing:border-box">
+  <div style="background:var(--card);width:100%;max-width:560px;max-height:85vh;border-radius:22px;box-shadow:var(--shadow-lg);border:1px solid var(--border);overflow:hidden;display:flex;flex-direction:column;">
+    <!-- Header -->
+    <div style="padding:16px 20px;background:linear-gradient(135deg, #f59e0b, #d97706);color:white;display:flex;justify-content:space-between;align-items:center">
+      <div>
+        <h3 style="margin:0;font-size:17px;font-weight:800">🍔 Duty Food, Canteen & Water Contacts</h3>
+        <p style="margin:2px 0 0 0;font-size:12px;opacity:0.9">Direct call & copy numbers for hostels, canteens & delivery</p>
+      </div>
+      <button onclick="toggleFoodModal()" style="background:rgba(255,255,255,0.25);border:none;color:white;font-size:22px;cursor:pointer;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center">&times;</button>
+    </div>
+    
+    <!-- Search Filter -->
+    <div style="padding:12px 16px;background:var(--box-bg);border-bottom:1px solid var(--border)">
+      <input type="text" id="foodSearchInput" oninput="renderFoodContacts()" placeholder="🔍 Search mess, bisleri, momos, canteen..." style="width:100%;padding:10px 14px;border-radius:10px;border:1.5px solid var(--border);font-size:13.5px;background:var(--card);color:var(--text);box-sizing:border-box">
+    </div>
+
+    <!-- Contact List -->
+    <div id="foodContactList" style="padding:12px 16px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;flex:1">
+      <!-- Injected dynamically -->
+    </div>
+  </div>
+</div>
+
+<!-- FLOATING SUGGESTION MODAL -->
 <div id="feedbackModal" class="hidden" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(15,23,42,0.6);backdrop-filter:blur(6px);z-index:10000;display:flex;align-items:center;justify-content:center;padding:16px;box-sizing:border-box">
   <div style="background:var(--card);width:100%;max-width:640px;border-radius:20px;box-shadow:var(--shadow-lg);border:1px solid var(--border);overflow:hidden;animation:popupSlide 0.3s ease">
     <div style="padding:16px 20px;background:var(--primary-gradient);color:white;display:flex;justify-content:space-between;align-items:center">
@@ -396,7 +430,7 @@
 
 <script>
   // ========== VERSION ==========
-  const APP_BUILD = "2026-08-31-v5";
+  const APP_BUILD = "2026-08-31-v6";
 
   // ========== FIREBASE ==========
   const firebaseConfig = {
@@ -412,7 +446,146 @@
   const auth = firebase.auth();
   const db = firebase.firestore();
 
-  // ========== REAL PUSH NOTIFICATIONS ==========
+  // ========== DEFAULT FOOD & MESS CONTACTS ==========
+  const defaultFoodContacts = [
+    { name: "Bisleri [₹100]", phone: "7667519117" },
+    { name: "OBH (Ground Floor)", phone: "9289533843" },
+    { name: "OBH (First Floor)", phone: "9311809962" },
+    { name: "24/H Canteen", phone: "9319872510" },
+    { name: "24/H Canteen 2", phone: "8766231682" },
+    { name: "Dhanvantri (Mr. Been)", phone: "9871515822" },
+    { name: "Justin (Dhanvantri)", phone: "9266368477" },
+    { name: "Shubham (Dhanvantri Mess)", phone: "09266379230" },
+    { name: "Deepak DC", phone: "7409342589" },
+    { name: "Sajid MOMOS", phone: "+91 99538 99498" },
+    { name: "Jyoti Aunty Food", phone: "09650735994" },
+    { name: "Mom's Kitchen", phone: "9910716159" },
+    { name: "OBH Laundry", phone: "+91 99997 58388" },
+    { name: "NBH Mess 1", phone: "+91 95824 99312" },
+    { name: "NBH Mess 2", phone: "+91 96678 54987" },
+    { name: "OBH Laundry / Water Supply (Bisleri/Kinley)", phone: "8349542766" },
+    { name: "DC Canteen (Kailash Singh)", phone: "9999164070" },
+    { name: "Khan's Corner", phone: "9315560954" },
+    { name: "Gaurav DC", phone: "7248633035" },
+    { name: "COC", phone: "7683049712" },
+    { name: "Shri Govind Ji Rasoi", phone: "6299846458" },
+    { name: "24h Shake 1", phone: "8368622401" },
+    { name: "24h Shake 2", phone: "9540543656" }
+  ];
+
+  let foodContactsData = [];
+
+  // Listen to live Canteen contacts from Firebase
+  function initFoodContactsListener() {
+    db.collection('canteenContacts').orderBy('createdAt', 'asc').onSnapshot(snap => {
+      if (snap.empty) {
+        foodContactsData = defaultFoodContacts.map((c, idx) => ({ ...c, id: 'def_' + idx }));
+      } else {
+        foodContactsData = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      }
+      renderFoodContacts();
+      if (isAdmin && document.getElementById('adminCanteenList')) renderAdminCanteenList();
+    }, err => {
+      console.warn("Firestore Canteen fetch error, falling back:", err);
+      foodContactsData = defaultFoodContacts.map((c, idx) => ({ ...c, id: 'def_' + idx }));
+      renderFoodContacts();
+    });
+  }
+
+  function toggleFoodModal() {
+    const modal = document.getElementById('foodModal');
+    if (!modal) return;
+    modal.classList.toggle('hidden');
+    if (!modal.classList.contains('hidden')) {
+      if (foodContactsData.length === 0) initFoodContactsListener();
+      else renderFoodContacts();
+    }
+  }
+
+  function renderFoodContacts() {
+    const container = document.getElementById('foodContactList');
+    const query = (document.getElementById('foodSearchInput')?.value || '').toLowerCase().trim();
+    if (!container) return;
+
+    let filtered = foodContactsData;
+    if (query) {
+      filtered = foodContactsData.filter(c => 
+        c.name.toLowerCase().includes(query) || 
+        c.phone.replace(/\s+/g, '').includes(query.replace(/\s+/g, ''))
+      );
+    }
+
+    if (filtered.length === 0) {
+      container.innerHTML = `<p style="text-align:center;color:var(--text-muted);padding:20px;font-weight:600">No contact matching “${query}” found.</p>`;
+      return;
+    }
+
+    container.innerHTML = filtered.map(c => {
+      const cleanNum = c.phone.replace(/[^0-9+]/g, '');
+      return `
+      <div style="display:flex;justify-content:space-between;align-items:center;background:var(--box-bg);padding:10px 14px;border-radius:12px;border:1px solid var(--border);gap:10px">
+        <div style="flex:1;min-width:0">
+          <div style="font-weight:800;font-size:14px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${c.name}</div>
+          <div style="font-size:12.5px;font-weight:700;color:var(--primary);margin-top:2px">${c.phone}</div>
+        </div>
+        <div style="display:flex;gap:6px;align-items:center">
+          <a href="tel:${cleanNum}" style="background:rgba(34,197,94,0.15);color:#16a34a;border:1px solid rgba(34,197,94,0.4);padding:6px 12px;border-radius:8px;font-weight:800;font-size:12px;text-decoration:none;display:inline-flex;align-items:center;gap:4px">
+            📞 Call
+          </a>
+          <button onclick="copyPhoneNumber('${c.phone}', this)" style="background:var(--card);color:var(--text);border:1px solid var(--border);padding:6px 10px;border-radius:8px;font-weight:800;font-size:12px;cursor:pointer">
+            📋
+          </button>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  function copyPhoneNumber(num, btn) {
+    navigator.clipboard.writeText(num);
+    const old = btn.textContent;
+    btn.textContent = "✅";
+    setTimeout(() => btn.textContent = old, 1200);
+  }
+
+  // Admin Functions for Canteen Contacts
+  async function addAdminCanteenContact() {
+    const name = document.getElementById('adminCantName').value.trim();
+    const phone = document.getElementById('adminCantPhone').value.trim();
+    if (!name || !phone) return alert('Name and phone required');
+    try {
+      await db.collection('canteenContacts').add({
+        name, phone, createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+      document.getElementById('adminCantName').value = '';
+      document.getElementById('adminCantPhone').value = '';
+      alert('Contact added!');
+    } catch (e) { alert('Error: ' + e.message); }
+  }
+
+  async function deleteAdminCanteenContact(id) {
+    if (!confirm('Delete this contact?')) return;
+    try {
+      await db.collection('canteenContacts').doc(id).delete();
+      alert('Deleted.');
+    } catch (e) { alert('Error: ' + e.message); }
+  }
+
+  function renderAdminCanteenList() {
+    const el = document.getElementById('adminCanteenList');
+    if (!el) return;
+    if (foodContactsData.length === 0) {
+      el.innerHTML = '<p style="color:var(--text-muted);font-size:13px">No custom contacts saved yet.</p>';
+      return;
+    }
+    el.innerHTML = foodContactsData.map(c => `
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--box-bg);border-radius:8px;margin-bottom:6px;font-size:13px">
+        <div><strong>${c.name}</strong> — ${c.phone}</div>
+        ${!c.id.startsWith('def_') ? `<button onclick="deleteAdminCanteenContact('${c.id}')" style="background:#ef4444;color:white;border:none;padding:4px 8px;border-radius:6px;font-weight:800;font-size:11px;cursor:pointer">🗑️</button>` : '<span style="font-size:10px;color:var(--text-muted)">Default</span>'}
+      </div>
+    `).join('');
+  }
+
+  // REAL PUSH NOTIFICATIONS
   const VAPID_KEY = "BJtX4zubLyO9A8SvyhriLC0TsHqqGso4C2hxnNpEwxVSEL6uYlnbRNdLZAqH3_T51Gq4FfcP0yo0M4Q67tjDLQs";
 
   async function initPushNotifications() {
@@ -446,7 +619,7 @@
   let isAdmin = false;
   const ADMIN_EMAILS = ["ankitgarg8558@gmail.com"];
 
-  // ========== FORCE CACHE / SW UPDATE ==========
+  // FORCE CACHE / SW UPDATE
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('./sw.js?v=' + APP_BUILD).then(reg => {
       reg.update();
@@ -460,12 +633,12 @@
     localStorage.setItem('mamc_app_build', APP_BUILD);
   }
 
-  // ========== SITE UPDATE (What's New) ==========
-  let SITE_VERSION = "2026-08-31-v5";
+  // SITE UPDATE (What's New)
+  let SITE_VERSION = "2026-08-31-v6";
   let SITE_CHANGELOG = [
-    "Added live interactive koi pond with ripple physics on header",
-    "Fixed Admin Upload and Guide Edit modals",
-    "Optimized single-line JavaScript block formatting"
+    "Added floating Duty Food & Canteen contact directory with 1-tap dial",
+    "Admin control panel integration to edit/add mess numbers live",
+    "Optimized quick search for Canteen, Water Supply & Laundry"
   ];
 
   async function loadRemoteWhatsNew() {
@@ -513,7 +686,7 @@
     } else if (btn) btn.classList.remove("has-new");
   }
 
-  // ========== LIVE TOAST ==========
+  // LIVE TOAST
   function showLiveToast(title, message) {
     const existing = document.getElementById('liveToast');
     if (existing) existing.remove();
@@ -524,7 +697,7 @@
     setTimeout(() => { t.style.opacity = '0'; setTimeout(() => t.remove(), 300); }, 5000);
   }
 
-  // ========== THEME ==========
+  // THEME
   function applyTheme(theme) {
     document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem('mamc_theme', theme);
@@ -542,7 +715,7 @@
     else applyTheme('light');
   })();
 
-  // ========== AUTH ==========
+  // AUTH
   function loginWithGoogle() {
     const provider = new firebase.auth.GoogleAuthProvider();
     auth.signInWithPopup(provider).then(res => handleAuth(res.user)).catch(err => alert("Login failed: " + err.message));
@@ -561,6 +734,7 @@
     if (!document.getElementById('swaps-tab').classList.contains('hidden')) renderSwapTab();
     startDutyCoverListener();
     initPushNotifications();
+    initFoodContactsListener();
   }
   function updateAuthUI() {
     const loginBtn = document.getElementById('loginBtn');
@@ -588,7 +762,7 @@
     if (panel.classList.contains('active')) switchAdminTab('whatsnew');
   }
 
-  // ========== ADMIN PANEL ==========
+  // ADMIN PANEL
   function switchAdminTab(tab) {
     document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
     if (event && event.target) event.target.classList.add('active');
@@ -612,6 +786,16 @@
         </div>
         <div id="adminAnnList" style="margin-top:16px"><p style="color:var(--text-muted);font-size:13px">Loading...</p></div>`;
       loadAdminAnnouncements();
+    } else if (tab === 'canteen') {
+      content.innerHTML = `
+        <div class="admin-form-card">
+          <h4>🍔 Add / Manage Canteen & Mess Contact</h4>
+          <div class="input-group"><label>Place / Mess Name</label><input type="text" id="adminCantName" placeholder="e.g. OBH Mess Ground Floor"></div>
+          <div class="input-group"><label>Phone Number</label><input type="text" id="adminCantPhone" placeholder="e.g. 9289533843"></div>
+          <button onclick="addAdminCanteenContact()" class="btn-primary-sm">Add Contact</button>
+        </div>
+        <div id="adminCanteenList" style="margin-top:16px"></div>`;
+      renderAdminCanteenList();
     } else if (tab === 'faqs') {
       content.innerHTML = `
         <div class="admin-form-card">
@@ -692,7 +876,7 @@
     } catch (e) { alert('Error: ' + e.message); }
   }
 
-  // ========== DUTY COVER BOARD ==========
+  // DUTY COVER BOARD
   let coverListener = null;
   let knownCoverIds = new Set();
   let editingSwapId = null;
@@ -921,7 +1105,7 @@
     }
   }
 
-  // ========== SEARCH HISTORY ==========
+  // SEARCH HISTORY
   function saveSearchHistory(type, query) {
     if (!query || query.trim().length < 2) return;
     const key = `mamc_history_${type}`;
@@ -955,7 +1139,7 @@
     renderUserHistory();
   }
 
-  // ========== FAQ ==========
+  // FAQ
   let extraFaqs = [];
   async function loadExtraFaqs() {
     try {
@@ -1073,7 +1257,7 @@
     }
   }
 
-  // ========== ROSTER SEARCH ==========
+  // ROSTER SEARCH
   function executeSmartSearch() {
     const personQuery = document.getElementById('universalPersonInput')?.value.toLowerCase().trim() || "";
     const deptQuery = document.getElementById('universalDeptSelect')?.value || "";
@@ -1173,7 +1357,7 @@
     }
   }
 
-  // ========== SCHEDULE ==========
+  // SCHEDULE
   function onScheduleSearchInput() {
     const query = document.getElementById('scheduleSearch').value.toLowerCase().trim();
     if (query) document.getElementById('deptScheduleSelect').value = "";
@@ -1218,7 +1402,7 @@
   }
   function searchDeptSchedule() { renderScheduleResults(); }
 
-  // ========== LABS DIRECTORY & SEARCH ==========
+  // LABS DIRECTORY & SEARCH
   function toggleLabDirectoryPopup() {
     const popup = document.getElementById('labDirectoryPopup');
     if (!popup) return;
@@ -1232,7 +1416,6 @@
     const listContainer = document.getElementById('labDirectoryList');
     if (!listContainer || typeof labDirectory === 'undefined' || !labDirectory) return;
 
-    // Sort tests alphabetically A to Z
     const sortedLabs = [...labDirectory].sort((a, b) => a.test.localeCompare(b.test));
 
     listContainer.innerHTML = sortedLabs.map(item => `
@@ -1246,28 +1429,23 @@
   function selectLabFromDirectory(encodedTestName) {
     const testName = decodeURIComponent(encodedTestName);
     
-    // Fill search bar
     const searchInput = document.getElementById('labSearch');
     if (searchInput) searchInput.value = testName;
 
-    // Reset filter select to 'all'
     const selectFilter = document.getElementById('labHospitalSelect');
     if (selectFilter) selectFilter.value = 'all';
 
-    // Hide dropdown list
     document.getElementById('labDirectoryPopup')?.classList.add('hidden');
 
-    // Trigger rendering
     searchLabTests();
 
-    // Scroll to the card and highlight
     setTimeout(() => {
       const resultsContainer = document.getElementById('labResults');
       const firstCard = resultsContainer?.querySelector('.result-card');
       if (firstCard) {
         firstCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
         firstCard.classList.remove('card-highlighted');
-        void firstCard.offsetWidth; // Reflow
+        void firstCard.offsetWidth;
         firstCard.classList.add('card-highlighted');
         
         const details = firstCard.querySelector('details');
@@ -1391,7 +1569,7 @@
     resDiv.innerHTML = html;
   }
 
-  // ========== CLINICAL GUIDES ==========
+  // CLINICAL GUIDES
   let editingGuideId = null;
 
   async function fetchClinicalGuides() {
@@ -1662,6 +1840,9 @@
   function toggleFeedbackModal() {
     document.getElementById('feedbackModal')?.classList.toggle('hidden');
   }
+
+  // Pre-load Canteen contacts on site startup
+  initFoodContactsListener();
 
   auth.onAuthStateChanged(user => {
     if (user) handleAuth(user);

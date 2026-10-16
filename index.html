@@ -313,6 +313,17 @@
   <a id="lightboxDownloadBtn" href="" target="_blank" download style="margin-top:14px;background:white;color:#0f172a;padding:8px 16px;border-radius:20px;font-weight:800;font-size:13px;text-decoration:none" onclick="event.stopPropagation()">⬇️ Open Full Resolution</a>
 </div>
 
+<!-- MENU GALLERY MODAL -->
+<div id="menuGalleryModal" class="hidden" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(15,23,42,0.9);backdrop-filter:blur(8px);z-index:10005;display:flex;flex-direction:column;align-items:center;padding:16px;box-sizing:border-box">
+  <div style="width:100%;max-width:700px;display:flex;justify-content:space-between;align-items:center;color:white;margin-bottom:12px">
+    <h3 id="menuGalleryTitle" style="margin:0;font-size:18px;font-weight:800">📜 Vendor Menu</h3>
+    <button onclick="closeMenuGallery()" style="background:rgba(255,255,255,0.2);border:none;color:white;font-size:24px;cursor:pointer;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center">&times;</button>
+  </div>
+  <div id="menuGalleryContent" style="width:100%;max-width:700px;flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:16px;align-items:center;padding-bottom:20px">
+    <!-- Menu photos injected dynamically -->
+  </div>
+</div>
+
 <!-- FLOATING BUTTONS CONTAINER -->
 <div style="position:fixed;bottom:20px;left:20px;right:20px;z-index:9998;display:flex;justify-content:space-between;align-items:center;pointer-events:none;">
   <!-- Left Button: Suggest Changes -->
@@ -430,7 +441,7 @@
 
 <script>
   // ========== VERSION ==========
-  const APP_BUILD = "2026-08-31-v7";
+  const APP_BUILD = "2026-10-16-v8";
 
   // ========== FIREBASE ==========
   const firebaseConfig = {
@@ -448,42 +459,41 @@
 
   // ========== DEFAULT FOOD & MESS CONTACTS ==========
   const defaultFoodContacts = [
-    
-    { name: "24/H Canteen (New) ", phone: "8882731494" },
-    { name: "24h Shake 1", phone: "8368622401" },
-    { name: "24h Shake 2", phone: "9540543656" }, 
-    { name: "Bharti Tea stall", phone: "9811828527" },
-    { name: "Raju Tea OT", phone: "8882373111" },
-    { name: "Khan's Corner", phone: "9315560954" },
-    { name: "COC", phone: "7683049712" },
-    { name: "Bhaja Govindam", phone: "+91 11 2327 5356" },
-    { name: "NRDH (Ajay Das) ", phone: "8851363797" },
-    { name: "NRDH Canteen", phone: "9811148431" },
-    { name: "ORDH Canteen", phone: "9560253045" },
-    { name: "LNRDH", phone: "8448364918" },
-    { name: "Surendra Guard ji Tiffin (Medicine) ", phone: "9711618876" },
-    { name: "OBH (Ground Floor)", phone: "9289533843" },
-    { name: "OBH (First Floor)", phone: "9311809962" },
-    { name: "Dhanvantri (Mr. Been)", phone: "9871515822" },
-    { name: "Justin (Dhanvantri)", phone: "9266368477" },
-    { name: "Shubham (Dhanvantri Mess)", phone: "09266379230" },
-    { name: "Deepak DC", phone: "7409342589" },
-    { name: "DC Canteen (Kailash Singh)", phone: "9999164070" },
-    { name: "Gaurav DC", phone: "7248633035" },
-    { name: "Sajid MOMOS", phone: "+91 99538 99498" },
-    { name: "OBH Laundry", phone: "+91 99997 58388" },
-    { name: "Anandi Bai Mess 1", phone: "+91 95824 99312" },
-    { name: "Anandi Bai Mess 2", phone: "+91 96678 54987" },
-    { name: "OBH Laundry / Water Supply (Bisleri/Kinley)", phone: "8349542766" },
-    { name: "Jyoti Aunty Food", phone: "09650735994" },
-    { name: "Mom's Kitchen", phone: "9910716159" },
-    { name: "Radha Kishan Tiffin", phone: "8416847036" },
-    { name: "Shri Govind Ji Rasoi", phone: "6299846458" },
-    { name: "Bisleri [₹100]", phone: "7667519117" }
-    
+    { name: "24/H Canteen (New) ", phone: "8882731494", menuPhotos: [] },
+    { name: "24h Shake 1", phone: "8368622401", menuPhotos: [] },
+    { name: "24h Shake 2", phone: "9540543656", menuPhotos: [] }, 
+    { name: "Bharti Tea stall", phone: "9811828527", menuPhotos: [] },
+    { name: "Raju Tea OT", phone: "8882373111", menuPhotos: [] },
+    { name: "Khan's Corner", phone: "9315560954", menuPhotos: [] },
+    { name: "COC", phone: "7683049712", menuPhotos: [] },
+    { name: "Bhaja Govindam", phone: "+91 11 2327 5356", menuPhotos: [] },
+    { name: "NRDH (Ajay Das) ", phone: "8851363797", menuPhotos: [] },
+    { name: "NRDH Canteen", phone: "9811148431", menuPhotos: [] },
+    { name: "ORDH Canteen", phone: "9560253045", menuPhotos: [] },
+    { name: "LNRDH", phone: "8448364918", menuPhotos: [] },
+    { name: "Surendra Guard ji Tiffin (Medicine) ", phone: "9711618876", menuPhotos: [] },
+    { name: "OBH (Ground Floor)", phone: "9289533843", menuPhotos: [] },
+    { name: "OBH (First Floor)", phone: "9311809962", menuPhotos: [] },
+    { name: "Dhanvantri (Mr. Been)", phone: "9871515822", menuPhotos: [] },
+    { name: "Justin (Dhanvantri)", phone: "9266368477", menuPhotos: [] },
+    { name: "Shubham (Dhanvantri Mess)", phone: "09266379230", menuPhotos: [] },
+    { name: "Deepak DC", phone: "7409342589", menuPhotos: [] },
+    { name: "DC Canteen (Kailash Singh)", phone: "9999164070", menuPhotos: [] },
+    { name: "Gaurav DC", phone: "7248633035", menuPhotos: [] },
+    { name: "Sajid MOMOS", phone: "+91 99538 99498", menuPhotos: [] },
+    { name: "OBH Laundry", phone: "+91 99997 58388", menuPhotos: [] },
+    { name: "Anandi Bai Mess 1", phone: "+91 95824 99312", menuPhotos: [] },
+    { name: "Anandi Bai Mess 2", phone: "+91 96678 54987", menuPhotos: [] },
+    { name: "OBH Laundry / Water Supply (Bisleri/Kinley)", phone: "8349542766", menuPhotos: [] },
+    { name: "Jyoti Aunty Food", phone: "09650735994", menuPhotos: [] },
+    { name: "Mom's Kitchen", phone: "9910716159", menuPhotos: [] },
+    { name: "Radha Kishan Tiffin", phone: "8416847036", menuPhotos: [] },
+    { name: "Shri Govind Ji Rasoi", phone: "6299846458", menuPhotos: [] },
+    { name: "Bisleri [₹100]", phone: "7667519117", menuPhotos: [] }
   ];
 
   let foodContactsData = [];
+  let currentEditingMenuPhotos = [];
 
   // Listen to live Canteen contacts from Firebase
   function initFoodContactsListener() {
@@ -491,7 +501,7 @@
       if (snap.empty) {
         foodContactsData = defaultFoodContacts.map((c, idx) => ({ ...c, id: 'def_' + idx }));
       } else {
-        foodContactsData = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        foodContactsData = snap.docs.map(doc => ({ id: doc.id, menuPhotos: [], ...doc.data() }));
       }
       renderFoodContacts();
       if (isAdmin && document.getElementById('adminCanteenList')) renderAdminCanteenList();
@@ -532,13 +542,19 @@
 
     container.innerHTML = filtered.map(c => {
       const cleanNum = c.phone.replace(/[^0-9+]/g, '');
+      const hasMenu = c.menuPhotos && c.menuPhotos.length > 0;
       return `
       <div style="display:flex;justify-content:space-between;align-items:center;background:var(--box-bg);padding:10px 14px;border-radius:12px;border:1px solid var(--border);gap:10px">
         <div style="flex:1;min-width:0">
           <div style="font-weight:800;font-size:14px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${c.name}</div>
           <div style="font-size:12.5px;font-weight:700;color:var(--primary);margin-top:2px">${c.phone}</div>
         </div>
-        <div style="display:flex;gap:6px;align-items:center">
+        <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;justify-content:flex-end">
+          ${hasMenu ? `
+            <button onclick="openMenuGallery('${c.id}')" style="background:linear-gradient(135deg, #f59e0b, #d97706);color:white;border:none;padding:6px 12px;border-radius:8px;font-weight:800;font-size:12px;cursor:pointer;display:inline-flex;align-items:center;gap:4px">
+              📜 View Menu (${c.menuPhotos.length})
+            </button>
+          ` : ''}
           <a href="tel:${cleanNum}" style="background:rgba(34,197,94,0.15);color:#16a34a;border:1px solid rgba(34,197,94,0.4);padding:6px 12px;border-radius:8px;font-weight:800;font-size:12px;text-decoration:none;display:inline-flex;align-items:center;gap:4px">
             📞 Call
           </a>
@@ -550,6 +566,26 @@
     }).join('');
   }
 
+  function openMenuGallery(contactId) {
+    const contact = foodContactsData.find(c => c.id === contactId);
+    if (!contact || !contact.menuPhotos || contact.menuPhotos.length === 0) return alert('No menu uploaded for this vendor');
+
+    document.getElementById('menuGalleryTitle').textContent = `📜 ${contact.name} Menu`;
+    const container = document.getElementById('menuGalleryContent');
+    container.innerHTML = contact.menuPhotos.map((photo, idx) => `
+      <div style="width:100%;border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,0.2);background:#0f172a">
+        <img src="${photo}" style="width:100%;height:auto;display:block" loading="lazy">
+        <div style="padding:8px 12px;background:rgba(0,0,0,0.6);color:white;font-size:12px;font-weight:700;text-align:center">Menu Page ${idx + 1} of ${contact.menuPhotos.length}</div>
+      </div>
+    `).join('');
+
+    document.getElementById('menuGalleryModal')?.classList.remove('hidden');
+  }
+
+  function closeMenuGallery() {
+    document.getElementById('menuGalleryModal')?.classList.add('hidden');
+  }
+
   function copyPhoneNumber(num, btn) {
     navigator.clipboard.writeText(num);
     const old = btn.textContent;
@@ -559,7 +595,7 @@
 
   // ========== ADMIN FUNCTIONS FOR CANTEEN CONTACTS ==========
   async function seedDefaultCanteenContacts(force = false) {
-    if (force && !confirm("This will load/restore all 23 default vendor numbers to your live database. Continue?")) return;
+    if (force && !confirm("This will load/restore all default vendor numbers to your live database. Continue?")) return;
     try {
       const batch = db.batch();
       defaultFoodContacts.forEach((c) => {
@@ -567,6 +603,7 @@
         batch.set(ref, {
           name: c.name,
           phone: c.phone,
+          menuPhotos: c.menuPhotos || [],
           createdAt: firebase.firestore.FieldValue.serverTimestamp()
         });
       });
@@ -577,79 +614,135 @@
     }
   }
 
-  function openEditAdminCanteen(id, name, phone) {
+  function openEditAdminCanteen(id) {
+    const contact = foodContactsData.find(c => c.id === id);
+    if (!contact) return;
+
     document.getElementById('editingCantId').value = id;
-    document.getElementById('adminCantName').value = name;
-    document.getElementById('adminCantPhone').value = phone;
+    document.getElementById('adminCantName').value = contact.name;
+    document.getElementById('adminCantPhone').value = contact.phone;
+    currentEditingMenuPhotos = contact.menuPhotos ? [...contact.menuPhotos] : [];
+    
+    renderAdminMenuPhotoPreviews();
     document.getElementById('adminCantFormTitle').textContent = '✏️ Edit Canteen Contact';
     document.getElementById('adminCantSubmitBtn').textContent = 'Update Contact';
     document.getElementById('adminCantCancelBtn').classList.remove('hidden');
     document.getElementById('adminCantName').focus();
   }
 
+  function renderAdminMenuPhotoPreviews() {
+    const container = document.getElementById('adminCantPhotoPreviews');
+    if (!container) return;
+    if (currentEditingMenuPhotos.length === 0) {
+      container.innerHTML = '<span style="font-size:12px;color:var(--text-muted)">No menu photos attached.</span>';
+      return;
+    }
+    container.innerHTML = currentEditingMenuPhotos.map((img, idx) => `
+      <div style="position:relative;width:60px;height:60px;border-radius:8px;overflow:hidden;border:1px solid var(--border)">
+        <img src="${img}" style="width:100%;height:100%;object-fit:cover">
+        <button onclick="removeAdminMenuPhoto(${idx})" style="position:absolute;top:2px;right:2px;background:rgba(239,68,68,0.9);color:white;border:none;border-radius:50%;width:18px;height:18px;font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center">&times;</button>
+      </div>
+    `).join('');
+  }
+
+  function removeAdminMenuPhoto(idx) {
+    currentEditingMenuPhotos.splice(idx, 1);
+    renderAdminMenuPhotoPreviews();
+  }
+
   function resetAdminCanteenForm() {
     document.getElementById('editingCantId').value = '';
     document.getElementById('adminCantName').value = '';
     document.getElementById('adminCantPhone').value = '';
+    document.getElementById('adminCantMenuFiles').value = '';
+    currentEditingMenuPhotos = [];
+    renderAdminMenuPhotoPreviews();
     document.getElementById('adminCantFormTitle').textContent = '🍔 Add Canteen & Mess Contact';
     document.getElementById('adminCantSubmitBtn').textContent = 'Add Contact';
     document.getElementById('adminCantCancelBtn').classList.add('hidden');
   }
 
   async function saveAdminCanteenContact() {
+    if (!currentUser || !isAdmin) return alert('Admin authentication required.');
+    
     const id = document.getElementById('editingCantId').value;
     const name = document.getElementById('adminCantName').value.trim();
     const phone = document.getElementById('adminCantPhone').value.trim();
+    const fileInput = document.getElementById('adminCantMenuFiles');
+
     if (!name || !phone) return alert('Name and phone required');
 
+    const btn = document.getElementById('adminCantSubmitBtn');
+    btn.textContent = "Saving...";
+    btn.disabled = true;
+
     try {
-      if (id) {
-        if (id.startsWith('def_')) {
-          // If editing a default contact before full seed, add as a new doc in Firestore
-          await db.collection('canteenContacts').add({
-            name, phone, createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      // Convert newly uploaded files to Base64
+      let newPhotos = [];
+      if (fileInput && fileInput.files.length > 0) {
+        for (let i = 0; i < fileInput.files.length; i++) {
+          const file = fileInput.files[i];
+          const base64 = await new Promise((res) => {
+            const reader = new FileReader();
+            reader.onload = (e) => res(e.target.result);
+            reader.readAsDataURL(file);
           });
-        } else {
-          await db.collection('canteenContacts').doc(id).update({
-            name, phone, updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-          });
+          newPhotos.push(base64);
         }
+      }
+
+      const finalPhotos = [...currentEditingMenuPhotos, ...newPhotos];
+
+      if (id && !id.startsWith('def_')) {
+        // Existing document update in Firestore
+        await db.collection('canteenContacts').doc(id).set({
+          name, phone,
+          menuPhotos: finalPhotos,
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        }, { merge: true });
         alert('Contact updated successfully!');
       } else {
+        // New document creation in Firestore
         await db.collection('canteenContacts').add({
-          name, phone, createdAt: firebase.firestore.FieldValue.serverTimestamp()
+          name, phone,
+          menuPhotos: finalPhotos,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
         });
-        alert('Contact added successfully!');
+        alert('Contact added to live database!');
       }
       resetAdminCanteenForm();
-    } catch (e) { alert('Error: ' + e.message); }
+    } catch (e) { 
+      alert('Error: ' + e.message + '\n\nEnsure Firestore rules allow writes for ' + currentUser.email); 
+    } finally {
+      btn.textContent = id ? "Update Contact" : "Add Contact";
+      btn.disabled = false;
+    }
   }
 
   async function deleteAdminCanteenContact(id, name) {
+    if (!currentUser || !isAdmin) return alert('Admin authentication required.');
     if (!confirm(`Permanently delete vendor contact "${name}"?`)) return;
     try {
       if (id.startsWith('def_')) {
-        // Seed remaining defaults to Firestore excluding deleted item
-        const snap = await db.collection('canteenContacts').get();
-        if (snap.empty) {
-          const batch = db.batch();
-          foodContactsData.forEach((c) => {
-            if (c.id !== id) {
-              const ref = db.collection('canteenContacts').doc();
-              batch.set(ref, {
-                name: c.name,
-                phone: c.phone,
-                createdAt: firebase.firestore.FieldValue.serverTimestamp()
-              });
-            }
-          });
-          await batch.commit();
-        }
+        // If modifying default data before explicit seed
+        const batch = db.batch();
+        foodContactsData.forEach((c) => {
+          if (c.id !== id) {
+            const ref = db.collection('canteenContacts').doc();
+            batch.set(ref, {
+              name: c.name,
+              phone: c.phone,
+              menuPhotos: c.menuPhotos || [],
+              createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+          }
+        });
+        await batch.commit();
       } else {
         await db.collection('canteenContacts').doc(id).delete();
       }
       alert('Contact deleted.');
-    } catch (e) { alert('Error: ' + e.message); }
+    } catch (e) { alert('Error deleting: ' + e.message); }
   }
 
   function renderAdminCanteenList() {
@@ -659,18 +752,20 @@
       el.innerHTML = '<p style="color:var(--text-muted);font-size:13px">No contacts found.</p>';
       return;
     }
-    el.innerHTML = foodContactsData.map(c => `
+    el.innerHTML = foodContactsData.map(c => {
+      const photosCount = c.menuPhotos ? c.menuPhotos.length : 0;
+      return `
       <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:var(--box-bg);border-radius:10px;margin-bottom:6px;font-size:13px;border:1px solid var(--border)">
         <div style="flex:1;min-width:0;margin-right:8px">
-          <strong style="color:var(--text)">${c.name}</strong>
+          <strong style="color:var(--text)">${c.name}</strong> ${photosCount > 0 ? `<span style="font-size:11px;color:#d97706;font-weight:800">📜 (${photosCount} photos)</span>` : ''}
           <div style="font-size:12px;color:var(--text-muted)">${c.phone}</div>
         </div>
         <div style="display:flex;gap:6px">
-          <button onclick="openEditAdminCanteen('${c.id}', '${c.name.replace(/'/g, "\\'")}', '${c.phone.replace(/'/g, "\\'")}')" style="background:var(--card);color:var(--text);border:1px solid var(--border);padding:5px 8px;border-radius:6px;font-weight:700;font-size:11px;cursor:pointer">✏️ Edit</button>
+          <button onclick="openEditAdminCanteen('${c.id}')" style="background:var(--card);color:var(--text);border:1px solid var(--border);padding:5px 8px;border-radius:6px;font-weight:700;font-size:11px;cursor:pointer">✏️ Edit</button>
           <button onclick="deleteAdminCanteenContact('${c.id}', '${c.name.replace(/'/g, "\\'")}')" style="background:rgba(239,68,68,0.15);color:#ef4444;border:none;padding:5px 8px;border-radius:6px;font-weight:700;font-size:11px;cursor:pointer">🗑️ Delete</button>
         </div>
-      </div>
-    `).join('');
+      </div>`;
+    }).join('');
   }
 
   // REAL PUSH NOTIFICATIONS
@@ -722,11 +817,11 @@
   }
 
   // SITE UPDATE (What's New)
-  let SITE_VERSION = "2026-08-31-v7";
+  let SITE_VERSION = "2026-10-16-v8";
   let SITE_CHANGELOG = [
-    "Added full Edit and Delete options for all Canteen & Mess contacts in Admin Panel",
-    "Auto-sync and persistence for default vendor numbers in Firebase",
-    "Quick-restore button for initial vendor numbers"
+    "Fixed Firestore edit permissions for Canteen & Mess contacts",
+    "Added multi-photo Menu Attachment option for vendor contacts",
+    "Doctors can now view full vendor menu cards direct from the Canteen popup"
   ];
 
   async function loadRemoteWhatsNew() {
@@ -881,6 +976,11 @@
           <input type="hidden" id="editingCantId" value="">
           <div class="input-group"><label>Place / Mess Name</label><input type="text" id="adminCantName" placeholder="e.g. OBH Mess Ground Floor"></div>
           <div class="input-group"><label>Phone Number</label><input type="text" id="adminCantPhone" placeholder="e.g. 9289533843"></div>
+          <div class="input-group">
+            <label>Menu Photos (Select multiple):</label>
+            <input type="file" id="adminCantMenuFiles" accept="image/*" multiple style="margin-bottom:6px">
+            <div id="adminCantPhotoPreviews" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px"></div>
+          </div>
           <div style="display:flex;gap:10px;flex-wrap:wrap">
             <button onclick="saveAdminCanteenContact()" id="adminCantSubmitBtn" class="btn-primary-sm">Add Contact</button>
             <button onclick="resetAdminCanteenForm()" id="adminCantCancelBtn" class="btn-secondary-sm hidden">Cancel</button>

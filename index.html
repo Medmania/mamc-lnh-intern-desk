@@ -430,7 +430,7 @@
 
 <script>
   // ========== VERSION ==========
-  const APP_BUILD = "2026-08-31-v6";
+  const APP_BUILD = "2026-08-31-v7";
 
   // ========== FIREBASE ==========
   const firebaseConfig = {
@@ -547,26 +547,98 @@
     setTimeout(() => btn.textContent = old, 1200);
   }
 
-  // Admin Functions for Canteen Contacts
-  async function addAdminCanteenContact() {
+  // ========== ADMIN FUNCTIONS FOR CANTEEN CONTACTS ==========
+  async function seedDefaultCanteenContacts(force = false) {
+    if (force && !confirm("This will load/restore all 23 default vendor numbers to your live database. Continue?")) return;
+    try {
+      const batch = db.batch();
+      defaultFoodContacts.forEach((c) => {
+        const ref = db.collection('canteenContacts').doc();
+        batch.set(ref, {
+          name: c.name,
+          phone: c.phone,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+      });
+      await batch.commit();
+      alert('Default vendor contacts restored!');
+    } catch (e) {
+      alert('Error seeding contacts: ' + e.message);
+    }
+  }
+
+  function openEditAdminCanteen(id, name, phone) {
+    document.getElementById('editingCantId').value = id;
+    document.getElementById('adminCantName').value = name;
+    document.getElementById('adminCantPhone').value = phone;
+    document.getElementById('adminCantFormTitle').textContent = '✏️ Edit Canteen Contact';
+    document.getElementById('adminCantSubmitBtn').textContent = 'Update Contact';
+    document.getElementById('adminCantCancelBtn').classList.remove('hidden');
+    document.getElementById('adminCantName').focus();
+  }
+
+  function resetAdminCanteenForm() {
+    document.getElementById('editingCantId').value = '';
+    document.getElementById('adminCantName').value = '';
+    document.getElementById('adminCantPhone').value = '';
+    document.getElementById('adminCantFormTitle').textContent = '🍔 Add Canteen & Mess Contact';
+    document.getElementById('adminCantSubmitBtn').textContent = 'Add Contact';
+    document.getElementById('adminCantCancelBtn').classList.add('hidden');
+  }
+
+  async function saveAdminCanteenContact() {
+    const id = document.getElementById('editingCantId').value;
     const name = document.getElementById('adminCantName').value.trim();
     const phone = document.getElementById('adminCantPhone').value.trim();
     if (!name || !phone) return alert('Name and phone required');
+
     try {
-      await db.collection('canteenContacts').add({
-        name, phone, createdAt: firebase.firestore.FieldValue.serverTimestamp()
-      });
-      document.getElementById('adminCantName').value = '';
-      document.getElementById('adminCantPhone').value = '';
-      alert('Contact added!');
+      if (id) {
+        if (id.startsWith('def_')) {
+          // If editing a default contact before full seed, add as a new doc in Firestore
+          await db.collection('canteenContacts').add({
+            name, phone, createdAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+        } else {
+          await db.collection('canteenContacts').doc(id).update({
+            name, phone, updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+        }
+        alert('Contact updated successfully!');
+      } else {
+        await db.collection('canteenContacts').add({
+          name, phone, createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        alert('Contact added successfully!');
+      }
+      resetAdminCanteenForm();
     } catch (e) { alert('Error: ' + e.message); }
   }
 
-  async function deleteAdminCanteenContact(id) {
-    if (!confirm('Delete this contact?')) return;
+  async function deleteAdminCanteenContact(id, name) {
+    if (!confirm(`Permanently delete vendor contact "${name}"?`)) return;
     try {
-      await db.collection('canteenContacts').doc(id).delete();
-      alert('Deleted.');
+      if (id.startsWith('def_')) {
+        // Seed remaining defaults to Firestore excluding deleted item
+        const snap = await db.collection('canteenContacts').get();
+        if (snap.empty) {
+          const batch = db.batch();
+          foodContactsData.forEach((c) => {
+            if (c.id !== id) {
+              const ref = db.collection('canteenContacts').doc();
+              batch.set(ref, {
+                name: c.name,
+                phone: c.phone,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+              });
+            }
+          });
+          await batch.commit();
+        }
+      } else {
+        await db.collection('canteenContacts').doc(id).delete();
+      }
+      alert('Contact deleted.');
     } catch (e) { alert('Error: ' + e.message); }
   }
 
@@ -574,13 +646,19 @@
     const el = document.getElementById('adminCanteenList');
     if (!el) return;
     if (foodContactsData.length === 0) {
-      el.innerHTML = '<p style="color:var(--text-muted);font-size:13px">No custom contacts saved yet.</p>';
+      el.innerHTML = '<p style="color:var(--text-muted);font-size:13px">No contacts found.</p>';
       return;
     }
     el.innerHTML = foodContactsData.map(c => `
-      <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--box-bg);border-radius:8px;margin-bottom:6px;font-size:13px">
-        <div><strong>${c.name}</strong> — ${c.phone}</div>
-        ${!c.id.startsWith('def_') ? `<button onclick="deleteAdminCanteenContact('${c.id}')" style="background:#ef4444;color:white;border:none;padding:4px 8px;border-radius:6px;font-weight:800;font-size:11px;cursor:pointer">🗑️</button>` : '<span style="font-size:10px;color:var(--text-muted)">Default</span>'}
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:var(--box-bg);border-radius:10px;margin-bottom:6px;font-size:13px;border:1px solid var(--border)">
+        <div style="flex:1;min-width:0;margin-right:8px">
+          <strong style="color:var(--text)">${c.name}</strong>
+          <div style="font-size:12px;color:var(--text-muted)">${c.phone}</div>
+        </div>
+        <div style="display:flex;gap:6px">
+          <button onclick="openEditAdminCanteen('${c.id}', '${c.name.replace(/'/g, "\\'")}', '${c.phone.replace(/'/g, "\\'")}')" style="background:var(--card);color:var(--text);border:1px solid var(--border);padding:5px 8px;border-radius:6px;font-weight:700;font-size:11px;cursor:pointer">✏️ Edit</button>
+          <button onclick="deleteAdminCanteenContact('${c.id}', '${c.name.replace(/'/g, "\\'")}')" style="background:rgba(239,68,68,0.15);color:#ef4444;border:none;padding:5px 8px;border-radius:6px;font-weight:700;font-size:11px;cursor:pointer">🗑️ Delete</button>
+        </div>
       </div>
     `).join('');
   }
@@ -634,11 +712,11 @@
   }
 
   // SITE UPDATE (What's New)
-  let SITE_VERSION = "2026-08-31-v6";
+  let SITE_VERSION = "2026-08-31-v7";
   let SITE_CHANGELOG = [
-    "Added floating Duty Food & Canteen contact directory with 1-tap dial",
-    "Admin control panel integration to edit/add mess numbers live",
-    "Optimized quick search for Canteen, Water Supply & Laundry"
+    "Added full Edit and Delete options for all Canteen & Mess contacts in Admin Panel",
+    "Auto-sync and persistence for default vendor numbers in Firebase",
+    "Quick-restore button for initial vendor numbers"
   ];
 
   async function loadRemoteWhatsNew() {
@@ -789,12 +867,20 @@
     } else if (tab === 'canteen') {
       content.innerHTML = `
         <div class="admin-form-card">
-          <h4>🍔 Add / Manage Canteen & Mess Contact</h4>
+          <h4 id="adminCantFormTitle">🍔 Add Canteen & Mess Contact</h4>
+          <input type="hidden" id="editingCantId" value="">
           <div class="input-group"><label>Place / Mess Name</label><input type="text" id="adminCantName" placeholder="e.g. OBH Mess Ground Floor"></div>
           <div class="input-group"><label>Phone Number</label><input type="text" id="adminCantPhone" placeholder="e.g. 9289533843"></div>
-          <button onclick="addAdminCanteenContact()" class="btn-primary-sm">Add Contact</button>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <button onclick="saveAdminCanteenContact()" id="adminCantSubmitBtn" class="btn-primary-sm">Add Contact</button>
+            <button onclick="resetAdminCanteenForm()" id="adminCantCancelBtn" class="btn-secondary-sm hidden">Cancel</button>
+          </div>
         </div>
-        <div id="adminCanteenList" style="margin-top:16px"></div>`;
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:16px;margin-bottom:8px">
+          <h5 style="margin:0;font-size:14px;font-weight:800">All Vendor Contacts</h5>
+          <button onclick="seedDefaultCanteenContacts(true)" style="font-size:11px;padding:4px 8px;border-radius:6px;border:1px solid var(--border);background:var(--box-bg);cursor:pointer;font-weight:700">🔄 Load/Restore Defaults</button>
+        </div>
+        <div id="adminCanteenList"></div>`;
       renderAdminCanteenList();
     } else if (tab === 'faqs') {
       content.innerHTML = `

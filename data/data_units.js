@@ -211,24 +211,24 @@
 // ============================================================================
 const obsGynaeCorrigendum_22Aug_03Oct = [
   // Unit-I
-  { sno: 149, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 1", incharge: "Dr. Deepti Goswami" }, // Sakshi Choudhary
-  { sno: 155, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 1", incharge: "Dr. Deepti Goswami" }, // Sarthak Bakhshi
-  { sno: 161, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 1", incharge: "Dr. Deepti Goswami" }, // Shivam Prasad Mehta
-  { sno: 167, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 1", incharge: "Dr. Deepti Goswami" }, // Shubham Solanki
+  { sno: 149, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 1", incharge: "Dr. Latika Sahu" }, // Sakshi Choudhary
+  { sno: 155, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 1", incharge: "Dr. Latika Sahu" }, // Sarthak Bakhshi
+  { sno: 161, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 1", incharge: "Dr. Latika Sahu" }, // Shivam Prasad Mehta
+  { sno: 167, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 1", incharge: "Dr. Latika Sahu" }, // Shubham Solanki
 
   // Unit-II
-  { sno: 150, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 2", incharge: "Dr. Deepti Goswami" }, // Sakshi Singh
-  { sno: 156, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 2", incharge: "Dr. Deepti Goswami" }, // Sarthak Joshi
-  { sno: 162, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 2", incharge: "Dr. Deepti Goswami" }, // Shivani
-  { sno: 168, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 2", incharge: "Dr. Deepti Goswami" }, // Shubhesh Saxena
-  { sno: 206, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 2", incharge: "Dr. Deepti Goswami" }, // Deepak Kumar Meena
+  { sno: 150, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 2", incharge: "Dr. Sangeeta Gupta" }, // Sakshi Singh
+  { sno: 156, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 2", incharge: "Dr. Sangeeta Gupta" }, // Sarthak Joshi
+  { sno: 162, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 2", incharge: "Dr. Sangeeta Gupta" }, // Shivani
+  { sno: 168, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 2", incharge: "Dr. Sangeeta Gupta" }, // Shubhesh Saxena
+  { sno: 206, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 2", incharge: "Dr. Sangeeta Gupta" }, // Deepak Kumar Meena
 
   // Unit-III
-  { sno: 151, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 3", incharge: "Dr. Deepti Goswami" }, // Sangam Yadav
-  { sno: 157, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 3", incharge: "Dr. Deepti Goswami" }, // Satyajit Mallick
-  { sno: 163, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 3", incharge: "Dr. Deepti Goswami" }, // Shivani Saini
-  { sno: 169, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 3", incharge: "Dr. Deepti Goswami" }, // Siddhant Kumar
-  { sno: 205, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 3", incharge: "Dr. Deepti Goswami" }, // Nikeeta Kumari
+  { sno: 151, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 3", incharge: "Dr. Y.M. Mala" }, // Sangam Yadav
+  { sno: 157, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 3", incharge: "Dr. Y.M. Mala" }, // Satyajit Mallick
+  { sno: 163, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 3", incharge: "Dr. Y.M. Mala" }, // Shivani Saini
+  { sno: 169, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 3", incharge: "Dr. Y.M. Mala" }, // Siddhant Kumar
+  { sno: 205, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 3", incharge: "Dr. Y.M. Mala" }, // Nikeeta Kumari
 
   // Unit-IV
   { sno: 152, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 4", incharge: "Dr. Deepti Goswami" }, // Sanjna Tandon
@@ -238,18 +238,18 @@ const obsGynaeCorrigendum_22Aug_03Oct = [
   { sno: 173, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 4", incharge: "Dr. Deepti Goswami" }, // Soni Shlok Mahesh
 
   // Unit-V
-  { sno: 153, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 5", incharge: "Dr. Deepti Goswami" }, // Sanya Sheoran
-  { sno: 159, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 5", incharge: "Dr. Deepti Goswami" }, // Shantanu Verma
-  { sno: 165, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 5", incharge: "Dr. Deepti Goswami" }, // Shreya Sabherwal
-  { sno: 171, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 5", incharge: "Dr. Deepti Goswami" }, // Simran Tatwal
-  { sno: 233, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 5", incharge: "Dr. Deepti Goswami" }, // Rahul Kumar
+  { sno: 153, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 5", incharge: "Dr. Madhavi M. Gupta" }, // Sanya Sheoran
+  { sno: 159, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 5", incharge: "Dr. Madhavi M. Gupta" }, // Shantanu Verma
+  { sno: 165, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 5", incharge: "Dr. Madhavi M. Gupta" }, // Shreya Sabherwal
+  { sno: 171, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 5", incharge: "Dr. Madhavi M. Gupta" }, // Simran Tatwal
+  { sno: 233, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 5", incharge: "Dr. Madhavi M. Gupta" }, // Rahul Kumar
 
   // Unit-VI
-  { sno: 154, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 6", incharge: "Dr. Deepti Goswami" }, // Sarit Swaroop
-  { sno: 160, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 6", incharge: "Dr. Deepti Goswami" }, // Shaurya Agarwal
-  { sno: 166, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 6", incharge: "Dr. Deepti Goswami" }, // Shreya Singh
-  { sno: 172, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 6", incharge: "Dr. Deepti Goswami" }, // Somyam Kumar
-  { sno: 234, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 6", incharge: "Dr. Deepti Goswami" }, // Rohit Charan
+  { sno: 154, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 6", incharge: "Dr. Krishna Agarwal" }, // Sarit Swaroop
+  { sno: 160, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 6", incharge: "Dr. Krishna Agarwal" }, // Shaurya Agarwal
+  { sno: 166, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 6", incharge: "Dr. Krishna Agarwal" }, // Shreya Singh
+  { sno: 172, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 6", incharge: "Dr. Krishna Agarwal" }, // Somyam Kumar
+  { sno: 234, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 6", incharge: "Dr. Krishna Agarwal" }, // Rohit Charan
 ];
 
 

@@ -1591,52 +1591,105 @@ function compressImage(file, maxWidth = 1000, quality = 0.7) {
     }
   }
 
-  // SCHEDULE
-  function onScheduleSearchInput() {
-    const query = document.getElementById('scheduleSearch').value.toLowerCase().trim();
-    if (query) document.getElementById('deptScheduleSelect').value = "";
-    renderScheduleResults();
-  }
-  function onScheduleSelectChange() {
-    const selectVal = document.getElementById('deptScheduleSelect').value;
-    if (selectVal) document.getElementById('scheduleSearch').value = "";
-    renderScheduleResults();
-  }
-  function renderScheduleResults() {
-    const query = document.getElementById('scheduleSearch').value.toLowerCase().trim();
-    const categoryId = document.getElementById('deptScheduleSelect').value;
-    const resDiv = document.getElementById('scheduleResults');
-    if (!resDiv) return;
-    if (query) {
-      const matches = [];
-      deptSchedules.forEach(category => {
-        category.units.forEach(unit => {
-          if (unit.title.toLowerCase().includes(query) || unit.days.toLowerCase().includes(query) || unit.location.toLowerCase().includes(query) || category.name.toLowerCase().includes(query)) {
-            matches.push({ deptCategory: category.name, title: unit.title, days: unit.days, location: unit.location });
-          }
-        });
-      });
-      if (matches.length === 0) {
-        resDiv.innerHTML = '<p style="padding:16px;color:var(--text-muted);text-align:center">No matching facility, room, or clinic found.</p>';
-        return;
-      }
-      resDiv.innerHTML = `<p style="color:var(--text-muted);font-size:13px;margin-bottom:12px">Found <strong>${matches.length}</strong> matching entries</p><div class="result-card" style="overflow:hidden"><table style="margin-top:0;border:none"><thead><tr><th>Unit / Specialty</th><th>OPD / Duty Days</th><th>Location (Room No.)</th></tr></thead><tbody>${matches.map(m => `<tr><td><b style="font-size:14px">${m.title}</b><br><span style="font-size:11.5px;color:var(--text-muted)">${m.deptCategory}</span></td><td><span class="badge badge-days">${m.days}</span></td><td style="font-size:13px">${m.location}</td></tr>`).join('')}</tbody></table></div>`;
-      return;
-    }
-    if (categoryId) {
-      const category = deptSchedules.find(c => c.id === categoryId);
-      if (!category) {
-        resDiv.innerHTML = '<p style="padding:16px;color:var(--text-muted)">Details for this category will be updated soon.</p>';
-        return;
-      }
-      resDiv.innerHTML = `<div class="result-card" style="overflow:hidden;margin-bottom:0"><div class="schedule-header">${category.name}</div><table style="margin-top:0;border:none"><thead><tr><th>Unit / Special Clinic</th><th>OPD Days</th><th>Location (Room No.)</th></tr></thead><tbody>${category.units.map(u => `<tr><td><b style="font-size:14px">${u.title}</b></td><td><span class="badge badge-days">${u.days}</span></td><td style="font-size:13px">${u.location}</td></tr>`).join('')}</tbody></table></div>`;
-      return;
-    }
-    resDiv.innerHTML = '';
-  }
-  function searchDeptSchedule() { renderScheduleResults(); }
+// SCHEDULE
+function onScheduleSearchInput() {
+  const query = document.getElementById('scheduleSearch').value.toLowerCase().trim();
+  if (query) document.getElementById('deptScheduleSelect').value = "";
+  renderScheduleResults();
+}
 
-  // LABS DIRECTORY & SEARCH
+function onScheduleSelectChange() {
+  const selectVal = document.getElementById('deptScheduleSelect').value;
+  if (selectVal) document.getElementById('scheduleSearch').value = "";
+  renderScheduleResults();
+}
+
+function renderScheduleResults() {
+  const query = document.getElementById('scheduleSearch').value.toLowerCase().trim();
+  const categoryId = document.getElementById('deptScheduleSelect').value;
+  const resDiv = document.getElementById('scheduleResults');
+  if (!resDiv) return;
+
+  if (query) {
+    const matches = [];
+    deptSchedules.forEach(category => {
+      category.units.forEach(unit => {
+        if (unit.title.toLowerCase().includes(query) || unit.days.toLowerCase().includes(query) || unit.location.toLowerCase().includes(query) || category.name.toLowerCase().includes(query)) {
+          matches.push({ deptCategory: category.name, title: unit.title, days: unit.days, location: unit.location });
+        }
+      });
+    });
+
+    if (matches.length === 0) {
+      resDiv.innerHTML = '<p style="padding:16px;color:var(--text-muted);text-align:center">No matching facility, room, or clinic found.</p>';
+      return;
+    }
+
+    resDiv.innerHTML = `
+      <p style="color:var(--text-muted);font-size:13px;margin-bottom:12px">Found <strong>${matches.length}</strong> matching entries</p>
+      <div class="result-card" style="overflow:hidden">
+        <table style="margin-top:0;border:none">
+          <thead>
+            <tr>
+              <th>Unit / Specialty</th>
+              <th>OPD / Duty Days</th>
+              <th>Location (Room No.)</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${matches.map(m => `
+              <tr>
+                <td>
+                  <b style="font-size:14px">${m.title}</b><br>
+                  <span style="font-size:11.5px;color:var(--text-muted)">${m.deptCategory}</span>
+                </td>
+                <td>${m.days}</td>
+                <td style="font-size:13px">${m.location}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>`;
+    return;
+  }
+
+  if (categoryId) {
+    const category = deptSchedules.find(c => c.id === categoryId);
+    if (!category) {
+      resDiv.innerHTML = '<p style="padding:16px;color:var(--text-muted)">Details for this category will be updated soon.</p>';
+      return;
+    }
+
+    resDiv.innerHTML = `
+      <div class="result-card" style="overflow:hidden;margin-bottom:0">
+        <div class="schedule-header">${category.name}</div>
+        <table style="margin-top:0;border:none">
+          <thead>
+            <tr>
+              <th>Unit / Special Clinic</th>
+              <th>OPD Days</th>
+              <th>Location (Room No.)</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${category.units.map(u => `
+              <tr>
+                <td><b style="font-size:14px">${u.title}</b></td>
+                <td>${u.days}</td>
+                <td style="font-size:13px">${u.location}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>`;
+    return;
+  }
+
+  resDiv.innerHTML = '';
+}
+
+function searchDeptSchedule() { renderScheduleResults(); }
+// LABS DIRECTORY & SEARCH
   function toggleLabDirectoryPopup() {
     const popup = document.getElementById('labDirectoryPopup');
     if (!popup) return;

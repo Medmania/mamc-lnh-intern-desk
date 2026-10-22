@@ -154,6 +154,42 @@ const deptSchedules = [
       }
     ]
   },
+  {
+    id: "radiology",
+    name: "Department of Radio-diagnosis Faculty Roster (w.e.f. 04th August, 2026)",
+    units: [
+      {
+        title: 'Dr. Alpana Manchanda / Dr. Radhika Batra <span style="font-weight: normal;">(Rooms 140 / 117)</span>',
+        days: "🔹 <b>US & Doppler:</b> Friday<br>🔹 <b>Ward reporting:</b> Saturday<br>🔹 <b>MRI & Mammography:</b> Monday<br>🔹 <b>OPD reporting:</b> Tuesday<br>🚨 <b>Emergency Section:</b> Wednesday<br>🔹 <b>C.T Scan:</b> Thursday",
+        location: "Department of Radio-diagnosis (Rooms 140, 117)"
+      },
+      {
+        title: 'Dr. Rashmi Dixit / Dr. Deepika Veerwal <span style="font-weight: normal;">(Rooms 115 / 117)</span>',
+        days: "🔹 <b>US & Doppler:</b> Saturday<br>🔹 <b>Ward reporting:</b> Monday<br>🔹 <b>MRI & Mammography:</b> Tuesday<br>🔹 <b>OPD reporting:</b> Wednesday<br>🚨 <b>Emergency Section:</b> Thursday<br>🔹 <b>C.T Scan:</b> Friday",
+        location: "Department of Radio-diagnosis (Rooms 115, 117)"
+      },
+      {
+        title: 'Dr. Anjali Prakash <span style="font-weight: normal;">(Room 115)</span>',
+        days: "🔹 <b>US & Doppler:</b> Tuesday<br>🔹 <b>Ward reporting:</b> Wednesday<br>🔹 <b>MRI & Mammography:</b> Thursday<br>🔹 <b>OPD reporting:</b> Friday<br>🚨 <b>Emergency Section:</b> Saturday<br>🔹 <b>C.T Scan:</b> Monday",
+        location: "Department of Radio-diagnosis (Room 115)"
+      },
+      {
+        title: 'Dr. Sapna Singh <span style="font-weight: normal;">(Room 116)</span>',
+        days: "🔹 <b>US & Doppler:</b> Monday<br>🔹 <b>Ward reporting:</b> Tuesday<br>🔹 <b>MRI & Mammography:</b> Wednesday<br>🔹 <b>OPD reporting:</b> Thursday<br>🚨 <b>Emergency Section:</b> Friday<br>🔹 <b>C.T Scan:</b> Saturday",
+        location: "Department of Radio-diagnosis (Room 116)"
+      },
+      {
+        title: 'Dr. Jyoti Kumar <span style="font-weight: normal;">(Room 116)</span>',
+        days: "🔹 <b>US & Doppler:</b> Wednesday<br>🔹 <b>Ward reporting:</b> Thursday<br>🔹 <b>MRI & Mammography:</b> Friday<br>🔹 <b>OPD reporting:</b> Saturday<br>🚨 <b>Emergency Section:</b> Monday<br>🔹 <b>C.T Scan:</b> Tuesday",
+        location: "Department of Radio-diagnosis (Room 116)"
+      },
+      {
+        title: 'Dr. Swati Gupta <span style="font-weight: normal;">(Room 117)</span>',
+        days: "🔹 <b>US & Doppler:</b> Thursday<br>🔹 <b>Ward reporting:</b> Friday<br>🔹 <b>MRI & Mammography:</b> Saturday<br>🔹 <b>OPD reporting:</b> Monday<br>🚨 <b>Emergency Section:</b> Tuesday<br>🔹 <b>C.T Scan:</b> Wednesday",
+        location: "Department of Radio-diagnosis (Room 117)"
+      }
+    ]
+  },
 
   {
     id: "clinic_ophtha",

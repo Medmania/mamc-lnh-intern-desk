@@ -368,5 +368,53 @@ const surgeryBlockI = [
 
   // Unit VI – Dr. Deepak Ghuliani
   { sno: 120, start: "2026-10-10", end: "2026-11-20", dept: "Surgery", unit: "Unit 6", incharge: "Dr. Deepak Ghuliani", ward: "2B" }, // Parshant
+// ============================================================================
+// MEDICINE DEPARTMENT – C7 to C12 Batch
+// Period: 03.10.2026 to 20.11.2026
+// Main list (Sr. 125-148) + Supplementary (Sr. 227-232)
+// ============================================================================
+const medicine_C7_C12_03Oct_20Nov = [
+
+  // -------------------- Unit-I (Dr. Anurag Rohtagi) --------------------
+  { sno: 130, start: "2026-10-03", end: "2026-11-20", dept: "Medicine", unit: "Unit 1", incharge: "Dr. Anurag Rohtagi" }, // Priyank Agarwal
+  { sno: 136, start: "2026-10-03", end: "2026-11-20", dept: "Medicine", unit: "Unit 1", incharge: "Dr. Anurag Rohtagi" }, // Puneet Jindal
+  { sno: 142, start: "2026-10-03", end: "2026-11-20", dept: "Medicine", unit: "Unit 1", incharge: "Dr. Anurag Rohtagi" }, // Rishabh Talwar
+  { sno: 148, start: "2026-10-03", end: "2026-11-20", dept: "Medicine", unit: "Unit 1", incharge: "Dr. Anurag Rohtagi" }, // Roshan Singh Rajput
+  { sno: 228, start: "2026-10-03", end: "2026-11-20", dept: "Medicine", unit: "Unit 1", incharge: "Dr. Anurag Rohtagi" }, // Nitesh Kumar (Supplementary)
+
+  // -------------------- Unit-II (Dr. S. Anuradha) --------------------
+  { sno: 129, start: "2026-10-03", end: "2026-11-20", dept: "Medicine", unit: "Unit 2", incharge: "Dr. S. Anuradha" }, // Prerak Dularia
+  { sno: 135, start: "2026-10-03", end: "2026-11-20", dept: "Medicine", unit: "Unit 2", incharge: "Dr. S. Anuradha" }, // Priyanshu Ranjan
+  { sno: 141, start: "2026-10-03", end: "2026-11-20", dept: "Medicine", unit: "Unit 2", incharge: "Dr. S. Anuradha" }, // Rishab Garg
+  { sno: 147, start: "2026-10-03", end: "2026-11-20", dept: "Medicine", unit: "Unit 2", incharge: "Dr. S. Anuradha" }, // Rohan Ghuge
+  { sno: 230, start: "2026-10-03", end: "2026-11-20", dept: "Medicine", unit: "Unit 2", incharge: "Dr. S. Anuradha" }, // Pranjal (Supplementary)
+
+  // -------------------- Unit-III (Dr. Sunita Aggarwal) --------------------
+  { sno: 128, start: "2026-10-03", end: "2026-11-20", dept: "Medicine", unit: "Unit 3", incharge: "Dr. Sunita Aggarwal" }, // Prem Kumar
+  { sno: 134, start: "2026-10-03", end: "2026-11-20", dept: "Medicine", unit: "Unit 3", incharge: "Dr. Sunita Aggarwal" }, // Priyanshu Jaseja
+  { sno: 140, start: "2026-10-03", end: "2026-11-20", dept: "Medicine", unit: "Unit 3", incharge: "Dr. Sunita Aggarwal" }, // Rimsha Rehman
+  { sno: 146, start: "2026-10-03", end: "2026-11-20", dept: "Medicine", unit: "Unit 3", incharge: "Dr. Sunita Aggarwal" }, // Riya Gulati
+  { sno: 232, start: "2026-10-03", end: "2026-11-20", dept: "Medicine", unit: "Unit 3", incharge: "Dr. Sunita Aggarwal" }, // Purav (Supplementary)
+
+  // -------------------- Unit-IV (Dr. Sandeep Garg) --------------------
+  { sno: 127, start: "2026-10-03", end: "2026-11-20", dept: "Medicine", unit: "Unit 4", incharge: "Dr. Sandeep Garg" }, // Pratyaksha Singh
+  { sno: 133, start: "2026-10-03", end: "2026-11-20", dept: "Medicine", unit: "Unit 4", incharge: "Dr. Sandeep Garg" }, // Priyanshi
+  { sno: 139, start: "2026-10-03", end: "2026-11-20", dept: "Medicine", unit: "Unit 4", incharge: "Dr. Sandeep Garg" }, // Rahul Kumar
+  { sno: 145, start: "2026-10-03", end: "2026-11-20", dept: "Medicine", unit: "Unit 4", incharge: "Dr. Sandeep Garg" }, // Ritvik Baweja
+  { sno: 229, start: "2026-10-03", end: "2026-11-20", dept: "Medicine", unit: "Unit 4", incharge: "Dr. Sandeep Garg" }, // Pradeep Chandel (Supplementary)
+
+  // -------------------- Unit-V (Dr. Sanjay Pandit) --------------------
+  { sno: 126, start: "2026-10-03", end: "2026-11-20", dept: "Medicine", unit: "Unit 5", incharge: "Dr. Sanjay Pandit" }, // Prashant Pachaury
+  { sno: 132, start: "2026-10-03", end: "2026-11-20", dept: "Medicine", unit: "Unit 5", incharge: "Dr. Sanjay Pandit" }, // Priyansh Singh
+  { sno: 138, start: "2026-10-03", end: "2026-11-20", dept: "Medicine", unit: "Unit 5", incharge: "Dr. Sanjay Pandit" }, // Raghav Alawadhi
+  { sno: 144, start: "2026-10-03", end: "2026-11-20", dept: "Medicine", unit: "Unit 5", incharge: "Dr. Sanjay Pandit" }, // Ritu Chauhan
+  { sno: 231, start: "2026-10-03", end: "2026-11-20", dept: "Medicine", unit: "Unit 5", incharge: "Dr. Sanjay Pandit" }, // Prerna Siroula / Biroula (Supplementary)
+
+  // -------------------- Unit-VI (Dr. Sumeet Singla) --------------------
+  { sno: 125, start: "2026-10-03", end: "2026-11-20", dept: "Medicine", unit: "Unit 6", incharge: "Dr. Sumeet Singla" }, // Pranjali Srivastava
+  { sno: 131, start: "2026-10-03", end: "2026-11-20", dept: "Medicine", unit: "Unit 6", incharge: "Dr. Sumeet Singla" }, // Priyanka
+  { sno: 137, start: "2026-10-03", end: "2026-11-20", dept: "Medicine", unit: "Unit 6", incharge: "Dr. Sumeet Singla" }, // Purwa
+  { sno: 143, start: "2026-10-03", end: "2026-11-20", dept: "Medicine", unit: "Unit 6", incharge: "Dr. Sumeet Singla" }, // Ritiksha Singh
+  { sno: 227, start: "2026-10-03", end: "2026-11-20", dept: "Medicine", unit: "Unit 6", incharge: "Dr. Sumeet Singla" }, // Nidhi Kundra (Supplementary)
 
  ];

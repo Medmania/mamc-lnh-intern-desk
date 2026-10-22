@@ -1,4 +1,4 @@
-const deptSchedules = [
+const const deptSchedules = [
   // --- MAMC / LNJP MAIN OPDS & CLINICS ---
   {
     id: "medicine",
@@ -42,32 +42,32 @@ const deptSchedules = [
     units: [
       { 
         title: 'Surgery Unit 1 <span style="font-weight: normal;">(Dr. C.B. Singh)</span>', 
-        days: '<div class="opd-badges-container"><span class="opd-badge">🔹 <b>OPD:</b> Mon (New, Em) / Thu (Follow-up)</span><span class="opd-badge">🔵 <b>OT:</b> Wed (A,B) / Fri (C,D)</span><span class="opd-badge">🔵 <b>Uro OT:</b> Saturday</span></div>', 
+        days: '<div class="opd-badges-container"><span class="opd-badge">🔹 <b>OPD:</b> Mon (New, Em) / Thu (Follow-up)</span><span class="opd-badge ot">🔵 <b>OT:</b> Wed (A,B) / Fri (C,D)</span><span class="opd-badge ot">🔵 <b>Uro OT:</b> Saturday</span></div>', 
         location: "<b>OPD</b> (Rooms 409, 410, 412, 414, 416)<br><b>Ward:</b> Ward 2A" 
       },
       { 
         title: 'Surgery Unit 2 <span style="font-weight: normal;">(Dr. Pawan Lal)</span>', 
-        days: '<div class="opd-badges-container"><span class="opd-badge">🔹 <b>OPD:</b> Wed (New, Em) / Sat (Follow-up)</span><span class="opd-badge">🔵 <b>OT:</b> Fri (A,B) / Mon (C,D)</span><span class="opd-badge">🔵 <b>Uro OT:</b> Tuesday</span></div>', 
+        days: '<div class="opd-badges-container"><span class="opd-badge">🔹 <b>OPD:</b> Wed (New, Em) / Sat (Follow-up)</span><span class="opd-badge ot">🔵 <b>OT:</b> Fri (A,B) / Mon (C,D)</span><span class="opd-badge ot">🔵 <b>Uro OT:</b> Tuesday</span></div>', 
         location: "<b>OPD</b> (Rooms 409, 410, 412, 414, 416)<br><b>Ward:</b> Ward 3A" 
       },
       { 
         title: 'Surgery Unit 3 <span style="font-weight: normal;">(Dr. Rajdeep Singh)</span>', 
-        days: '<div class="opd-badges-container"><span class="opd-badge">🔹 <b>OPD:</b> Fri (New, Em) / Tue (Follow-up)</span><span class="opd-badge">🔵 <b>OT:</b> Mon (A,B) / Wed (C,D)</span><span class="opd-badge">🔵 <b>Uro OT:</b> Thursday</span></div>', 
+        days: '<div class="opd-badges-container"><span class="opd-badge">🔹 <b>OPD:</b> Fri (New, Em) / Tue (Follow-up)</span><span class="opd-badge ot">🔵 <b>OT:</b> Mon (A,B) / Wed (C,D)</span><span class="opd-badge ot">🔵 <b>Uro OT:</b> Thursday</span></div>', 
         location: "<b>OPD</b> (Rooms 409, 410, 412, 414, 416)<br><b>Ward:</b> Ward 4A" 
       },
       { 
         title: 'Surgery Unit 4 <span style="font-weight: normal;">(Dr. Sushanto Neogi)</span>', 
-        days: '<div class="opd-badges-container"><span class="opd-badge">🔹 <b>OPD:</b> Tue (New, Em) / Fri (Follow-up)</span><span class="opd-badge">🔵 <b>OT:</b> Thu (A,B) / Sat (C,D)</span><span class="opd-badge">🔵 <b>Uro OT:</b> Monday</span></div>', 
+        days: '<div class="opd-badges-container"><span class="opd-badge">🔹 <b>OPD:</b> Tue (New, Em) / Fri (Follow-up)</span><span class="opd-badge ot">🔵 <b>OT:</b> Thu (A,B) / Sat (C,D)</span><span class="opd-badge ot">🔵 <b>Uro OT:</b> Monday</span></div>', 
         location: "<b>OPD</b> (Rooms 417, 431, 433, 435)<br><b>Ward:</b> Ward 3B" 
       },
       { 
         title: 'Surgery Unit 5 <span style="font-weight: normal;">(Dr. Anubhav Vindal)</span>', 
-        days: '<div class="opd-badges-container"><span class="opd-badge">🔹 <b>OPD:</b> Thu (New, Em) / Mon (Follow-up)</span><span class="opd-badge">🔵 <b>OT:</b> Sat (A,B) / Tue (C,D)</span><span class="opd-badge">🔵 <b>Uro OT:</b> Wednesday</span></div>', 
+        days: '<div class="opd-badges-container"><span class="opd-badge">🔹 <b>OPD:</b> Thu (New, Em) / Mon (Follow-up)</span><span class="opd-badge ot">🔵 <b>OT:</b> Sat (A,B) / Tue (C,D)</span><span class="opd-badge ot">🔵 <b>Uro OT:</b> Wednesday</span></div>', 
         location: "<b>OPD</b> (Rooms 417, 431, 433, 435)<br><b>Ward:</b> Ward 2B" 
       },
       { 
         title: 'Surgery Unit 6 <span style="font-weight: normal;">(Dr. Deepak Ghuliani)</span>', 
-        days: '<div class="opd-badges-container"><span class="opd-badge">🔹 <b>OPD:</b> Sat (New, Em) / Wed (Follow-up)</span><span class="opd-badge">🔵 <b>OT:</b> Tue (A,B) / Thu (C,D)</span><span class="opd-badge">🔵 <b>Uro OT:</b> Friday</span></div>', 
+        days: '<div class="opd-badges-container"><span class="opd-badge">🔹 <b>OPD:</b> Sat (New, Em) / Wed (Follow-up)</span><span class="opd-badge ot">🔵 <b>OT:</b> Tue (A,B) / Thu (C,D)</span><span class="opd-badge ot">🔵 <b>Uro OT:</b> Friday</span></div>', 
         location: "<b>OPD</b> (Rooms 417, 431, 433, 435)<br><b>Ward:</b> Ward 4B" 
       }
     ]
@@ -78,17 +78,17 @@ const deptSchedules = [
     units: [
       { 
         title: 'Unit 1 <span style="font-weight: normal;">(Dr. Ishwar Singh)</span>', 
-        days: '<div class="opd-badges-container"><span class="opd-badge">🔹 <b>OPD:</b> Mon / Thu</span><span class="opd-badge">🔵 <b>OT:</b> Tue / Fri</span><span class="opd-badge">🔵 <b>Ward:</b> Wed / Sat</span></div>', 
+        days: '<div class="opd-badges-container"><span class="opd-badge">🔹 <b>OPD:</b> Mon / Thu</span><span class="opd-badge ot">🔵 <b>OT:</b> Tue / Fri</span><span class="opd-badge round">🔵 <b>Ward:</b> Wed / Sat</span></div>', 
         location: "<b>OPD</b> (Rooms 609-617)<br><b>Ward:</b> Ward 6A, 6B, 7B" 
       },
       { 
         title: 'Unit 2 <span style="font-weight: normal;">(Dr. H.C. Taneja)</span>', 
-        days: '<div class="opd-badges-container"><span class="opd-badge">🔹 <b>OPD:</b> Tue / Fri</span><span class="opd-badge">🔵 <b>OT:</b> Wed / Sat</span><span class="opd-badge">🔵 <b>Ward:</b> Mon / Thu</span></div>', 
+        days: '<div class="opd-badges-container"><span class="opd-badge">🔹 <b>OPD:</b> Tue / Fri</span><span class="opd-badge ot">🔵 <b>OT:</b> Wed / Sat</span><span class="opd-badge round">🔵 <b>Ward:</b> Mon / Thu</span></div>', 
         location: "<b>OPD</b> (Rooms 609-617)<br><b>Ward:</b> Ward 6A, 6B, 7B" 
       },
       { 
         title: 'Unit 3 <span style="font-weight: normal;">(Dr. Ravi Meher)</span>', 
-        days: '<div class="opd-badges-container"><span class="opd-badge">🔹 <b>OPD:</b> Wed / Sat</span><span class="opd-badge">🔵 <b>OT:</b> Mon / Thu</span><span class="opd-badge">🔵 <b>Ward:</b> Tue / Fri</span></div>', 
+        days: '<div class="opd-badges-container"><span class="opd-badge">🔹 <b>OPD:</b> Wed / Sat</span><span class="opd-badge ot">🔵 <b>OT:</b> Mon / Thu</span><span class="opd-badge round">🔵 <b>Ward:</b> Tue / Fri</span></div>', 
         location: "<b>OPD</b> (Rooms 609-617)<br><b>Ward:</b> Ward 6A, 6B, 7B" 
       }
     ]
@@ -99,32 +99,32 @@ const deptSchedules = [
     units: [
       { 
         title: 'Unit 1A <span style="font-weight: normal;">(Dr. Paromita Dutta)</span>', 
-        days: '<div class="opd-badges-container"><span class="opd-badge">🔹 <b>OPD:</b> Mon & Thu</span><span class="opd-badge">🔵 <b>OT:</b> Wed & Sat</span><span class="opd-badge">🔵 <b>Round:</b> Tue & Fri</span></div>', 
+        days: '<div class="opd-badges-container"><span class="opd-badge">🔹 <b>OPD:</b> Mon & Thu</span><span class="opd-badge ot">🔵 <b>OT:</b> Wed & Sat</span><span class="opd-badge round">🔵 <b>Round:</b> Tue & Fri</span></div>', 
         location: "<b>GNEC OPD :</b>(Rooms 06, 07, 19, 20, 21)<br><b>Ward :</b>" 
       },
       { 
         title: 'Unit 1B <span style="font-weight: normal;">(Dr. Parul Jain)</span>', 
-        days: '<div class="opd-badges-container"><span class="opd-badge">🔹 <b>OPD:</b> Mon & Thu</span><span class="opd-badge">🔵 <b>OT:</b> Wed & Sat</span><span class="opd-badge">🔵 <b>Round:</b> Tue & Fri</span></div>', 
+        days: '<div class="opd-badges-container"><span class="opd-badge">🔹 <b>OPD:</b> Mon & Thu</span><span class="opd-badge ot">🔵 <b>OT:</b> Wed & Sat</span><span class="opd-badge round">🔵 <b>Round:</b> Tue & Fri</span></div>', 
         location: "<b>GNEC OPD :</b>(Rooms 10, 12, 16, 17, 18)<br><b>Ward :</b>" 
       },
       { 
         title: 'Unit 2A <span style="font-weight: normal;">(Dr. Kirti Singh)</span>', 
-        days: '<div class="opd-badges-container"><span class="opd-badge">🔹 <b>OPD:</b> Tue & Fri</span><span class="opd-badge">🔵 <b>OT:</b> Mon & Thu</span><span class="opd-badge">🔵 <b>Round:</b> Wed & Sat</span></div>', 
+        days: '<div class="opd-badges-container"><span class="opd-badge">🔹 <b>OPD:</b> Tue & Fri</span><span class="opd-badge ot">🔵 <b>OT:</b> Mon & Thu</span><span class="opd-badge round">🔵 <b>Round:</b> Wed & Sat</span></div>', 
         location: "<b>GNEC OPD :</b>(Rooms 06, 07, 19, 20, 21)<br><b>Ward :</b>" 
       },
       { 
         title: 'Unit 2B <span style="font-weight: normal;">(Dr. Punita K. Sodhi)</span>', 
-        days: '<div class="opd-badges-container"><span class="opd-badge">🔹 <b>OPD:</b> Tue & Fri</span><span class="opd-badge">🔵 <b>OT:</b> Mon & Thu</span><span class="opd-badge">🔵 <b>Round:</b> Wed & Sat</span></div>', 
+        days: '<div class="opd-badges-container"><span class="opd-badge">🔹 <b>OPD:</b> Tue & Fri</span><span class="opd-badge ot">🔵 <b>OT:</b> Mon & Thu</span><span class="opd-badge round">🔵 <b>Round:</b> Wed & Sat</span></div>', 
         location: "<b>GNEC OPD :</b>(Rooms 10, 12, 16, 17, 18)<br><b>Ward :</b>Ward 1(♂), 4(♀), 5" 
       },
       { 
         title: 'Unit 3A <span style="font-weight: normal;">(Dr. Meenakshi Thakar)</span>', 
-        days: '<div class="opd-badges-container"><span class="opd-badge">🔹 <b>OPD:</b> Wed & Sat</span><span class="opd-badge">🔵 <b>OT:</b> Tue & Fri</span><span class="opd-badge">🔵 <b>Round:</b> Mon & Thu</span></div>', 
+        days: '<div class="opd-badges-container"><span class="opd-badge">🔹 <b>OPD:</b> Wed & Sat</span><span class="opd-badge ot">🔵 <b>OT:</b> Tue & Fri</span><span class="opd-badge round">🔵 <b>Round:</b> Mon & Thu</span></div>', 
         location: "<b>GNEC OPD :</b>(Rooms 06, 07, 19, 20, 21)<br><b>Ward :</b>" 
       },
       { 
         title: 'Unit 3B <span style="font-weight: normal;">(Dr. Subhash C. Dadeya)</span>', 
-        days: '<div class="opd-badges-container"><span class="opd-badge">🔹 <b>OPD:</b> Wed & Sat</span><span class="opd-badge">🔵 <b>OT:</b> Tue & Fri</span><span class="opd-badge">🔵 <b>Round:</b> Mon & Thu</span></div>', 
+        days: '<div class="opd-badges-container"><span class="opd-badge">🔹 <b>OPD:</b> Wed & Sat</span><span class="opd-badge ot">🔵 <b>OT:</b> Tue & Fri</span><span class="opd-badge round">🔵 <b>Round:</b> Mon & Thu</span></div>', 
         location: "<b>GNEC OPD :</b>(Rooms 10, 12, 16, 17, 18)<br><b>Ward :</b>" 
       }
     ]
@@ -135,17 +135,17 @@ const deptSchedules = [
     units: [
       { 
         title: 'Orthopedics Unit 1 <span style="font-weight: normal;">(Dr. Lalit Maini)</span>', 
-        days: '<div class="opd-badges-container"><span class="opd-badge">🔹 <b>OPD:</b> Tue & Fri</span><span class="opd-badge">🔵 <b>OT:</b> Mon & Thu</span><span class="opd-badge">🔵 <b>Round:</b> Wed & Sat</span></div>', 
+        days: '<div class="opd-badges-container"><span class="opd-badge">🔹 <b>OPD:</b> Tue & Fri</span><span class="opd-badge ot">🔵 <b>OT:</b> Mon & Thu</span><span class="opd-badge round">🔵 <b>Round:</b> Wed & Sat</span></div>', 
         location: "<b>OPD</b> Ortho Block(Rooms 101-104, 111-113, 115)<br><b>Ward :</b>Ward 3A, 3B(♂), 3C(♀), 4A(♂), 4B(♀), 5A(♂), 5B(♀)" 
       },
       { 
         title: 'Orthopedics Unit 2 <span style="font-weight: normal;">(Dr. Abhishek Kashyap)</span>', 
-        days: '<div class="opd-badges-container"><span class="opd-badge">🔹 <b>OPD:</b> Wed & Sat</span><span class="opd-badge">🔵 <b>OT:</b> Tue & Fri</span><span class="opd-badge">🔵 <b>Round:</b> Mon & Thu</span></div>', 
+        days: '<div class="opd-badges-container"><span class="opd-badge">🔹 <b>OPD:</b> Wed & Sat</span><span class="opd-badge ot">🔵 <b>OT:</b> Tue & Fri</span><span class="opd-badge round">🔵 <b>Round:</b> Mon & Thu</span></div>', 
         location: "<b>OPD</b> Ortho Block(Rooms 101-104, 111-113, 115)<br><b>Ward :</b>Ward 3A, 3B(♂), 3C(♀), 4A(♂), 4B(♀), 5A(♂), 5B(♀)" 
       },
       { 
         title: 'Orthopedics Unit 3 <span style="font-weight: normal;">(Dr. Sumit Arora)</span>', 
-        days: '<div class="opd-badges-container"><span class="opd-badge">🔹 <b>OPD:</b> Mon & Thu</span><span class="opd-badge">🔵 <b>OT:</b> Wed & Sat</span><span class="opd-badge">🔵 <b>Round:</b> Tue & Fri</span></div>', 
+        days: '<div class="opd-badges-container"><span class="opd-badge">🔹 <b>OPD:</b> Mon & Thu</span><span class="opd-badge ot">🔵 <b>OT:</b> Wed & Sat</span><span class="opd-badge round">🔵 <b>Round:</b> Tue & Fri</span></div>', 
         location: "<b>OPD</b> Ortho Block(Rooms 101-104, 111-113, 115)<br><b>Ward :</b>Ward 3A, 3B(♂), 3C(♀), 4A(♂), 4B(♀), 5A(♂), 5B(♀)" 
       },
       { 
@@ -180,32 +180,32 @@ const deptSchedules = [
     units: [
       { 
         title: 'Unit I <span style="font-weight: normal;">(Dr. Latika Sahu)</span>', 
-        days: '<div class="opd-badges-container"><span class="opd-badge">🔹 <b>Monday:</b> Gynae OPD</span><span class="opd-badge">🔵 <b>Tuesday:</b> Teaching / Round</span><span class="opd-badge">🔵 <b>Wednesday:</b> Gynae OT</span><span class="opd-badge">🔹 <b>Thursday:</b> ANC OPD</span><span class="opd-badge">🔵 <b>Friday:</b> PP OT</span><span class="opd-badge">🔵 <b>Saturday:</b> Gynae OT</span></div>', 
+        days: '<div class="opd-badges-container"><span class="opd-badge">🔹 <b>Monday:</b> Gynae OPD</span><span class="opd-badge round">🔵 <b>Tuesday:</b> Teaching / Round</span><span class="opd-badge ot">🔵 <b>Wednesday:</b> Gynae OT</span><span class="opd-badge">🔹 <b>Thursday:</b> ANC OPD</span><span class="opd-badge ot">🔵 <b>Friday:</b> PP OT</span><span class="opd-badge ot">🔵 <b>Saturday:</b> Gynae OT</span></div>', 
         location: "<b>OPD:</b> Rooms 209-214 (Gynae) / 230-235 (ANC)<br><b>OT:</b> Gynae & PP OT" 
       },
       { 
         title: 'Unit II <span style="font-weight: normal;">(Dr. Sangeeta Gupta)</span>', 
-        days: '<div class="opd-badges-container"><span class="opd-badge">🔵 <b>Monday:</b> Gynae OT</span><span class="opd-badge">🔹 <b>Tuesday:</b> Gynae OPD</span><span class="opd-badge">🔵 <b>Wednesday:</b> Teaching / Round</span><span class="opd-badge">🔵 <b>Thursday:</b> Gynae OT</span><span class="opd-badge">🔹 <b>Friday:</b> ANC OPD</span><span class="opd-badge">🔵 <b>Saturday:</b> PP OT</span></div>', 
+        days: '<div class="opd-badges-container"><span class="opd-badge ot">🔵 <b>Monday:</b> Gynae OT</span><span class="opd-badge">🔹 <b>Tuesday:</b> Gynae OPD</span><span class="opd-badge round">🔵 <b>Wednesday:</b> Teaching / Round</span><span class="opd-badge ot">🔵 <b>Thursday:</b> Gynae OT</span><span class="opd-badge">🔹 <b>Friday:</b> ANC OPD</span><span class="opd-badge ot">🔵 <b>Saturday:</b> PP OT</span></div>', 
         location: "<b>OPD:</b> Rooms 209-214 (Gynae) / 230-235 (ANC)<br><b>OT:</b> Gynae & PP OT" 
       },
       { 
         title: 'Unit III <span style="font-weight: normal;">(Dr. Y.M. Mala)</span>', 
-        days: '<div class="opd-badges-container"><span class="opd-badge">🔵 <b>Monday:</b> PP OT</span><span class="opd-badge">🔵 <b>Tuesday:</b> Gynae OT</span><span class="opd-badge">🔹 <b>Wednesday:</b> Gynae OPD</span><span class="opd-badge">🔵 <b>Thursday:</b> Teaching / Round</span><span class="opd-badge">🔵 <b>Friday:</b> Gynae OT</span><span class="opd-badge">🔹 <b>Saturday:</b> ANC OPD</span></div>', 
+        days: '<div class="opd-badges-container"><span class="opd-badge ot">🔵 <b>Monday:</b> PP OT</span><span class="opd-badge ot">🔵 <b>Tuesday:</b> Gynae OT</span><span class="opd-badge">🔹 <b>Wednesday:</b> Gynae OPD</span><span class="opd-badge round">🔵 <b>Thursday:</b> Teaching / Round</span><span class="opd-badge ot">🔵 <b>Friday:</b> Gynae OT</span><span class="opd-badge">🔹 <b>Saturday:</b> ANC OPD</span></div>', 
         location: "<b>OPD:</b> Rooms 209-214 (Gynae) / 230-235 (ANC)<br><b>OT:</b> Gynae & PP OT" 
       },
       { 
         title: 'Unit IV <span style="font-weight: normal;">(Dr. Deepti Goswami)</span>', 
-        days: '<div class="opd-badges-container"><span class="opd-badge">🔹 <b>Monday:</b> ANC OPD</span><span class="opd-badge">🔵 <b>Tuesday:</b> PP OT</span><span class="opd-badge">🔵 <b>Wednesday:</b> Gynae OT</span><span class="opd-badge">🔹 <b>Thursday:</b> Gynae OPD</span><span class="opd-badge">🔵 <b>Friday:</b> Teaching / Round</span><span class="opd-badge">🔵 <b>Saturday:</b> Gynae OT</span></div>', 
+        days: '<div class="opd-badges-container"><span class="opd-badge">🔹 <b>Monday:</b> ANC OPD</span><span class="opd-badge ot">🔵 <b>Tuesday:</b> PP OT</span><span class="opd-badge ot">🔵 <b>Wednesday:</b> Gynae OT</span><span class="opd-badge">🔹 <b>Thursday:</b> Gynae OPD</span><span class="opd-badge round">🔵 <b>Friday:</b> Teaching / Round</span><span class="opd-badge ot">🔵 <b>Saturday:</b> Gynae OT</span></div>', 
         location: "<b>OPD:</b> Rooms 209-214 (Gynae) / 230-235 (ANC)<br><b>OT:</b> Gynae & PP OT" 
       },
       { 
         title: 'Unit V <span style="font-weight: normal;">(Dr. Madhavi M. Gupta)</span>', 
-        days: '<div class="opd-badges-container"><span class="opd-badge">🔵 <b>Monday:</b> Gynae OT</span><span class="opd-badge">🔹 <b>Tuesday:</b> ANC OPD</span><span class="opd-badge">🔵 <b>Wednesday:</b> PP OT</span><span class="opd-badge">🔵 <b>Thursday:</b> Gynae OT</span><span class="opd-badge">🔹 <b>Friday:</b> Gynae OPD</span><span class="opd-badge">🔵 <b>Saturday:</b> Teaching / Round</span></div>', 
+        days: '<div class="opd-badges-container"><span class="opd-badge ot">🔵 <b>Monday:</b> Gynae OT</span><span class="opd-badge">🔹 <b>Tuesday:</b> ANC OPD</span><span class="opd-badge ot">🔵 <b>Wednesday:</b> PP OT</span><span class="opd-badge ot">🔵 <b>Thursday:</b> Gynae OT</span><span class="opd-badge">🔹 <b>Friday:</b> Gynae OPD</span><span class="opd-badge round">🔵 <b>Saturday:</b> Teaching / Round</span></div>', 
         location: "<b>OPD:</b> Rooms 209-214 (Gynae) / 230-235 (ANC)<br><b>OT:</b> Gynae & PP OT" 
       },
       { 
         title: 'Unit VI <span style="font-weight: normal;">(Dr. Krishna Agarwal)</span>', 
-        days: '<div class="opd-badges-container"><span class="opd-badge">🔵 <b>Monday:</b> Teaching / Round</span><span class="opd-badge">🔵 <b>Tuesday:</b> Gynae OT</span><span class="opd-badge">🔹 <b>Wednesday:</b> ANC OPD</span><span class="opd-badge">🔵 <b>Thursday:</b> PP OT</span><span class="opd-badge">🔵 <b>Friday:</b> Gynae OT</span><span class="opd-badge">🔹 <b>Saturday:</b> Gynae OPD</span></div>', 
+        days: '<div class="opd-badges-container"><span class="opd-badge round">🔵 <b>Monday:</b> Teaching / Round</span><span class="opd-badge ot">🔵 <b>Tuesday:</b> Gynae OT</span><span class="opd-badge">🔹 <b>Wednesday:</b> ANC OPD</span><span class="opd-badge ot">🔵 <b>Thursday:</b> PP OT</span><span class="opd-badge ot">🔵 <b>Friday:</b> Gynae OT</span><span class="opd-badge">🔹 <b>Saturday:</b> Gynae OPD</span></div>', 
         location: "<b>OPD:</b> Rooms 209-214 (Gynae) / 230-235 (ANC)<br><b>OT:</b> Gynae & PP OT" 
       },
       { title: 'Family Welfare (Male) & Infertility <span style="font-weight: normal;">(Dr. Chandan Kumar)</span>', days: '<div class="opd-badges-container"><span class="opd-badge">Mon to Sat</span></div>', location: "OPD Block 1st Floor (Rooms 124 to 129)" },
@@ -228,32 +228,13 @@ const deptSchedules = [
         location: "Main OT Complex / Gynae OT / Casualty OT"
       },
       {
-        title: 'Unit III <span style="font-weight: normal;">(Dr. Sonia, Dr. Farah, Dr. Sukhyanti, Dr. Shraddha, Dr. Vidhan)</span>',
-        days: '<div class="opd-badges-container"><span class="opd-badge">🔹 <b>Monday:</b> OT-III (Peds & ENT)</span><span class="opd-badge">🔹 <b>Tuesday:</b> Gynae OT</span><span class="opd-badge emergency">🚨 <b>Wednesday:</b> Emergency OT</span><span class="opd-badge">📋 <b>Thursday:</b> PAC</span><span class="opd-badge">🔹 <b>Friday:</b> OT-I (Surgery OT)</span><span class="opd-badge">🔹 <b>Saturday:</b> OT-II (Ortho OT)</span></div>',
+        title: 'Unit III <span style="font-weight: normal;">(Dr. ...)</span>',
+        days: '<div class="opd-badges-container"><span class="opd-badge">🔹 See full rotation</span></div>',
         location: "Main OT Complex / Gynae OT / Casualty OT"
-      },
-      {
-        title: 'Unit IV <span style="font-weight: normal;">(Dr. Bharti, Dr. Amit, Dr. Snigdha, Dr. Prasant, Dr. Indira, Dr. Ankita)</span>',
-        days: '<div class="opd-badges-container"><span class="opd-badge">🔹 <b>Monday:</b> Gynae OT</span><span class="opd-badge emergency">🚨 <b>Tuesday:</b> Emergency OT</span><span class="opd-badge">📋 <b>Wednesday:</b> PAC</span><span class="opd-badge">🔹 <b>Thursday:</b> OT-I (Surgery OT)</span><span class="opd-badge">🔹 <b>Friday:</b> OT-II (Ortho OT)</span><span class="opd-badge">🔹 <b>Saturday:</b> OT-III (Peds & ENT)</span></div>',
-        location: "Main OT Complex / Gynae OT / Casualty OT"
-      },
-      {
-        title: 'Unit V <span style="font-weight: normal;">(Dr. Neelam, Dr. Lalit, Dr. Devang, Dr. Chanchal)</span>',
-        days: '<div class="opd-badges-container"><span class="opd-badge emergency">🚨 <b>Monday:</b> Emergency OT</span><span class="opd-badge">📋 <b>Tuesday:</b> PAC</span><span class="opd-badge">🔹 <b>Wednesday:</b> OT-I (Surgery OT)</span><span class="opd-badge">🔹 <b>Thursday:</b> OT-II (Ortho OT)</span><span class="opd-badge">🔹 <b>Friday:</b> OT-III (Peds & ENT)</span><span class="opd-badge">🔹 <b>Saturday:</b> Gynae OT</span></div>',
-        location: "Main OT Complex / Gynae OT / Casualty OT"
-      },
-      {
-        title: 'Unit VI <span style="font-weight: normal;">(Dr. Mona, Dr. Vandana, Dr. Wahaja, Dr. Rajni K)</span>',
-        days: '<div class="opd-badges-container"><span class="opd-badge">📋 <b>Monday:</b> PAC</span><span class="opd-badge">🔹 <b>Tuesday:</b> OT-I (Surgery OT)</span><span class="opd-badge">🔹 <b>Wednesday:</b> OT-II (Ortho OT)</span><span class="opd-badge">🔹 <b>Thursday:</b> OT-III (Peds & ENT)</span><span class="opd-badge">🔹 <b>Friday:</b> Gynae OT</span><span class="opd-badge emergency">🚨 <b>Saturday:</b> Emergency OT</span></div>',
-        location: "Main OT Complex / Gynae OT / Casualty OT"
-      },
-      {
-        title: 'Special Postings & ICU Faculty',
-        days: '<div class="opd-badges-container"><span class="opd-badge">🔹 <b>4th Floor ICU:</b> Dr. Neera & Dr. Ankita Verma</span><span class="opd-badge">🔹 <b>STC:</b> Dr. Rajani Arora & Dr. Rohit</span></div>',
-        location: "4th Floor ICU / Sushruta Trauma Centre"
       }
     ]
   },
+  
   {
     id: "Radiology",
     name: "Department of Radio-diagnosis Faculty Roster (w.e.f. 04th August, 2026)",

@@ -155,7 +155,7 @@ const deptSchedules = [
     ]
   },
   {
-    id: "radiology",
+    id: "Radiology",
     name: "Department of Radio-diagnosis Faculty Roster (w.e.f. 04th August, 2026)",
     units: [
       {

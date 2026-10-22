@@ -204,7 +204,169 @@
   { sno: 222, start: "2027-04-03", end: "2027-05-22", dept: "ObsGynae", unit: "Unit 4", incharge: "Dr. Deepti Goswami" },
   { sno: 223, start: "2027-04-03", end: "2027-05-22", dept: "ObsGynae", unit: "Unit 5", incharge: "Dr. Madhavi M. Gupta" },
   { sno: 224, start: "2027-04-03", end: "2027-05-22", dept: "ObsGynae", unit: "Unit 6", incharge: "Dr. Krishna Agarwal" },
-// ==========================================================================
-  // MEDICINE (MED) UNIT ALLOCATIONS (BLOCKS 1, 2, 3, 4)
- 
+// ============================================================================
+// PHOTO 1 – OBS & GYNAE (MAMC) – 22.08.2026 to 03.10.2026
+// Corrigendum – Unit-wise posting (Batch-2021)
+// Signed by Dr. Deepti Goswami
+// ============================================================================
+const obsGynaeCorrigendum_22Aug_03Oct = [
+  // Unit-I
+  { sno: 149, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 1", incharge: "Dr. Deepti Goswami" }, // Sakshi Choudhary
+  { sno: 155, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 1", incharge: "Dr. Deepti Goswami" }, // Sarthak Bakhshi
+  { sno: 161, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 1", incharge: "Dr. Deepti Goswami" }, // Shivam Prasad Mehta
+  { sno: 167, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 1", incharge: "Dr. Deepti Goswami" }, // Shubham Solanki
+
+  // Unit-II
+  { sno: 150, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 2", incharge: "Dr. Deepti Goswami" }, // Sakshi Singh
+  { sno: 156, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 2", incharge: "Dr. Deepti Goswami" }, // Sarthak Joshi
+  { sno: 162, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 2", incharge: "Dr. Deepti Goswami" }, // Shivani
+  { sno: 168, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 2", incharge: "Dr. Deepti Goswami" }, // Shubhesh Saxena
+  { sno: 206, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 2", incharge: "Dr. Deepti Goswami" }, // Deepak Kumar Meena
+
+  // Unit-III
+  { sno: 151, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 3", incharge: "Dr. Deepti Goswami" }, // Sangam Yadav
+  { sno: 157, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 3", incharge: "Dr. Deepti Goswami" }, // Satyajit Mallick
+  { sno: 163, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 3", incharge: "Dr. Deepti Goswami" }, // Shivani Saini
+  { sno: 169, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 3", incharge: "Dr. Deepti Goswami" }, // Siddhant Kumar
+  { sno: 205, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 3", incharge: "Dr. Deepti Goswami" }, // Nikeeta Kumari
+
+  // Unit-IV
+  { sno: 152, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 4", incharge: "Dr. Deepti Goswami" }, // Sanjna Tandon
+  { sno: 158, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 4", incharge: "Dr. Deepti Goswami" }, // Sawan Kumar
+  { sno: 164, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 4", incharge: "Dr. Deepti Goswami" }, // Shivika Dudani
+  { sno: 170, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 4", incharge: "Dr. Deepti Goswami" }, // Siddharth Kumar
+  { sno: 173, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 4", incharge: "Dr. Deepti Goswami" }, // Soni Shlok Mahesh
+
+  // Unit-V
+  { sno: 153, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 5", incharge: "Dr. Deepti Goswami" }, // Sanya Sheoran
+  { sno: 159, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 5", incharge: "Dr. Deepti Goswami" }, // Shantanu Verma
+  { sno: 165, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 5", incharge: "Dr. Deepti Goswami" }, // Shreya Sabherwal
+  { sno: 171, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 5", incharge: "Dr. Deepti Goswami" }, // Simran Tatwal
+  { sno: 233, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 5", incharge: "Dr. Deepti Goswami" }, // Rahul Kumar
+
+  // Unit-VI
+  { sno: 154, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 6", incharge: "Dr. Deepti Goswami" }, // Sarit Swaroop
+  { sno: 160, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 6", incharge: "Dr. Deepti Goswami" }, // Shaurya Agarwal
+  { sno: 166, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 6", incharge: "Dr. Deepti Goswami" }, // Shreya Singh
+  { sno: 172, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 6", incharge: "Dr. Deepti Goswami" }, // Somyam Kumar
+  { sno: 234, start: "2026-08-22", end: "2026-10-03", dept: "ObsGynae", unit: "Unit 6", incharge: "Dr. Deepti Goswami" }, // Rohit Charan
+];
+
+
+// ============================================================================
+// PHOTO 2 – SURGERY (MAMC) – Block I (22-08-2026 to 20-11-2026)
+// Three periods: \~6w + 1w (Derm) + 6w
+// ============================================================================
+const surgeryBlockI = [
+  // ---------- Period 1: 22 Aug – 02 Oct 2026 (6 weeks) ----------
+  // Unit I – Dr. C B Singh – Ward 2A
+  { sno: 125, start: "2026-08-22", end: "2026-10-02", dept: "Surgery", unit: "Unit 1", incharge: "Dr. C B Singh", ward: "2A" }, // Pranjali Srivastava
+  { sno: 131, start: "2026-08-22", end: "2026-10-02", dept: "Surgery", unit: "Unit 1", incharge: "Dr. C B Singh", ward: "2A" }, // Priyanka
+  { sno: 137, start: "2026-08-22", end: "2026-10-02", dept: "Surgery", unit: "Unit 1", incharge: "Dr. C B Singh", ward: "2A" }, // Purwa
+  { sno: 143, start: "2026-08-22", end: "2026-10-02", dept: "Surgery", unit: "Unit 1", incharge: "Dr. C B Singh", ward: "2A" }, // Ritiksha Singh
+
+  // Unit II – Dr. Pawan Lal – Ward 3A
+  { sno: 126, start: "2026-08-22", end: "2026-10-02", dept: "Surgery", unit: "Unit 2", incharge: "Dr. Pawan Lal", ward: "3A" }, // Prashant Pachaury
+  { sno: 132, start: "2026-08-22", end: "2026-10-02", dept: "Surgery", unit: "Unit 2", incharge: "Dr. Pawan Lal", ward: "3A" }, // Priyansh Singh
+  { sno: 138, start: "2026-08-22", end: "2026-10-02", dept: "Surgery", unit: "Unit 2", incharge: "Dr. Pawan Lal", ward: "3A" }, // Raghav Alawadhi
+  { sno: 144, start: "2026-08-22", end: "2026-10-02", dept: "Surgery", unit: "Unit 2", incharge: "Dr. Pawan Lal", ward: "3A" }, // Ritu Chauhan
+
+  // Unit III – Dr. Rajdeep Singh – Ward 4A
+  { sno: 127, start: "2026-08-22", end: "2026-10-02", dept: "Surgery", unit: "Unit 3", incharge: "Dr. Rajdeep Singh", ward: "4A" }, // Pratyaksha Singh
+  { sno: 133, start: "2026-08-22", end: "2026-10-02", dept: "Surgery", unit: "Unit 3", incharge: "Dr. Rajdeep Singh", ward: "4A" }, // Priyanshi
+  { sno: 139, start: "2026-08-22", end: "2026-10-02", dept: "Surgery", unit: "Unit 3", incharge: "Dr. Rajdeep Singh", ward: "4A" }, // Rahul Kumar
+  { sno: 145, start: "2026-08-22", end: "2026-10-02", dept: "Surgery", unit: "Unit 3", incharge: "Dr. Rajdeep Singh", ward: "4A" }, // Ritvik Baweja
+
+  // Unit IV – Dr. Sushanto Negi – Ward 3B
+  { sno: 128, start: "2026-08-22", end: "2026-10-02", dept: "Surgery", unit: "Unit 4", incharge: "Dr. Sushanto Negi", ward: "3B" }, // Prem Kumar
+  { sno: 134, start: "2026-08-22", end: "2026-10-02", dept: "Surgery", unit: "Unit 4", incharge: "Dr. Sushanto Negi", ward: "3B" }, // Priyanshu Jaseja
+  { sno: 140, start: "2026-08-22", end: "2026-10-02", dept: "Surgery", unit: "Unit 4", incharge: "Dr. Sushanto Negi", ward: "3B" }, // Rimsha Rehman
+  { sno: 146, start: "2026-08-22", end: "2026-10-02", dept: "Surgery", unit: "Unit 4", incharge: "Dr. Sushanto Negi", ward: "3B" }, // Riya Gulati
+
+  // Unit V – Dr. Anubhav Vindal – Ward 4B
+  { sno: 129, start: "2026-08-22", end: "2026-10-02", dept: "Surgery", unit: "Unit 5", incharge: "Dr. Anubhav Vindal", ward: "4B" }, // Prerak Dularia
+  { sno: 135, start: "2026-08-22", end: "2026-10-02", dept: "Surgery", unit: "Unit 5", incharge: "Dr. Anubhav Vindal", ward: "4B" }, // Priyanshu Ranjan
+  { sno: 141, start: "2026-08-22", end: "2026-10-02", dept: "Surgery", unit: "Unit 5", incharge: "Dr. Anubhav Vindal", ward: "4B" }, // Rishab Garg
+  { sno: 147, start: "2026-08-22", end: "2026-10-02", dept: "Surgery", unit: "Unit 5", incharge: "Dr. Anubhav Vindal", ward: "4B" }, // Rohan Ghuge
+
+  // Unit VI – Dr. Deepak Ghuliani – Ward 2B
+  { sno: 130, start: "2026-08-22", end: "2026-10-02", dept: "Surgery", unit: "Unit 6", incharge: "Dr. Deepak Ghuliani", ward: "2B" }, // Priyank Agarwal
+  { sno: 136, start: "2026-08-22", end: "2026-10-02", dept: "Surgery", unit: "Unit 6", incharge: "Dr. Deepak Ghuliani", ward: "2B" }, // Puneet Jindal
+  { sno: 142, start: "2026-08-22", end: "2026-10-02", dept: "Surgery", unit: "Unit 6", incharge: "Dr. Deepak Ghuliani", ward: "2B" }, // Rishabh Talwar
+  { sno: 148, start: "2026-08-22", end: "2026-10-02", dept: "Surgery", unit: "Unit 6", incharge: "Dr. Deepak Ghuliani", ward: "2B" }, // Roshan Singh Rajput
+
+
+  // ---------- Period 2: 03 Oct – 09 Oct 2026 (1 week – Dermatology for grey-box students) ----------
+  // (Same unit assignment; grey-box students do 1 week Derm)
+  // Unit I
+  { sno: 137, start: "2026-10-03", end: "2026-10-09", dept: "Surgery", unit: "Unit 1", incharge: "Dr. C B Singh", ward: "2A", note: "Derm week possible" },
+  { sno: 143, start: "2026-10-03", end: "2026-10-09", dept: "Surgery", unit: "Unit 1", incharge: "Dr. C B Singh", ward: "2A", note: "Derm week possible" },
+  { sno: 121, start: "2026-10-03", end: "2026-10-09", dept: "Surgery", unit: "Unit 1", incharge: "Dr. C B Singh", ward: "2A" }, // Parth Gupta
+
+  // Unit II
+  { sno: 138, start: "2026-10-03", end: "2026-10-09", dept: "Surgery", unit: "Unit 2", incharge: "Dr. Pawan Lal", ward: "3A" },
+  { sno: 144, start: "2026-10-03", end: "2026-10-09", dept: "Surgery", unit: "Unit 2", incharge: "Dr. Pawan Lal", ward: "3A" },
+  { sno: 122, start: "2026-10-03", end: "2026-10-09", dept: "Surgery", unit: "Unit 2", incharge: "Dr. Pawan Lal", ward: "3A" }, // Pavitra Goyal
+
+  // Unit III
+  { sno: 139, start: "2026-10-03", end: "2026-10-09", dept: "Surgery", unit: "Unit 3", incharge: "Dr. Rajdeep Singh", ward: "4A" },
+  { sno: 145, start: "2026-10-03", end: "2026-10-09", dept: "Surgery", unit: "Unit 3", incharge: "Dr. Rajdeep Singh", ward: "4A" },
+  { sno: 123, start: "2026-10-03", end: "2026-10-09", dept: "Surgery", unit: "Unit 3", incharge: "Dr. Rajdeep Singh", ward: "4A" }, // Pradeep Rajak
+
+  // Unit IV
+  { sno: 140, start: "2026-10-03", end: "2026-10-09", dept: "Surgery", unit: "Unit 4", incharge: "Dr. Sushanto Negi", ward: "3B" },
+  { sno: 146, start: "2026-10-03", end: "2026-10-09", dept: "Surgery", unit: "Unit 4", incharge: "Dr. Sushanto Negi", ward: "3B" },
+  { sno: 124, start: "2026-10-03", end: "2026-10-09", dept: "Surgery", unit: "Unit 4", incharge: "Dr. Sushanto Negi", ward: "3B" }, // Pragati Bharti
+
+  // Unit V
+  { sno: 141, start: "2026-10-03", end: "2026-10-09", dept: "Surgery", unit: "Unit 5", incharge: "Dr. Anubhav Vindal", ward: "4B" },
+  { sno: 147, start: "2026-10-03", end: "2026-10-09", dept: "Surgery", unit: "Unit 5", incharge: "Dr. Anubhav Vindal", ward: "4B" },
+  { sno: 119, start: "2026-10-03", end: "2026-10-09", dept: "Surgery", unit: "Unit 5", incharge: "Dr. Anubhav Vindal", ward: "4B" }, // Nitin Yadav
+
+  // Unit VI
+  { sno: 142, start: "2026-10-03", end: "2026-10-09", dept: "Surgery", unit: "Unit 6", incharge: "Dr. Deepak Ghuliani", ward: "2B" },
+  { sno: 148, start: "2026-10-03", end: "2026-10-09", dept: "Surgery", unit: "Unit 6", incharge: "Dr. Deepak Ghuliani", ward: "2B" },
+  { sno: 120, start: "2026-10-03", end: "2026-10-09", dept: "Surgery", unit: "Unit 6", incharge: "Dr. Deepak Ghuliani", ward: "2B" }, // Parshant
+
+
+  // ---------- Period 3: 10 Oct – 20 Nov 2026 (6 weeks) ----------
+  // Unit I – Dr. C B Singh
+  { sno: 100, start: "2026-10-10", end: "2026-11-20", dept: "Surgery", unit: "Unit 1", incharge: "Dr. C B Singh", ward: "2A" }, // Maimuna Fatima
+  { sno: 106, start: "2026-10-10", end: "2026-11-20", dept: "Surgery", unit: "Unit 1", incharge: "Dr. C B Singh", ward: "2A" }, // Megha Kumari
+  { sno: 111, start: "2026-10-10", end: "2026-11-20", dept: "Surgery", unit: "Unit 1", incharge: "Dr. C B Singh", ward: "2A" }, // Naman Jagetiya
+  { sno: 116, start: "2026-10-10", end: "2026-11-20", dept: "Surgery", unit: "Unit 1", incharge: "Dr. C B Singh", ward: "2A" }, // Nishtha Chandwani
+  { sno: 122, start: "2026-10-10", end: "2026-11-20", dept: "Surgery", unit: "Unit 1", incharge: "Dr. C B Singh", ward: "2A" }, // Pavitra Goyal
+  { sno: 102, start: "2026-10-10", end: "2026-11-20", dept: "Surgery", unit: "Unit 1", incharge: "Dr. C B Singh", ward: "2A" }, // Mandava Sri Naga Venkata Hitesh
+
+  // Unit II – Dr. Pawan Lal
+  { sno: 107, start: "2026-10-10", end: "2026-11-20", dept: "Surgery", unit: "Unit 2", incharge: "Dr. Pawan Lal", ward: "3A" }, // Mehul Paliwal
+  { sno: 112, start: "2026-10-10", end: "2026-11-20", dept: "Surgery", unit: "Unit 2", incharge: "Dr. Pawan Lal", ward: "3A" }, // Nandini
+  { sno: 207, start: "2026-10-10", end: "2026-11-20", dept: "Surgery", unit: "Unit 2", incharge: "Dr. Pawan Lal", ward: "3A" }, // Abhishek (09)
+  { sno: 103, start: "2026-10-10", end: "2026-11-20", dept: "Surgery", unit: "Unit 2", incharge: "Dr. Pawan Lal", ward: "3A" }, // Manish Kumar
+  { sno: 108, start: "2026-10-10", end: "2026-11-20", dept: "Surgery", unit: "Unit 2", incharge: "Dr. Pawan Lal", ward: "3A" }, // Mrinal Garg
+
+  // Unit III – Dr. Rajdeep Singh
+  { sno: 204, start: "2026-10-10", end: "2026-11-20", dept: "Surgery", unit: "Unit 3", incharge: "Dr. Rajdeep Singh", ward: "4A" }, // Tejaswini Kapoor
+  { sno: 117, start: "2026-10-10", end: "2026-11-20", dept: "Surgery", unit: "Unit 3", incharge: "Dr. Rajdeep Singh", ward: "4A" }, // Nitesh
+  { sno: 123, start: "2026-10-10", end: "2026-11-20", dept: "Surgery", unit: "Unit 3", incharge: "Dr. Rajdeep Singh", ward: "4A" }, // Pradeep Rajak
+  { sno: 104, start: "2026-10-10", end: "2026-11-20", dept: "Surgery", unit: "Unit 3", incharge: "Dr. Rajdeep Singh", ward: "4A" }, // Md Shaquib
+
+  // Unit IV – Dr. Sushanto Negi
+  { sno: 203, start: "2026-10-10", end: "2026-11-20", dept: "Surgery", unit: "Unit 4", incharge: "Dr. Sushanto Negi", ward: "3B" }, // Tankush Kumar
+  { sno: 113, start: "2026-10-10", end: "2026-11-20", dept: "Surgery", unit: "Unit 4", incharge: "Dr. Sushanto Negi", ward: "3B" }, // Neeraj Kumar
+  { sno: 118, start: "2026-10-10", end: "2026-11-20", dept: "Surgery", unit: "Unit 4", incharge: "Dr. Sushanto Negi", ward: "3B" }, // Nitin Kushwaha
+  { sno: 124, start: "2026-10-10", end: "2026-11-20", dept: "Surgery", unit: "Unit 4", incharge: "Dr. Sushanto Negi", ward: "3B" }, // Pragati Bharti
+  { sno: 101, start: "2026-10-10", end: "2026-11-20", dept: "Surgery", unit: "Unit 4", incharge: "Dr. Sushanto Negi", ward: "3B" }, // Mal Rasika Dinesh
+
+  // Unit V – Dr. Anubhav Vindal
+  { sno: 109, start: "2026-10-10", end: "2026-11-20", dept: "Surgery", unit: "Unit 5", incharge: "Dr. Anubhav Vindal", ward: "4B" }, // Mohit Kumar
+  { sno: 114, start: "2026-10-10", end: "2026-11-20", dept: "Surgery", unit: "Unit 5", incharge: "Dr. Anubhav Vindal", ward: "4B" }, // Nikhil Kumar
+  { sno: 119, start: "2026-10-10", end: "2026-11-20", dept: "Surgery", unit: "Unit 5", incharge: "Dr. Anubhav Vindal", ward: "4B" }, // Nitin Yadav
+  { sno: 105, start: "2026-10-10", end: "2026-11-20", dept: "Surgery", unit: "Unit 5", incharge: "Dr. Anubhav Vindal", ward: "4B" }, // Md. Tahir Hussain
+  { sno: 110, start: "2026-10-10", end: "2026-11-20", dept: "Surgery", unit: "Unit 5", incharge: "Dr. Anubhav Vindal", ward: "4B" }, // Mukesh Yadav
+  { sno: 115, start: "2026-10-10", end: "2026-11-20", dept: "Surgery", unit: "Unit 5", incharge: "Dr. Anubhav Vindal", ward: "4B" }, // Nikhil Singh
+
+  // Unit VI – Dr. Deepak Ghuliani
+  { sno: 120, start: "2026-10-10", end: "2026-11-20", dept: "Surgery", unit: "Unit 6", incharge: "Dr. Deepak Ghuliani", ward: "2B" }, // Parshant
+
  ];

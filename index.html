@@ -106,7 +106,7 @@
           <option value="ENT">ENT</option>
           <option value="Ophtha">Ophthalmology</option>
           <option value="Ortho">Orthopedics</option>
-          <option value="Anaesthesia">Anesthesia</option>
+          <option value="Anaesthesia">Anaesthesia</option>
           <option value="Pulm Med">Pulmonary Medicine</option>
           <option value="Radiology">Radiology</option>
         </select>
@@ -670,92 +670,92 @@
   }
 
   async function saveAdminCanteenContact() {
-  if (!currentUser || !isAdmin) return alert('Admin authentication required.');
-  
-  const id = document.getElementById('editingCantId').value;
-  const name = document.getElementById('adminCantName').value.trim();
-  const phone = document.getElementById('adminCantPhone').value.trim();
-  const fileInput = document.getElementById('adminCantMenuFiles');
+    if (!currentUser || !isAdmin) return alert('Admin authentication required.');
+    
+    const id = document.getElementById('editingCantId').value;
+    const name = document.getElementById('adminCantName').value.trim();
+    const phone = document.getElementById('adminCantPhone').value.trim();
+    const fileInput = document.getElementById('adminCantMenuFiles');
 
-  if (!name || !phone) return alert('Name and phone required');
+    if (!name || !phone) return alert('Name and phone required');
 
-  const btn = document.getElementById('adminCantSubmitBtn');
-  btn.textContent = "Compressing & Saving...";
-  btn.disabled = true;
+    const btn = document.getElementById('adminCantSubmitBtn');
+    btn.textContent = "Compressing & Saving...";
+    btn.disabled = true;
 
-  try {
-    // Compress newly selected files to JPEG data URLs
-    let newPhotos = [];
-    if (fileInput && fileInput.files.length > 0) {
-      for (let i = 0; i < fileInput.files.length; i++) {
-        const file = fileInput.files[i];
-        const compressedBase64 = await compressImage(file, 1000, 0.7);
-        newPhotos.push(compressedBase64);
-      }
-    }
-
-    const finalPhotos = [...currentEditingMenuPhotos, ...newPhotos];
-
-    if (id && !id.startsWith('def_')) {
-      // Update existing document
-      await db.collection('canteenContacts').doc(id).set({
-        name, 
-        phone,
-        menuPhotos: finalPhotos,
-        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-      }, { merge: true });
-      alert('Contact updated successfully!');
-    } else {
-      // Create new document
-      await db.collection('canteenContacts').add({
-        name, 
-        phone,
-        menuPhotos: finalPhotos,
-        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-      });
-      alert('Contact added to live database!');
-    }
-    resetAdminCanteenForm();
-  } catch (e) { 
-    alert('Error: ' + e.message); 
-  } finally {
-    btn.textContent = id ? "Update Contact" : "Add Contact";
-    btn.disabled = false;
-  }
-}
-// Automatically resizes and compresses images to keep base64 payloads under ~150KB
-function compressImage(file, maxWidth = 1000, quality = 0.7) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = (e) => {
-      const img = new Image();
-      img.src = e.target.result;
-      img.onload = () => {
-        const canvas = document.createElement('canvas');
-        let width = img.width;
-        let height = img.height;
-
-        if (width > maxWidth) {
-          height = Math.round((height * maxWidth) / width);
-          width = maxWidth;
+    try {
+      // Compress newly selected files to JPEG data URLs
+      let newPhotos = [];
+      if (fileInput && fileInput.files.length > 0) {
+        for (let i = 0; i < fileInput.files.length; i++) {
+          const file = fileInput.files[i];
+          const compressedBase64 = await compressImage(file, 1000, 0.7);
+          newPhotos.push(compressedBase64);
         }
+      }
 
-        canvas.width = width;
-        canvas.height = height;
+      const finalPhotos = [...currentEditingMenuPhotos, ...newPhotos];
 
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(img, 0, 0, width, height);
+      if (id && !id.startsWith('def_')) {
+        // Update existing document
+        await db.collection('canteenContacts').doc(id).set({
+          name, 
+          phone,
+          menuPhotos: finalPhotos,
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        }, { merge: true });
+        alert('Contact updated successfully!');
+      } else {
+        // Create new document
+        await db.collection('canteenContacts').add({
+          name, 
+          phone,
+          menuPhotos: finalPhotos,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        alert('Contact added to live database!');
+      }
+      resetAdminCanteenForm();
+    } catch (e) { 
+      alert('Error: ' + e.message); 
+    } finally {
+      btn.textContent = id ? "Update Contact" : "Add Contact";
+      btn.disabled = false;
+    }
+  }
 
-        // Export as JPEG with 70% quality compression
-        resolve(canvas.toDataURL('image/jpeg', quality));
+  // Automatically resizes and compresses images to keep base64 payloads under ~150KB
+  function compressImage(file, maxWidth = 1000, quality = 0.7) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = (e) => {
+        const img = new Image();
+        img.src = e.target.result;
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          let width = img.width;
+          let height = img.height;
+
+          if (width > maxWidth) {
+            height = Math.round((height * maxWidth) / width);
+            width = maxWidth;
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+
+          // Export as JPEG with 70% quality compression
+          resolve(canvas.toDataURL('image/jpeg', quality));
+        };
+        img.onerror = (err) => reject(err);
       };
-      img.onerror = (err) => reject(err);
-    };
-    reader.onerror = (err) => reject(err);
-  });
-}
-
+      reader.onerror = (err) => reject(err);
+    });
+  }
 
   async function deleteAdminCanteenContact(id, name) {
     if (!currentUser || !isAdmin) return alert('Admin authentication required.');
@@ -947,10 +947,26 @@ function compressImage(file, maxWidth = 1000, quality = 0.7) {
       document.getElementById('adminPanel').classList.remove('active');
     });
   }
-  function handleAuth(user) {
+  async function handleAuth(user) {
     currentUser = user;
     isAdmin = ADMIN_EMAILS.includes(user.email);
     updateAuthUI();
+
+    // Sync user email & notification preference to 'users' collection
+    if (user && user.email) {
+      try {
+        await db.collection('users').doc(user.uid).set({
+          uid: user.uid,
+          email: user.email,
+          displayName: user.displayName || 'Doctor',
+          emailNotifications: true, // Default to ON
+          lastLogin: firebase.firestore.FieldValue.serverTimestamp()
+        }, { merge: true });
+      } catch (e) {
+        console.warn("User sync warning:", e);
+      }
+    }
+
     renderUserHistory();
     if (!document.getElementById('swaps-tab').classList.contains('hidden')) renderSwapTab();
     startDutyCoverListener();
@@ -1213,7 +1229,8 @@ function compressImage(file, maxWidth = 1000, quality = 0.7) {
         });
         alert('Request updated successfully!');
       } else {
-        await db.collection('dutySwaps').add({
+        // Create new request
+        const docRef = await db.collection('dutySwaps').add({
           requesterUid: currentUser.uid,
           requesterName: currentUser.displayName || currentUser.email || 'Anonymous',
           requesterEmail: currentUser.email || '',
@@ -1221,7 +1238,15 @@ function compressImage(file, maxWidth = 1000, quality = 0.7) {
           status: 'open', comments: [],
           createdAt: firebase.firestore.FieldValue.serverTimestamp()
         });
+
         alert('Cover request posted successfully!');
+
+        // Trigger email notification to all subscribed users
+        sendNewSwapEmailNotification({
+          requesterName: currentUser.displayName || 'A Doctor',
+          requesterUid: currentUser.uid,
+          date, currentDuty, lookingFor, amount, notes
+        });
       }
       hideCreateSwapForm();
       loadSwaps();
@@ -1232,6 +1257,39 @@ function compressImage(file, maxWidth = 1000, quality = 0.7) {
         msg = 'Permission denied. You can only edit your own requests (unless you are Admin).';
       }
       alert('Error:\n\n' + msg);
+    }
+  }
+
+  // Helper: Send email to all other users
+  async function sendNewSwapEmailNotification(swapData) {
+    try {
+      // Get all active user emails with notifications enabled (excluding current user)
+      const usersSnap = await db.collection('users')
+        .where('emailNotifications', '==', true)
+        .get();
+
+      const recipientEmails = [];
+      usersSnap.forEach(doc => {
+        const u = doc.data();
+        if (u.email && u.uid !== swapData.requesterUid) {
+          recipientEmails.push(u.email);
+        }
+      });
+
+      if (recipientEmails.length === 0) return;
+
+      // Call Google Apps Script backend
+      fetch(APPS_SCRIPT_URL, {
+        method: "POST",
+        body: JSON.stringify({
+          action: "notifyNewSwap",
+          recipients: recipientEmails,
+          swap: swapData,
+          portalUrl: window.location.origin + window.location.pathname + "#swaps"
+        })
+      }).catch(err => console.warn("Email dispatch error:", err));
+    } catch (err) {
+      console.warn("Failed to retrieve user email list:", err);
     }
   }
 
@@ -1290,13 +1348,29 @@ function compressImage(file, maxWidth = 1000, quality = 0.7) {
   async function acceptSwap(id) {
     if (!confirm('Mark yourself as interested in covering this duty?')) return;
     try {
-      await db.collection('dutySwaps').doc(id).update({
+      const docRef = db.collection('dutySwaps').doc(id);
+      const snap = await docRef.get();
+      const swapData = snap.data();
+
+      await docRef.update({
         status: 'accepted',
         acceptedBy: currentUser.displayName || currentUser.email,
         acceptedAt: firebase.firestore.FieldValue.serverTimestamp()
       });
+
       alert('You are now marked as interested. Contact the requester to finalize.');
       loadSwaps();
+
+      // Send email alert to the original requester
+      if (swapData && swapData.requesterEmail && swapData.requesterUid !== currentUser.uid) {
+        sendSwapReplyEmailNotification({
+          toEmail: swapData.requesterEmail,
+          replierName: currentUser.displayName || currentUser.email,
+          message: "Is interested in covering your duty!",
+          date: swapData.date,
+          currentDuty: swapData.currentDuty
+        });
+      }
     } catch (e) { alert(e.message); }
   }
 
@@ -1304,15 +1378,47 @@ function compressImage(file, maxWidth = 1000, quality = 0.7) {
     const text = prompt('Your message / negotiation:');
     if (!text || !text.trim()) return;
     try {
-      await db.collection('dutySwaps').doc(id).update({
+      const docRef = db.collection('dutySwaps').doc(id);
+      const snap = await docRef.get();
+      const swapData = snap.data();
+
+      await docRef.update({
         comments: firebase.firestore.FieldValue.arrayUnion({
           name: currentUser.displayName || currentUser.email,
           text: text.trim(),
           at: new Date().toISOString()
         })
       });
+
       loadSwaps();
+
+      // Send email alert to the original requester
+      if (swapData && swapData.requesterEmail && swapData.requesterUid !== currentUser.uid) {
+        sendSwapReplyEmailNotification({
+          toEmail: swapData.requesterEmail,
+          replierName: currentUser.displayName || currentUser.email,
+          message: text.trim(),
+          date: swapData.date,
+          currentDuty: swapData.currentDuty
+        });
+      }
     } catch (e) { alert(e.message); }
+  }
+
+  // Helper: Send email reply to requester
+  function sendSwapReplyEmailNotification(payload) {
+    fetch(APPS_SCRIPT_URL, {
+      method: "POST",
+      body: JSON.stringify({
+        action: "notifySwapReply",
+        toEmail: payload.toEmail,
+        replierName: payload.replierName,
+        message: payload.message,
+        date: payload.date,
+        currentDuty: payload.currentDuty,
+        portalUrl: window.location.origin + window.location.pathname + "#swaps"
+      })
+    }).catch(err => console.warn("Reply email dispatch error:", err));
   }
 
   async function closeSwap(id) {

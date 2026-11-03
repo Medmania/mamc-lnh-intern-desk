@@ -2,12 +2,7 @@
  * Photorealistic Glowing Water Surface Engine
  * Inspired by high-end medical app headers (e.g., Marrow Clinical Edge)
  * 
- * Features:
- * - Volumetric cyan light shafts & animated caustics
- * - Analytical 3D wave height-field with spatial normals (nx, ny)
- * - Tiled optical refraction pass warping the offscreen scene
- * - Luminous wave crests, dark troughs & cyan halo glow
- * - Touch/pointer tracking with velocity-scaled trailing ripples
+ * Volumetric, soft, glowing wave surface renderer with dynamic optical refraction.
  */
 function initPhotorealisticWaterSurface() {
   const canvas = document.getElementById('pondCanvas');
@@ -33,29 +28,35 @@ function initPhotorealisticWaterSurface() {
 
   // --- Water Ripple Physics State ---
   const ripples = [];
-  const MAX_RIPPLES = 40; // Performance safeguard for mobile
+  const MAX_RIPPLES = 45; // Performance safeguard for mobile
   let isPointerDown = false;
   let lastX = 0, lastY = 0, lastTime = 0;
   let tapTimer = 0;
 
   function addRipple(x, y, strength = 1.0, forwardAngle = null) {
     if (ripples.length >= MAX_RIPPLES) {
-      ripples.shift(); // Evict oldest ripple when cap is reached
+      ripples.shift();
     }
+
+    // Add organic asymmetry to each wave
+    const eccentricity = forwardAngle !== null ? 1.18 + Math.random() * 0.12 : 1.0 + (Math.random() - 0.5) * 0.08;
+    const wobblePhase = Math.random() * Math.PI * 2;
 
     ripples.push({
       x, y,
-      r: 3,
-      maxR: Math.min(260, 100 + strength * 80),
-      alpha: Math.min(1.0, 0.75 + strength * 0.25),
-      speed: 2.2 + Math.min(1.8, strength * 0.8),
-      wavelength: 18 + strength * 6,
-      height: 0.8 + strength * 1.1, // Amplitude peak
+      r: 4,
+      maxR: Math.min(280, 110 + strength * 90),
+      alpha: Math.min(1.0, 0.7 + strength * 0.3),
+      speed: 2.0 + Math.min(1.6, strength * 0.7),
+      wavelength: 22 + strength * 8,
+      height: 0.9 + strength * 1.2, // Wave height amplitude
       forwardAngle,
+      eccentricity,
+      wobblePhase,
       strength
     });
 
-    // Interactively push koi fish away on strong impacts
+    // Interactively react with koi fish on strong impacts
     if (strength > 1.1) {
       koiPond.forEach(fish => {
         const dx = fish.x - x;
@@ -117,7 +118,7 @@ function initPhotorealisticWaterSurface() {
       tapTimer = 0;
     } else {
       tapTimer = now;
-      addRipple(lastX, lastY, 1.25);
+      addRipple(lastX, lastY, 1.3);
     }
   });
 
@@ -133,17 +134,18 @@ function initPhotorealisticWaterSurface() {
     const dist = Math.hypot(dx, dy);
     const dt = Math.max(8, curTime - lastTime);
 
-    const STEP = 8;
+    // Tight step spacing creates a continuous liquid trail
+    const STEP = 5;
     if (dist >= STEP) {
       const steps = Math.floor(dist / STEP);
       const dragSpeed = dist / dt;
       const moveAngle = Math.atan2(dy, dx);
-      const dynamicStrength = Math.min(1.85, 0.5 + dragSpeed * 0.65);
+      const dynamicStrength = Math.min(1.8, 0.45 + dragSpeed * 0.6);
 
       for (let s = 1; s <= steps; s++) {
         const interpX = lastX + (dx / steps) * s;
         const interpY = lastY + (dy / steps) * s;
-        addRipple(interpX, interpY, dynamicStrength * 0.7, moveAngle);
+        addRipple(interpX, interpY, dynamicStrength * 0.65, moveAngle);
       }
       lastX = curX;
       lastY = curY;
@@ -460,12 +462,8 @@ function initPhotorealisticWaterSurface() {
   ];
 
   // ==========================================
-  // 3. WAVE PHYSICS (Height Field & Normals)
+  // WAVE PHYSICS (Height Field & Normals)
   // ==========================================
-  /**
-   * Evaluates wave height (h) and analytical normal slopes (nx, ny) at (px, py).
-   * Models 3D sine-wave cross sections (crests & troughs).
-   */
   function sampleWave(px, py) {
     let h = 0, nx = 0, ny = 0;
 
@@ -475,17 +473,14 @@ function initPhotorealisticWaterSurface() {
       const dy = py - rp.y;
       const dist = Math.hypot(dx, dy);
 
-      // Distance envelope check
-      if (dist > rp.r + 4 || dist < rp.r - rp.wavelength * 1.5 - 4) continue;
+      if (dist > rp.r + 6 || dist < rp.r - rp.wavelength * 1.6 - 6) continue;
 
       const phase = (dist - (rp.r - rp.wavelength)) / rp.wavelength;
       if (phase < 0 || phase > 1) continue;
 
-      // Sine wave profile: bright crest (h > 0) + dark trough (h < 0)
       const wave = Math.sin(phase * Math.PI * 2) * rp.height * rp.alpha;
       h += wave;
 
-      // Analytical spatial derivative of the sine wave
       const dPhase = (1 / rp.wavelength) * Math.PI * 2;
       const dWave = Math.cos(phase * Math.PI * 2) * rp.height * rp.alpha * dPhase;
 
@@ -499,7 +494,44 @@ function initPhotorealisticWaterSurface() {
   }
 
   // ==========================================
-  // 4. RENDERING PIPELINE & RENDERING ORDER
+  // HELPER: ORGANIC WAVE PATH
+  // ==========================================
+  function drawOrganicWavePath(targetCtx, rp, radiusOffset = 0) {
+    const radius = Math.max(1, rp.r + radiusOffset);
+    const rotation = rp.forwardAngle !== null ? rp.forwardAngle : 0;
+    const ecc = rp.eccentricity;
+
+    targetCtx.beginPath();
+    
+    if (ecc === 1.0 && rp.forwardAngle === null) {
+      targetCtx.arc(rp.x, rp.y, radius, 0, Math.PI * 2);
+    } else {
+      // Elliptical deformation along drag direction with dynamic organic wobble
+      const steps = 36;
+      for (let i = 0; i <= steps; i++) {
+        const theta = (i / steps) * Math.PI * 2;
+        const wobble = Math.sin(theta * 3 + rp.wobblePhase) * 1.8 * rp.strength;
+        const rCurrent = radius + wobble;
+        
+        // Transform around center
+        const unrotX = Math.cos(theta) * rCurrent * ecc;
+        const unrotY = Math.sin(theta) * rCurrent;
+        
+        const rotX = unrotX * Math.cos(rotation) - unrotY * Math.sin(rotation);
+        const rotY = unrotX * Math.sin(rotation) + unrotY * Math.cos(rotation);
+        
+        const ptX = rp.x + rotX;
+        const ptY = rp.y + rotY;
+
+        if (i === 0) targetCtx.moveTo(ptX, ptY);
+        else targetCtx.lineTo(ptX, ptY);
+      }
+      targetCtx.closePath();
+    }
+  }
+
+  // ==========================================
+  // RENDERING PIPELINE & LOOP
   // ==========================================
   let time = 0;
 
@@ -593,12 +625,10 @@ function initPhotorealisticWaterSurface() {
     ctx.clearRect(0, 0, width, height);
 
     if (ripples.length === 0) {
-      // Direct pass-through when surface is completely still
       ctx.drawImage(offscreen, 0, 0);
     } else {
-      // Tile-based optical distortion via surface normal displacement
       const TILE = 8;
-      const refScale = 11.0; // Refractive bending magnitude
+      const refScale = 12.0; // Refractive bending scale
 
       for (let ty = 0; ty < height; ty += TILE) {
         for (let tx = 0; tx < width; tx += TILE) {
@@ -615,49 +645,68 @@ function initPhotorealisticWaterSurface() {
       }
     }
 
-    // --- STEP 3: Luminous Wave Highlights & Depth Overlay ---
+    // --- STEP 3: REDESIGNED VOLUMETRIC LIQUID WAVE SURFACE ---
     ctx.save();
     
-    // 3a. Soft Outer Cyan Glow
-    ctx.globalCompositeOperation = 'screen';
-    for (let i = 0; i < ripples.length; i++) {
-      const rp = ripples[i];
-      const fade = Math.max(0, 1 - rp.r / rp.maxR);
-      const alpha = rp.alpha * fade;
-
-      ctx.beginPath();
-      ctx.arc(rp.x, rp.y, rp.r, 0, Math.PI * 2);
-      ctx.strokeStyle = `rgba(34, 211, 238, ${alpha * 0.45})`;
-      ctx.lineWidth = Math.max(2, 6 * fade * rp.strength);
-      ctx.stroke();
-    }
-
-    // 3b. Dark Troughs (Positioned slightly inside the crest for 3D depth)
+    // 3a. SUB-SURFACE TROUGH SHADOW (Dark, wide, soft depth band)
     ctx.globalCompositeOperation = 'multiply';
     for (let i = 0; i < ripples.length; i++) {
       const rp = ripples[i];
       const fade = Math.max(0, 1 - rp.r / rp.maxR);
       const alpha = rp.alpha * fade;
-      const troughRadius = Math.max(1, rp.r - rp.wavelength * 0.28);
+      if (alpha <= 0.01) continue;
 
-      ctx.beginPath();
-      ctx.arc(rp.x, rp.y, troughRadius, 0, Math.PI * 2);
-      ctx.strokeStyle = `rgba(2, 44, 34, ${alpha * 0.55})`;
-      ctx.lineWidth = Math.max(1.5, 3.5 * fade);
+      const troughOffset = -rp.wavelength * 0.28;
+      const troughWidth = Math.max(12, 22 * fade * rp.strength);
+
+      drawOrganicWavePath(ctx, rp, troughOffset);
+      ctx.strokeStyle = `rgba(3, 35, 52, ${alpha * 0.65})`;
+      ctx.lineWidth = troughWidth;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
       ctx.stroke();
     }
 
-    // 3c. Bright Luminous Crests
+    // 3b. BROAD VOLUMETRIC CYAN HALO (Diffuse outer liquid illumination)
+    ctx.globalCompositeOperation = 'screen';
+    for (let i = 0; i < ripples.length; i++) {
+      const rp = ripples[i];
+      const fade = Math.max(0, 1 - rp.r / rp.maxR);
+      const alpha = rp.alpha * fade;
+      if (alpha <= 0.01) continue;
+
+      const haloWidth = Math.max(22, 42 * fade * rp.strength);
+
+      drawOrganicWavePath(ctx, rp, 0);
+      ctx.strokeStyle = `rgba(6, 182, 212, ${alpha * 0.32})`;
+      ctx.lineWidth = haloWidth;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.stroke();
+    }
+
+    // 3c. INTENSE LUMINOUS CREST CORE (Soft glowing wavefront peak)
     ctx.globalCompositeOperation = 'lighter';
     for (let i = 0; i < ripples.length; i++) {
       const rp = ripples[i];
       const fade = Math.max(0, 1 - rp.r / rp.maxR);
       const alpha = rp.alpha * fade;
+      if (alpha <= 0.01) continue;
 
-      ctx.beginPath();
-      ctx.arc(rp.x, rp.y, rp.r, 0, Math.PI * 2);
+      const crestWidth = Math.max(8, 16 * fade * rp.strength);
+
+      // Inner cyan glow
+      drawOrganicWavePath(ctx, rp, 0);
+      ctx.strokeStyle = `rgba(165, 243, 252, ${alpha * 0.7})`;
+      ctx.lineWidth = crestWidth;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.stroke();
+
+      // Sharp peak bright center
+      drawOrganicWavePath(ctx, rp, 0);
       ctx.strokeStyle = `rgba(255, 255, 255, ${alpha * 0.85})`;
-      ctx.lineWidth = Math.max(0.8, 2.2 * fade * rp.strength);
+      ctx.lineWidth = Math.max(3, crestWidth * 0.4);
       ctx.stroke();
     }
     ctx.restore();
@@ -705,7 +754,6 @@ function initPhotorealisticWaterSurface() {
       ctx.lineWidth = 1.0;
       ctx.stroke();
 
-      // Specular Glint
       ctx.beginPath();
       ctx.arc(b.x - b.r * 0.3, b.y - b.r * 0.3, b.r * 0.25, 0, Math.PI * 2);
       ctx.fillStyle = `rgba(255, 255, 255, ${b.alpha * 0.95})`;
@@ -722,7 +770,7 @@ function initPhotorealisticWaterSurface() {
     for (let i = ripples.length - 1; i >= 0; i--) {
       const rp = ripples[i];
       rp.r += rp.speed;
-      rp.alpha -= 0.012;
+      rp.alpha -= 0.011;
       if (rp.alpha <= 0 || rp.r >= rp.maxR) {
         ripples.splice(i, 1);
       }

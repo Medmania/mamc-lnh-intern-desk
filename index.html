@@ -8,14 +8,56 @@
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
   
-<a href="./mini-app/" class="nav-card">
-  <span class="nav-icon">📊</span>
-  <span class="nav-label">🔬🩸💉LNJP LabHub 👈</span>
-</a>
-
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="css/styles.css">
   <title>MAMC-LNH Intern Portal — Roster, Labs & Hospital Directory</title>
+
+  <style>
+    /* Category Filter Chips & Quick Jump Pills */
+    .cat-chip {
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 1.5px solid var(--border);
+      background: var(--box-bg);
+      color: var(--text);
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+    .cat-chip.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+      box-shadow: 0 2px 8px rgba(2, 132, 199, 0.3);
+    }
+    .quick-jump-pill {
+      padding: 5px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      font-size: 11.5px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .quick-jump-pill:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+    .card-highlighted {
+      animation: cardPulse 1.5s ease;
+    }
+    @keyframes cardPulse {
+      0% { box-shadow: 0 0 0 0 rgba(2, 132, 199, 0.7); border-color: var(--primary); }
+      50% { box-shadow: 0 0 0 8px rgba(2, 132, 199, 0); border-color: var(--primary); }
+      100% { box-shadow: none; }
+    }
+  </style>
 </head>
 <body>
 <div class="container">
@@ -135,7 +177,7 @@
           <option value="ortho">🦴 Orthopedics</option>
           <option value="derma">🩺 Dermatology</option>
           <option value="anaesthesia">💉 Anaesthesia</option>
-         <option value="Radiology">🩻Radiology</option>
+          <option value="Radiology">🩻 Radiology</option>
           <option value="peds_med">🧸 Pediatric (Med)</option>
           <option value="peds_surg">✂️ Pediatric Surgery</option>
           <option value="burns">🔥 Burns & Plastic Surgery</option>
@@ -171,13 +213,11 @@
 
   <!-- TAB 3: LABS -->
   <div id="lab-tab" class="hidden">
-    <!-- A-Z REPORT DIRECTORY BUTTON & POPUP LIST -->
     <div id="labDirectoryContainer" style="margin-top: 12px; margin-bottom: 12px; position: relative;">
       <button id="labDirectoryToggleBtn" onclick="toggleLabDirectoryPopup()" style="display:inline-flex; align-items:center; gap:6px; padding:9px 16px; border-radius:12px; border:1.5px solid var(--border); background:var(--box-bg); color:var(--primary); font-weight:800; font-size:13px; cursor:pointer; font-family:inherit; box-shadow: var(--shadow-sm);">
         📄 Report Locations (A–Z Directory) <span style="font-size:11px; opacity:0.7">▼</span>
       </button>
 
-      <!-- Popup List -->
       <div id="labDirectoryPopup" class="hidden" style="position:absolute; top:100%; left:0; right:0; max-width:420px; z-index:30; margin-top:6px;">
         <div style="background:var(--card); border:1.5px solid var(--border); border-radius:16px; box-shadow:var(--shadow-md); max-height:300px; overflow-y:auto; padding:8px;">
           <div id="labDirectoryList" style="display:flex; flex-direction:column; gap:4px;">
@@ -187,7 +227,6 @@
       </div>
     </div>
 
-    <!-- Filter Controls -->
     <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:12px">
       <select id="labHospitalSelect" onchange="searchLabTests()" style="padding:10px 14px; border-radius:8px; border:1px solid var(--border); font-size:14px; background-color:var(--input-bg); font-weight:600; color:var(--text); min-width:280px; cursor:pointer">
         <option value="all">🏥 All Diagnostic Windows & Labs</option>
@@ -228,17 +267,20 @@
     <div id="faqResults"><p style="text-align:center;color:var(--text-muted);padding:30px">Loading FAQs...</p></div>
   </div>
 
-  <!-- TAB 5: GUIDES -->
+  <!-- TAB 5: GUIDES & DOCUMENTS -->
   <div id="guides-tab" class="card hidden">
-    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px">
+    <!-- Header -->
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:14px">
       <div>
         <h3 style="margin:0;font-size:18px;font-weight:800;color:var(--text)">📁 Intern Clinical & Documentation Hub</h3>
-        <p style="margin:4px 0 0 0;font-size:13px;color:var(--text-muted)">Standard department referral formats, file ordering & clinical memos</p>
+        <p style="margin:4px 0 0 0;font-size:13px;color:var(--text-muted)">Standard department referral formats, consent forms & internship essentials</p>
       </div>
       <button id="adminUploadBtn" onclick="openAdminModal()" style="padding:8px 14px;border:none;background:var(--primary-gradient);color:white;font-weight:800;font-size:12.5px;border-radius:12px;cursor:pointer">⚙️ Admin Upload</button>
     </div>
+
+    <!-- Search Bar & Department Filter -->
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-bottom:12px">
-      <input type="text" id="guideSearchInput" placeholder="🔍 Search guide..." oninput="renderClinicalGuides()">
+      <input type="text" id="guideSearchInput" placeholder="🔍 Search guide or document..." oninput="renderClinicalGuides()">
       <select id="guideDeptSelect" onchange="renderClinicalGuides()">
         <option value="all">🏥 All Departments</option>
         <option value="Medicine">Medicine</option>
@@ -256,23 +298,43 @@
         <option value="Administrative">Paperwork & MLC</option>
       </select>
     </div>
-    <!-- Quick-Access Direct-Click Title Index -->
-    <div id="guideIndexContainer" style="margin-bottom:14px">
-      <button id="guideIndexToggleBtn" onclick="toggleGuideIndexPopup()" style="display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:12px;border:1.5px solid var(--border);background:var(--box-bg);color:var(--text);font-weight:800;font-size:12.5px;cursor:pointer;font-family:inherit">
-        ⚡ Quick Jump <span style="font-size:11px;opacity:0.7">▼</span>
-      </button>
 
-      <!-- Popup list -->
-      <div id="guideIndexPopup" class="hidden" style="position:relative;z-index:30;margin-top:8px">
-        <div style="background:var(--card);border:1.5px solid var(--border);border-radius:14px;box-shadow:var(--shadow-md);max-height:280px;overflow-y:auto;padding:8px">
-          <div id="guideIndexBar" style="display:flex;flex-direction:column;gap:4px">
-            <!-- vertical list items injected here -->
-          </div>
-        </div>
+    <!-- Sticky Horizontal Category Chips Filter -->
+    <div style="position:sticky;top:0;z-index:15;background:var(--card);padding:6px 0 10px 0;margin-bottom:8px">
+      <div id="categoryChipsContainer" style="display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scroll-behavior:smooth;-webkit-overflow-scrolling:touch">
+        <button class="cat-chip active" onclick="selectGuideCategoryFilter('All', this)">All</button>
+        <button class="cat-chip" onclick="selectGuideCategoryFilter('Referral', this)">Referral</button>
+        <button class="cat-chip" onclick="selectGuideCategoryFilter('Consent', this)">Consent</button>
+        <button class="cat-chip" onclick="selectGuideCategoryFilter('Form / Requisition', this)">Form / Requisition</button>
+        <button class="cat-chip" onclick="selectGuideCategoryFilter('Internship Essentials', this)">Internship Essentials</button>
+        <button class="cat-chip" onclick="selectGuideCategoryFilter('Others', this)">Others</button>
       </div>
     </div>
-    <div id="guidesResultsGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px">
-      <p style="color:var(--text-muted);font-size:13px">Loading documentation formats...</p>
+
+    <!-- Permanent Horizontal Scrollable Quick Jump Index Pills -->
+    <div style="margin-bottom:16px">
+      <div style="font-size:11px;font-weight:800;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;letter-spacing:0.5px">⚡ Quick Jump Index</div>
+      <div id="guideIndexBar" style="display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;-webkit-overflow-scrolling:touch">
+        <!-- Injected dynamically -->
+      </div>
+    </div>
+
+    <!-- PINNED / CRITICAL SECTION -->
+    <div id="pinnedGuidesSection" style="margin-bottom:20px;display:none">
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px">
+        <span style="font-size:16px">📌</span>
+        <h4 style="margin:0;font-size:14.5px;font-weight:800;color:var(--text)">Pinned / Critical Documents</h4>
+      </div>
+      <div id="pinnedGuidesGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px"></div>
+      <hr style="border:none;border-top:1px dashed var(--border);margin:20px 0 16px 0">
+    </div>
+
+    <!-- MAIN DOCUMENTS GRID -->
+    <div>
+      <div style="font-size:11px;font-weight:800;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px;letter-spacing:0.5px">📁 All Documents</div>
+      <div id="guidesResultsGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px">
+        <p style="color:var(--text-muted);font-size:13px">Loading documentation formats...</p>
+      </div>
     </div>
   </div>
 
@@ -347,7 +409,6 @@
 <!-- FLOATING CANTEEN & MESS MODAL -->
 <div id="foodModal" class="hidden" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(15,23,42,0.65);backdrop-filter:blur(6px);z-index:10000;display:flex;align-items:center;justify-content:center;padding:16px;box-sizing:border-box">
   <div style="background:var(--card);width:100%;max-width:560px;max-height:85vh;border-radius:22px;box-shadow:var(--shadow-lg);border:1px solid var(--border);overflow:hidden;display:flex;flex-direction:column;">
-    <!-- Header -->
     <div style="padding:16px 20px;background:linear-gradient(135deg, #f59e0b, #d97706);color:white;display:flex;justify-content:space-between;align-items:center">
       <div>
         <h3 style="margin:0;font-size:17px;font-weight:800">🍔 Duty Food, Canteen & Water Contacts</h3>
@@ -356,12 +417,10 @@
       <button onclick="toggleFoodModal()" style="background:rgba(255,255,255,0.25);border:none;color:white;font-size:22px;cursor:pointer;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center">&times;</button>
     </div>
     
-    <!-- Search Filter -->
     <div style="padding:12px 16px;background:var(--box-bg);border-bottom:1px solid var(--border)">
       <input type="text" id="foodSearchInput" oninput="renderFoodContacts()" placeholder="🔍 Search mess, bisleri, momos, canteen..." style="width:100%;padding:10px 14px;border-radius:10px;border:1.5px solid var(--border);font-size:13.5px;background:var(--card);color:var(--text);box-sizing:border-box">
     </div>
 
-    <!-- Contact List -->
     <div id="foodContactList" style="padding:12px 16px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;flex:1">
       <!-- Injected dynamically -->
     </div>
@@ -394,6 +453,7 @@
       <input type="text" id="guideTitleInput" placeholder="Format Title" required>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
         <select id="guideDeptFormSelect">
+          <option value="All Departments" selected>All Departments</option>
           <option value="Medicine">Medicine</option>
           <option value="ENT">ENT</option>
           <option value="Ophthalmology">Ophtha</option>
@@ -409,11 +469,11 @@
           <option value="Administrative">Paperwork & MLC</option>
         </select>
         <select id="guideCategorySelect">
-          <option value="Referral">Referral / Consult</option>
-          <option value="File Ordering">File Ordering</option>
-          <option value="Logbook/Document">Logbook/Document</option>
-          <option value="Clinical Memo">Death / Leave Memo</option>
-          <option value="Protocol">Emergency Protocol</option>
+          <option value="Referral">Referral</option>
+          <option value="Consent">Consent</option>
+          <option value="Form / Requisition">Form / Requisition</option>
+          <option value="Internship Essentials">Internship Essentials</option>
+          <option value="Others">Others</option>
         </select>
       </div>
       <textarea id="guideTemplateInput" placeholder="Optional raw text template..." style="width:100%;height:75px;padding:10px;border-radius:12px;border:1.5px solid var(--border);font-family:inherit;font-size:13px;background:var(--input-bg);color:var(--text);box-sizing:border-box"></textarea>
@@ -502,7 +562,6 @@
   let foodContactsData = [];
   let currentEditingMenuPhotos = [];
 
-  // Listen to live Canteen contacts from Firebase
   function initFoodContactsListener() {
     db.collection('canteenContacts').orderBy('createdAt', 'asc').onSnapshot(snap => {
       if (snap.empty) {
@@ -684,7 +743,6 @@
     btn.disabled = true;
 
     try {
-      // Compress newly selected files to JPEG data URLs
       let newPhotos = [];
       if (fileInput && fileInput.files.length > 0) {
         for (let i = 0; i < fileInput.files.length; i++) {
@@ -697,7 +755,6 @@
       const finalPhotos = [...currentEditingMenuPhotos, ...newPhotos];
 
       if (id && !id.startsWith('def_')) {
-        // Update existing document
         await db.collection('canteenContacts').doc(id).set({
           name, 
           phone,
@@ -706,7 +763,6 @@
         }, { merge: true });
         alert('Contact updated successfully!');
       } else {
-        // Create new document
         await db.collection('canteenContacts').add({
           name, 
           phone,
@@ -724,7 +780,6 @@
     }
   }
 
-  // Automatically resizes and compresses images to keep base64 payloads under ~150KB
   function compressImage(file, maxWidth = 1000, quality = 0.7) {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -748,7 +803,6 @@
           const ctx = canvas.getContext('2d');
           ctx.drawImage(img, 0, 0, width, height);
 
-          // Export as JPEG with 70% quality compression
           resolve(canvas.toDataURL('image/jpeg', quality));
         };
         img.onerror = (err) => reject(err);
@@ -762,7 +816,6 @@
     if (!confirm(`Permanently delete vendor contact "${name}"?`)) return;
     try {
       if (id.startsWith('def_')) {
-        // If modifying default data before explicit seed
         const batch = db.batch();
         foodContactsData.forEach((c) => {
           if (c.id !== id) {
@@ -952,14 +1005,13 @@
     isAdmin = ADMIN_EMAILS.includes(user.email);
     updateAuthUI();
 
-    // Sync user email & notification preference to 'users' collection
     if (user && user.email) {
       try {
         await db.collection('users').doc(user.uid).set({
           uid: user.uid,
           email: user.email,
           displayName: user.displayName || 'Doctor',
-          emailNotifications: true, // Default to ON
+          emailNotifications: true,
           lastLogin: firebase.firestore.FieldValue.serverTimestamp()
         }, { merge: true });
       } catch (e) {
@@ -969,6 +1021,7 @@
 
     renderUserHistory();
     if (!document.getElementById('swaps-tab').classList.contains('hidden')) renderSwapTab();
+    if (!document.getElementById('guides-tab').classList.contains('hidden')) renderClinicalGuides();
     startDutyCoverListener();
     initPushNotifications();
     initFoodContactsListener();
@@ -991,6 +1044,8 @@
       adminBtn.classList.add('hidden');
       if (histBox) histBox.classList.add('hidden');
     }
+    // Re-render guides tab to toggle Edit/Delete admin buttons dynamically
+    renderClinicalGuides();
   }
   function toggleAdminPanel() {
     if (!isAdmin) return;
@@ -1229,7 +1284,6 @@
         });
         alert('Request updated successfully!');
       } else {
-        // Create new request
         const docRef = await db.collection('dutySwaps').add({
           requesterUid: currentUser.uid,
           requesterName: currentUser.displayName || currentUser.email || 'Anonymous',
@@ -1241,7 +1295,6 @@
 
         alert('Cover request posted successfully!');
 
-        // Trigger email notification to all subscribed users
         sendNewSwapEmailNotification({
           requesterName: currentUser.displayName || 'A Doctor',
           requesterUid: currentUser.uid,
@@ -1260,10 +1313,8 @@
     }
   }
 
-  // Helper: Send email to all other users
   async function sendNewSwapEmailNotification(swapData) {
     try {
-      // Get all active user emails with notifications enabled (excluding current user)
       const usersSnap = await db.collection('users')
         .where('emailNotifications', '==', true)
         .get();
@@ -1278,7 +1329,6 @@
 
       if (recipientEmails.length === 0) return;
 
-      // Call Google Apps Script backend
       fetch(APPS_SCRIPT_URL, {
         method: "POST",
         body: JSON.stringify({
@@ -1361,7 +1411,6 @@
       alert('You are now marked as interested. Contact the requester to finalize.');
       loadSwaps();
 
-      // Send email alert to the original requester
       if (swapData && swapData.requesterEmail && swapData.requesterUid !== currentUser.uid) {
         sendSwapReplyEmailNotification({
           toEmail: swapData.requesterEmail,
@@ -1392,7 +1441,6 @@
 
       loadSwaps();
 
-      // Send email alert to the original requester
       if (swapData && swapData.requesterEmail && swapData.requesterUid !== currentUser.uid) {
         sendSwapReplyEmailNotification({
           toEmail: swapData.requesterEmail,
@@ -1405,7 +1453,6 @@
     } catch (e) { alert(e.message); }
   }
 
-  // Helper: Send email reply to requester
   function sendSwapReplyEmailNotification(payload) {
     fetch(APPS_SCRIPT_URL, {
       method: "POST",
@@ -1589,6 +1636,7 @@
       document.getElementById('guides-tab')?.classList.remove('hidden');
       if (dateCard) dateCard.classList.add('hidden');
       if (clinicalGuidesData.length === 0) fetchClinicalGuides();
+      else renderClinicalGuides();
     } else if (tab === 'swaps') {
       tabs[5]?.classList.add('active');
       document.getElementById('swaps-tab')?.classList.remove('hidden');
@@ -1697,105 +1745,106 @@
     }
   }
 
-// SCHEDULE
-function onScheduleSearchInput() {
-  const query = document.getElementById('scheduleSearch').value.toLowerCase().trim();
-  if (query) document.getElementById('deptScheduleSelect').value = "";
-  renderScheduleResults();
-}
+  // SCHEDULE
+  function onScheduleSearchInput() {
+    const query = document.getElementById('scheduleSearch').value.toLowerCase().trim();
+    if (query) document.getElementById('deptScheduleSelect').value = "";
+    renderScheduleResults();
+  }
 
-function onScheduleSelectChange() {
-  const selectVal = document.getElementById('deptScheduleSelect').value;
-  if (selectVal) document.getElementById('scheduleSearch').value = "";
-  renderScheduleResults();
-}
+  function onScheduleSelectChange() {
+    const selectVal = document.getElementById('deptScheduleSelect').value;
+    if (selectVal) document.getElementById('scheduleSearch').value = "";
+    renderScheduleResults();
+  }
 
-function renderScheduleResults() {
-  const query = document.getElementById('scheduleSearch').value.toLowerCase().trim();
-  const categoryId = document.getElementById('deptScheduleSelect').value;
-  const resDiv = document.getElementById('scheduleResults');
-  if (!resDiv) return;
+  function renderScheduleResults() {
+    const query = document.getElementById('scheduleSearch').value.toLowerCase().trim();
+    const categoryId = document.getElementById('deptScheduleSelect').value;
+    const resDiv = document.getElementById('scheduleResults');
+    if (!resDiv) return;
 
-  if (query) {
-    const matches = [];
-    deptSchedules.forEach(category => {
-      category.units.forEach(unit => {
-        if (unit.title.toLowerCase().includes(query) || unit.days.toLowerCase().includes(query) || unit.location.toLowerCase().includes(query) || category.name.toLowerCase().includes(query)) {
-          matches.push({ deptCategory: category.name, title: unit.title, days: unit.days, location: unit.location });
-        }
+    if (query) {
+      const matches = [];
+      deptSchedules.forEach(category => {
+        category.units.forEach(unit => {
+          if (unit.title.toLowerCase().includes(query) || unit.days.toLowerCase().includes(query) || unit.location.toLowerCase().includes(query) || category.name.toLowerCase().includes(query)) {
+            matches.push({ deptCategory: category.name, title: unit.title, days: unit.days, location: unit.location });
+          }
+        });
       });
-    });
 
-    if (matches.length === 0) {
-      resDiv.innerHTML = '<p style="padding:16px;color:var(--text-muted);text-align:center">No matching facility, room, or clinic found.</p>';
+      if (matches.length === 0) {
+        resDiv.innerHTML = '<p style="padding:16px;color:var(--text-muted);text-align:center">No matching facility, room, or clinic found.</p>';
+        return;
+      }
+
+      resDiv.innerHTML = `
+        <p style="color:var(--text-muted);font-size:13px;margin-bottom:12px">Found <strong>${matches.length}</strong> matching entries</p>
+        <div class="result-card" style="overflow:hidden">
+          <table style="margin-top:0;border:none">
+            <thead>
+              <tr>
+                <th>Unit / Specialty</th>
+                <th>OPD / Duty Days</th>
+                <th>Location (Room No.)</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${matches.map(m => `
+                <tr>
+                  <td>
+                    <b style="font-size:14px">${m.title}</b><br>
+                    <span style="font-size:11.5px;color:var(--text-muted)">${m.deptCategory}</span>
+                  </td>
+                  <td>${m.days}</td>
+                  <td style="font-size:13px">${m.location}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>`;
       return;
     }
 
-    resDiv.innerHTML = `
-      <p style="color:var(--text-muted);font-size:13px;margin-bottom:12px">Found <strong>${matches.length}</strong> matching entries</p>
-      <div class="result-card" style="overflow:hidden">
-        <table style="margin-top:0;border:none">
-          <thead>
-            <tr>
-              <th>Unit / Specialty</th>
-              <th>OPD / Duty Days</th>
-              <th>Location (Room No.)</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${matches.map(m => `
-              <tr>
-                <td>
-                  <b style="font-size:14px">${m.title}</b><br>
-                  <span style="font-size:11.5px;color:var(--text-muted)">${m.deptCategory}</span>
-                </td>
-                <td>${m.days}</td>
-                <td style="font-size:13px">${m.location}</td>
-              </tr>
-            `).join('')}
-          </tbody>
-        </table>
-      </div>`;
-    return;
-  }
+    if (categoryId) {
+      const category = deptSchedules.find(c => c.id === categoryId);
+      if (!category) {
+        resDiv.innerHTML = '<p style="padding:16px;color:var(--text-muted)">Details for this category will be updated soon.</p>';
+        return;
+      }
 
-  if (categoryId) {
-    const category = deptSchedules.find(c => c.id === categoryId);
-    if (!category) {
-      resDiv.innerHTML = '<p style="padding:16px;color:var(--text-muted)">Details for this category will be updated soon.</p>';
+      resDiv.innerHTML = `
+        <div class="result-card" style="overflow:hidden;margin-bottom:0">
+          <div class="schedule-header">${category.name}</div>
+          <table style="margin-top:0;border:none">
+            <thead>
+              <tr>
+                <th>Unit / Special Clinic</th>
+                <th>OPD Days</th>
+                <th>Location (Room No.)</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${category.units.map(u => `
+                <tr>
+                  <td><b style="font-size:14px">${u.title}</b></td>
+                  <td>${u.days}</td>
+                  <td style="font-size:13px">${u.location}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>`;
       return;
     }
 
-    resDiv.innerHTML = `
-      <div class="result-card" style="overflow:hidden;margin-bottom:0">
-        <div class="schedule-header">${category.name}</div>
-        <table style="margin-top:0;border:none">
-          <thead>
-            <tr>
-              <th>Unit / Special Clinic</th>
-              <th>OPD Days</th>
-              <th>Location (Room No.)</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${category.units.map(u => `
-              <tr>
-                <td><b style="font-size:14px">${u.title}</b></td>
-                <td>${u.days}</td>
-                <td style="font-size:13px">${u.location}</td>
-              </tr>
-            `).join('')}
-          </tbody>
-        </table>
-      </div>`;
-    return;
+    resDiv.innerHTML = '';
   }
 
-  resDiv.innerHTML = '';
-}
+  function searchDeptSchedule() { renderScheduleResults(); }
 
-function searchDeptSchedule() { renderScheduleResults(); }
-// LABS DIRECTORY & SEARCH
+  // LABS DIRECTORY & SEARCH
   function toggleLabDirectoryPopup() {
     const popup = document.getElementById('labDirectoryPopup');
     if (!popup) return;
@@ -1920,7 +1969,6 @@ function searchDeptSchedule() { renderScheduleResults(); }
 
       html += `
       <div class="result-card" style="margin-bottom:8px; padding:10px 14px;">
-        <!-- Title & Main Tags -->
         <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; flex-wrap:wrap; margin-bottom:6px;">
           <h4 style="margin:0; font-size:14.5px; font-weight:800; color:var(--text); flex:1; min-width:180px;">
             🧪 ${item.test}
@@ -1932,7 +1980,6 @@ function searchDeptSchedule() { renderScheduleResults(); }
           </div>
         </div>
 
-                <!-- Action Box: Sample Drop & Report Collection -->
         <div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:8px; background:var(--box-bg); padding:8px; border-radius:12px; border:1px solid var(--border);">
           <div style="background:var(--card); padding:8px 10px; border-radius:8px; border:1px solid var(--border);">
             <div style="font-size:10px; font-weight:800; text-transform:uppercase; color:var(--text-muted); letter-spacing:0.3px;">📍 Sample Drop / Location</div>
@@ -1944,8 +1991,6 @@ function searchDeptSchedule() { renderScheduleResults(); }
           </div>
         </div>
 
-
-        <!-- Collapsible Parameters / Notes -->
         ${(hasNotes || !hasSpecialDays) ? `
           <details style="margin-top:4px;">
             <summary style="font-size:11.5px; font-weight:700; color:var(--primary); cursor:pointer; padding:2px 0;">
@@ -1963,8 +2008,69 @@ function searchDeptSchedule() { renderScheduleResults(); }
     resDiv.innerHTML = html;
   }
 
-  // CLINICAL GUIDES
+  // CLINICAL GUIDES & DOCUMENTS LOGIC
   let editingGuideId = null;
+  let selectedGuideCategory = localStorage.getItem("mamc_guide_category") || "All";
+
+  function normalizeGuideCategory(cat) {
+    if (!cat) return "Others";
+    const lower = cat.toLowerCase();
+    if (lower.includes("referral") || lower.includes("consult") || lower.includes("memo")) return "Referral";
+    if (lower.includes("consent")) return "Consent";
+    if (lower.includes("form") || lower.includes("requisition") || lower.includes("logbook")) return "Form / Requisition";
+    if (lower.includes("protocol") || lower.includes("ordering") || lower.includes("essential") || lower.includes("joining") || lower.includes("duty")) return "Internship Essentials";
+    if (["referral", "consent", "form / requisition", "internship essentials", "others"].includes(lower)) {
+      return cat;
+    }
+    return "Others";
+  }
+
+  function getCategoryBadgeHtml(cat) {
+    const normalized = normalizeGuideCategory(cat);
+    let bg = "#f3f4f6", color = "#374151", border = "#d1d5db";
+
+    switch (normalized) {
+      case "Referral":
+        bg = "rgba(59, 130, 246, 0.12)"; color = "#1d4ed8"; border = "rgba(59, 130, 246, 0.35)";
+        break;
+      case "Consent":
+        bg = "rgba(245, 158, 11, 0.14)"; color = "#b45309"; border = "rgba(245, 158, 11, 0.35)";
+        break;
+      case "Form / Requisition":
+        bg = "rgba(139, 92, 246, 0.12)"; color = "#6d28d9"; border = "rgba(139, 92, 246, 0.35)";
+        break;
+      case "Internship Essentials":
+        bg = "rgba(34, 197, 94, 0.12)"; color = "#15803d"; border = "rgba(34, 197, 94, 0.35)";
+        break;
+      case "Others":
+      default:
+        bg = "rgba(100, 116, 139, 0.12)"; color = "#475569"; border = "rgba(100, 116, 139, 0.35)";
+        break;
+    }
+
+    return `<span class="badge" style="background:${bg}; color:${color}; border:1px solid ${border}; font-size:11px; font-weight:800;">${normalized}</span>`;
+  }
+
+  function selectGuideCategoryFilter(cat, btnEl) {
+    selectedGuideCategory = cat;
+    localStorage.setItem("mamc_guide_category", cat);
+
+    document.querySelectorAll("#categoryChipsContainer .cat-chip").forEach(btn => btn.classList.remove("active"));
+    if (btnEl) btnEl.classList.add("active");
+
+    renderClinicalGuides();
+  }
+
+  function syncCategoryChipsUI() {
+    const chips = document.querySelectorAll("#categoryChipsContainer .cat-chip");
+    chips.forEach(chip => {
+      if (chip.textContent.trim().toLowerCase() === selectedGuideCategory.toLowerCase()) {
+        chip.classList.add("active");
+      } else {
+        chip.classList.remove("active");
+      }
+    });
+  }
 
   async function fetchClinicalGuides() {
     const container = document.getElementById("guidesResultsGrid");
@@ -1980,12 +2086,6 @@ function searchDeptSchedule() { renderScheduleResults(); }
     }
   }
 
-  function toggleGuideIndexPopup() {
-    const popup = document.getElementById('guideIndexPopup');
-    if (!popup) return;
-    popup.classList.toggle('hidden');
-  }
-
   function jumpToGuide(cardId) {
     const card = document.getElementById(cardId);
     if (!card) return;
@@ -1996,96 +2096,128 @@ function searchDeptSchedule() { renderScheduleResults(); }
   }
 
   function renderClinicalGuides() {
+    syncCategoryChipsUI();
+
     const query = document.getElementById("guideSearchInput")?.value.toLowerCase().trim() || "";
     const deptFilter = document.getElementById("guideDeptSelect")?.value || "all";
-    const container = document.getElementById("guidesResultsGrid");
+    const mainContainer = document.getElementById("guidesResultsGrid");
+    const pinnedSection = document.getElementById("pinnedGuidesSection");
+    const pinnedGrid = document.getElementById("pinnedGuidesGrid");
     const indexBar = document.getElementById("guideIndexBar");
-    if (!container) return;
 
-    let filtered = [...clinicalGuidesData].sort((a, b) => {
-      const timeA = a.createdAt ? new Date(a.createdAt).getTime() : (Number(a.id) || 0);
-      const timeB = b.createdAt ? new Date(b.createdAt).getTime() : (Number(b.id) || 0);
-      return timeB - timeA;
+    if (!mainContainer) return;
+
+    let filtered = clinicalGuidesData.filter(g => {
+      const docDept = g.dept || "All Departments";
+      const normalizedCat = normalizeGuideCategory(g.category);
+
+      const matchesDept = (deptFilter === "all") ||
+                          (docDept.toLowerCase() === "all departments") ||
+                          (docDept.toLowerCase() === deptFilter.toLowerCase());
+
+      const matchesCat = (selectedGuideCategory === "All") ||
+                         (normalizedCat.toLowerCase() === selectedGuideCategory.toLowerCase());
+
+      const matchesQuery = !query ||
+                           g.title.toLowerCase().includes(query) ||
+                           (g.templateText || "").toLowerCase().includes(query) ||
+                           normalizedCat.toLowerCase().includes(query) ||
+                           docDept.toLowerCase().includes(query);
+
+      return matchesDept && matchesCat && matchesQuery;
     });
 
-    if (deptFilter !== "all") {
-      filtered = filtered.filter(g => g.dept.toLowerCase() === deptFilter.toLowerCase());
-    }
-    if (query) {
-      filtered = filtered.filter(g =>
-        g.title.toLowerCase().includes(query) ||
-        (g.templateText || "").toLowerCase().includes(query) ||
-        g.category.toLowerCase().includes(query)
-      );
-    }
+    const pinnedKeywords = ["needle stick", "uncontrolled sugar", "sugar referral", "consent", "pac", "bedside pac", "joining letter", "pdo letter"];
+    
+    let pinnedDocs = [];
+    let normalDocs = [];
+
+    filtered.forEach(g => {
+      const titleLower = g.title.toLowerCase();
+      const isPinned = pinnedKeywords.some(kw => titleLower.includes(kw)) || g.isPinned === true;
+      if (isPinned && pinnedDocs.length < 8) {
+        pinnedDocs.push(g);
+      } else {
+        normalDocs.push(g);
+      }
+    });
 
     if (indexBar) {
       if (filtered.length === 0) {
-        indexBar.innerHTML = `<span style="font-size:12px;color:var(--text-muted)">No documents match.</span>`;
+        indexBar.innerHTML = `<span style="font-size:12px;color:var(--text-muted)">No documents available.</span>`;
       } else {
-        indexBar.innerHTML = filtered.map((g, idx) => {
+        indexBar.innerHTML = filtered.map((g) => {
           const cardDomId = `guide-card-${g.id}`;
-          const isLatest = idx === 0 && !query && deptFilter === "all";
           return `
-          <button class="index-pill" onclick="jumpToGuide('${cardDomId}'); document.getElementById('guideIndexPopup')?.classList.add('hidden')">
-            ${isLatest ? '✨ ' : '📄 '}<strong>${g.title}</strong>
+          <button class="quick-jump-pill" onclick="jumpToGuide('${cardDomId}')">
+            📄 <strong>${g.title}</strong>
           </button>`;
         }).join('');
       }
     }
 
-    if (filtered.length === 0) {
-      container.innerHTML = `<p style="grid-column:1/-1;text-align:center;padding:20px;color:var(--text-muted)">No guides found.</p>`;
+    if (pinnedDocs.length > 0 && !query) {
+      pinnedSection.style.display = "block";
+      pinnedGrid.innerHTML = pinnedDocs.map(g => createGuideCardHtml(g, true)).join('');
+    } else {
+      pinnedSection.style.display = "none";
+    }
+
+    if (normalDocs.length === 0 && pinnedDocs.length === 0) {
+      mainContainer.innerHTML = `<p style="grid-column:1/-1;text-align:center;padding:24px;color:var(--text-muted);font-weight:600">No matching guides or documents found.</p>`;
       return;
     }
 
-    container.innerHTML = filtered.map((g, idx) => {
-      const isImage = g.isImage || (g.imageUrl && g.imageUrl.includes("lh3.googleusercontent"));
-      const fileLink = g.fileUrl || g.imageUrl || "";
-      const safeId = String(g.id).replace(/'/g, "\\'");
-      const cardDomId = `guide-card-${g.id}`;
-      const isNew = idx === 0 && !query && deptFilter === "all";
+    mainContainer.innerHTML = normalDocs.map(g => createGuideCardHtml(g, false)).join('');
+  }
 
-      return `
-      <div id="${cardDomId}" class="result-card" style="padding:16px;display:flex;flex-direction:column;justify-content:space-between;transition:box-shadow 0.3s ease">
-        <div>
-          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:8px">
-            <span class="badge badge-sub" style="font-size:11px">${g.dept}</span>
-            <div style="display:flex;gap:4px;align-items:center">
-              ${isNew ? '<span class="badge" style="background:#fef08a;color:#854d0e;border:1px solid #facc15;font-size:10px">✨ NEW</span>' : ''}
-              <span class="badge badge-unit" style="font-size:11px">${g.category}</span>
-            </div>
+  function createGuideCardHtml(g, isPinned = false) {
+    const isImage = g.isImage || (g.imageUrl && g.imageUrl.includes("lh3.googleusercontent"));
+    const fileLink = g.fileUrl || g.imageUrl || "";
+    const safeId = String(g.id).replace(/'/g, "\\'");
+    const cardDomId = `guide-card-${g.id}`;
+    const deptText = g.dept || "All Departments";
+    const categoryBadge = getCategoryBadgeHtml(g.category);
+
+    return `
+    <div id="${cardDomId}" class="result-card" style="padding:14px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:var(--shadow-sm);border:1.5px solid var(--border);position:relative">
+      <div>
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:8px">
+          <span class="badge badge-sub" style="font-size:11px;font-weight:700">🏥 ${deptText}</span>
+          ${categoryBadge}
+        </div>
+
+        <h4 style="margin:0 0 8px 0;font-size:14.5px;font-weight:800;color:var(--text);line-height:1.35">${g.title}</h4>
+        
+        ${isImage && g.imageUrl ? `
+          <div style="border-radius:10px;overflow:hidden;height:120px;margin-bottom:10px;background:var(--box-bg);cursor:pointer;border:1px solid var(--border)" onclick="openLightbox('${g.imageUrl}')">
+            <img src="${g.imageUrl}" style="width:100%;height:100%;object-fit:cover" loading="lazy" alt="${g.title}">
           </div>
-          <h4 style="margin:0 0 8px 0;font-size:15px;font-weight:800;color:var(--text)">${g.title}</h4>
-          
-          ${isImage && g.imageUrl ? `
-            <div style="border-radius:10px;overflow:hidden;height:140px;margin-bottom:10px;background:var(--box-bg);cursor:pointer;border:1px solid var(--border)" onclick="openLightbox('${g.imageUrl}')">
-              <img src="${g.imageUrl}" style="width:100%;height:100%;object-fit:cover" loading="lazy">
-            </div>
-          ` : fileLink ? `
-            <div style="padding:14px;background:var(--box-bg);border-radius:10px;margin-bottom:10px;border:1px dashed var(--border);text-align:center">
-              <div style="font-size:28px;margin-bottom:6px">📄</div>
-              <div style="font-size:12.5px;font-weight:700;color:var(--text)">${g.fileName || "Document"}</div>
-            </div>
-          ` : ''}
+        ` : fileLink ? `
+          <div style="padding:10px;background:var(--box-bg);border-radius:10px;margin-bottom:10px;border:1px dashed var(--border);text-align:center">
+            <div style="font-size:24px;margin-bottom:2px">📄</div>
+            <div style="font-size:12px;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${g.fileName || "Document File"}</div>
+          </div>
+        ` : ''}
 
-          ${g.templateText ? `
-            <div style="background:var(--box-bg);padding:8px 10px;border-radius:8px;font-size:12px;color:var(--text);border:1px dashed var(--border);max-height:80px;overflow-y:auto;white-space:pre-wrap;margin-bottom:10px;font-family:monospace">${g.templateText}</div>
-          ` : ''}
-        </div>
-
-        <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
-          ${g.templateText ? `<button onclick="copyTemplateText('${encodeURIComponent(g.templateText)}',this)" style="flex:1;min-width:90px;padding:7px;border:1px solid var(--border);background:var(--card);color:var(--text);font-weight:800;font-size:11.5px;border-radius:8px;cursor:pointer">📋 Copy Text</button>` : ''}
-          
-          ${isImage && g.imageUrl ? `<button onclick="openLightbox('${g.imageUrl}')" style="flex:1;min-width:90px;padding:7px;border:1px solid var(--border);background:var(--card);color:var(--primary);font-weight:800;font-size:11.5px;border-radius:8px;cursor:pointer">🔍 View Photo</button>` : ''}
-          
-          ${!isImage && fileLink ? `<a href="${fileLink}" target="_blank" style="flex:1;min-width:90px;padding:7px;border:1px solid var(--border);background:var(--card);color:var(--primary);font-weight:800;font-size:11.5px;border-radius:8px;cursor:pointer;text-align:center;text-decoration:none">⬇️ Download</a>` : ''}
-          
-          <button onclick="openEditGuide('${safeId}')" style="padding:7px 10px;border:1px solid var(--border);background:var(--box-bg);color:var(--text);font-weight:800;font-size:11.5px;border-radius:8px;cursor:pointer">✏️ Edit</button>
-          <button onclick="promptDeleteGuide('${safeId}')" style="padding:7px 10px;border:none;background:rgba(239,68,68,0.15);color:#ef4444;font-weight:800;font-size:11.5px;border-radius:8px;cursor:pointer">🗑️</button>
-        </div>
+        ${g.templateText ? `
+          <div style="background:var(--box-bg);padding:8px 10px;border-radius:8px;font-size:11.5px;color:var(--text);border:1px dashed var(--border);max-height:65px;overflow-y:auto;white-space:pre-wrap;margin-bottom:10px;font-family:monospace;line-height:1.3">${g.templateText}</div>
+        ` : ''}
       </div>
-    `}).join('');
+
+      <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap">
+        ${g.templateText ? `<button onclick="copyTemplateText('${encodeURIComponent(g.templateText)}',this)" style="flex:1;min-width:85px;padding:7px;border:1px solid var(--border);background:var(--card);color:var(--text);font-weight:800;font-size:11px;border-radius:8px;cursor:pointer">📋 Copy Text</button>` : ''}
+        
+        ${isImage && g.imageUrl ? `<button onclick="openLightbox('${g.imageUrl}')" style="flex:1;min-width:85px;padding:7px;border:1px solid var(--border);background:var(--card);color:var(--primary);font-weight:800;font-size:11px;border-radius:8px;cursor:pointer">🔍 View Photo</button>` : ''}
+        
+        ${!isImage && fileLink ? `<a href="${fileLink}" target="_blank" style="flex:1;min-width:85px;padding:7px;border:1px solid var(--border);background:var(--card);color:var(--primary);font-weight:800;font-size:11px;border-radius:8px;cursor:pointer;text-align:center;text-decoration:none">⬇️ Download</a>` : ''}
+        
+        ${isAdmin ? `
+          <button onclick="openEditGuide('${safeId}')" style="padding:7px 9px;border:1px solid var(--border);background:var(--box-bg);color:var(--text);font-weight:800;font-size:11px;border-radius:8px;cursor:pointer" title="Edit Document">✏️ Edit</button>
+          <button onclick="promptDeleteGuide('${safeId}')" style="padding:7px 9px;border:none;background:rgba(239,68,68,0.15);color:#ef4444;font-weight:800;font-size:11px;border-radius:8px;cursor:pointer" title="Delete Document">🗑️</button>
+        ` : ''}
+      </div>
+    </div>`;
   }
 
   function copyTemplateText(encodedText, btn) {
@@ -2118,6 +2250,8 @@ function searchDeptSchedule() { renderScheduleResults(); }
     document.getElementById("guideModalTitle").textContent = "📤 Upload Format or Referral Guide";
     document.getElementById("uploadSubmitBtn").textContent = "Publish Live";
     document.getElementById("guideUploadForm").reset();
+    document.getElementById("guideDeptFormSelect").value = "All Departments";
+    document.getElementById("guideCategorySelect").value = "Referral";
     document.getElementById("currentFileHint").style.display = "none";
     document.getElementById("adminGuideModal")?.classList.remove("hidden");
   }
@@ -2132,8 +2266,8 @@ function searchDeptSchedule() { renderScheduleResults(); }
     document.getElementById("uploadSubmitBtn").textContent = "Save Changes";
 
     document.getElementById("guideTitleInput").value = guide.title || "";
-    document.getElementById("guideDeptFormSelect").value = guide.dept || "Medicine";
-    document.getElementById("guideCategorySelect").value = guide.category || "Referral";
+    document.getElementById("guideDeptFormSelect").value = guide.dept || "All Departments";
+    document.getElementById("guideCategorySelect").value = normalizeGuideCategory(guide.category) || "Referral";
     document.getElementById("guideTemplateInput").value = guide.templateText || "";
     document.getElementById("adminPinInput").value = "";
 
@@ -2235,7 +2369,6 @@ function searchDeptSchedule() { renderScheduleResults(); }
     document.getElementById('feedbackModal')?.classList.toggle('hidden');
   }
 
-  // Pre-load Canteen contacts on site startup
   initFoodContactsListener();
 
   auth.onAuthStateChanged(user => {

@@ -100,6 +100,7 @@
     <div class="admin-tabs">
       <button class="admin-tab active" onclick="switchAdminTab('whatsnew')">What's New</button>
       <button class="admin-tab" onclick="switchAdminTab('announcements')">Announcements</button>
+      <button class="admin-tab" onclick="switchAdminTab('rosteruploads')">📄 Roster Uploads</button>
       <button class="admin-tab" onclick="switchAdminTab('canteen')">Canteen Contacts</button>
       <button class="admin-tab" onclick="switchAdminTab('faqs')">Add FAQ</button>
       <button class="admin-tab" onclick="switchAdminTab('notes')">Notes</button>
@@ -154,6 +155,10 @@
         </select>
       </div>
     </div>
+    
+    <!-- CONTAINER FOR OFFICIAL UPLOADED ROSTER NOTICES -->
+    <div id="uploadedRostersContainer" style="margin-bottom: 14px;"></div>
+
     <div id="smartSearchResults" class="results"></div>
   </div>
 
@@ -517,7 +522,7 @@
 
 <script>
   // ========== VERSION ==========
-  const APP_BUILD = "2026-10-16-v8";
+  const APP_BUILD = "2026-10-16-v9";
 
   // ========== FIREBASE ==========
   const firebaseConfig = {
@@ -917,11 +922,11 @@
   }
 
   // SITE UPDATE (What's New)
-  let SITE_VERSION = "2026-10-16-v8";
+  let SITE_VERSION = "2026-10-16-v9";
   let SITE_CHANGELOG = [
-    "Fixed Firestore edit permissions for Canteen & Mess contacts",
-    "Added multi-photo Menu Attachment option for vendor contacts",
-    "Doctors can now view full vendor menu cards direct from the Canteen popup"
+    "Redesigned Search Roster to modern, tight compact intern cards",
+    "Added Official Department Roster Upload feature (Admin)",
+    "Added real-time Roster Preview notice cards for active date ranges"
   ];
 
   async function loadRemoteWhatsNew() {
@@ -1035,6 +1040,7 @@
     startDutyCoverListener();
     initPushNotifications();
     initFoodContactsListener();
+    initUploadedRostersListener();
   }
   function updateAuthUI() {
     const loginBtn = document.getElementById('loginBtn');
@@ -1087,6 +1093,69 @@
         </div>
         <div id="adminAnnList" style="margin-top:16px"><p style="color:var(--text-muted);font-size:13px">Loading...</p></div>`;
       loadAdminAnnouncements();
+    } else if (tab === 'rosteruploads') {
+      content.innerHTML = `
+        <div class="admin-form-card">
+          <h4 id="adminRosterFormTitle">📄 Upload Official Department Roster</h4>
+          <input type="hidden" id="editingRosterId" value="">
+          
+          <div class="input-group">
+            <label>Department *</label>
+            <select id="adminRosterDept" required>
+              <option value="">-- Select Department --</option>
+              <option value="PSM">Community Medicine (PSM)</option>
+              <option value="Forensic">Forensic Medicine (FMT)</option>
+              <option value="MED">General Medicine</option>
+              <option value="Surgery">General Surgery</option>
+              <option value="DVL">Dermatology (DVL)</option>
+              <option value="ObsGynae">Obstetrics & Gynaecology</option>
+              <option value="Psychiatry">Psychiatry</option>
+              <option value="Pediatrics">Pediatrics</option>
+              <option value="Casualty">Casualty / Emergency</option>
+              <option value="ENT">ENT</option>
+              <option value="Ophtha">Ophthalmology</option>
+              <option value="Ortho">Orthopedics</option>
+              <option value="Anaesthesia">Anaesthesia</option>
+              <option value="Pulm Med">Pulmonary Medicine</option>
+              <option value="Radiology">Radiology</option>
+            </select>
+          </div>
+          
+          <div class="input-group">
+            <label>Title (Optional)</label>
+            <input type="text" id="adminRosterTitle" placeholder="e.g. Anaesthesia Unit Posting, Casualty Duty Roster">
+          </div>
+          
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+            <div class="input-group">
+              <label>From Date *</label>
+              <input type="date" id="adminRosterFromDate" required>
+            </div>
+            <div class="input-group">
+              <label>To Date *</label>
+              <input type="date" id="adminRosterToDate" required>
+            </div>
+          </div>
+          
+          <div class="input-group">
+            <label>Upload File (Photo or PDF) *</label>
+            <input type="file" id="adminRosterFile" accept="image/*,application/pdf">
+          </div>
+          
+          <div class="input-group">
+            <label>Optional Short Note</label>
+            <textarea id="adminRosterNote" rows="2" placeholder="e.g. Revised unit allocation for Batch 2021"></textarea>
+          </div>
+          
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <button onclick="saveAdminRosterUpload()" id="adminRosterSubmitBtn" class="btn-primary-sm">Upload Roster</button>
+            <button onclick="resetAdminRosterForm()" id="adminRosterCancelBtn" class="btn-secondary-sm hidden">Cancel</button>
+          </div>
+        </div>
+
+        <h5 style="margin:16px 0 8px 0;font-size:14px;font-weight:800">Uploaded Official Rosters</h5>
+        <div id="adminUploadedRosterList"></div>`;
+      renderAdminUploadedRosterList();
     } else if (tab === 'canteen') {
       content.innerHTML = `
         <div class="admin-form-card">
@@ -1575,106 +1644,6 @@
       document.getElementById('swaps-tab')?.classList.remove('hidden');
       if (dateCard) dateCard.classList.add('hidden');
       renderSwapTab();
-    }
-  }
-
-  // ROSTER SEARCH
-  function executeSmartSearch() {
-    const personQuery = document.getElementById('universalPersonInput')?.value.toLowerCase().trim() || "";
-    const deptQuery = document.getElementById('universalDeptSelect')?.value || "";
-    const selectedDate = document.getElementById('dutyDate')?.value || "2026-05-23";
-    const resDiv = document.getElementById('smartSearchResults');
-    if (!resDiv) return;
-    const weekInfo = getSelectedWeek();
-    if (!personQuery && !deptQuery) {
-      resDiv.innerHTML = '<p style="padding:16px;color:var(--text-muted);text-align:center">Type an intern name/S.No or select a department to see postings.</p>';
-      return;
-    }
-    if (personQuery && deptQuery) {
-      const matchedInterns = interns.filter(i => i.name.toLowerCase().includes(personQuery) || i.roll.includes(personQuery) || i.batch.toLowerCase() === personQuery || i.sno.toString() === personQuery);
-      if (matchedInterns.length === 0) {
-        resDiv.innerHTML = `<p style="padding:16px;color:var(--text-muted);text-align:center">No intern matching "<strong>${personQuery}</strong>" found.</p>`;
-        return;
-      }
-      let html = '';
-      matchedInterns.forEach(student => {
-        const matchingWeeks = weeksData.filter(w => getPostingForSubdivision(student.batch, w.wk).toLowerCase() === deptQuery.toLowerCase());
-        if (matchingWeeks.length === 0) {
-          html += `<div class="result-card" style="padding:16px"><h3>${student.name} (S.No ${student.sno} • Subdivision ${student.batch})</h3><p style="color:var(--text-muted);margin-top:6px">Not posted in <strong>${deptQuery}</strong> during the 2026–2027 internship year.</p></div>`;
-          return;
-        }
-        html += `<div class="result-card"><div class="result-card-header"><h3>👤 ${student.name} &nbsp;➔&nbsp; 🏥 ${deptQuery}</h3><span class="badge badge-sub">Batch ${student.batch} • S.No ${student.sno}</span></div><div class="result-card-meta">Posted in <strong>${deptQuery}</strong> for <strong>${matchingWeeks.length} week(s)</strong>:</div><div class="result-card-body">`;
-        matchingWeeks.forEach(w => {
-          const unitInfo = getSpecialUnitInfo(student.sno, w.start);
-          const currentUnitName = unitInfo ? unitInfo.unit : null;
-          const activeSubdivisions = [];
-          ['A', 'B', 'C', 'D'].forEach(g => { for (let i = 1; i <= 12; i++) { const sub = g + i; if (getPostingForSubdivision(sub, w.wk).toLowerCase() === deptQuery.toLowerCase()) activeSubdivisions.push(sub); } });
-          const allDeptInterns = interns.filter(i => activeSubdivisions.includes(i.batch));
-          const sameUnitPartners = currentUnitName ? allDeptInterns.filter(i => getSpecialUnitInfo(i.sno, w.start)?.unit === currentUnitName) : [];
-          html += `<div class="week-box"><div class="week-box-header"><div><span style="font-weight:800;color:var(--primary);font-size:14.5px">🗓️ Week ${w.wk}</span><span style="font-size:12.5px;color:var(--text-muted);margin-left:6px">(${formatDateShort(w.start)} – ${formatDateShort(w.end)})</span></div>${unitInfo ? `<span class="badge badge-unit">${unitInfo.unit} •${unitInfo.incharge}</span>` : '<span class="badge badge-sub">General Duty</span>'}</div>`;
-          if (sameUnitPartners.length > 0) html += `<div class="unit-partner-section"><div style="font-size:12px;font-weight:700;color:#16a34a">🤝 Posted in ${currentUnitName} with ${student.name.split(' ')[0]} (${sameUnitPartners.length}):</div><div class="partner-pills">${sameUnitPartners.map(p => `<span class="partner-chip" ${p.sno === student.sno ? 'style="background:rgba(34,197,94,0.3);border-color:#22c55e"' : ''}>${p.name} <span style="font-size:10.5px;opacity:0.8">(S.No ${p.sno})</span></span>`).join('')}</div></div>`;
-          html += `<details class="co-intern-toggle"><summary>👥 View all ${allDeptInterns.length} interns in ${deptQuery} this week</summary><div class="co-intern-grid">${allDeptInterns.map(ci => `<span class="co-intern-chip" ${ci.sno === student.sno ? 'style="background:rgba(56,189,248,0.2);border-color:#38bdf8;font-weight:bold"' : ''}>${ci.name} (${ci.batch})${getSpecialUnitInfo(ci.sno, w.start) ? ` <strong style="color:#d97706">[${getSpecialUnitInfo(ci.sno, w.start).unit}]</strong>` : ''}</span>`).join('')}</div></details></div>`;
-        });
-        html += `</div></div>`;
-      });
-      resDiv.innerHTML = html;
-      return;
-    }
-    if (!personQuery && deptQuery) {
-      const activeSubdivisions = [];
-      ['A', 'B', 'C', 'D'].forEach(g => { for (let i = 1; i <= 12; i++) { const sub = g + i; if (getPostingForSubdivision(sub, weekInfo.wk).toLowerCase() === deptQuery.toLowerCase()) activeSubdivisions.push(sub); } });
-      const activeInterns = interns.filter(i => activeSubdivisions.includes(i.batch)).sort((a, b) => a.sno - b.sno);
-      const hasAnyUnit = activeInterns.some(i => getSpecialUnitInfo(i.sno, selectedDate));
-      let html = `<div class="result-card" style="margin-bottom:16px"><div class="schedule-header">🏥 ${deptQuery} Roster</div><div style="padding:14px 18px"><div style="font-size:13.5px;color:var(--text-muted);margin-bottom:8px"><strong>Week ${weekInfo.wk}</strong> • ${formatDateShort(weekInfo.start)} to ${formatDateShort(weekInfo.end)}</div><div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center"><span style="font-weight:700;font-size:13px;color:var(--text)">Active Subdivisions:</span>${activeSubdivisions.length > 0 ? activeSubdivisions.map(s => `<span class="badge badge-sub">${s}</span>`).join('') : '<span style="color:var(--text-muted)">None</span>'}</div></div></div>`;
-      if (activeInterns.length === 0) html += `<p style="padding:16px;color:var(--text-muted);text-align:center">No interns are posted in ${deptQuery} during Week ${weekInfo.wk}.</p>`;
-      else html += `<div class="result-card" style="overflow:hidden"><table style="margin-top:0;border:none"><thead><tr><th>S.No</th><th>Roll No</th><th>Name</th><th>Subdivision</th>${hasAnyUnit ? '<th>Unit</th><th>Incharge</th>' : ''}</tr></thead><tbody>${activeInterns.map(i => { const unitInfo = getSpecialUnitInfo(i.sno, selectedDate); return `<tr><td>${i.sno}</td><td>${i.roll}</td><td><b>${i.name}</b></td><td><span class="badge badge-sub">${i.batch}</span></td>${hasAnyUnit ? `<td>${unitInfo ? `<span class="badge badge-unit">${unitInfo.unit}</span>` : '—'}</td><td style="font-size:12.5px;color:var(--text-muted)">${unitInfo ? unitInfo.incharge : '—'}</td>` : ''}</tr>`; }).join('')}</tbody></table></div>`;
-      resDiv.innerHTML = html;
-      return;
-    }
-    if (personQuery && !deptQuery) {
-      const matches = interns.filter(i => i.name.toLowerCase().includes(personQuery) || i.roll.includes(personQuery) || i.batch.toLowerCase() === personQuery || i.sno.toString() === personQuery);
-      if (matches.length === 0) {
-        resDiv.innerHTML = '<p style="padding:16px;color:var(--text-muted);text-align:center">No interns found matching your search.</p>';
-        return;
-      }
-      let html = '';
-      matches.forEach(student => {
-        let activePosting = getPostingForSubdivision(student.batch, weekInfo.wk);
-        let burariDutyInfo = null, peripheryInfo = null, isPDO = false;
-        const studentSno = Number(student.sno);
-        if (typeof burariDailyRoster !== 'undefined' && burariDailyRoster[selectedDate]?.[studentSno]) burariDutyInfo = burariDailyRoster[selectedDate][studentSno];
-        if (!burariDutyInfo && typeof burariDailyRoster !== 'undefined') {
-          const prevDate = new Date(selectedDate);
-          prevDate.setDate(prevDate.getDate() - 1);
-          if (burariDailyRoster[prevDate.toISOString().split('T')[0]]?.[studentSno]?.dept?.toLowerCase().includes("night")) isPDO = true;
-        }
-        if (!burariDutyInfo && !isPDO && typeof peripheryRosterMap !== 'undefined' && peripheryRosterMap[student.batch]) {
-          const pMatch = peripheryRosterMap[student.batch].find(p => selectedDate >= p.start && selectedDate <= p.end);
-          if (pMatch) peripheryInfo = pMatch.center;
-        }
-        let displayDuty = activePosting;
-        if (burariDutyInfo) displayDuty = `PSM - ${burariDutyInfo.dept}`;
-        else if (isPDO) displayDuty = `PSM - PDO (Post Duty Off)`;
-        else if (peripheryInfo) displayDuty = `PSM (${peripheryInfo.toUpperCase()})`;
-        const unitInfo = getSpecialUnitInfo(student.sno, selectedDate);
-        const unitBadgeHtml = unitInfo ? `<span class="badge badge-unit" style="margin-left:8px">${unitInfo.unit}</span><span style="font-size:11.5px;color:var(--text-muted);margin-left:6px">(${unitInfo.incharge})</span>` : '';
-        html += `<div class="result-card"><div class="result-card-header"><h3>${student.name}</h3><span class="badge badge-sub">Subdivision ${student.batch}</span></div><div class="result-card-meta"><strong>Roll No:</strong> ${student.roll} &nbsp;•&nbsp; <strong>S.No:</strong> ${student.sno}</div><div class="result-card-body"><div class="posting-chip">📍 <div><div style="font-size:12px;font-weight:600;opacity:0.85;margin-bottom:2px">Posting on ${formatDateShort(selectedDate)}</div><div style="font-size:15.5px;font-weight:800;display:flex;align-items:center;flex-wrap:wrap;gap:4px">${displayDuty}${unitBadgeHtml}</div><div style="font-size:12px;font-weight:500;opacity:0.75;margin-top:2px">Week ${weekInfo.wk} • ${weekInfo.block}</div></div></div>${burariDutyInfo ? getCoInternsNames(burariDutyInfo.co_snos, burariDutyInfo.dept, selectedDate, studentSno) : ''}<details class="roster-timeline-details" style="margin-top:14px" data-focus-week="${weekInfo.wk}"><summary>▶ View 52-Week Full Roster Timeline</summary><p class="timeline-hint">Showing from Week ${weekInfo.wk} (selected date). Scroll up/down for other weeks.</p><div class="timeline-scroll"><table><thead><tr><th>Wk</th><th>Date Range</th><th>Department Posting</th></tr></thead><tbody>${weeksData.map(w => { const post = getPostingForSubdivision(student.batch, w.wk); const isSelected = w.wk === weekInfo.wk; let timelineDisplay = post; const weekUnit = getSpecialUnitInfo(studentSno, w.start); if (weekUnit && weekUnit.dept.toLowerCase() === post.toLowerCase()) timelineDisplay = `<b>${post} (${weekUnit.unit})</b><br><span style="font-size:11px;color:var(--text-muted)">${weekUnit.incharge}</span>`; const isPsmWeek = (post || '').toLowerCase().includes('psm') || (post || '').toLowerCase().includes('community'); if (isPsmWeek) timelineDisplay = `<div style="font-weight:800">${timelineDisplay}</div>` + renderBurariWeekBreakdown(studentSno, w.start, w.end); return `<tr class="${isSelected ? 'selected-week-row' : ''}" data-week="${w.wk}"><td>W${w.wk}</td><td>${formatDateShort(w.start)} to ${formatDateShort(w.end)}</td><td>${timelineDisplay}</td></tr>`; }).join('')}</tbody></table></div></details></div></div>`;
-      });
-      resDiv.innerHTML = html;
-      resDiv.querySelectorAll('details.roster-timeline-details').forEach(det => {
-        det.addEventListener('toggle', function() {
-          if (!det.open) return;
-          const scrollToSelected = () => {
-            const scrollBox = det.querySelector('.timeline-scroll');
-            const row = det.querySelector('tr.selected-week-row');
-            if (!scrollBox || !row) return;
-            const headerH = scrollBox.querySelector('thead')?.offsetHeight || 40;
-            const target = Math.max(0, row.offsetTop - headerH - 6);
-            scrollBox.scrollTo({ top: target, behavior: 'smooth' });
-          };
-          requestAnimationFrame(() => setTimeout(scrollToSelected, 40));
-        });
-      });
     }
   }
 

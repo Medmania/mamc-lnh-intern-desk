@@ -1,3 +1,95 @@
+// ==========================================
+// SUNDAY EMERGENCY ROTATION CONFIGURATION
+// ==========================================
+/**
+ * Department Sunday emergency rotation lookup rules.
+ * To add a new department, add an entry matching the dept select option value (e.g. 'surgery').
+ */
+const emergencyRotation = {
+  medicine: {
+    units: [1, 2, 3, 4, 5, 6],
+    cycle: 6,
+    anchorDate: "2026-11-08",   
+    anchorUnit: 2               
+  },
+  ent: {
+    units: [1, 2, 3],
+    cycle: 3,
+    anchorDate: "2026-11-08",  // Known Sunday anchor date (YYYY-MM-DD)
+    anchorUnit: 1  // Unit on emergency duty on anchorDate
+  },
+  surgery: {
+    units: [1, 2, 3, 4, 5, 6],
+    cycle: 6,
+    anchorDate: "2026-11-08",  // Known Sunday anchor date (YYYY-MM-DD)
+    anchorUnit: 1  // Unit on emergency duty on anchorDate
+  },
+  paeds: {
+    units: [1, 2, 3, 4, 5, 6],
+    cycle: 6,
+    anchorDate: "2026-11-08",  // Known Sunday anchor date (YYYY-MM-DD)
+    anchorUnit: 1  // Unit on emergency duty on anchorDate
+  },
+  ortho: {
+    units: [1, 2, 3],
+    cycle: 3,
+    anchorDate: "2026-11-08",
+    anchorUnit: 2
+  }
+};
+
+/**
+ * Calculates which unit is on emergency duty on any given date for a supported department.
+ * @param {string} deptId - Department ID (e.g. 'medicine', 'ent', 'ortho')
+ * @param {string} dateStr - Target date string (YYYY-MM-DD format)
+ * @returns {object|null} Returns object with duty details if selected date is a Sunday and dept is tracked, else null.
+ */
+function getEmergencyUnitOnDate(deptId, dateStr) {
+  if (!deptId || !dateStr) return null;
+
+  const config = emergencyRotation[deptId];
+  if (!config || !config.units || !config.units.length) return null;
+
+  // Parse dates carefully in local time using YYYY-MM-DD components
+  const [targetYear, targetMonth, targetDay] = dateStr.split('-').map(Number);
+  const targetDate = new Date(targetYear, targetMonth - 1, targetDay);
+  if (isNaN(targetDate.getTime())) return null;
+
+  // Check if selected day is Sunday (0 = Sunday in JS Date)
+  if (targetDate.getDay() !== 0) return null;
+
+  const [anchorYear, anchorMonth, anchorDay] = config.anchorDate.split('-').map(Number);
+  const anchorDate = new Date(anchorYear, anchorMonth - 1, anchorDay);
+  if (isNaN(anchorDate.getTime())) return null;
+
+  // Difference in calendar days
+  const diffInDays = Math.round((targetDate.getTime() - anchorDate.getTime()) / (1000 * 60 * 60 * 24));
+  const diffInWeeks = Math.floor(diffInDays / 7);
+
+  // Determine starting index of anchor unit in rotation array
+  const anchorIdx = config.units.indexOf(config.anchorUnit);
+  const baseIdx = anchorIdx >= 0 ? anchorIdx : 0;
+  const cycleLength = config.units.length;
+
+  // Mathematical modulo to support both future and past Sundays
+  const targetIdx = ((baseIdx + diffInWeeks) % cycleLength + cycleLength) % cycleLength;
+
+  return {
+    unit: config.units[targetIdx],
+    dateStr: dateStr,
+    formattedDate: targetDate.toLocaleDateString('en-IN', {
+      weekday: 'long',
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric'
+    }),
+    isSunday: true
+  };
+}
+
+// ==========================================
+// MAIN OPD & FACILITY SCHEDULE DATA
+// ==========================================
 const deptSchedules = [
   // --- MAMC / LNJP MAIN OPDS & CLINICS ---
   {

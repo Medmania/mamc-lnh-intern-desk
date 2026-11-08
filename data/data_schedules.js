@@ -27,7 +27,7 @@ const emergencyRotation = {
   },
   // ========== UPDATED ==========
   peds_med: {                          // ← matches <option value="peds_med">
-    units: [13B, 15, 17, 13A, 19A, 19B],
+    units: [13B, 19B, 17, 13A, 19A, 15],
     cycle: 6,
     anchorDate: "2026-10-04",        // Change this when you know the correct Sunday
     anchorUnit: 13B                      // Change this to the correct unit

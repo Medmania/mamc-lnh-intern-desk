@@ -6,30 +6,39 @@
  * To add a new department, add an entry matching the dept select option value (e.g. 'surgery').
  */
 const emergencyRotation = {
+  
   medicine: {
     units: [1, 2, 3, 4, 5, 6],
     cycle: 6,
-    anchorDate: "2026-11-08",   
-    anchorUnit: 2               
+    anchorDate: "2026-11-08",
+    anchorUnit: 2
   },
   ent: {
     units: [1, 3, 2],
     cycle: 3,
-    anchorDate: "2026-08-30",  
-    anchorUnit: 3  
+    anchorDate: "2026-08-30",
+    anchorUnit: 3
   },
   surgery: {
     units: [1, 2, 3, 4, 5, 6],
     cycle: 6,
-    anchorDate: "2026-11-08",  // Known Sunday anchor date (YYYY-MM-DD)
-    anchorUnit: 1  // Unit on emergency duty on anchorDate
+    anchorDate: "2026-11-08",
+    anchorUnit: 1
   },
-  paeds: {
+  // ========== UPDATED ==========
+  peds_med: {                          // ← matches <option value="peds_med">
     units: [1, 2, 3, 4, 5, 6],
     cycle: 6,
-    anchorDate: "2026-11-08",  // Known Sunday anchor date (YYYY-MM-DD)
-    anchorUnit: 1  // Unit on emergency duty on anchorDate
+    anchorDate: "2026-11-08",          // Change this when you know the correct Sunday
+    anchorUnit: 1                      // Change this to the correct unit
   },
+  gynae: {                             // ← matches <option value="gynae">
+    units: [1, 2, 3, 4, 5, 6],
+    cycle: 6,
+    anchorDate: "2026-11-08",          // Change this when you know the correct Sunday
+    anchorUnit: 1                      // Change this to the correct unit
+  },
+  // =============================
   ortho: {
     units: [3, 2, 1],
     cycle: 3,

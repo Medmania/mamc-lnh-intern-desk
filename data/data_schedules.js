@@ -23,7 +23,7 @@ const emergencyRotation = {
     units: [1, 2, 3, 4, 5, 6],
     cycle: 6,
     anchorDate: "2026-11-08",
-    anchorUnit: 1
+    anchorUnit: 4
   },
   // ========== UPDATED ==========
   peds_med: {                          // ← matches <option value="peds_med">

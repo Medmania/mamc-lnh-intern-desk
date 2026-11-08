@@ -50,28 +50,24 @@ function getEmergencyUnitOnDate(deptId, dateStr) {
   const config = emergencyRotation[deptId];
   if (!config || !config.units || !config.units.length) return null;
 
-  // Parse dates carefully in local time using YYYY-MM-DD components
-  const [targetYear, targetMonth, targetDay] = dateStr.split('-').map(Number);
-  const targetDate = new Date(targetYear, targetMonth - 1, targetDay);
-  if (isNaN(targetDate.getTime())) return null;
+  // Parse dates as pure calendar dates (no time/timezone issues)
+  const [ty, tm, td] = dateStr.split('-').map(Number);
+  const [ay, am, ad] = config.anchorDate.split('-').map(Number);
 
-  // Check if selected day is Sunday (0 = Sunday in JS Date)
+  const targetDate = new Date(ty, tm - 1, td);
+  const anchorDate = new Date(ay, am - 1, ad);
+
+  // Only work on Sundays
   if (targetDate.getDay() !== 0) return null;
 
-  const [anchorYear, anchorMonth, anchorDay] = config.anchorDate.split('-').map(Number);
-  const anchorDate = new Date(anchorYear, anchorMonth - 1, anchorDay);
-  if (isNaN(anchorDate.getTime())) return null;
+  // Calculate exact number of weeks between the two Sundays
+  const diffInDays = Math.round((targetDate - anchorDate) / 86400000); // 86400000 = 1000*60*60*24
+  const diffInWeeks = Math.round(diffInDays / 7);   // Use Math.round here instead of floor
 
-  // Difference in calendar days
-  const diffInDays = Math.round((targetDate.getTime() - anchorDate.getTime()) / (1000 * 60 * 60 * 24));
-  const diffInWeeks = Math.floor(diffInDays / 7);
-
-  // Determine starting index of anchor unit in rotation array
   const anchorIdx = config.units.indexOf(config.anchorUnit);
   const baseIdx = anchorIdx >= 0 ? anchorIdx : 0;
   const cycleLength = config.units.length;
 
-  // Mathematical modulo to support both future and past Sundays
   const targetIdx = ((baseIdx + diffInWeeks) % cycleLength + cycleLength) % cycleLength;
 
   return {

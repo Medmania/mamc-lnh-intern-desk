@@ -13,10 +13,10 @@ const emergencyRotation = {
     anchorUnit: 2               
   },
   ent: {
-    units: [1, 2, 3],
+    units: [3, 2, 1],
     cycle: 3,
-    anchorDate: "2026-11-08",  // Known Sunday anchor date (YYYY-MM-DD)
-    anchorUnit: 1  // Unit on emergency duty on anchorDate
+    anchorDate: "2026-08-30",  
+    anchorUnit: 3  
   },
   surgery: {
     units: [1, 2, 3, 4, 5, 6],

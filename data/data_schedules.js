@@ -40,10 +40,10 @@ const emergencyRotation = {
   },
   // =============================
   ortho: {
-    units: [3, 2, 1],
+    units: [3, 1, 2],
     cycle: 3,
-    anchorDate: "2026-09-20",
-    anchorUnit: 3
+    anchorDate: "2026-10-25",
+    anchorUnit: 1
   }
 };
 

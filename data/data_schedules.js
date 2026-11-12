@@ -1,12 +1,7 @@
 // ==========================================
 // SUNDAY EMERGENCY ROTATION CONFIGURATION
 // ==========================================
-/**
- * Department Sunday emergency rotation lookup rules.
- * To add a new department, add an entry matching the dept select option value (e.g. 'surgery').
- */
 const emergencyRotation = {
-  
   medicine: {
     units: [1, 2, 3, 4, 5, 6],
     cycle: 6,
@@ -25,20 +20,18 @@ const emergencyRotation = {
     anchorDate: "2026-11-08",
     anchorUnit: 4
   },
-  // ========== UPDATED ==========
-  peds_med: {                          // ← matches <option value="peds_med">
-    units: [13B, 19B, 17, 13A, 19A, 15],
+  peds_med: {
+    units: ["13B", "19B", "17", "13A", "19A", "15"],
     cycle: 6,
-    anchorDate: "2026-10-04",        // Change this when you know the correct Sunday
-    anchorUnit: 13B                      // Change this to the correct unit
+    anchorDate: "2026-10-04",
+    anchorUnit: "13B"
   },
-  gynae: {                             // ← matches <option value="gynae">
+  gynae: {
     units: [1, 2, 3, 4, 5, 6],
     cycle: 6,
-    anchorDate: "2026-11-08",          // Change this when you know the correct Sunday
-    anchorUnit: 1                      // Change this to the correct unit
+    anchorDate: "2026-11-08",
+    anchorUnit: 1
   },
-  // =============================
   ortho: {
     units: [3, 1, 2],
     cycle: 3,
@@ -48,10 +41,7 @@ const emergencyRotation = {
 };
 
 /**
- * Calculates which unit is on emergency duty on any given date for a supported department.
- * @param {string} deptId - Department ID (e.g. 'medicine', 'ent', 'ortho')
- * @param {string} dateStr - Target date string (YYYY-MM-DD format)
- * @returns {object|null} Returns object with duty details if selected date is a Sunday and dept is tracked, else null.
+ * Calculates which unit/ward is on emergency duty on any given Sunday
  */
 function getEmergencyUnitOnDate(deptId, dateStr) {
   if (!deptId || !dateStr) return null;
@@ -59,24 +49,27 @@ function getEmergencyUnitOnDate(deptId, dateStr) {
   const config = emergencyRotation[deptId];
   if (!config || !config.units || !config.units.length) return null;
 
-  // Parse dates as pure calendar dates (no time/timezone issues)
+  // Parse dates as pure local calendar dates (avoids timezone bugs)
   const [ty, tm, td] = dateStr.split('-').map(Number);
   const [ay, am, ad] = config.anchorDate.split('-').map(Number);
 
   const targetDate = new Date(ty, tm - 1, td);
   const anchorDate = new Date(ay, am - 1, ad);
 
-  // Only work on Sundays
+  // Only calculate for Sundays
   if (targetDate.getDay() !== 0) return null;
 
-  // Calculate exact number of weeks between the two Sundays
-  const diffInDays = Math.round((targetDate - anchorDate) / 86400000); // 86400000 = 1000*60*60*24
-  const diffInWeeks = Math.round(diffInDays / 7);   // Use Math.round here instead of floor
+  // Exact number of weeks between two Sundays
+  const msPerDay = 24 * 60 * 60 * 1000;
+  const diffInDays = Math.round((targetDate - anchorDate) / msPerDay);
+  const diffInWeeks = Math.round(diffInDays / 7);
 
+  // Find starting index
   const anchorIdx = config.units.indexOf(config.anchorUnit);
   const baseIdx = anchorIdx >= 0 ? anchorIdx : 0;
   const cycleLength = config.units.length;
 
+  // Safe modulo (works for both past and future dates)
   const targetIdx = ((baseIdx + diffInWeeks) % cycleLength + cycleLength) % cycleLength;
 
   return {

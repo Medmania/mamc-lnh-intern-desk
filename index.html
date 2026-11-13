@@ -1704,6 +1704,41 @@
     renderScheduleResults();
   }
 
+
+/**
+ * Checks whether a schedule row matches the Sunday emergency unit/ward
+ */
+function isSundayEmergencyUnit(title, location, emUnit) {
+  if (emUnit == null) return false;
+
+  const t = (title || '').toLowerCase();
+  const loc = (location || '').toLowerCase();
+  const u = String(emUnit).toLowerCase();
+
+  // Medicine / ENT → "Unit 1", "Unit 2" ...
+  if (t.startsWith(`unit ${u}`) || t.startsWith(`unit ${u} `)) return true;
+
+  // Surgery → "Surgery Unit 1"
+  if (t.startsWith(`surgery unit ${u}`)) return true;
+
+  // Ortho → "Orthopedics Unit 1"
+  if (t.startsWith(`orthopedics unit ${u}`)) return true;
+
+  // Gynae → Roman numerals (Unit I, Unit II ... Unit VI)
+  const roman = { '1': 'i', '2': 'ii', '3': 'iii', '4': 'iv', '5': 'v', '6': 'vi' };
+  if (roman[u] && (t.startsWith(`unit ${roman[u]}`) || t.startsWith(`unit ${roman[u]} `))) return true;
+
+  // Peds Medicine → ward codes live in location ("Ward 13B", "Ward 19A" ...)
+  if (
+    loc.includes(`ward ${u}`) ||
+    loc.includes(`ward: ${u}`) ||
+    loc.includes(`ward:</b> ward ${u}`) ||
+    loc.includes(`ward:</b>ward ${u}`)
+  ) return true;
+
+  return false;
+}
+
   function renderScheduleResults() {
     const query = document.getElementById('scheduleSearch').value.toLowerCase().trim();
     const categoryId = document.getElementById('deptScheduleSelect').value;
@@ -1767,6 +1802,10 @@
 
       let sundayBannerHtml = '';
       if (emInfo && emInfo.isSunday) {
+        const unitLabel = (typeof emInfo.unit === 'string' && /[A-Za-z]/.test(String(emInfo.unit)))
+          ? `Ward ${emInfo.unit}`
+          : `Unit ${emInfo.unit}`;
+
         sundayBannerHtml = `
           <div class="sunday-em-banner">
             <div style="display:flex;align-items:center;gap:12px">
@@ -1774,7 +1813,7 @@
               <div>
                 <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;opacity:0.9;font-weight:700">Sunday Emergency Rotation</div>
                 <div style="font-size:16.5px;font-weight:800;margin-top:2px">
-                  Sunday Emergency Duty → <span class="sunday-em-badge">Unit ${emInfo.unit}</span>
+                  Sunday Emergency Duty → <span class="sunday-em-badge">${unitLabel}</span>
                 </div>
               </div>
             </div>
@@ -1798,11 +1837,7 @@
             </thead>
             <tbody>
               ${category.units.map(u => {
-                const isSundayUnit = emInfo && emInfo.isSunday && (
-                  u.title.toLowerCase().startsWith(`unit ${emInfo.unit}`) ||
-                  u.title.toLowerCase().startsWith(`unit ${emInfo.unit} `) ||
-                  u.title.toLowerCase().startsWith(`orthopedics unit ${emInfo.unit}`)
-                );
+                const isSundayUnit = emInfo && emInfo.isSunday && isSundayEmergencyUnit(u.title, u.location, emInfo.unit);
                 const rowStyle = isSundayUnit ? 'background-color: rgba(2, 132, 199, 0.08); font-weight: bold;' : '';
                 const dutyBadge = isSundayUnit ? '<span class="badge badge-urgent" style="margin-left:6px;font-size:10.5px;">🚨 Sunday Emergency Duty</span>' : '';
 

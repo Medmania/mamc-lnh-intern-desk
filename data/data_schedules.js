@@ -11,8 +11,8 @@ const emergencyRotation = {
   ent: {
     units: [1, 3, 2],
     cycle: 3,
-    anchorDate: "2026-08-30",
-    anchorUnit: 3
+    anchorDate: "2026-10-25",
+    anchorUnit: 1
   },
   surgery: {
     units: [1, 2, 3, 4, 5, 6],
@@ -21,19 +21,19 @@ const emergencyRotation = {
     anchorUnit: 4
   },
   peds_med: {
-    units: ["13B", "19B", "17", "13A", "19A", "15"],
+    units: ["13B", "19B", "13A", "15", "19A", "17"],
     cycle: 6,
     anchorDate: "2026-10-04",
     anchorUnit: "13B"
   },
   gynae: {
-    units: [1, 2, 3, 4, 5, 6],
+    units: [3, 6, 5, 1, 2, 4],
     cycle: 6,
     anchorDate: "2026-11-08",
-    anchorUnit: 1
+    anchorUnit: 4
   },
   ortho: {
-    units: [3, 1, 2],
+    units: [1, 2, 3],
     cycle: 3,
     anchorDate: "2026-10-25",
     anchorUnit: 1

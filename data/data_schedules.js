@@ -43,11 +43,6 @@ const emergencyRotation = {
 /**
  * Calculates which unit/ward is on emergency duty on any given Sunday
  */
-function getEmergencyUnitOnDate(deptId, dateStr) {
-  if (!deptId || !dateStr) return null;
-
-  const config = emergencyRotation[deptId];
-  if (!config || !config.units || !config.units.length) return null;
 
  function getEmergencyUnitOnDate(deptId, dateStr) {
   if (!deptId || !dateStr) return null;

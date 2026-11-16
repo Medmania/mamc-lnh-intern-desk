@@ -2028,15 +2028,19 @@ function isSundayEmergencyUnit(title, location, emUnit) {
     document.getElementById('feedbackModal')?.classList.toggle('hidden');
   }
 
-  initFoodContactsListener();
+  // Run for ALL users (logged in or not)
+initFoodContactsListener();
+initUploadedRostersListener();
 
-  auth.onAuthStateChanged(user => {
-    if (user) handleAuth(user);
-    else {
-      currentUser = null; isAdmin = false; window.isAdmin = false; updateAuthUI();
-    }
-  });
-
+auth.onAuthStateChanged(user => {
+  if (user) handleAuth(user);
+  else {
+    currentUser = null;
+    isAdmin = false;
+    window.isAdmin = false;
+    updateAuthUI();
+  }
+});
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.getRegistrations().then(regs => {
       regs.forEach(r => r.update());

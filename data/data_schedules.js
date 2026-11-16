@@ -49,27 +49,29 @@ function getEmergencyUnitOnDate(deptId, dateStr) {
   const config = emergencyRotation[deptId];
   if (!config || !config.units || !config.units.length) return null;
 
-  // Parse dates as pure local calendar dates (avoids timezone bugs)
+ function getEmergencyUnitOnDate(deptId, dateStr) {
+  if (!deptId || !dateStr) return null;
+
+  const config = emergencyRotation[deptId];
+  if (!config || !config.units || !config.units.length) return null;
+
   const [ty, tm, td] = dateStr.split('-').map(Number);
   const [ay, am, ad] = config.anchorDate.split('-').map(Number);
 
   const targetDate = new Date(ty, tm - 1, td);
   const anchorDate = new Date(ay, am - 1, ad);
 
-  // Only calculate for Sundays
   if (targetDate.getDay() !== 0) return null;
 
-  // Exact number of weeks between two Sundays
   const msPerDay = 24 * 60 * 60 * 1000;
   const diffInDays = Math.round((targetDate - anchorDate) / msPerDay);
   const diffInWeeks = Math.round(diffInDays / 7);
 
-  // Find starting index
-  const anchorIdx = config.units.indexOf(config.anchorUnit);
+  // TYPE-SAFE index (fixes Unit 1 / Unit 2 bug)
+  const anchorIdx = config.units.findIndex(u => String(u) === String(config.anchorUnit));
   const baseIdx = anchorIdx >= 0 ? anchorIdx : 0;
   const cycleLength = config.units.length;
 
-  // Safe modulo (works for both past and future dates)
   const targetIdx = ((baseIdx + diffInWeeks) % cycleLength + cycleLength) % cycleLength;
 
   return {

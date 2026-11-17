@@ -27,9 +27,9 @@ const emergencyRotation = {
     anchorUnit: "13B"
   },
   gynae: {
-    units: [3, 6, 5, 1, 2, 4],
+    units: [1, 2, 3, 4, 5, 6],
     cycle: 6,
-    anchorDate: "2026-11-08",
+    anchorDate: "2026-11-15",
     anchorUnit: 4
   },
   ortho: {

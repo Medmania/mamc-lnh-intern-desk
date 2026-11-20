@@ -306,32 +306,32 @@ const deptSchedules = [
     units: [
       {
         title: 'Unit 1 <span style="font-weight: normal;">(Dr. Munisha, Dr. Gunjan, Dr. Kapil, Dr. Divya, Dr. Khushboo, Dr. Shivi)</span>',
-        days: '<div class="opd-badges-container"><span class="opd-badge">🔹 <b>Monday:</b> OT-I (Surgery OT)</span><span class="opd-badge">🔹 <b>Tuesday:</b> OT-II (Ortho OT)</span><span class="opd-badge">🔹 <b>Wednesday:</b> OT-III (Peds & ENT)</span><span class="opd-badge">🔹 <b>Thursday:</b> Gynae OT</span><span class="opd-badge emergency">🚨 <b>Friday:</b> Emergency OT</span><span class="opd-badge">📋 <b>Saturday:</b> PAC</span></div>',
+        days: '<div class="opd-badges-container"><span class="opd-badge">🔹 <b>Monday:</b> OT-I (Surgery OT)</span><span class="opd-badge">🔹 <b>Tuesday:</b> OT-II (Ortho OT)</span><span class="opd-badge">🔹 <b>Wednesday:</b> OT-III (Peds & ENT)</span><span class="opd-badge">🔹 <b>Thursday:</b> Gynae OT</span><span class="opd-badge emergency">🚨 <b>Friday:</b> Emergency OT / ICU</span><span class="opd-badge">📋 <b>Saturday:</b> PAC</span></div>',
         location: "Main OT Complex / Gynae OT / Casualty OT"
       },
       {
         title: 'Unit II <span style="font-weight: normal;">(Dr. Anju, Dr. Anjli, Dr. Rahil, Dr. Shweta, Dr. Anjali Singh)</span>',
-        days: '<div class="opd-badges-container"><span class="opd-badge">🔹 <b>Monday:</b> OT-II (Ortho OT)</span><span class="opd-badge">🔹 <b>Tuesday:</b> OT-III (Peds & ENT)</span><span class="opd-badge">🔹 <b>Wednesday:</b> Gynae OT</span><span class="opd-badge emergency">🚨 <b>Thursday:</b> Emergency OT</span><span class="opd-badge">📋 <b>Friday:</b> PAC</span><span class="opd-badge">🔹 <b>Saturday:</b> OT-I (Surgery OT)</span></div>',
+        days: '<div class="opd-badges-container"><span class="opd-badge">🔹 <b>Monday:</b> OT-II (Ortho OT)</span><span class="opd-badge">🔹 <b>Tuesday:</b> OT-III (Peds & ENT)</span><span class="opd-badge">🔹 <b>Wednesday:</b> Gynae OT</span><span class="opd-badge emergency">🚨 <b>Thursday:</b> Emergency OT / ICU</span><span class="opd-badge">📋 <b>Friday:</b> PAC</span><span class="opd-badge">🔹 <b>Saturday:</b> OT-I (Surgery OT)</span></div>',
         location: "Main OT Complex / Gynae OT / Casualty OT"
       },
       {
         title: 'Unit III <span style="font-weight: normal;">(Dr. Sonia, Dr. Farah, Dr. Sukhyanti, Dr. Shraddha, Dr. Vidhan)</span>',
-        days: '<div class="opd-badges-container"><span class="opd-badge">🔹 <b>Monday:</b> OT-III (Peds & ENT)</span><span class="opd-badge">🔹 <b>Tuesday:</b> Gynae OT</span><span class="opd-badge emergency">🚨 <b>Wednesday:</b> Emergency OT</span><span class="opd-badge">📋 <b>Thursday:</b> PAC</span><span class="opd-badge">🔹 <b>Friday:</b> OT-I (Surgery OT)</span><span class="opd-badge">🔹 <b>Saturday:</b> OT-II (Ortho OT)</span></div>',
+        days: '<div class="opd-badges-container"><span class="opd-badge">🔹 <b>Monday:</b> OT-III (Peds & ENT)</span><span class="opd-badge">🔹 <b>Tuesday:</b> Gynae OT</span><span class="opd-badge emergency">🚨 <b>Wednesday:</b> Emergency OT / ICU</span><span class="opd-badge">📋 <b>Thursday:</b> PAC</span><span class="opd-badge">🔹 <b>Friday:</b> OT-I (Surgery OT)</span><span class="opd-badge">🔹 <b>Saturday:</b> OT-II (Ortho OT)</span></div>',
         location: "Main OT Complex / Gynae OT / Casualty OT"
       },
       {
         title: 'Unit IV <span style="font-weight: normal;">(Dr. Bharti, Dr. Amit, Dr. Snigdha, Dr. Prasant, Dr. Indira, Dr. Ankita)</span>',
-        days: '<div class="opd-badges-container"><span class="opd-badge">🔹 <b>Monday:</b> Gynae OT</span><span class="opd-badge emergency">🚨 <b>Tuesday:</b> Emergency OT</span><span class="opd-badge">📋 <b>Wednesday:</b> PAC</span><span class="opd-badge">🔹 <b>Thursday:</b> OT-I (Surgery OT)</span><span class="opd-badge">🔹 <b>Friday:</b> OT-II (Ortho OT)</span><span class="opd-badge">🔹 <b>Saturday:</b> OT-III (Peds & ENT)</span></div>',
+        days: '<div class="opd-badges-container"><span class="opd-badge">🔹 <b>Monday:</b> Gynae OT</span><span class="opd-badge emergency">🚨 <b>Tuesday:</b> Emergency OT / ICU </span><span class="opd-badge">📋 <b>Wednesday:</b> PAC</span><span class="opd-badge">🔹 <b>Thursday:</b> OT-I (Surgery OT)</span><span class="opd-badge">🔹 <b>Friday:</b> OT-II (Ortho OT)</span><span class="opd-badge">🔹 <b>Saturday:</b> OT-III (Peds & ENT)</span></div>',
         location: "Main OT Complex / Gynae OT / Casualty OT"
       },
       {
         title: 'Unit V <span style="font-weight: normal;">(Dr. Neelam, Dr. Lalit, Dr. Devang, Dr. Chanchal)</span>',
-        days: '<div class="opd-badges-container"><span class="opd-badge emergency">🚨 <b>Monday:</b> Emergency OT</span><span class="opd-badge">📋 <b>Tuesday:</b> PAC</span><span class="opd-badge">🔹 <b>Wednesday:</b> OT-I (Surgery OT)</span><span class="opd-badge">🔹 <b>Thursday:</b> OT-II (Ortho OT)</span><span class="opd-badge">🔹 <b>Friday:</b> OT-III (Peds & ENT)</span><span class="opd-badge">🔹 <b>Saturday:</b> Gynae OT</span></div>',
+        days: '<div class="opd-badges-container"><span class="opd-badge emergency">🚨 <b>Monday:</b> Emergency OT / ICU</span><span class="opd-badge">📋 <b>Tuesday:</b> PAC</span><span class="opd-badge">🔹 <b>Wednesday:</b> OT-I (Surgery OT)</span><span class="opd-badge">🔹 <b>Thursday:</b> OT-II (Ortho OT)</span><span class="opd-badge">🔹 <b>Friday:</b> OT-III (Peds & ENT)</span><span class="opd-badge">🔹 <b>Saturday:</b> Gynae OT</span></div>',
         location: "Main OT Complex / Gynae OT / Casualty OT"
       },
       {
         title: 'Unit VI <span style="font-weight: normal;">(Dr. Mona, Dr. Vandana, Dr. Wahaja, Dr. Rajni K)</span>',
-        days: '<div class="opd-badges-container"><span class="opd-badge">📋 <b>Monday:</b> PAC</span><span class="opd-badge">🔹 <b>Tuesday:</b> OT-I (Surgery OT)</span><span class="opd-badge">🔹 <b>Wednesday:</b> OT-II (Ortho OT)</span><span class="opd-badge">🔹 <b>Thursday:</b> OT-III (Peds & ENT)</span><span class="opd-badge">🔹 <b>Friday:</b> Gynae OT</span><span class="opd-badge emergency">🚨 <b>Saturday:</b> Emergency OT</span></div>',
+        days: '<div class="opd-badges-container"><span class="opd-badge">📋 <b>Monday:</b> PAC</span><span class="opd-badge">🔹 <b>Tuesday:</b> OT-I (Surgery OT)</span><span class="opd-badge">🔹 <b>Wednesday:</b> OT-II (Ortho OT)</span><span class="opd-badge">🔹 <b>Thursday:</b> OT-III (Peds & ENT)</span><span class="opd-badge">🔹 <b>Friday:</b> Gynae OT</span><span class="opd-badge emergency">🚨 <b>Saturday:</b> Emergency OT / ICU</span></div>',
         location: "Main OT Complex / Gynae OT / Casualty OT"
       },
       {

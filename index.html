@@ -9,9 +9,9 @@
   <meta http-equiv="Expires" content="0">
   
   <link rel="manifest" href="./manifest.json">
-<link rel="apple-touch-icon" href="./assets/logo-192.png">
+  <link rel="apple-touch-icon" href="./assets/logo-192.png">
 
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/styles.css?v=18">
   <title>MAMC-LNH Intern Portal — Roster, Labs & Hospital Directory</title>
 
   <style>
@@ -159,7 +159,7 @@
       </div>
       <div>
         <label for="universalDeptSelect">🏥 Filter by Department:</label>
-        <select id="universalDeptSelect" onchange="executeSmartSearch()">
+        <select id="universalDeptSelect" onchange="executeSmartSearch();renderUploadedRostersBanner()">
           <option value="">✨ -- All Departments / Any --</option>
           <option value="PSM">Community Medicine (PSM)</option>
           <option value="Forensic">Forensic Medicine (FMT)</option>
@@ -418,14 +418,14 @@
   <a id="lightboxDownloadBtn" href="" target="_blank" download style="margin-top:14px;background:white;color:#0f172a;padding:8px 16px;border-radius:20px;font-weight:800;font-size:13px;text-decoration:none" onclick="event.stopPropagation()">⬇️ Open Full Resolution</a>
 </div>
 
-<!-- MENU GALLERY MODAL -->
+<!-- MENU & ROSTER GALLERY MODAL -->
 <div id="menuGalleryModal" class="hidden" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(15,23,42,0.9);backdrop-filter:blur(8px);z-index:10005;display:flex;flex-direction:column;align-items:center;padding:16px;box-sizing:border-box">
   <div style="width:100%;max-width:700px;display:flex;justify-content:space-between;align-items:center;color:white;margin-bottom:12px">
-    <h3 id="menuGalleryTitle" style="margin:0;font-size:18px;font-weight:800">📜 Vendor Menu</h3>
+    <h3 id="menuGalleryTitle" style="margin:0;font-size:18px;font-weight:800">📜 Gallery</h3>
     <button onclick="closeMenuGallery()" style="background:rgba(255,255,255,0.2);border:none;color:white;font-size:24px;cursor:pointer;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center">&times;</button>
   </div>
   <div id="menuGalleryContent" style="width:100%;max-width:700px;flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:16px;align-items:center;padding-bottom:20px">
-    <!-- Menu photos injected dynamically -->
+    <!-- Photos injected dynamically -->
   </div>
 </div>
 
@@ -524,19 +524,19 @@
 </div>
 
 <!-- DATA SCRIPTS -->
-<script src="data/data_interns.js"></script>
-<script src="data/data_burari.js"></script>
-<script src="data/data_periphery.js"></script>
-<script src="data/data_labs.js"></script>
-<script src="data/data_schedules.js"></script>
-<script src="data/data_units.js"></script>
-<script src="data/data_faqs.js"></script>
+<script src="data/data_interns.js?v=18"></script>
+<script src="data/data_burari.js?v=18"></script>
+<script src="data/data_periphery.js?v=18"></script>
+<script src="data/data_labs.js?v=18"></script>
+<script src="data/data_schedules.js?v=18"></script>
+<script src="data/data_units.js?v=18"></script>
+<script src="data/data_faqs.js?v=18"></script>
 
 <!-- APPLICATION MODULES -->
-<script src="js/roster.js"></script>
-<script src="js/faqs.js"></script>
-<script src="js/guides.js"></script>
-<script src="js/pond.js"></script>
+<script src="js/roster.js?v=18"></script>
+<script src="js/faqs.js?v=18"></script>
+<script src="js/guides.js?v=18"></script>
+<script src="js/pond.js?v=18"></script>
 
 <!-- FIREBASE -->
 <script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-app-compat.js"></script>
@@ -546,7 +546,7 @@
 
 <script>
   // ========== VERSION ==========
-  const APP_BUILD = "2026-10-16-v17";
+  const APP_BUILD = "2026-11-21-v18";
 
   // ========== FIREBASE ==========
   const firebaseConfig = {
@@ -562,9 +562,24 @@
   const auth = firebase.auth();
   const db = firebase.firestore();
 
+  // ========== LOCAL DATE HELPER (IST SAFE) ==========
+  function getLocalTodayStr() {
+    const d = new Date();
+    const yyyy = d.getFullYear();
+    const mm = String(d.getMonth() + 1).padStart(2, '0');
+    const dd = String(d.getDate()).padStart(2, '0');
+    return `${yyyy}-${mm}-${dd}`;
+  }
+
+  function formatDisplayDate(yyyyMmDd) {
+    if (!yyyyMmDd || !yyyyMmDd.includes('-')) return yyyyMmDd || '';
+    const [y, m, d] = yyyyMmDd.split('-');
+    return `${d}/${m}/${y.slice(2)}`;
+  }
+
   // ========== DATE SELECTOR HANDLERS ==========
   function setTodayDate() {
-    const today = new Date().toISOString().split('T')[0];
+    const today = getLocalTodayStr();
     const dateInput = document.getElementById('dutyDate');
     if (dateInput) {
       dateInput.value = today;
@@ -574,7 +589,8 @@
 
   function onDateOrSelectionChange() {
     const activeTab = document.querySelector('.tab-btn.active');
-    if (activeTab && activeTab.textContent.includes('Facilities')) {
+    renderUploadedRostersBanner();
+    if (activeTab && (activeTab.textContent.includes('Facilities') || activeTab.textContent.includes('Scehdule') || activeTab.textContent.includes('Schedule'))) {
       renderScheduleResults();
     } else if (typeof executeSmartSearch === 'function') {
       executeSmartSearch();
@@ -714,6 +730,277 @@
     const old = btn.textContent;
     btn.textContent = "✅";
     setTimeout(() => btn.textContent = old, 1200);
+  }
+
+  // ========== OFFICIAL ROSTER UPLOADS (MULTI-PHOTO & PDF SUPPORT) ==========
+  let uploadedRostersData = [];
+
+  const DEPT_DISPLAY_NAMES = {
+    "PSM": "Community Medicine (PSM)",
+    "Forensic": "Forensic Medicine (FMT)",
+    "MED": "General Medicine",
+    "Surgery": "General Surgery",
+    "DVL": "Dermatology (DVL)",
+    "ObsGynae": "Obstetrics & Gynaecology",
+    "Psychiatry": "Psychiatry",
+    "Pediatrics": "Pediatrics",
+    "Casualty": "Casualty / Emergency",
+    "ENT": "ENT",
+    "Ophtha": "Ophthalmology",
+    "Ortho": "Orthopedics",
+    "Anaesthesia": "Anaesthesia",
+    "Pulm Med": "Pulmonary Medicine",
+    "Radiology": "Radiology"
+  };
+
+  function readFileAsBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = err => reject(err);
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function initUploadedRostersListener() {
+    db.collection('rosterUploads').orderBy('createdAt', 'desc').onSnapshot(snap => {
+      uploadedRostersData = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      renderUploadedRostersBanner();
+      if (isAdmin && document.getElementById('adminUploadedRosterList')) {
+        renderAdminUploadedRosterList();
+      }
+    }, err => {
+      console.warn("Roster uploads fetch warning:", err);
+    });
+  }
+
+  function renderUploadedRostersBanner() {
+    const container = document.getElementById('uploadedRostersContainer');
+    if (!container) return;
+
+    const selectedDate = document.getElementById('dutyDate')?.value || getLocalTodayStr();
+    const selectedDept = document.getElementById('universalDeptSelect')?.value || '';
+
+    const activeRosters = uploadedRostersData.filter(r => {
+      const dateMatch = (!r.fromDate || selectedDate >= r.fromDate) && (!r.toDate || selectedDate <= r.toDate);
+      const deptMatch = !selectedDept || r.department === selectedDept;
+      return dateMatch && deptMatch;
+    });
+
+    if (activeRosters.length === 0) {
+      container.innerHTML = '';
+      return;
+    }
+
+    container.innerHTML = activeRosters.map(r => {
+      const deptLabel = DEPT_DISPLAY_NAMES[r.department] || r.department;
+      const pageCount = r.totalPages || (r.fileUrls ? r.fileUrls.length : 1);
+      const isPdf = r.fileType === 'pdf';
+      return `
+        <div style="background:linear-gradient(135deg, rgba(2,132,199,0.10), rgba(14,165,233,0.06));border:1.5px solid rgba(2,132,199,0.35);border-radius:14px;padding:12px 14px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+          <div style="flex:1;min-width:200px">
+            <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+              <span style="background:var(--primary);color:white;font-size:10.5px;font-weight:800;padding:2px 8px;border-radius:12px;text-transform:uppercase">📄 Official Roster</span>
+              <strong style="font-size:14px;color:var(--text)">${r.title || deptLabel}</strong>
+              ${pageCount > 1 ? `<span style="background:rgba(245,158,11,0.18);color:#d97706;font-size:11px;font-weight:800;padding:2px 8px;border-radius:10px">${pageCount} Pages</span>` : ''}
+            </div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:4px;font-weight:600">
+              🏥 ${deptLabel} • 📅 ${formatDisplayDate(r.fromDate)} to ${formatDisplayDate(r.toDate)}
+            </div>
+            ${r.note ? `<div style="font-size:12px;color:var(--text);margin-top:4px">📝 ${r.note}</div>` : ''}
+          </div>
+          <button onclick="openRosterGallery('${r.id}')" style="background:var(--primary-gradient);color:white;border:none;padding:8px 14px;border-radius:10px;font-weight:800;font-size:12.5px;cursor:pointer;white-space:nowrap">
+            ${isPdf ? '📥 View / Download PDF' : `🖼️ View Roster (${pageCount} Page${pageCount > 1 ? 's' : ''})`}
+          </button>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function previewSelectedRosterFiles(input) {
+    const summary = document.getElementById('adminRosterFileSummary');
+    if (!summary) return;
+    const count = input.files ? input.files.length : 0;
+    summary.textContent = count > 0
+      ? `✅ ${count} file${count > 1 ? 's' : ''} selected (${Array.from(input.files).map(f => f.name).join(', ')})`
+      : '';
+  }
+
+  async function saveAdminRosterUpload() {
+    if (!currentUser || !isAdmin) return alert('Admin authentication required.');
+
+    const dept = document.getElementById('adminRosterDept').value;
+    const title = document.getElementById('adminRosterTitle').value.trim() || `${DEPT_DISPLAY_NAMES[dept] || dept} Official Roster`;
+    const fromDate = document.getElementById('adminRosterFromDate').value;
+    const toDate = document.getElementById('adminRosterToDate').value;
+    const note = document.getElementById('adminRosterNote').value.trim();
+    const fileInput = document.getElementById('adminRosterFile');
+
+    if (!dept) return alert('Please select a Department.');
+    if (!fromDate || !toDate) return alert('Please select From Date and To Date.');
+    if (fromDate > toDate) return alert('From Date cannot be after To Date.');
+    if (!fileInput.files || fileInput.files.length === 0) return alert('Please select at least one photo or PDF.');
+
+    const files = Array.from(fileInput.files);
+    const btn = document.getElementById('adminRosterSubmitBtn');
+    btn.textContent = `Processing ${files.length} file(s)...`;
+    btn.disabled = true;
+
+    try {
+      const processedItems = [];
+
+      for (let i = 0; i < files.length; i++) {
+        btn.textContent = `Compressing ${i + 1} of ${files.length}...`;
+        const f = files[i];
+        const isPdf = f.type.includes('pdf');
+        const dataUrl = isPdf
+          ? await readFileAsBase64(f)
+          : await compressImage(f, 1200, 0.72);
+
+        if (dataUrl.length > 900000) {
+          throw new Error(`"${f.name}" is too large (${Math.round(dataUrl.length / 1024)} KB) for Firestore's 1 MB limit. Please upload it as compressed photos instead.`);
+        }
+        processedItems.push({ dataUrl, isPdf, name: f.name });
+      }
+
+      // Split items so the main Firestore document stays safely under ~750 KB
+      const inlineUrls = [];
+      const overflowUrls = [];
+      let currentBytes = 0;
+
+      processedItems.forEach(item => {
+        if (currentBytes + item.dataUrl.length <= 750000) {
+          inlineUrls.push(item.dataUrl);
+          currentBytes += item.dataUrl.length;
+        } else {
+          overflowUrls.push(item.dataUrl);
+        }
+      });
+
+      btn.textContent = "Uploading to database...";
+
+      const docRef = await db.collection('rosterUploads').add({
+        department: dept,
+        title: title,
+        fromDate: fromDate,
+        toDate: toDate,
+        note: note,
+        fileType: processedItems[0].isPdf ? 'pdf' : 'image',
+        fileUrl: inlineUrls[0],
+        fileUrls: inlineUrls,
+        totalPages: processedItems.length,
+        hasOverflowPages: overflowUrls.length > 0,
+        fileName: files.length > 1 ? `${files.length} Photos (${files[0].name}...)` : files[0].name,
+        uploadedBy: currentUser.displayName || currentUser.email,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+
+      // Save extra pages (4th, 5th, 6th... photo) into subcollection
+      if (overflowUrls.length > 0) {
+        const batch = db.batch();
+        overflowUrls.forEach((url, idx) => {
+          const pageRef = docRef.collection('pages').doc(String(inlineUrls.length + idx));
+          batch.set(pageRef, { index: inlineUrls.length + idx, dataUrl: url });
+        });
+        await batch.commit();
+      }
+
+      alert(`Uploaded ${processedItems.length} file(s) successfully!`);
+      switchAdminTab('rosteruploads');
+    } catch (e) {
+      alert('Upload error: ' + e.message);
+    } finally {
+      if (btn) {
+        btn.textContent = "Upload Roster";
+        btn.disabled = false;
+      }
+    }
+  }
+
+  async function openRosterGallery(rosterId) {
+    const roster = uploadedRostersData.find(r => r.id === rosterId);
+    if (!roster) return;
+
+    let allPages = roster.fileUrls && roster.fileUrls.length > 0
+      ? [...roster.fileUrls]
+      : [roster.fileUrl || roster.fileData];
+
+    if (roster.hasOverflowPages) {
+      const snap = await db.collection('rosterUploads').doc(rosterId)
+        .collection('pages').orderBy('index', 'asc').get();
+      snap.forEach(doc => allPages.push(doc.data().dataUrl));
+    }
+
+    if (roster.fileType === 'pdf' || (allPages[0] && allPages[0].startsWith('data:application/pdf'))) {
+      const win = window.open();
+      if (win) {
+        win.document.write(`<iframe src="${allPages[0]}" frameborder="0" style="border:0;top:0;left:0;bottom:0;right:0;width:100%;height:100%;" allowfullscreen></iframe>`);
+      } else {
+        const a = document.createElement('a');
+        a.href = allPages[0];
+        a.download = roster.fileName || 'Official_Roster.pdf';
+        a.click();
+      }
+      return;
+    }
+
+    document.getElementById('menuGalleryTitle').textContent = `📄 ${roster.title} (${allPages.length} Page${allPages.length > 1 ? 's' : ''})`;
+    const container = document.getElementById('menuGalleryContent');
+    container.innerHTML = allPages.map((photo, idx) => `
+      <div style="width:100%;border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,0.2);background:#0f172a">
+        <img src="${photo}" style="width:100%;height:auto;display:block" loading="lazy">
+        <div style="padding:8px 12px;background:rgba(0,0,0,0.6);color:white;font-size:12px;font-weight:700;text-align:center">
+          Page ${idx + 1} of ${allPages.length}
+        </div>
+      </div>
+    `).join('');
+
+    document.getElementById('menuGalleryModal')?.classList.remove('hidden');
+  }
+
+  async function deleteAdminRosterUpload(id, title) {
+    if (!currentUser || !isAdmin) return alert('Admin authentication required.');
+    if (!confirm(`Delete uploaded roster "${title}"?`)) return;
+    try {
+      const docRef = db.collection('rosterUploads').doc(id);
+      const pagesSnap = await docRef.collection('pages').get();
+      if (!pagesSnap.empty) {
+        const batch = db.batch();
+        pagesSnap.forEach(p => batch.delete(p.ref));
+        await batch.commit();
+      }
+      await docRef.delete();
+      alert('Roster deleted.');
+    } catch (e) {
+      alert('Error deleting roster: ' + e.message);
+    }
+  }
+
+  function renderAdminUploadedRosterList() {
+    const el = document.getElementById('adminUploadedRosterList');
+    if (!el) return;
+    if (uploadedRostersData.length === 0) {
+      el.innerHTML = '<p style="color:var(--text-muted);font-size:13px">No official rosters uploaded yet.</p>';
+      return;
+    }
+    el.innerHTML = uploadedRostersData.map(r => {
+      const deptLabel = DEPT_DISPLAY_NAMES[r.department] || r.department;
+      const pageCount = r.totalPages || (r.fileUrls ? r.fileUrls.length : 1);
+      return `
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:var(--box-bg);border-radius:12px;margin-bottom:8px;border:1px solid var(--border);gap:10px">
+          <div style="flex:1;min-width:0">
+            <div style="font-weight:800;font-size:13.5px;color:var(--text)">${deptLabel} ${pageCount > 1 ? `<span style="color:var(--primary);font-size:11.5px">(${pageCount} pages)</span>` : ''}</div>
+            <div style="font-size:11.5px;color:var(--text-muted);margin-top:2px">
+              📅 ${formatDisplayDate(r.fromDate)} to ${formatDisplayDate(r.toDate)} • 📄 ${r.fileName || r.title}
+            </div>
+          </div>
+          <div style="display:flex;gap:6px;flex-shrink:0">
+            <button onclick="openRosterGallery('${r.id}')" style="background:var(--card);color:var(--text);border:1px solid var(--border);padding:5px 10px;border-radius:8px;font-weight:700;font-size:11.5px;cursor:pointer">View</button>
+            <button onclick="deleteAdminRosterUpload('${r.id}', '${(r.title || deptLabel).replace(/'/g, "\\'")}')" style="background:rgba(239,68,68,0.15);color:#ef4444;border:none;padding:5px 10px;border-radius:8px;font-weight:700;font-size:11.5px;cursor:pointer">🗑️ Delete</button>
+          </div>
+        </div>
+      `;
+    }).join('');
   }
 
   // ========== ADMIN FUNCTIONS FOR CANTEEN CONTACTS ==========
@@ -965,10 +1252,10 @@
   }
 
   // SITE UPDATE (What's New)
-  let SITE_VERSION = "2026-10-16-v9";
+  let SITE_VERSION = "2026-11-21-v18";
   let SITE_CHANGELOG = [
+    "Added Multi-Photo Roster Upload & Gallery Viewer support",
     "Redesigned Search Roster to modern, tight compact intern cards",
-    "Added Official Department Roster Upload feature (Admin)",
     "Added real-time Roster Preview notice cards for active date ranges"
   ];
 
@@ -1166,7 +1453,7 @@
           
           <div class="input-group">
             <label>Title (Optional)</label>
-            <input type="text" id="adminRosterTitle" placeholder="e.g. Anaesthesia Unit Posting, Casualty Duty Roster">
+            <input type="text" id="adminRosterTitle" placeholder="e.g. Batch C PSM Posting Roster">
           </div>
           
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
@@ -1181,8 +1468,9 @@
           </div>
           
           <div class="input-group">
-            <label>Upload File (Photo or PDF) *</label>
-            <input type="file" id="adminRosterFile" accept="image/*,application/pdf">
+            <label>Upload Files (Select 1 or Multiple Photos / PDF) *</label>
+            <input type="file" id="adminRosterFile" accept="image/*,application/pdf" multiple onchange="previewSelectedRosterFiles(this)">
+            <div id="adminRosterFileSummary" style="font-size:12px;color:var(--primary);font-weight:700;margin-top:6px"></div>
           </div>
           
           <div class="input-group">
@@ -1192,7 +1480,6 @@
           
           <div style="display:flex;gap:10px;flex-wrap:wrap">
             <button onclick="saveAdminRosterUpload()" id="adminRosterSubmitBtn" class="btn-primary-sm">Upload Roster</button>
-            <button onclick="resetAdminRosterForm()" id="adminRosterCancelBtn" class="btn-secondary-sm hidden">Cancel</button>
           </div>
         </div>
 
@@ -1704,40 +1991,39 @@
     renderScheduleResults();
   }
 
+  /**
+   * Checks whether a schedule row matches the Sunday emergency unit/ward
+   */
+  function isSundayEmergencyUnit(title, location, emUnit) {
+    if (emUnit == null) return false;
 
-/**
- * Checks whether a schedule row matches the Sunday emergency unit/ward
- */
-function isSundayEmergencyUnit(title, location, emUnit) {
-  if (emUnit == null) return false;
+    const t = (title || '').toLowerCase();
+    const loc = (location || '').toLowerCase();
+    const u = String(emUnit).toLowerCase();
 
-  const t = (title || '').toLowerCase();
-  const loc = (location || '').toLowerCase();
-  const u = String(emUnit).toLowerCase();
+    // Medicine / ENT → "Unit 1", "Unit 2" ...
+    if (t.startsWith(`unit ${u}`) || t.startsWith(`unit ${u} `)) return true;
 
-  // Medicine / ENT → "Unit 1", "Unit 2" ...
-  if (t.startsWith(`unit ${u}`) || t.startsWith(`unit ${u} `)) return true;
+    // Surgery → "Surgery Unit 1"
+    if (t.startsWith(`surgery unit ${u}`)) return true;
 
-  // Surgery → "Surgery Unit 1"
-  if (t.startsWith(`surgery unit ${u}`)) return true;
+    // Ortho → "Orthopedics Unit 1"
+    if (t.startsWith(`orthopedics unit ${u}`)) return true;
 
-  // Ortho → "Orthopedics Unit 1"
-  if (t.startsWith(`orthopedics unit ${u}`)) return true;
+    // Gynae → Roman numerals (Unit I, Unit II ... Unit VI)
+    const roman = { '1': 'i', '2': 'ii', '3': 'iii', '4': 'iv', '5': 'v', '6': 'vi' };
+    if (roman[u] && (t.startsWith(`unit ${roman[u]}`) || t.startsWith(`unit ${roman[u]} `))) return true;
 
-  // Gynae → Roman numerals (Unit I, Unit II ... Unit VI)
-  const roman = { '1': 'i', '2': 'ii', '3': 'iii', '4': 'iv', '5': 'v', '6': 'vi' };
-  if (roman[u] && (t.startsWith(`unit ${roman[u]}`) || t.startsWith(`unit ${roman[u]} `))) return true;
+    // Peds Medicine → ward codes live in location ("Ward 13B", "Ward 19A" ...)
+    if (
+      loc.includes(`ward ${u}`) ||
+      loc.includes(`ward: ${u}`) ||
+      loc.includes(`ward:</b> ward ${u}`) ||
+      loc.includes(`ward:</b>ward ${u}`)
+    ) return true;
 
-  // Peds Medicine → ward codes live in location ("Ward 13B", "Ward 19A" ...)
-  if (
-    loc.includes(`ward ${u}`) ||
-    loc.includes(`ward: ${u}`) ||
-    loc.includes(`ward:</b> ward ${u}`) ||
-    loc.includes(`ward:</b>ward ${u}`)
-  ) return true;
-
-  return false;
-}
+    return false;
+  }
 
   function renderScheduleResults() {
     const query = document.getElementById('scheduleSearch').value.toLowerCase().trim();
@@ -1797,7 +2083,7 @@ function isSundayEmergencyUnit(title, location, emUnit) {
 
       // Check Sunday Emergency Rotation
       const dateInput = document.getElementById('dutyDate');
-      const selectedDateStr = (dateInput && dateInput.value) ? dateInput.value : new Date().toISOString().split('T')[0];
+      const selectedDateStr = (dateInput && dateInput.value) ? dateInput.value : getLocalTodayStr();
       const emInfo = getEmergencyUnitOnDate(categoryId, selectedDateStr);
 
       let sundayBannerHtml = '';
@@ -2029,18 +2315,18 @@ function isSundayEmergencyUnit(title, location, emUnit) {
   }
 
   // Run for ALL users (logged in or not)
-initFoodContactsListener();
-initUploadedRostersListener();
+  initFoodContactsListener();
+  initUploadedRostersListener();
 
-auth.onAuthStateChanged(user => {
-  if (user) handleAuth(user);
-  else {
-    currentUser = null;
-    isAdmin = false;
-    window.isAdmin = false;
-    updateAuthUI();
-  }
-});
+  auth.onAuthStateChanged(user => {
+    if (user) handleAuth(user);
+    else {
+      currentUser = null;
+      isAdmin = false;
+      window.isAdmin = false;
+      updateAuthUI();
+    }
+  });
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.getRegistrations().then(regs => {
       regs.forEach(r => r.update());

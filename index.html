@@ -155,6 +155,188 @@
       .lab-photo-card { width: 148px; }
       .lab-photo-thumb { height: 96px; }
     }
+
+    /* ---------- LAB SEARCH BAR ---------- */
+    .lab-searchbar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: var(--card);
+      padding: 10px;
+      margin: -6px -6px 10px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+    }
+    .lab-searchbar input,
+    .lab-searchbar select {
+      padding: 11px 14px;
+      border-radius: 10px;
+      border: 1.5px solid var(--border);
+      font-size: 14px;
+      background: var(--input-bg);
+      color: var(--text);
+      font-family: inherit;
+      font-weight: 600;
+    }
+    .lab-searchbar input { flex: 1; min-width: 200px; }
+    .lab-searchbar select { min-width: 230px; cursor: pointer; }
+    .lab-searchbar input:focus,
+    .lab-searchbar select:focus { outline: 2px solid var(--primary); outline-offset: 1px; }
+    @media (max-width: 560px) {
+      .lab-searchbar select { min-width: 100%; }
+      .lab-searchbar input { min-width: 100%; }
+    }
+
+    .lab-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+      position: relative;
+    }
+    .lab-count { font-size: 12px; color: var(--text-muted); font-weight: 700; }
+    .lab-tool-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 7px 13px; border-radius: 10px;
+      border: 1.5px solid var(--border);
+      background: var(--box-bg); color: var(--primary);
+      font-weight: 800; font-size: 12.5px; cursor: pointer;
+      font-family: inherit;
+    }
+    .lab-tool-btn:hover { border-color: var(--primary); }
+    .lab-dir-popup {
+      position: absolute; top: 100%; right: 0; z-index: 40;
+      width: 100%; max-width: 440px; margin-top: 6px;
+    }
+    .lab-dir-popup-inner {
+      background: var(--card); border: 1.5px solid var(--border);
+      border-radius: 14px; box-shadow: var(--shadow-md);
+      max-height: 320px; overflow-y: auto; padding: 8px;
+    }
+    .lab-dir-list { display: flex; flex-direction: column; gap: 3px; }
+    .lab-dir-item {
+      display: flex; justify-content: space-between; gap: 10px;
+      width: 100%; text-align: left; background: none; border: none;
+      padding: 7px 9px; border-radius: 8px; cursor: pointer;
+      font-family: inherit; font-size: 12.5px; color: var(--text);
+    }
+    .lab-dir-item:hover { background: var(--box-bg); }
+    .lab-dir-location { color: var(--text-muted); font-size: 11.5px; text-align: right; flex-shrink: 0; max-width: 55%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+    /* ---------- COMPACT RESULT ROW ---------- */
+    .lab-row {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--card);
+      margin-bottom: 7px;
+      overflow: hidden;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+    .lab-row:hover { border-color: var(--primary); }
+    .lab-row.open { border-color: var(--primary); box-shadow: var(--shadow-sm); }
+    .lab-row-head {
+      display: flex; flex-direction: column; gap: 5px;
+      padding: 9px 12px; cursor: pointer;
+    }
+    .lab-row-top { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .lab-row-name {
+      font-size: 13.5px; font-weight: 800; color: var(--text);
+      flex: 1; min-width: 160px; line-height: 1.3;
+    }
+    .lab-row-name mark {
+      background: rgba(250, 204, 21, 0.45);
+      color: inherit; border-radius: 3px; padding: 0 1px;
+    }
+    [data-theme="dark"] .lab-row-name mark { background: rgba(250, 204, 21, 0.28); }
+    .lab-row-badges { display: flex; gap: 5px; flex-wrap: wrap; align-items: center; }
+    .lab-row-route {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 12px; color: var(--text-muted); flex-wrap: wrap;
+    }
+    .lab-route-k {
+      font-size: 9.5px; font-weight: 800; letter-spacing: 0.04em;
+      text-transform: uppercase; color: var(--text-muted);
+      background: var(--box-bg); padding: 1px 5px; border-radius: 4px;
+      margin-right: 3px;
+    }
+    .lab-route-val { color: var(--text); font-weight: 700; }
+    .lab-route-val.report { color: var(--primary); }
+    .lab-route-arrow { color: var(--text-muted); opacity: 0.6; }
+    .lab-chev { margin-left: auto; font-size: 11px; color: var(--text-muted); transition: transform 0.15s ease; }
+    .lab-row.open .lab-chev { transform: rotate(180deg); }
+
+    .lab-row-detail {
+      border-top: 1px dashed var(--border);
+      padding: 10px 12px 12px;
+      background: var(--box-bg);
+      font-size: 12.5px;
+      line-height: 1.55;
+      color: var(--text);
+    }
+    .lab-detail-line { margin-bottom: 6px; }
+    .lab-detail-k { font-weight: 800; color: var(--text-muted); font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.03em; }
+    .lab-notes {
+      background: rgba(245, 158, 11, 0.10);
+      border-left: 3px solid #f59e0b;
+      border-radius: 6px; padding: 7px 10px; margin-top: 6px;
+      font-size: 12px;
+    }
+    [data-theme="dark"] .lab-notes { background: rgba(245, 158, 11, 0.14); }
+    .lab-admin-bar { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 9px; }
+    .lab-admin-btn {
+      font-size: 11.5px; font-weight: 800; padding: 5px 10px;
+      border-radius: 7px; border: 1px solid var(--border);
+      background: var(--card); color: var(--text); cursor: pointer; font-family: inherit;
+    }
+    .lab-admin-btn:hover { border-color: var(--primary); color: var(--primary); }
+    .lab-admin-btn.danger { color: var(--urgent); }
+    .lab-prov {
+      font-size: 11px; color: var(--text-muted); font-style: italic;
+      display: inline-flex; align-items: center; gap: 4px;
+    }
+
+    /* ---------- VIAL BADGES (theme-aware) ---------- */
+    .vial {
+      display: inline-flex; align-items: center; gap: 3px;
+      font-size: 10.5px; font-weight: 800;
+      padding: 2px 7px; border-radius: 6px; border: 1px solid;
+      white-space: nowrap;
+    }
+    .vial-purple { background: rgba(168,85,247,.14); color: #6b21a8; border-color: rgba(168,85,247,.35); }
+    .vial-yellow { background: rgba(234,179,8,.18);  color: #854d0e; border-color: rgba(234,179,8,.40); }
+    .vial-blue   { background: rgba(56,189,248,.18); color: #075985; border-color: rgba(56,189,248,.40); }
+    .vial-red    { background: rgba(239,68,68,.14);  color: #991b1b; border-color: rgba(239,68,68,.35); }
+    .vial-green  { background: rgba(34,197,94,.15);  color: #166534; border-color: rgba(34,197,94,.38); }
+    .vial-grey   { background: rgba(100,116,139,.18);color: #334155; border-color: rgba(100,116,139,.38); }
+    .vial-plain  { background: var(--box-bg);        color: var(--text-muted); border-color: var(--border); }
+    .vial-urgent { background: rgba(239,68,68,.12);  color: #b91c1c; border-color: rgba(239,68,68,.35); }
+    .vial-hosp   { background: rgba(2,132,199,.12);  color: #0369a1; border-color: rgba(2,132,199,.30); }
+    .vial-verified { background: rgba(34,197,94,.13); color: #15803d; border-color: rgba(34,197,94,.35); }
+    [data-theme="dark"] .vial-purple { background: rgba(168,85,247,.22); color: #d8b4fe; border-color: rgba(168,85,247,.45); }
+    [data-theme="dark"] .vial-yellow { background: rgba(234,179,8,.20);  color: #fde68a; border-color: rgba(234,179,8,.42); }
+    [data-theme="dark"] .vial-blue   { background: rgba(56,189,248,.20); color: #7dd3fc; border-color: rgba(56,189,248,.42); }
+    [data-theme="dark"] .vial-red    { background: rgba(239,68,68,.20);  color: #fca5a5; border-color: rgba(239,68,68,.42); }
+    [data-theme="dark"] .vial-green  { background: rgba(34,197,94,.20);  color: #86efac; border-color: rgba(34,197,94,.42); }
+    [data-theme="dark"] .vial-grey   { background: rgba(148,163,184,.20);color: #cbd5e1; border-color: rgba(148,163,184,.40); }
+    [data-theme="dark"] .vial-plain  { color: #cbd5e1; }
+    [data-theme="dark"] .vial-urgent { background: rgba(239,68,68,.18);  color: #fca5a5; border-color: rgba(239,68,68,.40); }
+    [data-theme="dark"] .vial-hosp   { background: rgba(56,189,248,.16); color: #7dd3fc; border-color: rgba(56,189,248,.35); }
+    [data-theme="dark"] .vial-verified { background: rgba(34,197,94,.18); color: #86efac; border-color: rgba(34,197,94,.40); }
+
+    .lab-empty {
+      text-align: center; padding: 28px 18px; color: var(--text-muted);
+      font-size: 13px; font-weight: 600;
+    }
+    .lab-empty button {
+      margin-top: 10px; padding: 7px 14px; border-radius: 9px;
+      border: 1.5px solid var(--border); background: var(--box-bg);
+      color: var(--primary); font-weight: 800; cursor: pointer; font-family: inherit;
+    }
   </style>
 </head>
 <body>
@@ -315,51 +497,53 @@
   <!-- TAB 3: LABS -->
   <div id="lab-tab" class="hidden">
 
-    <!-- LAB PHOTO GUIDES -->
-    <div id="labPhotoSection" class="hidden" style="margin-bottom:14px">
-      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:8px">
-        <h3 style="margin:0;font-size:15px;font-weight:800;color:var(--text)">📸 Lab Photo Guides</h3>
-        <span id="labPhotoCount" style="font-size:12px;color:var(--text-muted);font-weight:700"></span>
-      </div>
-      <div id="labPhotoRail" class="lab-photo-rail"></div>
+    <!-- SEARCH FIRST: this is the primary action on this tab -->
+    <div class="lab-searchbar">
+      <input type="text" id="labSearch" autocomplete="off" aria-label="Search lab tests"
+             oninput="labSearchInput(this.value)" placeholder="Search test, tube colour, room… (try cbc, fbs, lft)">
+      <select id="labHospitalSelect" onchange="searchLabTests()" aria-label="Filter by lab or window">
+        <option value="all">🏥 All labs & windows</option>
+        <optgroup label="LNJP windows">
+          <option value="window1_path">📍 Window 1 &amp; 5 — Pathology</option>
+          <option value="window2_biochem">📍 Window 2 &amp; 2E — Biochemistry</option>
+          <option value="window3_em">📍 Window 3 — Emergency</option>
+        </optgroup>
+        <optgroup label="Specialised labs">
+          <option value="immunology_serology">🔬 Immunology &amp; Serology</option>
+          <option value="virology_pcr">🧬 Virology &amp; PCR</option>
+          <option value="cultures">🧫 Cultures</option>
+          <option value="bloodbank">🩸 Blood Bank</option>
+        </optgroup>
+        <optgroup label="Radiology">
+          <option value="radiology_lnjp">🩻 LNJP Radiology</option>
+          <option value="gbpant">🏥 GB Pant Hospital</option>
+        </optgroup>
+      </select>
     </div>
 
-    <div id="labDirectoryContainer" style="margin-top: 12px; margin-bottom: 12px; position: relative;">
-      <button id="labDirectoryToggleBtn" onclick="toggleLabDirectoryPopup()" style="display:inline-flex; align-items:center; gap:6px; padding:9px 16px; border-radius:12px; border:1.5px solid var(--border); background:var(--box-bg); color:var(--primary); font-weight:800; font-size:13px; cursor:pointer; font-family:inherit; box-shadow: var(--shadow-sm);">
-        📄 Report Locations (A–Z Directory) <span style="font-size:11px; opacity:0.7">▼</span>
-      </button>
-
-      <div id="labDirectoryPopup" class="hidden" style="position:absolute; top:100%; left:0; right:0; max-width:420px; z-index:30; margin-top:6px;">
-        <div style="background:var(--card); border:1.5px solid var(--border); border-radius:16px; box-shadow:var(--shadow-md); max-height:300px; overflow-y:auto; padding:8px;">
-          <div id="labDirectoryList" style="display:flex; flex-direction:column; gap:4px;">
-            <!-- Dynamic A-Z tests injected here -->
-          </div>
+    <div class="lab-toolbar">
+      <span id="labCount" class="lab-count"></span>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button id="labAdminAddBtn" class="lab-tool-btn hidden" onclick="openLabEditor(null)">➕ Add test</button>
+        <button class="lab-tool-btn" onclick="toggleLabDirectoryPopup()">📄 A–Z directory ▼</button>
+      </div>
+      <div id="labDirectoryPopup" class="hidden lab-dir-popup">
+        <div class="lab-dir-popup-inner">
+          <div id="labDirectoryList" class="lab-dir-list"></div>
         </div>
       </div>
     </div>
 
-    <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:12px">
-      <select id="labHospitalSelect" onchange="searchLabTests()" style="padding:10px 14px; border-radius:8px; border:1px solid var(--border); font-size:14px; background-color:var(--input-bg); font-weight:600; color:var(--text); min-width:280px; cursor:pointer">
-        <option value="all">🏥 All Diagnostic Windows & Labs</option>
-        <optgroup label="── LNJP HOSPITAL WINDOWS ──">
-          <option value="window1_path">📍 Window 1 & 5 (Pathology & Clinical)</option>
-          <option value="window2_biochem">📍 Window 2 & 2E (Biochemistry Routine, ABG & Special)</option>
-          <option value="window3_em">📍 Window 3 (Emergency Lab & Fast-Track)</option>
-        </optgroup>
-        <optgroup label="── SPECIALIZED LABS & DEPARTMENTS ──">
-          <option value="immunology_serology">🔬 Immunology & Serology Labs</option>
-          <option value="virology_pcr">🧬 Virology & Molecular PCR</option>
-          <option value="cultures">🧫 Cultures</option>
-          <option value="bloodbank">🩸 Blood Bank</option>
-        </optgroup>
-        <optgroup label="── RADIOLOGY & GB PANT ──">
-          <option value="radiology_lnjp">🩻 LNJP Radiology</option>
-          <option value="gbpant">🏥 GB Pant Hospital (Labs, Echo & Imaging)</option>
-        </optgroup>
-      </select>
-      <input type="text" id="labSearch" oninput="searchLabTests(); saveSearchHistory('lab',this.value)" placeholder="Search test, tube colour, room..." style="flex:1; min-width:250px; padding:10px 14px; border-radius:8px; border:1px solid var(--border); font-size:14px">
+    <div id="labResults" style="padding-bottom:76px"></div>
+
+    <!-- PHOTOS SIT BELOW THE RESULTS: they answer a follow-up question, not the first one -->
+    <div id="labPhotoSection" class="hidden" style="margin-top:18px">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:8px">
+        <h3 style="margin:0;font-size:15px;font-weight:800;color:var(--text)">📸 Lab Photo Guides</h3>
+        <span id="labPhotoCount" class="lab-count"></span>
+      </div>
+      <div id="labPhotoRail" class="lab-photo-rail"></div>
     </div>
-    <div id="labResults"></div>
   </div>
 
   <!-- TAB 5: GUIDES & DOCUMENTS -->
@@ -492,6 +676,36 @@
   </div>
 </div>
 
+<!-- LAB TEST EDITOR (admin) -->
+<div id="labEditModal" class="hidden" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(15,23,42,0.65);backdrop-filter:blur(6px);z-index:10007;display:flex;align-items:center;justify-content:center;padding:16px;box-sizing:border-box">
+  <div style="background:var(--card);width:100%;max-width:560px;max-height:90vh;border-radius:18px;border:1px solid var(--border);box-shadow:var(--shadow-lg);overflow:hidden;display:flex;flex-direction:column">
+    <div style="padding:14px 18px;background:var(--primary-gradient);color:white;display:flex;justify-content:space-between;align-items:center;flex-shrink:0">
+      <h3 id="labEditTitle" style="margin:0;font-size:16px;font-weight:800">✏️ Correct lab test</h3>
+      <button onclick="closeLabEditor()" style="background:rgba(255,255,255,0.2);border:none;color:white;font-size:20px;cursor:pointer;border-radius:50%;width:30px;height:30px">&times;</button>
+    </div>
+    <div style="padding:14px 18px;overflow-y:auto;flex:1">
+      <input type="hidden" id="labEditId" value="">
+      <div class="input-group"><label>Test name</label><input type="text" id="labEditTest" placeholder="e.g. CBC (Complete Blood Count)"></div>
+      <div class="input-group"><label>Category</label><select id="labEditCategory"></select></div>
+      <div class="input-group"><label>Tube / container</label><input type="text" id="labEditTube" placeholder="e.g. EDTA (Purple)"></div>
+      <div class="input-group"><label>Sample drop location</label><input type="text" id="labEditWindow" placeholder="e.g. Window 1 (Pathology)"></div>
+      <div class="input-group"><label>Report collection location</label><input type="text" id="labEditReport" placeholder="e.g. Window 1 / Online Portal"></div>
+      <div class="input-group"><label>Days / schedule</label><input type="text" id="labEditDays" placeholder="e.g. Daily (Routine)"></div>
+      <div class="input-group"><label>Notes / parameters</label><textarea id="labEditNotes" rows="4" placeholder="Fasting, handling, parameters…"></textarea></div>
+      <label style="display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;color:var(--text);margin-top:4px">
+        <input type="checkbox" id="labEditVerify"> Mark as verified today
+      </label>
+      <p style="font-size:11.5px;color:var(--text-muted);margin:8px 0 0;line-height:1.5">
+        Saved to Firestore as an override. data_labs.js is not modified; “Restore original” removes the override.
+      </p>
+    </div>
+    <div style="padding:12px 18px;border-top:1px solid var(--border);display:flex;gap:10px;justify-content:flex-end;flex-shrink:0">
+      <button onclick="closeLabEditor()" class="btn-secondary-sm">Cancel</button>
+      <button onclick="saveLabEdit()" class="btn-primary-sm">Save</button>
+    </div>
+  </div>
+</div>
+
 <!-- LAB PHOTO LIGHTBOX -->
 <div id="labPhotoModal" class="hidden" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(2,10,20,0.94);backdrop-filter:blur(8px);z-index:10006;display:flex;flex-direction:column;padding:14px;box-sizing:border-box">
   <div style="width:100%;max-width:820px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;color:white;gap:10px;flex-shrink:0">
@@ -580,7 +794,7 @@
 
 <script>
   // ========== VERSION ==========
-  const APP_BUILD = "2026-11-24-v19";
+  const APP_BUILD = "2026-11-24-v20";
 
   // ========== FIREBASE ==========
   const firebaseConfig = {
@@ -1577,6 +1791,10 @@ function closeLightbox() {
             <select id="labPhotoGroup">${labPhotoGroupOptions()}</select>
           </div>
           <div class="input-group">
+            <label>Link to a specific test (optional)</label>
+            <select id="labPhotoTest"><option value="">— No, this is a general lab photo —</option></select>
+          </div>
+          <div class="input-group">
             <label>Caption (optional)</label>
             <input type="text" id="labPhotoCaption" placeholder="e.g. Sample drop counter — Window 2" maxlength="90">
           </div>
@@ -1591,6 +1809,11 @@ function closeLightbox() {
           <h5 style="margin:0 0 8px;font-size:14px;font-weight:800">Uploaded photos</h5>
           <div id="adminLabPhotoList"><p style="color:var(--text-muted);font-size:13px">Loading...</p></div>
         </div>`;
+      const testSel = document.getElementById('labPhotoTest');
+      if (testSel) {
+        testSel.innerHTML = '<option value="">— No, this is a general lab photo —</option>' +
+          labEffective.map(r => `<option value="${labPhotoEsc(r._id)}">${labPhotoEsc(r.test)}</option>`).join('');
+      }
       const fi = document.getElementById('labPhotoFiles');
       if (fi) fi.addEventListener('change', () => {
         const n = fi.files ? fi.files.length : 0;
@@ -1670,7 +1893,7 @@ function closeLightbox() {
     const activeTab = document.querySelector('.tab-btn.active');
     if (!activeTab) return;
     if (activeTab.textContent.includes('Roster')) { document.getElementById('universalPersonInput').value = q; executeSmartSearch(); }
-    else if (activeTab.textContent.includes('Labs')) { document.getElementById('labSearch').value = q; searchLabTests(); }
+    else if (activeTab.textContent.includes('Labs')) { document.getElementById('labSearch').value = q; labQuery = q; searchLabTests(); }
   }
   function clearSearchHistory() {
     ['roster', 'lab'].forEach(t => localStorage.removeItem(`mamc_history_${t}`));
@@ -1690,6 +1913,11 @@ function closeLightbox() {
       const oc = b.getAttribute('onclick') || '';
       b.classList.toggle('active', oc.indexOf("'" + tab + "'") !== -1);
     });
+
+    // hide/show the whole wrapper card, not just the inner row, or an empty
+    // padded box is left behind on Labs and Guides
+    const dateWrap = dateCard ? dateCard.parentElement : null;
+    if (dateWrap) dateWrap.classList.toggle('hidden', tab !== 'roster' && tab !== 'schedule');
 
     if (tab === 'roster') {
       document.getElementById('roster-tab')?.classList.remove('hidden');
@@ -1881,86 +2109,483 @@ function closeLightbox() {
   function searchDeptSchedule() { renderScheduleResults(); }
 
   // LABS DIRECTORY & SEARCH
+  // ============================================================
+  // LAB DATA LAYER
+  //   data_labs.js  = base content, version controlled, unchanged
+  //   labOverrides  = admin corrections from Firestore, merged on top
+  // ============================================================
+  let labBaseData = [];        // normalised rows from data_labs.js
+  let labOverridesMap = {};    // id -> override doc
+  let labEffective = [];       // merged, retired-filtered rows the UI renders
+  let labOverridesUnsub = null;
+  let labQuery = '';
+  let labOpenId = null;
+
+  function labSlug(str) {
+    return String(str || '')
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '')
+      .slice(0, 60);
+  }
+
+  // Common intern abbreviations -> words that appear in the data.
+  // Used to expand the QUERY, so "fbs" finds "Blood Sugar".
+  const LAB_QUERY_SYNONYMS = {
+    cbc: 'complete blood count', haemogram: 'complete blood count', hemogram: 'complete blood count',
+    'blood count': 'complete blood count',
+    hb: 'hemoglobin', haemoglobin: 'hemoglobin', hemoglobin: 'hemoglobin',
+    fbs: 'blood sugar', ppbs: 'blood sugar', rbs: 'blood sugar', sugar: 'blood sugar', glucose: 'blood sugar',
+    lft: 'liver function', hepatic: 'liver function',
+    kft: 'kidney function', rft: 'kidney function', renal: 'kidney function',
+    tft: 'thyroid', thyroid: 'immunoassay',
+    pt: 'coagulation', inr: 'coagulation', aptt: 'coagulation', ptt: 'coagulation', dvt: 'coagulation',
+    tlc: 'cell count', dlc: 'cell count',
+    abg: 'blood gas', vbg: 'blood gas',
+    usg: 'ultrasound', sonography: 'ultrasound',
+    xray: 'x-ray', 'x ray': 'x-ray',
+    a1c: 'glycated hemoglobin', hba1c: 'glycated hemoglobin',
+    typhoid: 'widal',
+    urm: 'urine routine', 'urine routine': 'urine routine',
+    bcs: 'blood culture', ucs: 'urine culture',
+    'c/s': 'culture', cs: 'culture',
+    lipid: 'lipid profile', cholesterol: 'lipid profile',
+    dengue: 'dengue', malaria: 'malaria',
+    esr: 'esr',
+    anaemia: 'anemia', anemia: 'anemia',
+    'kala azar': 'kala-azar', 'kala-azar': 'kala-azar'
+  };
+
+  function labEscapeRe(str) {
+    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+
+  function labEscapeHtml(v) {
+    return String(v == null ? '' : v)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+
+  // Build the base rows once: trim stray whitespace, give every row a stable id.
+  function labNormaliseBase() {
+    const src = (typeof labDirectory !== 'undefined' && Array.isArray(labDirectory)) ? labDirectory : [];
+    const seen = {};
+    labBaseData = [];
+    src.forEach(raw => {
+      if (!raw || !raw.test) return;
+      const test = String(raw.test).trim().replace(/\s+/g, ' ');
+      let id = labSlug(test);
+      // same test listed under two labs keeps both routes, but needs two ids
+      if (seen[id]) { id = id + '--' + labSlug(raw.category || 'x'); }
+      seen[id] = true;
+      labBaseData.push({
+        _id: id,
+        _src: 'file',
+        hospital: String(raw.hospital || 'LNJP Hospital Labs').trim(),
+        category: String(raw.category || 'window2_biochem').trim(),
+        test: test,
+        tube: String(raw.tube || '').trim(),
+        window: String(raw.window || '').trim(),
+        days: String(raw.days || '').trim(),
+        report: String(raw.report || '').trim(),
+        notes: String(raw.notes || '').trim()
+      });
+    });
+  }
+
+  function initLabOverridesListener() {
+    if (labOverridesUnsub) return;
+    try {
+      labOverridesUnsub = db.collection('labOverrides').onSnapshot(snap => {
+        labOverridesMap = {};
+        snap.forEach(d => { labOverridesMap[d.id] = d.data() || {}; });
+        labRebuildEffective();
+      }, err => {
+        console.warn('Lab overrides listener error:', err.message);
+        labRebuildEffective();
+      });
+    } catch (e) {
+      console.warn('Lab overrides init failed:', e.message);
+      labRebuildEffective();
+    }
+  }
+
+  function labRebuildEffective() {
+    const map = {};
+    labBaseData.forEach(r => { map[r._id] = Object.assign({}, r); });
+
+    // admin-created tests exist only as overrides
+    Object.keys(labOverridesMap).forEach(id => {
+      const o = labOverridesMap[id];
+      if (!o || !o.isNew) return;
+      map[id] = Object.assign({
+        _id: id, _src: 'admin', hospital: 'LNJP Hospital Labs',
+        category: 'window2_biochem', test: '', tube: '', window: '', days: '', report: '', notes: ''
+      }, o.base || {});
+    });
+
+    // apply corrections
+    Object.keys(labOverridesMap).forEach(id => {
+      const o = labOverridesMap[id];
+      const row = map[id];
+      if (!row || !o) return;
+      if (o.patch) {
+        Object.keys(o.patch).forEach(k => { row[k] = o.patch[k]; });
+      }
+      row._edited = true;
+      row._editedBy = o.editedBy || '';
+      row._editedAt = o.editedAt || null;
+      row._verifiedAt = o.verifiedAt || null;
+      row._verifiedBy = o.verifiedBy || '';
+      row._retired = !!o.retired;
+    });
+
+    labEffective = Object.keys(map).map(k => map[k])
+      .filter(r => !r._retired)
+      .sort((a, b) => a.test.localeCompare(b.test));
+
+    searchLabTests();
+    populateLabAlphabeticalDirectory();
+    const addBtn = document.getElementById('labAdminAddBtn');
+    if (addBtn) addBtn.classList.toggle('hidden', !isAdmin);
+  }
+
+  // ---------- search ----------
+  function labSearchInput(value) {
+    labQuery = String(value || '');
+    saveSearchHistory('lab', labQuery);
+    clearTimeout(window.__labDebounce);
+    window.__labDebounce = setTimeout(searchLabTests, 110);
+  }
+
+  function labRowScore(row, q) {
+    if (!q) return 1;
+    const t = row.test.toLowerCase();
+    let score = 0;
+
+    if (t === q) score = 1000;
+    else if (t.startsWith(q)) score = 800;
+    else if (new RegExp('\\b' + labEscapeRe(q)).test(t)) score = 600;
+    else if (t.indexOf(q) !== -1) score = 450;
+
+    if (!score) {
+      const expand = LAB_QUERY_SYNONYMS[q];
+      if (expand && t.indexOf(expand) !== -1) score = 400;
+    }
+    if (!score) {
+      const hay = [row.tube, row.window, row.report, row.days, row.notes, row.category]
+        .join(' ').toLowerCase();
+      if (hay.indexOf(q) !== -1) score = 200;
+    }
+    if (!score) {
+      const expand = LAB_QUERY_SYNONYMS[q];
+      if (expand) {
+        const hay = [row.tube, row.window, row.report, row.days, row.notes, row.category]
+          .join(' ').toLowerCase();
+        if (hay.indexOf(expand) !== -1) score = 150;
+      }
+    }
+    return score;
+  }
+
+  function labHighlight(text) {
+    const safe = labEscapeHtml(text);
+    if (!labQuery) return safe;
+    const q = labQuery.trim();
+    if (!q) return safe;
+    try {
+      return safe.replace(new RegExp('(' + labEscapeRe(labEscapeHtml(q)) + ')', 'ig'), '<mark>$1</mark>');
+    } catch (e) { return safe; }
+  }
+
+  // ---------- rendering ----------
+  function labVialClass(tube) {
+    const t = String(tube || '').toLowerCase();
+    if (t.indexOf('purple') !== -1 || t.indexOf('edta') !== -1) return 'vial-purple';
+    if (t.indexOf('yellow') !== -1 || t.indexOf('sst') !== -1 || t.indexOf('gel') !== -1) return 'vial-yellow';
+    if (t.indexOf('blue') !== -1 || t.indexOf('citrate') !== -1) return 'vial-blue';
+    if (t.indexOf('red') !== -1 || t.indexOf('plain') !== -1 || t.indexOf('serum') !== -1) return 'vial-red';
+    if (t.indexOf('grey') !== -1 || t.indexOf('gray') !== -1 || t.indexOf('fluoride') !== -1) return 'vial-grey';
+    if (t.indexOf('green') !== -1 || t.indexOf('heparin') !== -1) return 'vial-green';
+    return 'vial-plain';
+  }
+
+  function labIsSpecialDays(days) {
+    const d = String(days || '').toLowerCase().trim();
+    if (!d) return false;
+    if (d === 'daily' || d.indexOf('daily (routine)') !== -1 || d.indexOf('mon-sat') !== -1 || d === '24x7') return false;
+    return true;
+  }
+
+  function labFormatDate(ts) {
+    if (!ts) return '';
+    let d;
+    if (typeof ts.toDate === 'function') d = ts.toDate();
+    else if (ts instanceof Date) d = ts;
+    else if (typeof ts === 'number' || typeof ts === 'string') d = new Date(ts);
+    else return '';
+    if (!d || isNaN(d.getTime())) return '';
+    return d.toLocaleDateString('en-IN', { day: '2-digit', month: 'short' });
+  }
+
+  function searchLabTests() {
+    const resDiv = document.getElementById('labResults');
+    const select = document.getElementById('labHospitalSelect');
+    const countEl = document.getElementById('labCount');
+    if (!resDiv) return;
+
+    const q = String(labQuery || '').toLowerCase().trim();
+    const cat = select ? select.value : 'all';
+
+    let rows = labEffective;
+    if (cat && cat !== 'all') rows = rows.filter(r => r.category === cat);
+
+    if (q) {
+      rows = rows
+        .map(r => ({ r: r, s: labRowScore(r, q) }))
+        .filter(x => x.s > 0)
+        .sort((a, b) => b.s - a.s || a.r.test.localeCompare(b.r.test))
+        .map(x => x.r);
+    }
+
+    if (countEl) {
+      countEl.textContent = rows.length
+        ? rows.length + (rows.length === 1 ? ' test' : ' tests')
+        : '';
+    }
+
+    if (!rows.length) {
+      resDiv.innerHTML = `<div class="lab-empty">
+        No test matches “${labEscapeHtml(labQuery || (select ? select.options[select.selectedIndex].text : ''))}”.
+        <br><button onclick="labClearSearch()">Clear search</button></div>`;
+      renderLabPhotos();
+      return;
+    }
+
+    resDiv.innerHTML = rows.map(labRowHtml).join('');
+    renderLabPhotos();
+  }
+
+  function labClearSearch() {
+    labQuery = '';
+    const inp = document.getElementById('labSearch');
+    if (inp) inp.value = '';
+    const sel = document.getElementById('labHospitalSelect');
+    if (sel) sel.value = 'all';
+    searchLabTests();
+  }
+
+  function labRowHtml(row) {
+    const id = row._id;
+    const tube = row.tube || '';
+    const vialClass = labVialClass(tube);
+    const special = labIsSpecialDays(row.days);
+
+    const photo = (labPhotosData || []).find(p => p.testId === id);
+    const badges = [];
+    if (tube) badges.push(`<span class="vial ${vialClass}">💉 ${labEscapeHtml(tube)}</span>`);
+    if (special) badges.push(`<span class="vial vial-urgent">📅 ${labEscapeHtml(row.days)}</span>`);
+    if (row.hospital && row.hospital.toLowerCase().indexOf('lnjp') === -1) {
+      badges.push(`<span class="vial vial-hosp">${labEscapeHtml(row.hospital)}</span>`);
+    }
+    if (row._verifiedAt) badges.push(`<span class="vial vial-verified">✔ ${labFormatDate(row._verifiedAt)}</span>`);
+    if (photo) badges.push(`<span class="vial vial-plain">📸 photo</span>`);
+
+    const prov = row._edited
+      ? `<div class="lab-prov" style="margin-top:6px">✏️ Corrected by admin${row._editedAt ? ' · ' + labFormatDate(row._editedAt) : ''}${row._isNew ? ' · added by admin' : ''}</div>`
+      : '';
+
+    return `<div class="lab-row${labOpenId === id ? ' open' : ''}" id="labrow-${labEscapeHtml(id)}">
+      <div class="lab-row-head" onclick="labToggleRow('${labEscapeHtml(id)}')" role="button" tabindex="0"
+           onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();labToggleRow('${labEscapeHtml(id)}');}">
+        <div class="lab-row-top">
+          <div class="lab-row-name">🧪 ${labHighlight(row.test)}</div>
+          <div class="lab-row-badges">${badges.join('')}</div>
+        </div>
+        <div class="lab-row-route">
+          <span><span class="lab-route-k">Drop</span><span class="lab-route-val">${labEscapeHtml(row.window || '—')}</span></span>
+          <span class="lab-route-arrow">→</span>
+          <span><span class="lab-route-k">Report</span><span class="lab-route-val report">${labEscapeHtml(row.report || '—')}</span></span>
+          <span class="lab-chev">▼</span>
+        </div>
+      </div>
+      <div class="lab-row-detail" id="labdetail-${labEscapeHtml(id)}" style="display:${labOpenId === id ? 'block' : 'none'}">
+        ${row.days ? `<div class="lab-detail-line"><span class="lab-detail-k">Schedule</span> · ${labEscapeHtml(row.days)}</div>` : ''}
+        ${row.notes ? `<div class="lab-notes">${labEscapeHtml(row.notes)}</div>` : ''}
+        ${photo ? `<div style="margin-top:8px"><img src="${photo.dataUrl}" alt="" onclick="openLabPhotoById('${labEscapeHtml(photo.id)}')" style="width:100%;max-width:240px;border-radius:10px;cursor:pointer;display:block">${photo.caption ? `<div class="lab-prov" style="margin-top:4px">${labEscapeHtml(photo.caption)}</div>` : ''}</div>` : ''}
+        ${prov}
+        ${isAdmin ? `<div class="lab-admin-bar">
+          <button class="lab-admin-btn" onclick="openLabEditor('${labEscapeHtml(id)}')">✏️ Edit</button>
+          <button class="lab-admin-btn" onclick="verifyLab('${labEscapeHtml(id)}')">✔ Mark verified</button>
+          <button class="lab-admin-btn danger" onclick="retireLab('${labEscapeHtml(id)}')">🗑 Retire</button>
+          ${row._edited ? `<button class="lab-admin-btn" onclick="revertLab('${labEscapeHtml(id)}')">↺ Restore original</button>` : ''}
+        </div>` : ''}
+      </div>
+    </div>`;
+  }
+
+  function labToggleRow(id) {
+    const detail = document.getElementById('labdetail-' + id);
+    const rowEl = document.getElementById('labrow-' + id);
+    if (!detail || !rowEl) return;
+    const isOpen = detail.style.display !== 'none';
+    detail.style.display = isOpen ? 'none' : 'block';
+    rowEl.classList.toggle('open', !isOpen);
+    labOpenId = isOpen ? null : id;
+  }
+
+  // ---------- A–Z directory ----------
   function toggleLabDirectoryPopup() {
     const popup = document.getElementById('labDirectoryPopup');
     if (!popup) return;
     popup.classList.toggle('hidden');
-    if (!popup.classList.contains('hidden')) {
-      populateLabAlphabeticalDirectory();
-    }
+    if (!popup.classList.contains('hidden')) populateLabAlphabeticalDirectory();
   }
 
   function populateLabAlphabeticalDirectory() {
-    const listContainer = document.getElementById('labDirectoryList');
-    if (!listContainer || typeof labDirectory === 'undefined' || !labDirectory) return;
-
-    const sortedLabs = [...labDirectory].sort((a, b) => a.test.localeCompare(b.test));
-
-    listContainer.innerHTML = sortedLabs.map(item => `
-      <button class="lab-dir-item" onclick="selectLabFromDirectory('${encodeURIComponent(item.test)}')">
-        <span style="font-weight:700;">🧪 ${item.test}</span>
-        <span class="lab-dir-location">📍 ${item.report || 'Window 1'}</span>
-      </button>
-    `).join('');
+    const list = document.getElementById('labDirectoryList');
+    if (!list) return;
+    if (!labEffective.length) { list.innerHTML = '<p style="font-size:12px;color:var(--text-muted);padding:8px">No lab data loaded.</p>'; return; }
+    list.innerHTML = labEffective.map(r => `
+      <button class="lab-dir-item" onclick="selectLabFromDirectory('${labEscapeHtml(r._id)}')">
+        <span style="font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">🧪 ${labEscapeHtml(r.test)}</span>
+        <span class="lab-dir-location">${labEscapeHtml(r.report || r.window || '')}</span>
+      </button>`).join('');
   }
 
-  function selectLabFromDirectory(encodedTestName) {
-    const testName = decodeURIComponent(encodedTestName);
-    
-    const searchInput = document.getElementById('labSearch');
-    if (searchInput) searchInput.value = testName;
-
-    const selectFilter = document.getElementById('labHospitalSelect');
-    if (selectFilter) selectFilter.value = 'all';
-
+  function selectLabFromDirectory(id) {
+    const row = labEffective.find(r => r._id === id);
+    if (!row) return;
     document.getElementById('labDirectoryPopup')?.classList.add('hidden');
 
+    labQuery = row.test;
+    const inp = document.getElementById('labSearch');
+    if (inp) inp.value = row.test;
+    const sel = document.getElementById('labHospitalSelect');
+    if (sel) sel.value = 'all';
+
+    labOpenId = id;
     searchLabTests();
 
     setTimeout(() => {
-      const resultsContainer = document.getElementById('labResults');
-      const firstCard = resultsContainer?.querySelector('.result-card');
-      if (firstCard) {
-        firstCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        firstCard.classList.remove('card-highlighted');
-        void firstCard.offsetWidth;
-        firstCard.classList.add('card-highlighted');
-        
-        const details = firstCard.querySelector('details');
-        if (details) details.open = true;
+      const el = document.getElementById('labrow-' + id);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        el.classList.add('card-highlighted');
+        setTimeout(() => el.classList.remove('card-highlighted'), 1600);
       }
-    }, 100);
+    }, 80);
   }
 
-  function getVialBadge(tubeText) {
-    if (!tubeText) return '';
-    const tube = tubeText.toLowerCase();
-    let bg = '#e2e8f0', color = '#334155', border = '#cbd5e1';
-
-    if (tube.includes('purple') || tube.includes('edta')) {
-      bg = 'rgba(168, 85, 247, 0.15)'; color = '#7e22ce'; border = 'rgba(168, 85, 247, 0.4)';
-    } else if (tube.includes('yellow') || tube.includes('sst') || tube.includes('gel')) {
-      bg = 'rgba(234, 179, 8, 0.18)'; color = '#a16207'; border = 'rgba(234, 179, 8, 0.4)';
-    } else if (tube.includes('blue') || tube.includes('citrate')) {
-      bg = 'rgba(56, 189, 248, 0.18)'; color = '#0369a1'; border = 'rgba(56, 189, 248, 0.4)';
-    } else if (tube.includes('red') || tube.includes('plain')) {
-      bg = 'rgba(239, 68, 68, 0.15)'; color = '#b91c1c'; border = 'rgba(239, 68, 68, 0.4)';
-    } else if (tube.includes('grey') || tube.includes('gray') || tube.includes('fluoride')) {
-      bg = 'rgba(100, 116, 139, 0.18)'; color = '#334155'; border = 'rgba(100, 116, 139, 0.4)';
-    } else if (tube.includes('green') || tube.includes('heparin')) {
-      bg = 'rgba(34, 197, 94, 0.15)'; color = '#15803d'; border = 'rgba(34, 197, 94, 0.4)';
-    }
-
-    return `<span class="badge" style="background:${bg}; color:${color}; border:1px solid ${border}; font-weight:800; font-size:11.5px;">💉 ${tubeText}</span>`;
+  // ============================================================
+  // ADMIN: correct lab data
+  // ============================================================
+  function labCategoryOptions(selected) {
+    const opts = [
+      ['window1_path', 'Window 1 & 5 — Pathology'],
+      ['window2_biochem', 'Window 2 & 2E — Biochemistry'],
+      ['window3_em', 'Window 3 — Emergency'],
+      ['immunology_serology', 'Immunology & Serology'],
+      ['virology_pcr', 'Virology & PCR'],
+      ['cultures', 'Cultures'],
+      ['bloodbank', 'Blood Bank'],
+      ['radiology_lnjp', 'LNJP Radiology'],
+      ['gbpant', 'GB Pant Hospital']
+    ];
+    return opts.map(([v, l]) =>
+      `<option value="${v}"${v === selected ? ' selected' : ''}>${l}</option>`).join('');
   }
 
-  function isSpecialSchedule(daysText) {
-    if (!daysText) return false;
-    const d = daysText.toLowerCase().trim();
-    if (d === 'daily' || d.includes('daily (routine)') || d.includes('mon-sat') || d === '24x7') {
-      return false;
+  function openLabEditor(id) {
+    if (!isAdmin) return;
+    const isNew = !id;
+    const row = isNew
+      ? { _id: '', test: '', category: 'window2_biochem', tube: '', window: '', days: '', report: '', notes: '' }
+      : (labEffective.find(r => r._id === id) || labEffective.concat(Object.values(labOverridesMap)).find(r => r && r._id === id));
+
+    if (!row && !isNew) return alert('Test not found.');
+
+    const modal = document.getElementById('labEditModal');
+    document.getElementById('labEditId').value = isNew ? '' : id;
+    document.getElementById('labEditTitle').textContent = isNew ? '➕ Add a lab test' : '✏️ Correct lab test';
+    document.getElementById('labEditTest').value = row.test || '';
+    document.getElementById('labEditCategory').innerHTML = labCategoryOptions(row.category);
+    document.getElementById('labEditTube').value = row.tube || '';
+    document.getElementById('labEditWindow').value = row.window || '';
+    document.getElementById('labEditReport').value = row.report || '';
+    document.getElementById('labEditDays').value = row.days || '';
+    document.getElementById('labEditNotes').value = row.notes || '';
+    document.getElementById('labEditVerify').checked = false;
+    modal.classList.remove('hidden');
+  }
+
+  function closeLabEditor() {
+    document.getElementById('labEditModal')?.classList.add('hidden');
+  }
+
+  async function saveLabEdit() {
+    if (!currentUser || !isAdmin) return alert('Admin authentication required.');
+    const idField = document.getElementById('labEditId').value;
+    const isNew = !idField;
+
+    const patch = {
+      test: document.getElementById('labEditTest').value.trim(),
+      category: document.getElementById('labEditCategory').value,
+      tube: document.getElementById('labEditTube').value.trim(),
+      window: document.getElementById('labEditWindow').value.trim(),
+      report: document.getElementById('labEditReport').value.trim(),
+      days: document.getElementById('labEditDays').value.trim(),
+      notes: document.getElementById('labEditNotes').value.trim()
+    };
+    if (!patch.test) return alert('Test name is required.');
+
+    const verify = document.getElementById('labEditVerify').checked;
+    const id = isNew ? ('custom-' + Date.now()) : idField;
+
+    const doc = {
+      patch: patch,
+      editedBy: currentUser.displayName || currentUser.email || 'Admin',
+      editedAt: firebase.firestore.FieldValue.serverTimestamp()
+    };
+    if (isNew) { doc.isNew = true; doc.base = patch; }
+    if (verify) {
+      doc.verifiedAt = firebase.firestore.FieldValue.serverTimestamp();
+      doc.verifiedBy = currentUser.displayName || currentUser.email || 'Admin';
     }
-    return true;
+
+    try {
+      await db.collection('labOverrides').doc(id).set(doc, { merge: true });
+      closeLabEditor();
+      labOpenId = isNew ? null : id;
+    } catch (e) {
+      alert('Save failed: ' + e.message);
+    }
+  }
+
+  async function verifyLab(id) {
+    if (!currentUser || !isAdmin) return;
+    try {
+      await db.collection('labOverrides').doc(id).set({
+        verifiedAt: firebase.firestore.FieldValue.serverTimestamp(),
+        verifiedBy: currentUser.displayName || currentUser.email || 'Admin'
+      }, { merge: true });
+    } catch (e) { alert('Could not verify: ' + e.message); }
+  }
+
+  async function retireLab(id) {
+    if (!currentUser || !isAdmin) return;
+    if (!confirm('Retire this test? It disappears from results but the correction history is kept.')) return;
+    try {
+      await db.collection('labOverrides').doc(id).set({ retired: true }, { merge: true });
+    } catch (e) { alert('Could not retire: ' + e.message); }
+  }
+
+  async function revertLab(id) {
+    if (!currentUser || !isAdmin) return;
+    if (!confirm('Restore the original data from data_labs.js for this test?')) return;
+    try {
+      await db.collection('labOverrides').doc(id).delete();
+    } catch (e) { alert('Could not restore: ' + e.message); }
   }
 
   // ============================================================
@@ -2012,7 +2637,7 @@ function closeLightbox() {
           labPhotosData = snap.docs
             .map(d => Object.assign({ id: d.id }, d.data()))
             .filter(p => p && typeof p.dataUrl === 'string' && /^(data:image\/|https?:\/\/)/.test(p.dataUrl));
-          renderLabPhotos();
+          renderLabPhotos(true);
           if (document.getElementById('adminLabPhotoList')) renderAdminLabPhotoList();
         }, err => {
           console.warn('Lab photos listener error:', err.message);
@@ -2022,7 +2647,9 @@ function closeLightbox() {
     }
   }
 
-  function renderLabPhotos() {
+  let labPhotoRenderKey = '';
+
+  function renderLabPhotos(force) {
     const section = document.getElementById('labPhotoSection');
     const rail = document.getElementById('labPhotoRail');
     const countEl = document.getElementById('labPhotoCount');
@@ -2030,6 +2657,12 @@ function closeLightbox() {
 
     const sel = document.getElementById('labHospitalSelect');
     const activeLab = sel ? sel.value : 'all';
+
+    // Rebuilding the rail on every keystroke reset its scroll position and
+    // wasted work; only repaint when the filter or the data actually changed.
+    const key = activeLab + '|' + labPhotosData.length + '|' + (labPhotosData[0] ? labPhotosData[0].id : '');
+    if (!force && key === labPhotoRenderKey) return;
+    labPhotoRenderKey = key;
 
     // When one lab is chosen, show that lab's photos plus shared/general ones.
     let list = labPhotosData;
@@ -2091,6 +2724,15 @@ function closeLightbox() {
     const next = document.getElementById('labPhotoNext');
     if (prev) prev.style.visibility = labPhotoView.length > 1 ? 'visible' : 'hidden';
     if (next) next.style.visibility = labPhotoView.length > 1 ? 'visible' : 'hidden';
+  }
+
+  function openLabPhotoById(photoId) {
+    const p = labPhotosData.find(x => x.id === photoId);
+    if (!p) return;
+    const group = p.testId ? labPhotosData.filter(x => x.testId === p.testId) : labPhotosData;
+    labPhotoView = group.length ? group : labPhotosData;
+    const idx = labPhotoView.findIndex(x => x.id === photoId);
+    openLabPhoto(idx < 0 ? 0 : idx);
   }
 
   function labPhotoStep(dir) {
@@ -2158,8 +2800,10 @@ function closeLightbox() {
             failed++;
             continue; // too big for a Firestore document, skip it
           }
+          const testSelEl = document.getElementById('labPhotoTest');
           await db.collection('labPhotos').add({
             labKey: labKey,
+            testId: testSelEl && testSelEl.value ? testSelEl.value : '',
             caption: caption || '',
             dataUrl: dataUrl,
             uploadedBy: currentUser.displayName || currentUser.email || 'Admin',
@@ -2214,92 +2858,12 @@ function closeLightbox() {
     }
   }
 
-  function searchLabTests() {
-    const searchInput = document.getElementById('labSearch');
-    const selectFilter = document.getElementById('labHospitalSelect');
-    const resDiv = document.getElementById('labResults');
-    if (!resDiv || !selectFilter) return;
-
-    const query = searchInput ? searchInput.value.toLowerCase().trim() : "";
-    const filterVal = selectFilter.value;
-
-    renderLabPhotos();
-
-    let filtered = typeof labDirectory !== 'undefined' ? labDirectory : [];
-    if (filterVal !== "all") filtered = filtered.filter(item => item.category === filterVal);
-
-    if (query) {
-      filtered = filtered.filter(item =>
-        item.test.toLowerCase().includes(query) || item.tube.toLowerCase().includes(query) ||
-        item.window.toLowerCase().includes(query) || item.days.toLowerCase().includes(query) ||
-        item.report.toLowerCase().includes(query) || (item.notes || "").toLowerCase().includes(query) ||
-        (item.category || "").toLowerCase().includes(query)
-      );
-    }
-
-    if (filtered.length === 0) {
-      resDiv.innerHTML = '<p style="padding:20px; color:var(--text-muted); text-align:center; font-weight:600">No matching lab tests found.</p>';
-      return;
-    }
-
-    let html = `<div style="font-size:12px; color:var(--text-muted); margin:0 0 8px 4px; font-weight:700">Showing <strong>${filtered.length}</strong> test${filtered.length > 1 ? 's' : ''}</div>`;
-
-    filtered.forEach(item => {
-      const vialBadge = getVialBadge(item.tube);
-      const hasSpecialDays = isSpecialSchedule(item.days);
-      const hasNotes = item.notes && item.notes.trim().length > 0;
-
-      const isOtherHospital = item.hospital && !item.hospital.toLowerCase().includes('lnjp');
-      const hospitalBadge = isOtherHospital ? `<span class="badge badge-lab">${item.hospital}</span>` : '';
-
-      const specialDayBadge = hasSpecialDays 
-        ? `<span class="badge badge-urgent" style="font-size:11px; font-weight:800;">📅 ${item.days}</span>` 
-        : '';
-
-      html += `
-      <div class="result-card" style="margin-bottom:8px; padding:10px 14px;">
-        <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; flex-wrap:wrap; margin-bottom:6px;">
-          <h4 style="margin:0; font-size:14.5px; font-weight:800; color:var(--text); flex:1; min-width:180px;">
-            🧪 ${item.test}
-          </h4>
-          <div style="display:flex; gap:5px; flex-wrap:wrap; align-items:center;">
-            ${specialDayBadge}
-            ${vialBadge}
-            ${hospitalBadge}
-          </div>
-        </div>
-
-        <div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:8px; background:var(--box-bg); padding:8px; border-radius:12px; border:1px solid var(--border);">
-          <div style="background:var(--card); padding:8px 10px; border-radius:8px; border:1px solid var(--border);">
-            <div style="font-size:10px; font-weight:800; text-transform:uppercase; color:var(--text-muted); letter-spacing:0.3px;">📍 Sample Drop / Location</div>
-            <div style="font-size:12.5px; font-weight:700; color:var(--text); margin-top:2px;">${item.window || 'Main Lab'}</div>
-          </div>
-          <div style="background:var(--card); padding:8px 10px; border-radius:8px; border:1px solid var(--border);">
-            <div style="font-size:10px; font-weight:800; text-transform:uppercase; color:var(--primary); letter-spacing:0.3px;">📄 Report Collection Location</div>
-            <div style="font-size:13px; font-weight:800; color:var(--primary); margin-top:2px;">${item.report || 'Window 1'}</div>
-          </div>
-        </div>
-
-        ${(hasNotes || !hasSpecialDays) ? `
-          <details style="margin-top:4px;">
-            <summary style="font-size:11.5px; font-weight:700; color:var(--primary); cursor:pointer; padding:2px 0;">
-              💡 View Parameters / Details
-            </summary>
-            <div style="margin-top:4px; padding:6px 10px; background:rgba(245, 158, 11, 0.12); border-left:3px solid #f59e0b; border-radius:6px; font-size:11.5px; color:var(--text); line-height:1.4;">
-              ${!hasSpecialDays ? `<div style="margin-bottom:2px; font-weight:700; color:var(--text-muted);">⏰ Schedule: ${item.days}</div>` : ''}
-              ${hasNotes ? item.notes : ''}
-            </div>
-          </details>
-        ` : ''}
-      </div>`;
-    });
-
-    resDiv.innerHTML = html;
-  }
-
   // Run for ALL users (logged in or not)
   initFoodContactsListener();
   initUploadedRostersListener();
+  labNormaliseBase();
+  labRebuildEffective();      // render base data immediately, before Firestore replies
+  initLabOverridesListener(); // corrections merge in when they arrive
   initLabPhotosListener();
 
   auth.onAuthStateChanged(user => {

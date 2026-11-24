@@ -161,9 +161,12 @@ function renderClinicalGuides() {
   let normalDocs = [];
 
   filtered.forEach(g => {
-    const titleLower = g.title.toLowerCase();
+    const titleLower = (g.title || "").toLowerCase();
     const isPinned = pinnedKeywords.some(kw => titleLower.includes(kw)) || g.isPinned === true;
-    if (isPinned && pinnedDocs.length < 8) {
+    // While a search is active the Pinned section is hidden, so routing a
+    // match into pinnedDocs made it disappear completely. Send every match to
+    // the main grid instead.
+    if (isPinned && !query && pinnedDocs.length < 8) {
       pinnedDocs.push(g);
     } else {
       normalDocs.push(g);

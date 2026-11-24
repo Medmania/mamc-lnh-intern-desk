@@ -82,6 +82,80 @@
       box-shadow: 0 2px 6px rgba(0,0,0,0.15);
     }
   </style>
+  <style>
+    /* LAB PHOTO GUIDES */
+    .lab-photo-rail {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding: 2px 2px 8px;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+    }
+    .lab-photo-rail::-webkit-scrollbar { height: 6px; }
+    .lab-photo-rail::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
+    .lab-photo-card {
+      flex: 0 0 auto;
+      width: 168px;
+      scroll-snap-align: start;
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      background: var(--card);
+      cursor: pointer;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease;
+      text-align: left;
+      padding: 0;
+      font-family: inherit;
+    }
+    .lab-photo-card:hover,
+    .lab-photo-card:focus-visible {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--primary);
+      outline: none;
+    }
+    .lab-photo-card:active { transform: translateY(0); }
+    .lab-photo-thumb {
+      width: 100%;
+      height: 108px;
+      object-fit: cover;
+      display: block;
+      background: var(--box-bg);
+    }
+    .lab-photo-meta { padding: 8px 10px 9px; }
+    .lab-photo-lab {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      color: var(--primary);
+      background: var(--box-bg);
+      border-radius: 6px;
+      padding: 2px 6px;
+      margin-bottom: 4px;
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .lab-photo-cap {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.35;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    @media (max-width: 480px) {
+      .lab-photo-card { width: 148px; }
+      .lab-photo-thumb { height: 96px; }
+    }
+  </style>
 </head>
 <body>
 <div class="container">
@@ -103,16 +177,14 @@
       </div>
     </div>
     <h1>MAMC-LNH Intern Portal</h1>
-    <p class="subtitle">Roster • Labs • FAQs • Hospital Directory</p>
+    <p class="subtitle">Roster • Labs • Hospital Directory</p>
   </div>
 
   <div class="tabs">
     <button class="tab-btn active" onclick="switchTab('roster')">🔍 Search Roster</button>
     <button class="tab-btn" onclick="switchTab('schedule')">📅 Dept Scehdule</button>
     <button class="tab-btn" onclick="switchTab('lab')">🧪 Labs</button>
-    <button class="tab-btn" onclick="switchTab('faq')">❓ FAQs</button>
     <button class="tab-btn" onclick="switchTab('guides')">📁 Guides/Documents</button>
-    <button class="tab-btn" onclick="switchTab('swaps')">💰 Duty Cover</button>
   </div>
 
   <!-- ADMIN PANEL -->
@@ -126,7 +198,7 @@
       <button class="admin-tab" onclick="switchAdminTab('announcements')">Announcements</button>
       <button class="admin-tab" onclick="switchAdminTab('rosteruploads')">📄 Roster Uploads</button>
       <button class="admin-tab" onclick="switchAdminTab('canteen')">Canteen Contacts</button>
-      <button class="admin-tab" onclick="switchAdminTab('faqs')">Add FAQ</button>
+      <button class="admin-tab" onclick="switchAdminTab('labphotos')">📸 Lab Photos</button>
       <button class="admin-tab" onclick="switchAdminTab('notes')">Notes</button>
     </div>
     <div id="adminContent"></div>
@@ -242,6 +314,16 @@
 
   <!-- TAB 3: LABS -->
   <div id="lab-tab" class="hidden">
+
+    <!-- LAB PHOTO GUIDES -->
+    <div id="labPhotoSection" class="hidden" style="margin-bottom:14px">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:8px">
+        <h3 style="margin:0;font-size:15px;font-weight:800;color:var(--text)">📸 Lab Photo Guides</h3>
+        <span id="labPhotoCount" style="font-size:12px;color:var(--text-muted);font-weight:700"></span>
+      </div>
+      <div id="labPhotoRail" class="lab-photo-rail"></div>
+    </div>
+
     <div id="labDirectoryContainer" style="margin-top: 12px; margin-bottom: 12px; position: relative;">
       <button id="labDirectoryToggleBtn" onclick="toggleLabDirectoryPopup()" style="display:inline-flex; align-items:center; gap:6px; padding:9px 16px; border-radius:12px; border:1.5px solid var(--border); background:var(--box-bg); color:var(--primary); font-weight:800; font-size:13px; cursor:pointer; font-family:inherit; box-shadow: var(--shadow-sm);">
         📄 Report Locations (A–Z Directory) <span style="font-size:11px; opacity:0.7">▼</span>
@@ -278,22 +360,6 @@
       <input type="text" id="labSearch" oninput="searchLabTests(); saveSearchHistory('lab',this.value)" placeholder="Search test, tube colour, room..." style="flex:1; min-width:250px; padding:10px 14px; border-radius:8px; border:1px solid var(--border); font-size:14px">
     </div>
     <div id="labResults"></div>
-  </div>
-
-  <!-- TAB 4: FAQs -->
-  <div id="faq-tab" class="card hidden">
-    <div class="faq-search-bar">
-      <div class="input-group" style="margin-bottom:10px">
-        <label for="faqSearchInput">🔍 Search SOPs</label>
-        <input type="text" id="faqSearchInput" placeholder="Type any keyword..." oninput="renderFaqs();saveSearchHistory('faq',this.value)" autocomplete="off">
-      </div>
-      <div class="faq-controls">
-        <button onclick="expandAllFaqs()">Expand All</button>
-        <button onclick="collapseAllFaqs()">Collapse All</button>
-        <span class="faq-match-count" id="faqMatchCount"></span>
-      </div>
-    </div>
-    <div id="faqResults"><p style="text-align:center;color:var(--text-muted);padding:30px">Loading FAQs...</p></div>
   </div>
 
   <!-- TAB 5: GUIDES & DOCUMENTS -->
@@ -374,38 +440,6 @@
     </div>
   </div>
 
-  <!-- TAB 6: DUTY COVER -->
-  <div id="swaps-tab" class="card hidden">
-    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px">
-      <div>
-        <h3 style="margin:0;font-size:18px;font-weight:800">💰 Duty Cover Board</h3>
-        <p style="margin:4px 0 0 0;font-size:13px;color:var(--text-muted)">Need someone to cover your duty? Offer payment and negotiate</p>
-      </div>
-      <button id="createSwapBtn" onclick="showCreateSwapForm()" class="btn-primary-sm" style="display:none">+ New Cover Request</button>
-    </div>
-
-    <div id="swapLoginPrompt" class="login-required-msg">
-      <p>🔐 Please <strong>Login with Google</strong> to view and post duty cover requests.</p>
-    </div>
-
-    <div id="swapContent" class="hidden">
-      <div id="createSwapForm" class="admin-form-card hidden">
-        <h4 id="swapFormTitle">Post a Cover Request</h4>
-        <input type="hidden" id="editingSwapId" value="">
-        <div class="input-group"><label>Date of duty you want covered</label><input type="date" id="swapDate"></div>
-        <div class="input-group"><label>Your current duty / posting</label><input type="text" id="swapCurrentDuty" placeholder="e.g. Night Duty - Medicine / ENT / PSM Burari Night"></div>
-        <div class="input-group"><label>What you are looking for (optional)</label><input type="text" id="swapLookingFor" placeholder="e.g. Day duty, any unit, PDO"></div>
-        <div class="input-group"><label>Amount you are offering (₹)</label><input type="number" id="swapAmount" placeholder="e.g. 500, 1000, 1500" min="0"></div>
-        <div class="input-group"><label>Additional notes</label><textarea id="swapNotes" rows="2" placeholder="Any extra details..."></textarea></div>
-        <div style="display:flex;gap:10px;flex-wrap:wrap">
-          <button onclick="submitSwapRequest()" id="swapSubmitBtn" class="btn-primary-sm">Post Request</button>
-          <button onclick="hideCreateSwapForm()" class="btn-secondary-sm">Cancel</button>
-        </div>
-      </div>
-      <div id="swapList"></div>
-    </div>
-  </div>
-</div>
 
 <footer style="text-align:center;margin-top:30px;padding:16px;border-top:1px solid var(--border);color:var(--text-muted);font-size:13px">
   <p style="margin:4px 0 0 0;font-size:16px"><strong>Batch-2021</strong></p>
@@ -430,13 +464,8 @@
 </div>
 
 <!-- FLOATING BUTTONS CONTAINER -->
-<div style="position:fixed;bottom:20px;left:20px;right:20px;z-index:9998;display:flex;justify-content:space-between;align-items:center;pointer-events:none;">
-  <!-- Left Button: Suggest Changes -->
-  <button id="feedbackToggleBtn" onclick="toggleFeedbackModal()" style="pointer-events:auto;background:var(--primary);color:white;border:none;border-radius:50px;padding:12px 18px;font-weight:800;font-size:13px;box-shadow:var(--shadow-lg);cursor:pointer;display:flex;align-items:center;gap:6px;font-family:inherit">
-    💡 <span>Suggest</span>
-  </button>
-
-  <!-- Right Button: Food & Mess Contacts -->
+<div style="position:fixed;bottom:20px;left:20px;right:20px;z-index:9998;display:flex;justify-content:flex-end;align-items:center;pointer-events:none;">
+  <!-- Food & Mess Contacts -->
   <button id="foodToggleBtn" onclick="toggleFoodModal()" style="pointer-events:auto;background:linear-gradient(135deg, #f59e0b, #d97706);color:white;border:none;border-radius:50px;padding:12px 20px;font-weight:800;font-size:13.5px;box-shadow:var(--shadow-lg);cursor:pointer;display:flex;align-items:center;gap:6px;font-family:inherit">
     🍔 <span>Canteen & Mess</span>
   </button>
@@ -463,16 +492,23 @@
   </div>
 </div>
 
-<!-- FLOATING SUGGESTION MODAL -->
-<div id="feedbackModal" class="hidden" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(15,23,42,0.6);backdrop-filter:blur(6px);z-index:10000;display:flex;align-items:center;justify-content:center;padding:16px;box-sizing:border-box">
-  <div style="background:var(--card);width:100%;max-width:640px;border-radius:20px;box-shadow:var(--shadow-lg);border:1px solid var(--border);overflow:hidden;animation:popupSlide 0.3s ease">
-    <div style="padding:16px 20px;background:var(--primary-gradient);color:white;display:flex;justify-content:space-between;align-items:center">
-      <h3 style="margin:0;font-size:16px;font-weight:700">💡 Roster Feedback & Corrections</h3>
-      <button onclick="toggleFeedbackModal()" style="background:rgba(255,255,255,0.2);border:none;color:white;font-size:20px;cursor:pointer;border-radius:50%;width:32px;height:32px">&times;</button>
+<!-- LAB PHOTO LIGHTBOX -->
+<div id="labPhotoModal" class="hidden" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(2,10,20,0.94);backdrop-filter:blur(8px);z-index:10006;display:flex;flex-direction:column;padding:14px;box-sizing:border-box">
+  <div style="width:100%;max-width:820px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;color:white;gap:10px;flex-shrink:0">
+    <div style="min-width:0">
+      <h3 id="labPhotoTitle" style="margin:0;font-size:16px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">📸 Lab Photo</h3>
+      <p id="labPhotoSub" style="margin:2px 0 0;font-size:12px;opacity:0.75"></p>
     </div>
-    <div style="padding:12px">
-      <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdTHssorcf7rmuzjX7nfiZ1QRddKD1is_rXuyA-NNz28tyQQQ/viewform?embedded=true" width="100%" height="500" frameborder="0" style="border:none;display:block;border-radius:12px">Loading…</iframe>
+    <button onclick="closeLabPhoto()" style="background:rgba(255,255,255,0.18);border:none;color:white;font-size:22px;cursor:pointer;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;flex-shrink:0">&times;</button>
+  </div>
+
+  <div style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;min-height:0;width:100%;max-width:820px;margin:10px auto 0">
+    <button id="labPhotoPrev" onclick="labPhotoStep(-1)" aria-label="Previous photo" style="background:rgba(255,255,255,0.18);border:none;color:white;font-size:22px;cursor:pointer;border-radius:50%;width:40px;height:40px;flex-shrink:0">‹</button>
+    <div style="flex:1;min-width:0;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px">
+      <img id="labPhotoImg" src="" alt="" style="max-width:100%;max-height:100%;object-fit:contain;border-radius:12px;background:#0b1220">
+      <div id="labPhotoCaption" style="color:rgba(255,255,255,0.92);font-size:13.5px;text-align:center;line-height:1.5;flex-shrink:0;max-width:640px"></div>
     </div>
+    <button id="labPhotoNext" onclick="labPhotoStep(1)" aria-label="Next photo" style="background:rgba(255,255,255,0.18);border:none;color:white;font-size:22px;cursor:pointer;border-radius:50%;width:40px;height:40px;flex-shrink:0">›</button>
   </div>
 </div>
 
@@ -530,11 +566,9 @@
 <script src="data/data_labs.js?v=18"></script>
 <script src="data/data_schedules.js?v=18"></script>
 <script src="data/data_units.js?v=18"></script>
-<script src="data/data_faqs.js?v=18"></script>
 
 <!-- APPLICATION MODULES -->
 <script src="js/roster.js?v=18"></script>
-<script src="js/faqs.js?v=18"></script>
 <script src="js/guides.js?v=18"></script>
 <script src="js/pond.js?v=18"></script>
 
@@ -546,7 +580,7 @@
 
 <script>
   // ========== VERSION ==========
-  const APP_BUILD = "2026-11-21-v18";
+  const APP_BUILD = "2026-11-24-v19";
 
   // ========== FIREBASE ==========
   const firebaseConfig = {
@@ -1388,9 +1422,7 @@ function closeLightbox() {
     }
 
     renderUserHistory();
-    if (!document.getElementById('swaps-tab').classList.contains('hidden')) renderSwapTab();
     if (!document.getElementById('guides-tab').classList.contains('hidden')) renderClinicalGuides();
-    startDutyCoverListener();
     initPushNotifications();
     initFoodContactsListener();
     initUploadedRostersListener();
@@ -1532,24 +1564,40 @@ function closeLightbox() {
         </div>
         <div id="adminCanteenList"></div>`;
       renderAdminCanteenList();
-    } else if (tab === 'faqs') {
+    } else if (tab === 'labphotos') {
       content.innerHTML = `
         <div class="admin-form-card">
-          <h4>Add New FAQ / SOP</h4>
-          <div class="input-group"><label>Category</label>
-            <select id="faqCat">
-              <option>Emergency & Critical Workflows</option>
-              <option>Blood Bank & Transfusion</option>
-              <option>Special Forms & Laboratory Routing</option>
-              <option>Radiology & Super-Specialty Navigation</option>
-              <option>Other</option>
-            </select>
+          <h4>📸 Add Lab Photos</h4>
+          <p style="font-size:12.5px;color:var(--text-muted);margin:0 0 12px">
+            Photos appear in the Labs tab for everyone, filtered to the lab they belong to.
+            Use them for sample collection rooms, tube racks, report counters and machine locations.
+          </p>
+          <div class="input-group">
+            <label>Which lab / window?</label>
+            <select id="labPhotoGroup">${labPhotoGroupOptions()}</select>
           </div>
-          <div class="input-group"><label>Question</label><input type="text" id="faqQ"></div>
-          <div class="input-group"><label>Answer (HTML allowed)</label><textarea id="faqA" rows="4"></textarea></div>
-          <div class="input-group"><label><input type="checkbox" id="faqUrgent"> Mark as Urgent</label></div>
-          <button onclick="addFaqEntry()" class="btn-primary-sm">Add FAQ</button>
+          <div class="input-group">
+            <label>Caption (optional)</label>
+            <input type="text" id="labPhotoCaption" placeholder="e.g. Sample drop counter — Window 2" maxlength="90">
+          </div>
+          <div class="input-group">
+            <label>Photos</label>
+            <input type="file" id="labPhotoFiles" accept="image/*" multiple>
+            <div id="labPhotoFileSummary" style="font-size:12px;color:var(--text-muted);margin-top:6px"></div>
+          </div>
+          <button id="labPhotoUploadBtn" onclick="uploadLabPhotos()" class="btn-primary-sm">Upload Photos</button>
+        </div>
+        <div style="margin-top:18px">
+          <h5 style="margin:0 0 8px;font-size:14px;font-weight:800">Uploaded photos</h5>
+          <div id="adminLabPhotoList"><p style="color:var(--text-muted);font-size:13px">Loading...</p></div>
         </div>`;
+      const fi = document.getElementById('labPhotoFiles');
+      if (fi) fi.addEventListener('change', () => {
+        const n = fi.files ? fi.files.length : 0;
+        const el = document.getElementById('labPhotoFileSummary');
+        if (el) el.textContent = n ? `${n} photo${n > 1 ? 's' : ''} selected` : '';
+      });
+      renderAdminLabPhotoList();
     } else {
       content.innerHTML = `<p style="color:var(--text-muted)">Notes / future tools will appear here.</p>`;
     }
@@ -1597,333 +1645,6 @@ function closeLightbox() {
     } catch (e) { el.innerHTML = '<p style="color:var(--urgent)">Failed to load</p>'; }
   }
 
-  async function addFaqEntry() {
-    const category = document.getElementById('faqCat').value;
-    const question = document.getElementById('faqQ').value.trim();
-    const answer = document.getElementById('faqA').value.trim();
-    const urgent = document.getElementById('faqUrgent').checked;
-    if (!question || !answer) return alert('Question and Answer required');
-    try {
-      await db.collection('extraFaqs').add({
-        category, question, answer, urgent, id: 'extra_' + Date.now(),
-        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-      });
-      alert('FAQ added.'); document.getElementById('faqQ').value = ''; document.getElementById('faqA').value = '';
-      renderFaqs();
-    } catch (e) { alert('Error: ' + e.message); }
-  }
-
-  // DUTY COVER BOARD
-  let coverListener = null;
-  let knownCoverIds = new Set();
-  let editingSwapId = null;
-
-  function startDutyCoverListener() {
-    if (!currentUser || coverListener) return;
-    coverListener = db.collection('dutySwaps')
-      .where('status', '==', 'open')
-      .orderBy('createdAt', 'desc')
-      .limit(20)
-      .onSnapshot(snap => {
-        snap.docChanges().forEach(change => {
-          if (change.type === 'added') {
-            const id = change.doc.id;
-            const data = change.doc.data();
-            if (data.requesterUid === currentUser.uid) {
-              knownCoverIds.add(id);
-              return;
-            }
-            if (!knownCoverIds.has(id)) {
-              knownCoverIds.add(id);
-              const amt = data.amount ? ` (₹${data.amount})` : '';
-              showLiveToast('💰 New Duty Cover Request', `${data.requesterName} needs cover for ${data.currentDuty}${amt}`);
-              if (!document.getElementById('swaps-tab').classList.contains('hidden')) loadSwaps();
-            }
-          }
-        });
-      }, err => {
-        console.warn('Cover listener error:', err.message);
-      });
-  }
-
-  function renderSwapTab() {
-    const prompt = document.getElementById('swapLoginPrompt');
-    const content = document.getElementById('swapContent');
-    const createBtn = document.getElementById('createSwapBtn');
-    if (!currentUser) {
-      prompt.classList.remove('hidden');
-      content.classList.add('hidden');
-      createBtn.style.display = 'none';
-      return;
-    }
-    prompt.classList.add('hidden');
-    content.classList.remove('hidden');
-    createBtn.style.display = 'inline-block';
-    loadSwaps();
-  }
-
-  function showCreateSwapForm() {
-    editingSwapId = null;
-    document.getElementById('editingSwapId').value = '';
-    document.getElementById('swapFormTitle').textContent = 'Post a Cover Request';
-    document.getElementById('swapSubmitBtn').textContent = 'Post Request';
-    document.getElementById('swapDate').value = '';
-    document.getElementById('swapCurrentDuty').value = '';
-    document.getElementById('swapLookingFor').value = '';
-    document.getElementById('swapAmount').value = '';
-    document.getElementById('swapNotes').value = '';
-    document.getElementById('createSwapForm').classList.remove('hidden');
-  }
-
-  function hideCreateSwapForm() {
-    document.getElementById('createSwapForm').classList.add('hidden');
-    editingSwapId = null;
-  }
-
-  function openEditSwap(id, data) {
-    editingSwapId = id;
-    document.getElementById('editingSwapId').value = id;
-    document.getElementById('swapFormTitle').textContent = '✏️ Edit Cover Request';
-    document.getElementById('swapSubmitBtn').textContent = 'Save Changes';
-    document.getElementById('swapDate').value = data.date || '';
-    document.getElementById('swapCurrentDuty').value = data.currentDuty || '';
-    document.getElementById('swapLookingFor').value = data.lookingFor || '';
-    document.getElementById('swapAmount').value = data.amount || '';
-    document.getElementById('swapNotes').value = data.notes || '';
-    document.getElementById('createSwapForm').classList.remove('hidden');
-    document.getElementById('createSwapForm').scrollIntoView({ behavior: 'smooth', block: 'center' });
-  }
-
-  async function submitSwapRequest() {
-    if (!currentUser) return alert('Please login first');
-    const date = document.getElementById('swapDate').value;
-    const currentDuty = document.getElementById('swapCurrentDuty').value.trim();
-    const lookingFor = document.getElementById('swapLookingFor').value.trim();
-    const notes = document.getElementById('swapNotes').value.trim();
-    const amountRaw = document.getElementById('swapAmount').value.trim();
-    const amount = amountRaw ? Number(amountRaw) : null;
-
-    if (!date || !currentDuty) return alert('Date and current duty are required');
-    if (amountRaw && (isNaN(amount) || amount < 0)) return alert('Amount must be a valid positive number');
-
-    const isEdit = !!document.getElementById('editingSwapId').value;
-    try {
-      if (isEdit) {
-        const id = document.getElementById('editingSwapId').value;
-        await db.collection('dutySwaps').doc(id).update({
-          date, currentDuty, lookingFor: lookingFor || '', notes: notes || '', amount: amount,
-          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-        });
-        alert('Request updated successfully!');
-      } else {
-        await db.collection('dutySwaps').add({
-          requesterUid: currentUser.uid,
-          requesterName: currentUser.displayName || currentUser.email || 'Anonymous',
-          requesterEmail: currentUser.email || '',
-          date, currentDuty, lookingFor: lookingFor || '', notes: notes || '', amount: amount,
-          status: 'open', comments: [],
-          createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        });
-
-        alert('Cover request posted successfully!');
-
-        sendNewSwapEmailNotification({
-          requesterName: currentUser.displayName || 'A Doctor',
-          requesterUid: currentUser.uid,
-          date, currentDuty, lookingFor, amount, notes
-        });
-      }
-      hideCreateSwapForm();
-      loadSwaps();
-    } catch (e) {
-      console.error(e);
-      let msg = e.message || 'Unknown error';
-      if (msg.includes('permission') || e.code === 'permission-denied') {
-        msg = 'Permission denied. You can only edit your own requests (unless you are Admin).';
-      }
-      alert('Error:\n\n' + msg);
-    }
-  }
-
-  async function sendNewSwapEmailNotification(swapData) {
-    try {
-      const usersSnap = await db.collection('users')
-        .where('emailNotifications', '==', true)
-        .get();
-
-      const recipientEmails = [];
-      usersSnap.forEach(doc => {
-        const u = doc.data();
-        if (u.email && u.uid !== swapData.requesterUid) {
-          recipientEmails.push(u.email);
-        }
-      });
-
-      if (recipientEmails.length === 0) return;
-
-      fetch(APPS_SCRIPT_URL, {
-        method: "POST",
-        body: JSON.stringify({
-          action: "notifyNewSwap",
-          recipients: recipientEmails,
-          swap: swapData,
-          portalUrl: window.location.origin + window.location.pathname + "#swaps"
-        })
-      }).catch(err => console.warn("Email dispatch error:", err));
-    } catch (err) {
-      console.warn("Failed to retrieve user email list:", err);
-    }
-  }
-
-  async function loadSwaps() {
-    const list = document.getElementById('swapList');
-    list.innerHTML = '<p style="color:var(--text-muted);font-size:13px">Loading cover requests...</p>';
-    try {
-      const snap = await db.collection('dutySwaps').orderBy('createdAt', 'desc').limit(40).get();
-      if (snap.empty) {
-        list.innerHTML = '<p style="text-align:center;color:var(--text-muted);padding:20px">No cover requests yet. Be the first!</p>';
-        return;
-      }
-      list.innerHTML = snap.docs.map(doc => {
-        const d = doc.data();
-        const id = doc.id;
-        const isMine = currentUser && d.requesterUid === currentUser.uid;
-        const canEdit = isMine || isAdmin;
-        const statusBadge = d.status === 'accepted' ? '<span class="badge badge-days">Accepted</span>' : (d.status === 'closed' ? '<span class="badge badge-sub">Closed</span>' : '<span class="badge badge-unit">Open</span>');
-        const commentsHtml = (d.comments || []).map(c => `<div style="font-size:12.5px;margin-top:4px;padding:6px 10px;background:var(--box-bg);border-radius:8px"><strong>${c.name}</strong>: ${c.text}</div>`).join('');
-        return `
-          <div class="swap-card ${d.status === 'accepted' ? 'accepted' : ''}">
-            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;flex-wrap:wrap">
-              <div><strong style="font-size:15px">${d.requesterName || 'User'}</strong> ${statusBadge}</div>
-              <span style="font-size:12px;color:var(--text-muted)">${d.date || ''}</span>
-            </div>
-            <div class="swap-meta">
-              <div>📍 Current: <strong>${d.currentDuty || ''}</strong></div>
-              ${d.lookingFor ? `<div>🔍 Looking for: ${d.lookingFor}</div>` : ''}
-              ${d.amount ? `<div>💰 Offering: <strong>₹${d.amount}</strong></div>` : ''}
-              ${d.notes ? `<div style="margin-top:4px">${d.notes}</div>` : ''}
-            </div>
-            ${commentsHtml}
-            <div class="swap-actions">
-              ${d.status === 'open' && !isMine ? `<button class="btn-primary-sm" onclick="acceptSwap('${id}')">I'm interested</button>` : ''}
-              ${d.status === 'open' ? `<button class="btn-secondary-sm" onclick="addSwapComment('${id}')">Negotiate / Reply</button>` : ''}
-              ${canEdit && d.status === 'open' ? `
-                <button class="btn-secondary-sm" onclick='openEditSwap("${id}", ${JSON.stringify(d).replace(/'/g, "&#39;")})'>✏️ Edit</button>
-                <button class="btn-danger-sm" onclick="deleteSwap('${id}')">🗑️ Delete</button>
-              ` : ''}
-              ${isMine && d.status === 'open' && !isAdmin ? `
-                <button class="btn-danger-sm" onclick="closeSwap('${id}')">Close Request</button>
-              ` : ''}
-            </div>
-          </div>`;
-      }).join('');
-    } catch (e) {
-      console.error(e);
-      let msg = e.message || '';
-      if (msg.includes('permission') || e.code === 'permission-denied') {
-        msg = 'Permission denied while reading. Update Firestore rules.';
-      }
-      list.innerHTML = `<p style="color:var(--urgent);padding:16px">Failed to load: ${msg}</p>`;
-    }
-  }
-
-  async function acceptSwap(id) {
-    if (!confirm('Mark yourself as interested in covering this duty?')) return;
-    try {
-      const docRef = db.collection('dutySwaps').doc(id);
-      const snap = await docRef.get();
-      const swapData = snap.data();
-
-      await docRef.update({
-        status: 'accepted',
-        acceptedBy: currentUser.displayName || currentUser.email,
-        acceptedAt: firebase.firestore.FieldValue.serverTimestamp()
-      });
-
-      alert('You are now marked as interested. Contact the requester to finalize.');
-      loadSwaps();
-
-      if (swapData && swapData.requesterEmail && swapData.requesterUid !== currentUser.uid) {
-        sendSwapReplyEmailNotification({
-          toEmail: swapData.requesterEmail,
-          replierName: currentUser.displayName || currentUser.email,
-          message: "Is interested in covering your duty!",
-          date: swapData.date,
-          currentDuty: swapData.currentDuty
-        });
-      }
-    } catch (e) { alert(e.message); }
-  }
-
-  async function addSwapComment(id) {
-    const text = prompt('Your message / negotiation:');
-    if (!text || !text.trim()) return;
-    try {
-      const docRef = db.collection('dutySwaps').doc(id);
-      const snap = await docRef.get();
-      const swapData = snap.data();
-
-      await docRef.update({
-        comments: firebase.firestore.FieldValue.arrayUnion({
-          name: currentUser.displayName || currentUser.email,
-          text: text.trim(),
-          at: new Date().toISOString()
-        })
-      });
-
-      loadSwaps();
-
-      if (swapData && swapData.requesterEmail && swapData.requesterUid !== currentUser.uid) {
-        sendSwapReplyEmailNotification({
-          toEmail: swapData.requesterEmail,
-          replierName: currentUser.displayName || currentUser.email,
-          message: text.trim(),
-          date: swapData.date,
-          currentDuty: swapData.currentDuty
-        });
-      }
-    } catch (e) { alert(e.message); }
-  }
-
-  function sendSwapReplyEmailNotification(payload) {
-    fetch(APPS_SCRIPT_URL, {
-      method: "POST",
-      body: JSON.stringify({
-        action: "notifySwapReply",
-        toEmail: payload.toEmail,
-        replierName: payload.replierName,
-        message: payload.message,
-        date: payload.date,
-        currentDuty: payload.currentDuty,
-        portalUrl: window.location.origin + window.location.pathname + "#swaps"
-      })
-    }).catch(err => console.warn("Reply email dispatch error:", err));
-  }
-
-  async function closeSwap(id) {
-    if (!confirm('Close this cover request?')) return;
-    try {
-      await db.collection('dutySwaps').doc(id).update({ status: 'closed' });
-      loadSwaps();
-    } catch (e) { alert(e.message); }
-  }
-
-  async function deleteSwap(id) {
-    if (!confirm('Permanently delete this request? This cannot be undone.')) return;
-    try {
-      await db.collection('dutySwaps').doc(id).delete();
-      alert('Request deleted.');
-      loadSwaps();
-    } catch (e) {
-      console.error(e);
-      let msg = e.message || '';
-      if (msg.includes('permission') || e.code === 'permission-denied') {
-        msg = 'Permission denied. You can only delete your own requests (unless you are Admin).';
-      }
-      alert('Error deleting:\n\n' + msg);
-    }
-  }
-
   // SEARCH HISTORY
   function saveSearchHistory(type, query) {
     if (!query || query.trim().length < 2) return;
@@ -1941,8 +1662,7 @@ function closeLightbox() {
     if (!box || !chips) return;
     const roster = JSON.parse(localStorage.getItem('mamc_history_roster') || '[]');
     const lab = JSON.parse(localStorage.getItem('mamc_history_lab') || '[]');
-    const faq = JSON.parse(localStorage.getItem('mamc_history_faq') || '[]');
-    const all = [...new Set([...roster, ...lab, ...faq])].slice(0, 10);
+    const all = [...new Set([...roster, ...lab])].slice(0, 10);
     if (all.length === 0) { chips.innerHTML = '<span style="color:var(--text-muted);font-size:12px">No recent searches yet</span>'; return; }
     chips.innerHTML = all.map(q => `<span class="history-chip" onclick="applyHistory('${q.replace(/'/g, "\\'")}')">${q}</span>`).join('');
   }
@@ -1951,53 +1671,44 @@ function closeLightbox() {
     if (!activeTab) return;
     if (activeTab.textContent.includes('Roster')) { document.getElementById('universalPersonInput').value = q; executeSmartSearch(); }
     else if (activeTab.textContent.includes('Labs')) { document.getElementById('labSearch').value = q; searchLabTests(); }
-    else if (activeTab.textContent.includes('FAQs')) { document.getElementById('faqSearchInput').value = q; renderFaqs(); }
   }
   function clearSearchHistory() {
-    ['roster', 'lab', 'faq'].forEach(t => localStorage.removeItem(`mamc_history_${t}`));
+    ['roster', 'lab'].forEach(t => localStorage.removeItem(`mamc_history_${t}`));
     renderUserHistory();
   }
 
   function switchTab(tab) {
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    ['roster','schedule','lab','faq','guides','swaps'].forEach(t => {
+    ['roster','schedule','lab','guides'].forEach(t => {
       const el = document.getElementById(t + '-tab');
       if (el) el.classList.add('hidden');
     });
     const dateCard = document.getElementById('date-card');
-    const tabs = document.querySelectorAll('.tab-btn');
+
+    // Mark the active button by its own onclick, not by position, so the tab
+    // order can change without silently highlighting the wrong button.
+    document.querySelectorAll('.tab-btn').forEach(b => {
+      const oc = b.getAttribute('onclick') || '';
+      b.classList.toggle('active', oc.indexOf("'" + tab + "'") !== -1);
+    });
 
     if (tab === 'roster') {
-      tabs[0]?.classList.add('active');
       document.getElementById('roster-tab')?.classList.remove('hidden');
       if (dateCard) dateCard.classList.remove('hidden');
       executeSmartSearch();
     } else if (tab === 'schedule') {
-      tabs[1]?.classList.add('active');
       document.getElementById('schedule-tab')?.classList.remove('hidden');
       if (dateCard) dateCard.classList.remove('hidden'); // Date picker kept visible for Sunday Emergency checking
       searchDeptSchedule();
     } else if (tab === 'lab') {
-      tabs[2]?.classList.add('active');
       document.getElementById('lab-tab')?.classList.remove('hidden');
       if (dateCard) dateCard.classList.add('hidden');
       searchLabTests();
-    } else if (tab === 'faq') {
-      tabs[3]?.classList.add('active');
-      document.getElementById('faq-tab')?.classList.remove('hidden');
-      if (dateCard) dateCard.classList.add('hidden');
-      renderFaqs();
+      renderLabPhotos();
     } else if (tab === 'guides') {
-      tabs[4]?.classList.add('active');
       document.getElementById('guides-tab')?.classList.remove('hidden');
       if (dateCard) dateCard.classList.add('hidden');
       if (clinicalGuidesData.length === 0) fetchClinicalGuides();
       else renderClinicalGuides();
-    } else if (tab === 'swaps') {
-      tabs[5]?.classList.add('active');
-      document.getElementById('swaps-tab')?.classList.remove('hidden');
-      if (dateCard) dateCard.classList.add('hidden');
-      renderSwapTab();
     }
   }
 
@@ -2252,6 +1963,257 @@ function closeLightbox() {
     return true;
   }
 
+  // ============================================================
+  // LAB PHOTOS  (admin uploads, everyone views)
+  // ============================================================
+  const LAB_PHOTO_GROUPS = {
+    window1_path: 'Window 1 & 5 — Pathology',
+    window2_biochem: 'Window 2 & 2E — Biochemistry',
+    window3_em: 'Window 3 — Emergency Lab',
+    immunology_serology: 'Immunology & Serology',
+    virology_pcr: 'Virology & PCR',
+    cultures: 'Cultures',
+    bloodbank: 'Blood Bank',
+    radiology_lnjp: 'LNJP Radiology',
+    gbpant: 'GB Pant Hospital',
+    general: 'General / Multiple Labs'
+  };
+
+  let labPhotosData = [];
+  let labPhotoView = [];        // photos currently shown, for lightbox stepping
+  let labPhotoIndex = 0;
+  let labPhotoUnsub = null;
+
+  function labPhotoGroupOptions() {
+    return Object.keys(LAB_PHOTO_GROUPS)
+      .map(k => `<option value="${k}">${LAB_PHOTO_GROUPS[k]}</option>`)
+      .join('');
+  }
+
+  function labPhotoGroupLabel(key) {
+    return LAB_PHOTO_GROUPS[key] || 'Lab';
+  }
+
+  // Local escaper: captions and lab names come from Firestore, so never
+  // interpolate them raw into innerHTML.
+  function labPhotoEsc(v) {
+    return String(v == null ? '' : v)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+
+  function initLabPhotosListener() {
+    if (labPhotoUnsub) return;
+    try {
+      labPhotoUnsub = db.collection('labPhotos')
+        .orderBy('createdAt', 'desc')
+        .limit(80)
+        .onSnapshot(snap => {
+          labPhotosData = snap.docs
+            .map(d => Object.assign({ id: d.id }, d.data()))
+            .filter(p => p && typeof p.dataUrl === 'string' && /^(data:image\/|https?:\/\/)/.test(p.dataUrl));
+          renderLabPhotos();
+          if (document.getElementById('adminLabPhotoList')) renderAdminLabPhotoList();
+        }, err => {
+          console.warn('Lab photos listener error:', err.message);
+        });
+    } catch (e) {
+      console.warn('Lab photos init failed:', e.message);
+    }
+  }
+
+  function renderLabPhotos() {
+    const section = document.getElementById('labPhotoSection');
+    const rail = document.getElementById('labPhotoRail');
+    const countEl = document.getElementById('labPhotoCount');
+    if (!section || !rail) return;
+
+    const sel = document.getElementById('labHospitalSelect');
+    const activeLab = sel ? sel.value : 'all';
+
+    // When one lab is chosen, show that lab's photos plus shared/general ones.
+    let list = labPhotosData;
+    if (activeLab && activeLab !== 'all') {
+      list = labPhotosData.filter(p => p.labKey === activeLab || p.labKey === 'general');
+    }
+
+    if (!list.length) {
+      section.classList.add('hidden');
+      rail.innerHTML = '';
+      labPhotoView = [];
+      return;
+    }
+
+    labPhotoView = list;
+    section.classList.remove('hidden');
+    if (countEl) {
+      countEl.textContent = list.length + ' photo' + (list.length > 1 ? 's' : '');
+    }
+
+    rail.innerHTML = list.map((p, idx) => {
+      const cap = p.caption ? labPhotoEsc(p.caption) : labPhotoEsc(labPhotoGroupLabel(p.labKey));
+      return `<div class="lab-photo-card" role="button" tabindex="0"
+        onclick="openLabPhoto(${idx})"
+        onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openLabPhoto(${idx});}"
+        aria-label="Open photo: ${cap}">
+        <img class="lab-photo-thumb" src="${p.dataUrl}" alt="${cap}" loading="lazy">
+        <div class="lab-photo-meta">
+          <span class="lab-photo-lab">${labPhotoEsc(labPhotoGroupLabel(p.labKey))}</span>
+          <div class="lab-photo-cap">${cap}</div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  function openLabPhoto(idx) {
+    if (!labPhotoView.length) return;
+    labPhotoIndex = Math.max(0, Math.min(idx, labPhotoView.length - 1));
+    paintLabPhoto();
+    document.getElementById('labPhotoModal')?.classList.remove('hidden');
+  }
+
+  function paintLabPhoto() {
+    const p = labPhotoView[labPhotoIndex];
+    if (!p) return;
+    const img = document.getElementById('labPhotoImg');
+    if (img) {
+      img.src = p.dataUrl;
+      img.alt = p.caption || labPhotoGroupLabel(p.labKey);
+    }
+    const title = document.getElementById('labPhotoTitle');
+    if (title) title.textContent = '📸 ' + labPhotoGroupLabel(p.labKey);
+    const sub = document.getElementById('labPhotoSub');
+    if (sub) sub.textContent = (labPhotoIndex + 1) + ' of ' + labPhotoView.length;
+    const cap = document.getElementById('labPhotoCaption');
+    if (cap) cap.textContent = p.caption || '';
+
+    const prev = document.getElementById('labPhotoPrev');
+    const next = document.getElementById('labPhotoNext');
+    if (prev) prev.style.visibility = labPhotoView.length > 1 ? 'visible' : 'hidden';
+    if (next) next.style.visibility = labPhotoView.length > 1 ? 'visible' : 'hidden';
+  }
+
+  function labPhotoStep(dir) {
+    if (labPhotoView.length < 2) return;
+    labPhotoIndex = (labPhotoIndex + dir + labPhotoView.length) % labPhotoView.length;
+    paintLabPhoto();
+  }
+
+  function closeLabPhoto() {
+    document.getElementById('labPhotoModal')?.classList.add('hidden');
+    const img = document.getElementById('labPhotoImg');
+    if (img) img.src = '';
+  }
+
+  // Swipe left/right and arrow keys inside the lightbox
+  (function () {
+    const modal = document.getElementById('labPhotoModal');
+    if (!modal) return;
+    let sx = 0, sy = 0, tracking = false;
+    modal.addEventListener('touchstart', e => {
+      if (e.touches.length !== 1) return;
+      tracking = true; sx = e.touches[0].clientX; sy = e.touches[0].clientY;
+    }, { passive: true });
+    modal.addEventListener('touchend', e => {
+      if (!tracking) return;
+      tracking = false;
+      const t = e.changedTouches[0];
+      const dx = t.clientX - sx, dy = t.clientY - sy;
+      if (Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy)) labPhotoStep(dx < 0 ? 1 : -1);
+    }, { passive: true });
+    document.addEventListener('keydown', e => {
+      if (modal.classList.contains('hidden')) return;
+      if (e.key === 'Escape') closeLabPhoto();
+      else if (e.key === 'ArrowRight') labPhotoStep(1);
+      else if (e.key === 'ArrowLeft') labPhotoStep(-1);
+    });
+  })();
+
+  // ---------- ADMIN: upload / list / delete ----------
+  async function uploadLabPhotos() {
+    if (!currentUser || !isAdmin) return alert('Admin authentication required.');
+
+    const groupSel = document.getElementById('labPhotoGroup');
+    const captionEl = document.getElementById('labPhotoCaption');
+    const fileInput = document.getElementById('labPhotoFiles');
+    const btn = document.getElementById('labPhotoUploadBtn');
+
+    const labKey = groupSel ? groupSel.value : 'general';
+    const caption = captionEl ? captionEl.value.trim() : '';
+    if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
+      return alert('Please choose at least one photo.');
+    }
+
+    const files = Array.from(fileInput.files).slice(0, 6);
+    const oldLabel = btn ? btn.textContent : '';
+    if (btn) { btn.disabled = true; btn.textContent = 'Uploading...'; }
+
+    let done = 0, failed = 0;
+    try {
+      for (let i = 0; i < files.length; i++) {
+        if (btn) btn.textContent = `Compressing ${i + 1}/${files.length}...`;
+        try {
+          const dataUrl = await compressImage(files[i], 1100, 0.72);
+          if (dataUrl.length > 900000) {
+            failed++;
+            continue; // too big for a Firestore document, skip it
+          }
+          await db.collection('labPhotos').add({
+            labKey: labKey,
+            caption: caption || '',
+            dataUrl: dataUrl,
+            uploadedBy: currentUser.displayName || currentUser.email || 'Admin',
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+          done++;
+        } catch (e) {
+          console.warn('Lab photo upload failed for', files[i].name, e.message);
+          failed++;
+        }
+      }
+      if (btn) btn.textContent = 'Upload Photos';
+      fileInput.value = '';
+      if (captionEl) captionEl.value = '';
+      const sum = document.getElementById('labPhotoFileSummary');
+      if (sum) sum.textContent = '';
+      if (done) alert(`Uploaded ${done} photo${done > 1 ? 's' : ''}.` + (failed ? ` ${failed} skipped (too large).` : ''));
+      else alert('Nothing uploaded. Try a smaller image.');
+    } catch (e) {
+      alert('Upload error: ' + e.message);
+    } finally {
+      if (btn) { btn.disabled = false; btn.textContent = oldLabel || 'Upload Photos'; }
+    }
+  }
+
+  function renderAdminLabPhotoList() {
+    const el = document.getElementById('adminLabPhotoList');
+    if (!el) return;
+    if (!labPhotosData.length) {
+      el.innerHTML = '<p style="color:var(--text-muted);font-size:13px">No lab photos uploaded yet.</p>';
+      return;
+    }
+    el.innerHTML = labPhotosData.map(p => `
+      <div style="display:flex;gap:10px;align-items:center;padding:8px;border:1px solid var(--border);border-radius:12px;margin-bottom:8px;background:var(--card)">
+        <img src="${p.dataUrl}" alt="" style="width:64px;height:48px;object-fit:cover;border-radius:8px;flex-shrink:0">
+        <div style="flex:1;min-width:0">
+          <div style="font-size:12px;font-weight:800;color:var(--primary);text-transform:uppercase">${labPhotoEsc(labPhotoGroupLabel(p.labKey))}</div>
+          <div style="font-size:12.5px;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${labPhotoEsc(p.caption || 'No caption')}</div>
+        </div>
+        <button onclick="deleteLabPhoto('${p.id}')" style="background:none;border:1px solid var(--border);color:var(--urgent);border-radius:8px;padding:5px 10px;font-size:12px;font-weight:800;cursor:pointer;flex-shrink:0">Delete</button>
+      </div>
+    `).join('');
+  }
+
+  async function deleteLabPhoto(id) {
+    if (!currentUser || !isAdmin) return alert('Admin authentication required.');
+    if (!confirm('Delete this lab photo?')) return;
+    try {
+      await db.collection('labPhotos').doc(id).delete();
+    } catch (e) {
+      alert('Delete failed: ' + e.message);
+    }
+  }
+
   function searchLabTests() {
     const searchInput = document.getElementById('labSearch');
     const selectFilter = document.getElementById('labHospitalSelect');
@@ -2260,6 +2222,8 @@ function closeLightbox() {
 
     const query = searchInput ? searchInput.value.toLowerCase().trim() : "";
     const filterVal = selectFilter.value;
+
+    renderLabPhotos();
 
     let filtered = typeof labDirectory !== 'undefined' ? labDirectory : [];
     if (filterVal !== "all") filtered = filtered.filter(item => item.category === filterVal);
@@ -2333,13 +2297,10 @@ function closeLightbox() {
     resDiv.innerHTML = html;
   }
 
-  function toggleFeedbackModal() {
-    document.getElementById('feedbackModal')?.classList.toggle('hidden');
-  }
-
   // Run for ALL users (logged in or not)
   initFoodContactsListener();
   initUploadedRostersListener();
+  initLabPhotosListener();
 
   auth.onAuthStateChanged(user => {
     if (user) handleAuth(user);
